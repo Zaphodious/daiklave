@@ -81,7 +81,8 @@
                 :height           title-bar-height
                 :box-shadow       navshadow}
     [:h1 {:color       "inherit"
-          :text-shadow (str "1px 1px 1px " (gc/as-hex color-p-light))}]]
+          :text-shadow (str "1px 1px 1px " (gc/as-hex color-p-light))}
+     [:* {:color "inherit"}]]]
    [:#menubar (-> {:position         :fixed
                    :z-index          100
                    :bottom           :-45px

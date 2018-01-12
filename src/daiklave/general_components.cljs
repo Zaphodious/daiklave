@@ -1,4 +1,4 @@
-(ns daiklave.field-components
+(ns daiklave.general-components
   (:require [rum.core :as rum]
             [daiklave.state :as lys :refer [change-element! get-change-value]]
             [com.rpl.specter :as sp :refer [transform setval]]
@@ -6,6 +6,14 @@
             [clojure.string :as str]
             [cljs.reader :as reader]))
 
+
+(rum/defc banner < rum/static
+  [charname charsubtitle charimg]
+  [:.pagesection.banner
+   [:img.banner-image {:src charimg}]
+   [:h1.char-banner-title charname]
+   [:h2.char-banner-subtitle charsubtitle]
+   ])
 
 (rum/defc dropdown < rum/static
           [fieldname fieldkey char-data-section options]

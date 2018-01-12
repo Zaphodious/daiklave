@@ -4,18 +4,11 @@
             [com.rpl.specter :as sp :refer [transform setval keypath]]
             [cljs.tools.reader.edn :as edn]
             [clojure.string :as str]
-            [daiklave.field-components :as field :refer [textfield read-only-field dropdown dotspinner]]))
+            [daiklave.general-components :as field :refer [textfield read-only-field dropdown dotspinner banner]]))
 
 
 (def attribute-keys [:strength :dexterity :stamina :charisma :manipulation :appearance :perception :intelligence :wits])
 
-(rum/defc charbanner < rum/static
-  [charname charsubtitle charimg]
-  [:.pagesection.banner
-   [:img.banner-image {:src charimg}]
-   [:h1.char-banner-title charname]
-   [:h2.char-banner-subtitle charsubtitle]
-   ])
 
 (rum/defc chardata < rum/static
   [char-data-section]
@@ -49,6 +42,6 @@
   [char-data-section]
 
   [:div
-   (charbanner (:name char-data-section) (:subtitle char-data-section) (:img char-data-section))
+   (banner (:name char-data-section) (:subtitle char-data-section) (:img char-data-section))
    (chardata char-data-section)
    (attdata (:attributes char-data-section) (:key char-data-section))])

@@ -2,6 +2,7 @@
   (:require [rum.core :as rum]
             [daiklave.character-components :as daichar]
             [daiklave.category-components :as daicat]
+            [daiklave.chron-components :as daichron]
             [daiklave.state :as daistate]
             [clojure.string :as str]))
 
@@ -20,11 +21,15 @@
 
 (rum/defc content-area < rum/static
   [thing-to-display]
+  (println "thing is " thing-to-display)
   [:#data-view-body
    (cond
      (:app-home thing-to-display) (home-page)
      (:elements thing-to-display) (daicat/category-view (:elements thing-to-display))
-                                    :default (daichar/charsheet thing-to-display))])
+     (= (:category thing-to-display) :character) (daichar/charsheet thing-to-display)
+     (= (:category thing-to-display) :chron) (daichron/chron-page thing-to-display @daistate/app-state)
+
+     )])
 
 (rum/defc content-area-reactive < rum/reactive
   []
@@ -44,9 +49,13 @@
    [:li [:h3 [:a "Settings"]]]
    ])
 
+(defn get-page-title-for [entity]
+  (cond (= (:category entity) :chron) (:name entity)
+        (= (:category entity) :character) [:span [:a (href (:chron entity)) (str (:name (get @daistate/app-state (:chron entity)))) ] (str " / " (:name entity))]))
+
 (rum/defc titlebar < rum/reactive
   []
-  [:h1 (:name (daistate/fetch-current-view (rum/react daistate/current-view) (rum/react daistate/app-state)))])
+  [:h1 (get-page-title-for (daistate/fetch-current-view (rum/react daistate/current-view) (rum/react daistate/app-state)))])
 
 (rum/mount (titlebar)
            (. js/document (getElementById "titlebar")))
