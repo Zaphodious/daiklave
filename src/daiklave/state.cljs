@@ -37,14 +37,17 @@
 (defn fetch-current-view
   ([] (fetch-current-view @current-view @app-state))
   ([the-view the-app-state]
-   (if ((-> category-names (keys) (set)) the-view)
+   (cond
+     (nil? the-view) {:app-home true :name "Anathema: Reincarnated"}
+     (= the-view "home") {:app-home true :name "Anathema: Reincarnated"}
+     ((-> category-names (keys) (set)) the-view)
      {:name (str/capitalize (name the-view))
       :elements
             (->> the-app-state
                  (filter-state-by (get
                                     category-names the-view))
                  (sort-by-last-accessed))}
-        (get the-app-state the-view)
+        :default (get the-app-state the-view)
         )))
 
 (defn change-element!

@@ -6,22 +6,38 @@
             [clojure.string :as str]))
 
 (enable-console-print!)
+(rum/defc home-page < rum/reactive
+  []
+  [:#data-view-body
+
+    [:.pagesection [:p "Welcome to Anathema: Reincarnated"]]
+    [:.pagesection [:h2 "Utilities"]]
+    [:.pagesection [:h2 "Chrons"]]
+   (daicat/category-view (daistate/filter-state-by :chron (rum/react daistate/app-state)))
+   ]
+
+  )
 
 (rum/defc content-area < rum/static
   [thing-to-display]
-  (if (:elements thing-to-display) (daicat/category-view (:elements thing-to-display))
-                                   (daichar/charsheet thing-to-display)))
+  [:#data-view-body
+   (cond
+     (:app-home thing-to-display) (home-page)
+     (:elements thing-to-display) (daicat/category-view (:elements thing-to-display))
+                                    :default (daichar/charsheet thing-to-display))])
 
 (rum/defc content-area-reactive < rum/reactive
   []
   (println "updating")
   (content-area (daistate/fetch-current-view (rum/react daistate/current-view) (rum/react daistate/app-state))))
 
+
+
 (defn href [n] {:href (str "#" n)})
 (rum/defc menu []
   [:ul
-   [:li [:h3 [:a (href "characters") "Characters"]]
-    [:ul [:li [:a "New"]]]]
+   [:li [:h3 [:a (href "home") "Home"]]]
+   ;[:li [:h3 [:a (href "characters") "Characters"]] [:ul [:li [:a "New"]]]]
    [:li [:h3 [:a (href "chrons") "Chronicles"]]
     [:ul [:li [:a "New"]]]]
    [:li [:h3 [:a "Dice Roller"]]]

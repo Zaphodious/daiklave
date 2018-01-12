@@ -47,7 +47,8 @@
 
 (rum/defc charsheet < rum/static
   [char-data-section]
-  [:#data-view-body
+
+  [:div
    (charbanner (:name char-data-section) (:subtitle char-data-section) (:img char-data-section))
    (chardata char-data-section)
    (attdata (:attributes char-data-section) (:key char-data-section))])
