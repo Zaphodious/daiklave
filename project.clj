@@ -14,8 +14,8 @@
                  [rum "0.10.8"]
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [com.cemerick/url "0.1.1"]
-                 [com.rpl/specter "1.1.0"]
-                 ]
+                 [com.rpl/specter "1.1.0"]]
+
 
   :plugins [[lein-figwheel "0.5.14"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
@@ -58,7 +58,7 @@
              ;; :server-port 3449 ;; default
              ;; :server-ip "127.0.0.1"
 
-             :css-dirs ["resources/public/css"] ;; watch and update CSS
+             :css-dirs ["resources/public/css"]} ;; watch and update CSS
 
              ;; Start an nREPL server into the running figwheel process
              ;; :nrepl-port 7888
@@ -91,7 +91,7 @@
 
              ;; to pipe all the output to the repl
              ;; :server-logfile false
-             }
+
 
 
   ;; Setting up nREPL for Figwheel and ClojureScript dev

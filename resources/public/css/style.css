@@ -44,6 +44,10 @@ body {
   text-shadow: 1px 1px 1px #a98274;
 }
 
+#titlebar h1 * {
+  color: inherit;
+}
+
 #menubar {
   width: 100px;
   right: -45px;

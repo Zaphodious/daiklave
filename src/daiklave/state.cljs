@@ -3,17 +3,17 @@
             [clojure.string :as str]
             [cljs-time.core :as time]
             [cemerick.url :as url :refer [url url-encode]]
+            [daiklave.url :as dfrag]
             [com.rpl.specter :as sp]))
 
 (defn get-current-url-frag []
-  (:anchor (url (.-href js/location))))
+  (dfrag/parse-fragment (:anchor (url (.-href js/location)))))
 
-(def current-view (atom (get-current-url-frag)
-                        ;"424242"
-                        ))
+(def current-view (atom (get-current-url-frag)))
+;"424242"
+
 
 (defn now [] (time/now))
-
 
 
 (defonce changelistener
@@ -36,24 +36,26 @@
 
 (defn fetch-current-view
   ([] (fetch-current-view @current-view @app-state))
-  ([the-view the-app-state]
+  ([{the-view :key the-section :section} the-app-state]
    (cond
-     (nil? the-view) {:app-home true :name "Anathema: Reincarnated"}
-     (= the-view "home") {:app-home true :name "Anathema: Reincarnated"}
-     ((-> category-names (keys) (set)) the-view)
-     {:name (str/capitalize (name the-view))
-      :elements
-            (->> the-app-state
-                 (filter-state-by (get
-                                    category-names the-view))
-                 (sort-by-last-accessed))}
-        :default (get the-app-state the-view)
-        )))
+       (nil? the-view)
+       {:app-home true :name "Anathema: Reincarnated"}
+       (= {:key the-view} "home")
+       {:app-home true :name "Anathema: Reincarnated"}
+       ((-> category-names (keys) (set)) {:key the-view})
+       {:name (str/capitalize (name {:key the-view}))
+        :elements
+              (->> the-app-state
+                   (filter-state-by (get category-names the-view))
+                   (sort-by-last-accessed))}
+       :default
+       (get the-app-state the-view))))
+
 
 (defn change-element!
   [element-key change-fn]
   (println "element being called")
-  (swap! app-state (fn [a] (assoc a element-key (change-fn (get a element-key)))))
-  )
+  (swap! app-state (fn [a] (assoc a element-key (change-fn (get a element-key))))))
+
 
 (defn get-change-value [e] (.. e -target -value))
