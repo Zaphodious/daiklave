@@ -15,21 +15,7 @@
                          :img           "https://i.imgur.com/xLYsQ2j.jpg"
                          :description   "Rust Eyes brings a bunch of shini bois together",
                          :last-accessed 1865961,
-                         :characters    {"963963963" {:name          "Alkaia",
-                                                      :subtitle      "Of the Lykopis"
-                                                      :concept       "Barbarian Adventuress"
-                                                      :anima         "A huge bear"
-                                                      :player        "Victoria Ham",
-                                                      :key           "963963963",
-                                                      :img           "https://i.imgur.com/no8PesX.jpg"
-                                                      :category      :character,
-                                                      :type          :solar,
-                                                      :subtype       :dawn,
-                                                      :last-accessed 0
-                                                      :attributes    {:strength   4, :dexterity 4, :stamina 3,
-                                                                      :charisma   3, :manipulation 3, :appearance 3,
-                                                                      :perception 3, :intelligence 3, :wits 3}}
-                                         "789789789" {:name          "Daesh",
+                         :characters    {"789789789" {:name          "Daesh",
                                                       :subtitle      "Fastest in the Land"
                                                       :concept       "The Best Athlete evar"
                                                       :anima         "The Great Race"
@@ -78,3 +64,4 @@
                                                       :subtype       :dawn,
                                                       :last-accessed 0
                                                       :attributes    {:strength 4, :dexterity 4, :stamina 3, :charisma 3, :manipulation 3, :appearance 3, :perception 3, :intelligence 3, :wits 3}}}}}})
+
