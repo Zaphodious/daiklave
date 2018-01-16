@@ -46,7 +46,6 @@
                          (range 1 6)
                          (conj the-path :attributes))])
 
-
 (defn page-fn-for
   [{:keys [view path] :as viewmap}]
   (if
