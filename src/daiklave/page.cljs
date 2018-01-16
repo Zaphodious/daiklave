@@ -6,25 +6,6 @@
             [daiklave.state :as daistate]
             [daiklave.character-components :as daichar]))
 
-(defn make-presentable [keywordi]
-  (str/capitalize (name keywordi)))
-
-(defn catview-helper [item-seq]
-  (into [:div] (map
-                 (fn [a]
-                   (println "doing a thing")
-                   [:a {:href (daifrag/path-frag (:key a))}
-                    [:.pagesection
-                     [:img.profile-image {:src (:img a) :alt (str "Character image for " (:name a))}]
-                     [:h3 (:name a)]
-                     [:h4 (str (make-presentable (:type a)) " - " (make-presentable (:subtype a)))]
-                     [:p "By " (:player a)]]])
-                 item-seq)))
-(rum/defc category-view [item-seq]
-          (catview-helper item-seq))
-
-
-
 (rum/defc multi-page < rum/static
   [viewmap]
   (daigen/raw-element-div viewmap))
