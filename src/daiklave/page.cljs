@@ -41,7 +41,11 @@
   [:div
    (daigen/banner (:name char-data-section) (:subtitle char-data-section) (:img char-data-section))
    (daichar/chardata total-view)
-   (daichar/att-section (:attributes char-data-section) the-path)])
+   (daichar/stat-section "Attributes"
+                         (:attributes char-data-section)
+                         (range 1 6)
+                         (conj the-path :attributes))])
+
 
 (defn page-fn-for
   [{:keys [view path] :as viewmap}]

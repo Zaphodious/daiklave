@@ -26,15 +26,15 @@
     [:li (textfield "Concept" (conj the-path :concept))]
     [:li (textfield "Anima" (conj the-path :anima))]]])
 
-(rum/defc att-section < rum/state
-  [attsection char-path]
-  (println "att path is " (into char-path [:attributes :strength]))
+(rum/defc stat-section < rum/state
+  [section-name stat-map the-range section-path]
   [:.pagesection
-   [:h3 "Attributes"]
-   (map (fn [a] [:div {:key (pr-str char-path " value of " a)}
+   [:h3 section-name]
+   (map (fn [[k v :as a]]
+            [:div {:key (pr-str section-path " value of " a)}
                  (daigen/dotspinner
-                   (str/capitalize (name (first a)))
-                   (into char-path [:attributes (first a)])
-                   (range 1 6)
-                   (last a))])
-        attsection)])
+                   (str/capitalize (name k))
+                   (conj section-path k)
+                   the-range
+                   v)])
+        stat-map)])
