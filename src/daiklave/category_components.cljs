@@ -11,7 +11,7 @@
   (into [:div] (map
                 (fn [a]
                   (println "doing a thing")
-                  [:a {:href (daifrag/standard-link-fragment (:key a) "root")}
+                  [:a {:href (daifrag/path-frag (:key a))}
                    [:.pagesection
                     [:img.profile-image {:src (:img a) :alt (str "Character image for " (:name a))}]
                     [:h3 (:name a)]

@@ -1,6 +1,6 @@
 # daiklave
 
-FIXME: Write a one-line description of your library/project.
+A webapp for managing Exalted Third Edition chronicles and characters
 
 ## Overview
 
