@@ -4,7 +4,7 @@
             [com.rpl.specter :as sp :refer [transform setval keypath]]
             [cljs.tools.reader.edn :as edn]
             [clojure.string :as str]
-            [daiklave.general-components :as daigen :refer [textfield read-only-field dropdown banner]]))
+            [daiklave.general-components :as daigen :refer [textfield read-only-field dropdown-keyword banner]]))
 
 (def attribute-keys [:strength :dexterity :stamina :charisma :manipulation :appearance :perception :intelligence :wits])
 
@@ -43,8 +43,8 @@
     [:li (textfield "Player" (conj the-path :player))]
     [:li (textfield "Image" (conj the-path :img))]
     [:li (read-only-field "Type" (str/capitalize (name (:type char-data-section))))]
-    [:li (dropdown "Caste" (conj the-path :subtype)
-                   char-data-section {:dawn "Dawn" :twilight "Twilight" :night "Night" :eclipse "Eclipse" :zenith "Zenith"})]
+    [:li (dropdown-keyword "Caste" (conj the-path :subtype)
+                           (:subtype char-data-section)
+                           [:dawn :twilight :night :eclipse :zenith])]
     [:li (textfield "Concept" (conj the-path :concept))]
     [:li (textfield "Anima" (conj the-path :anima))]]])
-

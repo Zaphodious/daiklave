@@ -26,6 +26,36 @@
                       v])
          options)]])
 
+(defn read-change-event [e]
+  (-> e
+      get-change-value
+      reader/read-string))
+(defn wrap-on-change-fn [on-change-fn]
+  (fn [e]
+    (-> e
+        (get-change-value)
+        (reader/read-string)
+        (on-change-fn))))
+
+
+
+(rum/defc dropdown-keyword < rum/static
+  [fieldname fieldpath fieldvalue fieldoptions]
+  (println "fieldvalue for " fieldname " is " fieldvalue)
+  [:.field [:label fieldname]
+   [:select.entry
+    {:on-change
+            (wrap-on-change-fn #(change-element! fieldpath %))
+     :value (pr-str fieldvalue)}
+    (map (fn [a]
+           [:option
+            {:value (pr-str a)
+             :key (str fieldname "-" a)}
+            (str/capitalize (name a))])
+         fieldoptions)]])
+
+
+
 (defn make-dot-vec [min max value active-dot inactive-dot]
   (let [make-dot (fn [d n]
                    (if (= 0 n)
@@ -114,3 +144,18 @@
              the-range
              v)])
         stat-map)])
+
+(rum/defc fixed-set-view < rum/state
+  [section-name set-path the-set element-count options]
+  (let [options-set (set options)
+        the-sorted-vec (into []
+                         (into (sorted-set) the-set))
+        replace-fn! (fn [i k]
+                      (change-element! set-path
+                        (fn [_]
+                         (set (assoc the-sorted-vec i k)))))]
+    [:.pagesection
+     [:h3 section-name
+      (map-indexed (fn [i k])
+
+                   the-sorted-vec)]]))

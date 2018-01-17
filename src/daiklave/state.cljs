@@ -43,9 +43,12 @@
        :view (unwrap-if-singular (sp/select pathvec state))})))
 
 (defn change-element!
-  [element-path change-fn]
-  (sp/transform [sp/ATOM
-                 (apply sp/keypath element-path)]
-                change-fn app-state))
+  [element-path change-val]
+  (let [change-fn (if (fn? change-val)
+                    change-val
+                    (fn [a] change-val))]
+    (sp/transform [sp/ATOM
+                   (apply sp/keypath element-path)]
+                change-fn app-state)))
 
 (defn get-change-value [e] (.. e -target -value))
