@@ -30,7 +30,9 @@
                                                       :attributes    {:strength   4, :dexterity 4, :stamina 3,
                                                                       :charisma   3, :manipulation 2, :appearance 2,
                                                                       :perception 3, :intelligence 3, :wits 3}
-                                                      :abilities {:athletics 5, :awareness 1, :brawl 4, :craft 2, :dodge 1, :integrity 1, :lore 2, :occult 2, :performance 3, :presence 3, :resistance 3, :thrown 2}}}
+                                                      :abilities {:athletics 5, :awareness 3, :brawl 3, :integrity 2, :linguistics 1, :lore 2, :occult 2, :performance 3, :presence 3, :resistance 3, :thrown 2}
+                                                      :favored-abilities #{:athletics, :brawl, :integrity, :lore, :occult, :performance, :presence, :resistance, :thrown}}}
+
                          :merits        [{:name "Allies"}]}
 
             "242424"    {:name          "Under Heaven's Eye",
@@ -47,7 +49,7 @@
                                                       :anima         "The Five Truths of Wu Du Xun"
                                                       :player        "Gavyn",
                                                       :key           "424242",
-                                                      :img           "https://i.imgur.com/QcFrj4t.jpg"
+                                                      :img           "https://i.imgur.com/cFE1bow.jpg"
                                                       :category      :character,
                                                       :type          :solar,
                                                       :subtype       :twilight,

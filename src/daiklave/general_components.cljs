@@ -49,21 +49,6 @@
            (beauty-fn a)])
         fieldoptions)])
 
-(rum/defc dropdown-keyword-old < rum/static
-  [fieldname fieldpath fieldvalue fieldoptions]
-  (println "fieldvalue for " fieldname " is " fieldvalue)
-  [:.field [:label fieldname]
-   [:select.entry
-    {:on-change
-            (wrap-on-change-fn #(change-element! fieldpath %))
-     :value (pr-str fieldvalue)}
-    (map (fn [a]
-           [:option
-            {:value (pr-str a)
-             :key (str fieldname "-" a)}
-            (str/capitalize (name a))])
-         fieldoptions)]])
-
 (rum/defc dropdown-keyword < rum/static
   [fieldname fieldpath fieldvalue fieldoptions]
   [:.field [:label fieldname]
