@@ -41,11 +41,11 @@
   [fieldvalue select-map fieldoptions prewrap-onchange-fn beauty-fn keyprefix]
   [:select
    (into select-map {:on-change (wrap-on-change-fn prewrap-onchange-fn)
-                     :value (pr-str fieldvalue)})
+                     :value     (pr-str fieldvalue)})
    (map (fn [a]
           [:option
            {:value (pr-str a)
-            :key (str keyprefix "-" a)}
+            :key   (str keyprefix "-" a)}
            (beauty-fn a)])
         fieldoptions)])
 
@@ -149,11 +149,11 @@
              v)])
         stat-map)])
 
-(rum/defc fixed-set-view < rum/state
+(rum/defc fixed-set-view < rum/static
   [section-name set-path the-set element-count options beauty-fn]
   (let [options-set (set options)
         the-sorted-vec (into []
-                         (into (sorted-set) the-set))
+                             (sort the-set))
         replace-fn! (fn [[i k]]
                       (change-element! set-path (set (assoc the-sorted-vec i k))))
         wrapped-beauty-fn (fn [[i k]]
@@ -162,16 +162,15 @@
     [:.pagesection
      [:h3 section-name]
      (map-indexed (fn [i k]
-                   (dropdown-general
-                       [i k]
-                       {:key (str section-name "-selector-" i)}
-                       (into (sorted-set)
-                         (map (fn [a] [i a])
-                           (conj (remove the-set options) k)))
-                       replace-fn!
-                       wrapped-beauty-fn
-                       (str section-name "-subelement-" i "-" k "-")))
-
+                    (dropdown-general
+                      [i k]
+                      {:key (str section-name "-selector-" i)}
+                      (into (sorted-set)
+                            (map (fn [a] [i a])
+                                 (conj (remove the-set options) k)))
+                      replace-fn!
+                      wrapped-beauty-fn
+                      (str section-name "-subelement-" i "-" k "-")))
                   the-sorted-vec)]))
 
 ;[fieldvalue select-map fieldoptions prewrap-onchange-fn beauty-fn keyprefix]
