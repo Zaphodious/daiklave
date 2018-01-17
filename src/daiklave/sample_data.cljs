@@ -16,8 +16,8 @@
                          :description   "Rust Eyes brings a bunch of shini bois together",
                          :last-accessed 1865961,
                          :characters    {"789789789" {:name          "Daesh",
-                                                      :subtitle      "Fastest in the Land"
-                                                      :concept       "The Best Athlete evar"
+                                                      :subtitle      "The Greastest Olympian"
+                                                      :concept       "The Best Athlete in the world"
                                                       :anima         "The Great Race"
                                                       :player        "Alex",
                                                       :key           "789789789",
@@ -29,7 +29,8 @@
                                                       :last-accessed 987253
                                                       :attributes    {:strength   4, :dexterity 4, :stamina 3,
                                                                       :charisma   3, :manipulation 2, :appearance 2,
-                                                                      :perception 3, :intelligence 3, :wits 3}}}
+                                                                      :perception 3, :intelligence 3, :wits 3}
+                                                      :abilities {:athletics 5, :awareness 1, :brawl 4, :craft 2, :dodge 1, :integrity 1, :lore 2, :occult 2, :performance 3, :presence 3, :resistance 3, :thrown 2}}}
                          :merits        [{:name "Allies"}]}
 
             "242424"    {:name          "Under Heaven's Eye",
@@ -51,7 +52,9 @@
                                                       :type          :solar,
                                                       :subtype       :twilight,
                                                       :last-accessed 4535361
-                                                      :attributes    {:strength 2, :dexterity 4, :stamina 2, :charisma 3, :manipulation 3, :appearance 3, :perception 2, :intelligence 5, :wits 4}}
+                                                      :attributes    {:strength 2, :dexterity 4, :stamina 2, :charisma 3, :manipulation 3, :appearance 3, :perception 2, :intelligence 5, :wits 4}
+                                                      :abilities {:athletics 2, :awareness 3, :brawl 1, :bureaucracy 2, :dodge 2, :integrity 3, :linguistics 3, :lore 5, :medicine 3, :socialize 3}
+                                                      :abilities-additional [[:martial-arts, 3, "Single Point Shining Into The Void"]]}
                                          "963963963" {:name          "Alkaia",
                                                       :subtitle      "Of the Lykopis"
                                                       :concept       "Barbarian Adventuress"
@@ -63,5 +66,7 @@
                                                       :type          :solar,
                                                       :subtype       :dawn,
                                                       :last-accessed 0
-                                                      :attributes    {:strength 4, :dexterity 4, :stamina 3, :charisma 3, :manipulation 3, :appearance 3, :perception 3, :intelligence 3, :wits 3}}}}}})
+                                                      :attributes    {:strength 4, :dexterity 4, :stamina 3, :charisma 3, :manipulation 3, :appearance 3, :perception 3, :intelligence 3, :wits 3}
+                                                      :abilities {:archery 3, :athletics 4, :brawl 3, :integrity 3, :larceny 3, :melee 5, :resistance 3, :ride 1, :sail 4, :survival 3}
+                                                      :abilities-additional [[:craft, 2, "Bladewright"]]}}}}})
 

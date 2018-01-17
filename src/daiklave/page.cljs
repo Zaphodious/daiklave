@@ -41,10 +41,15 @@
   [:div
    (daigen/banner (:name char-data-section) (:subtitle char-data-section) (:img char-data-section))
    (daichar/chardata total-view)
-   (daichar/stat-section "Attributes"
-                         (:attributes char-data-section)
+   (daigen/stat-section "Attributes"
+                         (into (sorted-map-by daichar/sort-attributes-by)
+                           (:attributes char-data-section))
                          (range 1 6)
-                         (conj the-path :attributes))])
+                         (conj the-path :attributes))
+   (daigen/stat-section "Abilities"
+                        (daichar/inflate-ability-map (:abilities char-data-section))
+                        (range 0 6)
+                        (conj the-path :abilities))])
 
 (defn page-fn-for
   [{:keys [view path] :as viewmap}]

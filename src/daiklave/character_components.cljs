@@ -8,6 +8,28 @@
 
 (def attribute-keys [:strength :dexterity :stamina :charisma :manipulation :appearance :perception :intelligence :wits])
 
+(def attribute-display-order (into {}
+                                   (map (fn [a n]
+                                          [a n])
+                                        attribute-keys
+                                        (range 1 (inc (count attribute-keys))))))
+(defn sort-attributes-by [a b]
+  (< (a attribute-display-order) (b attribute-display-order)))
+
+(def ability-keys [:archery, :athletics, :awareness, :brawl, :bureaucracy, :craft, :dodge, :integrity, :investigation, :larceny, :linguistics, :lore, :medicine, :melee, :occult, :performance, :presence, :resistance, :ride, :sail, :socialize, :stealth, :survival, :thrown, :war])
+
+(def ability-additional-keys [:craft, :martial-arts])
+
+
+(defn- inflate-ability-map-imp [old-ab-map]
+  (into (sorted-map)
+        (map (fn [ab]
+               (let [v (get old-ab-map ab)]
+                 {ab (if v v 0)}))
+             ability-keys)))
+(def inflate-ability-map (memoize inflate-ability-map-imp))
+
+
 (rum/defc chardata < rum/static
   [{char-data-section :view the-path :path}]
   (println (conj the-path :name))
@@ -26,15 +48,3 @@
     [:li (textfield "Concept" (conj the-path :concept))]
     [:li (textfield "Anima" (conj the-path :anima))]]])
 
-(rum/defc stat-section < rum/state
-  [section-name stat-map the-range section-path]
-  [:.pagesection
-   [:h3 section-name]
-   (map (fn [[k v :as a]]
-            [:div {:key (pr-str section-path " value of " a)}
-                 (daigen/dotspinner
-                   (str/capitalize (name k))
-                   (conj section-path k)
-                   the-range
-                   v)])
-        stat-map)])

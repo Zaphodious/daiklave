@@ -45,7 +45,7 @@
 (defn make-dot-string [min max value active-dot inactive-dot]
   (reduce str (make-dot-vec min max value active-dot inactive-dot)))
 
-(rum/defc dotspinner < rum/static
+(rum/defc dot-dropdown < rum/static
   [fieldname fieldpath range value]
   (let [min (first range)
         max (last range)]
@@ -64,23 +64,6 @@
        (make-dot-vec min max value
                      [:span.active-dot " ⚫ "]
                      [:span.inactive-dot " ⚪ "])]]]))
-
-(rum/defc dotview < rum/static
-  ([fieldname fieldpath range] (dotview fieldname fieldpath range (daiklave.state/fetch-view-for fieldpath)))
-  ([fieldname fieldpath range value]
-   (let [make-radio-change-fn (fn [a]
-                                (fn [] (change-element! fieldpath #(int a))))]
-     [:div.field.dotview
-      [:label fieldname]
-      [:span (str "value is " value)]
-      [:div.entry
-       (map (fn [e]
-              [:input {:type      :radio
-                       :checked   (= e value)
-                       :name      (pr-str fieldpath)
-                       :on-change (make-radio-change-fn e)
-                       :key       (pr-str fieldpath " value of " e)}])
-            range)]])))
 
 (rum/defc textfield < rum/static
   [fieldname fieldpath]
@@ -118,3 +101,16 @@
                         (str/capitalize (name (:subtype v))))]
               [:p "By " (:player v)]]])
           view)))
+
+(rum/defc stat-section < rum/state
+  [section-name stat-map the-range section-path]
+  [:.pagesection
+   [:h3 section-name]
+   (map (fn [[k v :as a]]
+          [:div {:key (pr-str section-path " value of " a)}
+           (dot-dropdown
+             (str/capitalize (name k))
+             (conj section-path k)
+             the-range
+             v)])
+        stat-map)])
