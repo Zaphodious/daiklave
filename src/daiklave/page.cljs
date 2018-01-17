@@ -49,7 +49,14 @@
    (daigen/stat-section "Abilities"
                         (daichar/inflate-ability-map (:abilities char-data-section))
                         (range 0 6)
-                        (conj the-path :abilities))])
+                        (conj the-path :abilities))
+   (daigen/fixed-set-view "Favored and Caste Abilities"
+                          (conj the-path :favored-abilities)
+                          (:favored-abilities char-data-section)
+                          10
+                          daichar/ability-all-keys
+                          #(str/capitalize (name %)))])
+;[section-name set-path the-set element-count options beauty-fn]
 
 (defn page-fn-for
   [{:keys [view path] :as viewmap}]

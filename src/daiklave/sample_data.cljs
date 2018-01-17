@@ -56,7 +56,8 @@
                                                       :last-accessed 4535361
                                                       :attributes    {:strength 2, :dexterity 4, :stamina 2, :charisma 3, :manipulation 3, :appearance 3, :perception 2, :intelligence 5, :wits 4}
                                                       :abilities {:athletics 2, :awareness 3, :brawl 1, :bureaucracy 2, :dodge 2, :integrity 3, :linguistics 3, :lore 5, :medicine 3, :socialize 3}
-                                                      :abilities-additional [[:martial-arts, 3, "Single Point Shining Into The Void"]]}
+                                                      :abilities-additional [[:martial-arts, 3, "Single Point Shining Into The Void"]]
+                                                      :favored-abilities #{:awareness, :brawl, :bureaucracy, :dodge, :integrity, :linguistics, :lore, :occult, :socialize, :martial-arts}}
                                          "963963963" {:name          "Alkaia",
                                                       :subtitle      "Of the Lykopis"
                                                       :concept       "Barbarian Adventuress"
@@ -70,5 +71,6 @@
                                                       :last-accessed 0
                                                       :attributes    {:strength 4, :dexterity 4, :stamina 3, :charisma 3, :manipulation 3, :appearance 3, :perception 3, :intelligence 3, :wits 3}
                                                       :abilities {:archery 3, :athletics 4, :brawl 3, :integrity 3, :larceny 3, :melee 5, :resistance 3, :ride 1, :sail 4, :survival 3}
-                                                      :abilities-additional [[:craft, 2, "Bladewright"]]}}}}})
+                                                      :abilities-additional [[:craft, 2, "Bladewright"]]
+                                                      :favored-abilities #{:archery, :athletics, :brawl, :craft, :integrity, :larceny, :melee, :resistance, :sail, :survival}}}}}})
 

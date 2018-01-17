@@ -20,6 +20,8 @@
 
 (def ability-additional-keys [:craft, :martial-arts])
 
+(def ability-all-keys (into ability-keys ability-additional-keys))
+
 
 (defn- inflate-ability-map-imp [old-ab-map]
   (into (sorted-map)
