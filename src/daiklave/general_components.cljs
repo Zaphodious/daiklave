@@ -37,9 +37,19 @@
         (reader/read-string)
         (on-change-fn))))
 
+(rum/defc dropdown-general
+  [fieldvalue select-map fieldoptions prewrap-onchange-fn beauty-fn keyprefix]
+  [:select
+   (into select-map {:on-change (wrap-on-change-fn prewrap-onchange-fn)
+                     :value (pr-str fieldvalue)})
+   (map (fn [a]
+          [:option
+           {:value (pr-str a)
+            :key (str keyprefix "-" a)}
+           (beauty-fn a)])
+        fieldoptions)])
 
-
-(rum/defc dropdown-keyword < rum/static
+(rum/defc dropdown-keyword-old < rum/static
   [fieldname fieldpath fieldvalue fieldoptions]
   (println "fieldvalue for " fieldname " is " fieldvalue)
   [:.field [:label fieldname]
@@ -54,7 +64,16 @@
             (str/capitalize (name a))])
          fieldoptions)]])
 
-
+(rum/defc dropdown-keyword < rum/static
+  [fieldname fieldpath fieldvalue fieldoptions]
+  [:.field [:label fieldname]
+   (dropdown-general
+     fieldvalue
+     {:class "entry"}
+     fieldoptions
+     #(change-element! fieldpath %)
+     #(str/capitalize (name %))
+     fieldname)])
 
 (defn make-dot-vec [min max value active-dot inactive-dot]
   (let [make-dot (fn [d n]
