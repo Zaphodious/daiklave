@@ -4,7 +4,8 @@
             [com.rpl.specter :as sp :refer [transform setval keypath]]
             [cljs.tools.reader.edn :as edn]
             [clojure.string :as str]
-            [daiklave.general-components :as daigen :refer [textfield read-only-field dropdown-keyword banner]]))
+            [daiklave.general-components :as daigen :refer [textfield read-only-field dropdown-keyword banner]]
+            [clojure.set :as set]))
 
 (def attribute-keys [:strength :dexterity :stamina :charisma :manipulation :appearance :perception :intelligence :wits])
 
@@ -21,6 +22,13 @@
 (def ability-additional-keys [:craft, :martial-arts])
 
 (def ability-all-keys (into ability-keys ability-additional-keys))
+
+(def caste-abilities {:dawn     #{:archery, :awareness, :brawl, :martial-arts, :dodge, :melee, :resistance, :thrown, :war}
+                      :zenith   #{:athletics, :integrity, :performance, :lore, :presence, :resistance, :survival, :war}
+                      :twilight #{:bureaucracy, :craft, :integrity, :investigation, :linguistics, :lore, :medicine, :occult}
+                      :night    #{:athletics, :awareness, :dodge, :investigation, :larceny, :ride, :stealth, :socialize}
+                      :eclipse  #{:breaucracy, :larceny, :linguistics, :occult, :presence, :ride, :sail, :socialize}})
+
 
 
 (defn- inflate-ability-map-imp [old-ab-map]
@@ -49,4 +57,11 @@
                            (:subtype char-data-section)
                            [:dawn :twilight :night :eclipse :zenith])]
     [:li (textfield "Concept" (conj the-path :concept))]
-    [:li (textfield "Anima" (conj the-path :anima))]]])
+    [:li (textfield "Anima" (conj the-path :anima))]
+    [:li (dropdown-keyword "Supernal"
+                           (conj the-path :supernal)
+                           (:supernal char-data-section)
+                           (into (sorted-set)
+                            (set/intersection ((:subtype char-data-section) caste-abilities)
+                                              (:favored-abilities char-data-section))))]]])
+
