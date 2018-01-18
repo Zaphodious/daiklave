@@ -64,7 +64,12 @@
                                                       :abilities-additional [[:martial-arts, 3, "Single Point Shining Into The Void"]]
                                                       :favored-abilities #{:awareness, :brawl, :bureaucracy, :dodge, :integrity, :linguistics, :lore, :occult, :socialize, :martial-arts}
                                                        :supernal :lore
-                                                       :specialties [[:athletics "Acrobatics"]]}
+                                                       :specialties [[:athletics "Acrobatics"]
+                                                                     [:integrity "Resisting Bribery"]
+                                                                     [:socialize "Read Intentions"]
+                                                                     [:awareness "Indiscretions"]
+                                                                     [:lore "Desert Legends"]
+                                                                     [:lore "Demonology"]]}
                                          "963963963" {:name          "Alkaia",
                                                       :subtitle      "Of the Lykopis"
                                                       :concept       "Barbarian Adventuress"
@@ -80,5 +85,9 @@
                                                       :abilities {:archery 3, :athletics 4, :brawl 3, :integrity 3, :larceny 3, :melee 5, :resistance 3, :ride 1, :sail 4, :survival 3}
                                                       :abilities-additional [[:craft, 2, "Bladewright"]]
                                                       :favored-abilities #{:archery, :athletics, :brawl, :craft, :integrity, :larceny, :melee, :resistance, :sail, :survival}
-                                                      :supernal :melee}}}}})
+                                                      :supernal :melee
+                                                      :specialties [[:sail "Captiancy"
+                                                                     [:melee "Swords"]
+                                                                     [:survival "Tracking"]
+                                                                     [:larceny "Lockpicking"]]]}}}}})
 
