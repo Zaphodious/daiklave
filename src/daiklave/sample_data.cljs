@@ -86,8 +86,8 @@
                                                       :abilities-additional [[:craft, 2, "Bladewright"]]
                                                       :favored-abilities #{:archery, :athletics, :brawl, :craft, :integrity, :larceny, :melee, :resistance, :sail, :survival}
                                                       :supernal :melee
-                                                      :specialties [[:sail "Captiancy"
-                                                                     [:melee "Swords"]
-                                                                     [:survival "Tracking"]
-                                                                     [:larceny "Lockpicking"]]]}}}}})
+                                                      :specialties [[:sail "Captiancy"]
+                                                                    [:melee "Swords"]
+                                                                    [:survival "Tracking"]
+                                                                    [:larceny "Lockpicking"]]}}}}})
 

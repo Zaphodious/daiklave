@@ -36,6 +36,7 @@
                             :view (:characters chron-data)})])
 
 
+
 (rum/defc charsheet < rum/static
   [{char-data-section :view the-path :path :as total-view}]
   [:div
@@ -55,7 +56,13 @@
                           (:favored-abilities char-data-section)
                           10
                           daichar/ability-all-keys
-                          #(str/capitalize (name %)))])
+                          #(str/capitalize (name %)))
+   (daigen/vec-view "Specialties"
+                    (conj the-path :specialties)
+                    (:specialties char-data-section)
+                    daichar/specialty-module
+                    "Add Specialty"
+                    "Remove This")])
 ;[section-name set-path the-set element-count options beauty-fn]
 
 (defn page-fn-for

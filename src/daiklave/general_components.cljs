@@ -5,7 +5,8 @@
             [cljs.tools.reader.edn :as edn]
             [clojure.string :as str]
             [cljs.reader :as reader]
-            [daiklave.url :as daifrag]))
+            [daiklave.url :as daifrag]
+            [daiklave.seq :as dseq :refer [remove-nth]]))
 
 (rum/defc banner < rum/static
   [charname charsubtitle charimg]
@@ -37,16 +38,22 @@
            (beauty-fn a)])
         fieldoptions)])
 
+(rum/defc dropdown-keyword-fieldless < rum/static
+  [fieldname fieldpath fieldvalue fieldoptions]
+  (dropdown-general
+    fieldvalue
+    {:class "entry"}
+    fieldoptions
+    #(change-element! fieldpath %)
+    #(str/capitalize (name %))
+    fieldname))
+
+
 (rum/defc dropdown-keyword < rum/static
   [fieldname fieldpath fieldvalue fieldoptions]
   [:.field [:label fieldname]
-   (dropdown-general
-     fieldvalue
-     {:class "entry"}
-     fieldoptions
-     #(change-element! fieldpath %)
-     #(str/capitalize (name %))
-     fieldname)])
+   (dropdown-keyword-fieldless fieldname fieldpath fieldvalue fieldoptions)])
+
 
 (defn make-dot-vec [min max value active-dot inactive-dot]
   (let [make-dot (fn [d n]
@@ -160,5 +167,23 @@
                       wrapped-beauty-fn
                       (str section-name "-subelement-" i "-" k "-")))
                   the-sorted-vec)]))
+
+(rum/defc vec-view < rum/static
+  [section-name vec-path the-vec element-component add-button-message subtract-button-message]
+  (println section-name vec-path the-vec)
+  [:.pagesection
+   [:h3 section-name]
+   [:button.add-button {:on-click (fn []
+                                    (change-element! vec-path (conj the-vec [:archery "Long-range shots"])))}
+                       add-button-message]
+   [:ul
+     (map-indexed (fn [i e]
+                    [:li
+                     [:button.subtract-button {:on-click (fn []
+                                                           (change-element! vec-path (remove-nth the-vec i)))}
+                                              subtract-button-message]
+                     (element-component e (conj vec-path i) (str section-name "-" vec-path))])
+        the-vec)]])
+
 
 ;[fieldvalue select-map fieldoptions prewrap-onchange-fn beauty-fn keyprefix]

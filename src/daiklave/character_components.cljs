@@ -29,7 +29,7 @@
                       :night    #{:athletics, :awareness, :dodge, :investigation, :larceny, :ride, :stealth, :socialize}
                       :eclipse  #{:breaucracy, :larceny, :linguistics, :occult, :presence, :ride, :sail, :socialize}})
 
-
+(def intimacy-intensities [:defining :major :minor])
 
 (defn- inflate-ability-map-imp [old-ab-map]
   (into (sorted-map)
@@ -64,4 +64,37 @@
                            (into (sorted-set)
                             (set/intersection ((:subtype char-data-section) caste-abilities)
                                               (:favored-abilities char-data-section))))]]])
+
+(defn get-specialty-attribute-options
+  [specialty-module-path]
+  (let [new-path (into [] (drop-last 2 specialty-module-path))
+        ability-path (conj new-path :abilities)
+        extra-ability-path (conj new-path :abilities-additional)
+        {ability-section :view}
+        (daiklave.state/fetch-view-for ability-path)
+        {additional-abilities :view}
+        (daiklave.state/fetch-view-for extra-ability-path)
+        reduced-additionals (map (fn [[k v _]] [k v]) additional-abilities)
+        at-least-one-point (filter #(< 0 (last %))
+                                    (into ability-section
+                                          reduced-additionals))]
+    (println reduced-additionals)
+   (into (sorted-set)
+     (map first at-least-one-point))))
+
+
+(rum/defc specialty-module < rum/static
+  [element patho the-key]
+  (println "path for " element " is " patho)
+  [:span {:key the-key}
+   (daigen/dropdown-keyword-fieldless (str "Specialty " the-key)
+                                      (conj patho 0)
+                                      (first element)
+                                      (get-specialty-attribute-options patho))
+   [:input {:default-value (last element)
+            :key (str the-key " text")
+            :on-change (fn [e] (change-element! (conj patho 1) (str (daiklave.state/get-change-value e))))}]])
+
+;[fieldvalue select-map fieldoptions prewrap-onchange-fn beauty-fn keyprefix]
+
 
