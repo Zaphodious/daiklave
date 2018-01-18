@@ -14,18 +14,6 @@
    [:h1.char-banner-title charname]
    [:h2.char-banner-subtitle charsubtitle]])
 
-(rum/defc dropdown < rum/static
-  [fieldname fieldkey char-data-section options]
-  [:div.field [:label fieldname]
-   [:select.entry {:on-change (fn [e]
-                                (change-element! (:key char-data-section)
-                                                 (fn [a] (assoc char-data-section fieldkey (reader/read-string (get-change-value e)))))
-                                (print (get-change-value e)))}
-    (map (fn [[k v]] [:option {:value (pr-str k),
-                               :key   (str fieldname "_" k)}
-                      v])
-         options)]])
-
 (defn read-change-event [e]
   (-> e
       get-change-value
