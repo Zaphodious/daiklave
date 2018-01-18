@@ -32,7 +32,11 @@
                                                                       :perception 3, :intelligence 3, :wits 3}
                                                       :abilities {:athletics 5, :awareness 3, :brawl 3, :integrity 2, :linguistics 1, :lore 2, :occult 2, :performance 3, :presence 3, :resistance 3, :thrown 2}
                                                       :favored-abilities #{:athletics, :brawl, :integrity, :lore, :occult, :performance, :presence, :resistance, :thrown, :awareness}
-                                                      :supernal :athletics}}
+                                                      :supernal :athletics
+                                                      :specialties [[:athletics "Racing"]
+                                                                    [:performance "Oratory"]
+                                                                    [:linguistics "Holy Solar Texts"]
+                                                                    [:awareness "Suprise Attacks"]]}}
 
                          :merits        [{:name "Allies"}]}
 
@@ -59,7 +63,8 @@
                                                       :abilities {:athletics 2, :awareness 3, :brawl 1, :bureaucracy 2, :dodge 2, :integrity 3, :linguistics 3, :lore 5, :medicine 3, :socialize 3}
                                                       :abilities-additional [[:martial-arts, 3, "Single Point Shining Into The Void"]]
                                                       :favored-abilities #{:awareness, :brawl, :bureaucracy, :dodge, :integrity, :linguistics, :lore, :occult, :socialize, :martial-arts}
-                                                      :supernal :lore}
+                                                       :supernal :lore
+                                                       :specialties [[:athletics "Acrobatics"]]}
                                          "963963963" {:name          "Alkaia",
                                                       :subtitle      "Of the Lykopis"
                                                       :concept       "Barbarian Adventuress"
