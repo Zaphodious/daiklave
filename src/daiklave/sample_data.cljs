@@ -36,7 +36,12 @@
                                                       :specialties [[:athletics "Racing"]
                                                                     [:performance "Oratory"]
                                                                     [:linguistics "Holy Solar Texts"]
-                                                                    [:awareness "Suprise Attacks"]]}}
+                                                                    [:awareness "Suprise Attacks"]]
+                                                      :intimacies [[:defining "Principle" "He who can, should."]
+                                                                   [:major "Principle" "The starting line is straight"]
+                                                                   [:major "Principle" "I've Earned My Liberty"]
+                                                                   [:minor "Rush" "The wind as I run is the voice of my mother"]
+                                                                   [:minor "distaste" "The cheater's victory of the bane of my father"]]}}
 
                          :merits        [{:name "Allies"}]}
 
@@ -69,7 +74,13 @@
                                                                      [:socialize "Read Intentions"]
                                                                      [:awareness "Indiscretions"]
                                                                      [:lore "Desert Legends"]
-                                                                     [:lore "Demonology"]]}
+                                                                     [:lore "Demonology"]]
+                                                      :intimacies [[:defining "Firm Conviction" "The Five Truths"]
+                                                                   [:major "Joy" "There is no pleasure like a bright pupil"]
+                                                                   [:major "Respect and Fear" "The Scarlet Empress"]
+                                                                   [:minor "Gratitude" "Amon the Demon's Head"]
+                                                                   [:minor "Profound Discomfort" "The Owl Screaming In Torment"]]}
+
                                          "963963963" {:name          "Alkaia",
                                                       :subtitle      "Of the Lykopis"
                                                       :concept       "Barbarian Adventuress"
@@ -89,5 +100,10 @@
                                                       :specialties [[:sail "Captiancy"]
                                                                     [:melee "Swords"]
                                                                     [:survival "Tracking"]
-                                                                    [:larceny "Lockpicking"]]}}}}})
+                                                                    [:larceny "Lockpicking"]]
+                                                      :intimacies [[:defining "Principle" "I am the strongest"]
+                                                                   [:major "Thrill" "The wind at my sails"]
+                                                                   [:minor "Disgust" "City folk"]
+                                                                   [:minor "Distrust" "Rajmael"]]}}}}})
+
 
