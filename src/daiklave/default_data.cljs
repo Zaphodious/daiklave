@@ -8,7 +8,24 @@
    :key           "0",
    :img           "https://i.imgur.com/59mlT7v.jpg"
    :description   "Published by Onyx Path",
-   :merits [{:name ""
-             :ranks #{1 2 3}
+   :merits [{:name "Allies"
+             :description "Allies, yo!"
+             :drawback "Dey be people n shiii"
+             :page 158
+             :ranks #{1 3 5}
+             :repurchasable true
+             :type :story}
+            {:name "Ambidextrous"
+             :description "Look, ma! Two hands!"
+             :drawback ""
+             :page 158
+             :ranks #{1,2}
+             :type :innate
+             :repurchasable false}
+            {:name "Artifact"
+             :description "Mah Boomstick!"
+             :drawback ""
+             :page 159
+             :ranks #{2 3 4 5}
              :repurchasable true
              :type :story}]})

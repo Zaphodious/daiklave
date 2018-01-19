@@ -96,8 +96,7 @@
                              :key           "452452452",
                              :img           "https://i.imgur.com/xLYsQ2j.jpg"
                              :description   "Rust Eyes brings a bunch of shini bois together",
-                             :last-accessed 1865961,
-                             :merits        [{:name "Allies"}]}
+                             :last-accessed 1865961}
 
                 "242424"    {:name          "Under Heaven's Eye",
                              :category      :chron,
