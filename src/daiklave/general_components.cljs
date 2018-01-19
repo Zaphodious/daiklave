@@ -117,7 +117,6 @@
 
 (defn raw-element-div
   [{:keys [view path]}]
-  (println "pathy is " path)
   (into [:div]
         (map
           (fn [[k v]]
@@ -129,7 +128,7 @@
               [:h4 (str (str/capitalize (name (:type v)))
                         " - "
                         (str/capitalize (name (:subtype v))))]
-              [:p "By " (:player v)]]])
+              [:p (:description v)]]])
           view)))
 
 (rum/defc stat-section < rum/state

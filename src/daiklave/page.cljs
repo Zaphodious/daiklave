@@ -1,6 +1,7 @@
 (ns daiklave.page
   (:require [daiklave.url :as daifrag]
             [rum.core :as rum]
+            [cemerick.url :as url]
             [clojure.string :as str]
             [daiklave.general-components :as daigen]
             [daiklave.state :as daistate]
@@ -14,8 +15,14 @@
   []
   [:div
    [:.pagesection [:p "Welcome to Anathema: Reincarnated"]]
+   [:.pagesection [:a
+                   {:href (str "data:text/plain;charset=utf-8,"
+                               (url/url-encode (pr-str (:chrons @daistate/app-state))))
+                    :download "Anathema_Data.edn"}
+
+                   "Download Chronicles and Characters"]]
    [:.pagesection [:h2 "Utilities"]]
-   [:.pagesection [:h2 "Chrons"]]
+   [:.pagesection [:h2 "Chronicles"]]
    (daigen/raw-element-div {:view (:chrons (rum/react daistate/app-state)), :path [:chrons]})])
 
 (rum/defc chron-page < rum/static

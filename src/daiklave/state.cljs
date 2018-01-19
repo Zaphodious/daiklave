@@ -2,6 +2,7 @@
   (:require [daiklave.sample-data :as samples]
             [clojure.string :as str]
             [cljs-time.core :as time]
+            [daiklave.default-data :as daifault]
             [cemerick.url :as url :refer [url url-encode]]
             [daiklave.url :as dfrag]
             [com.rpl.specter :as sp]
@@ -22,7 +23,12 @@
 
 (def
   app-state
-  (atom samples/sample-state))
+  (atom (into
+          (sp/transform
+            [:chrons]
+            (fn [a] (conj a {"0" daifault/chron}))
+            samples/sample-state))))
+
 
 (defn unwrap-if-singular [coll]
   (if (= 1 (count coll))
