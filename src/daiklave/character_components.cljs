@@ -1,6 +1,6 @@
 (ns daiklave.character-components
   (:require [rum.core :as rum]
-            [daiklave.state :as lys :refer [change-element! get-change-value]]
+            [daiklave.state :as daistate :refer [change-element! get-change-value]]
             [com.rpl.specter :as sp :refer [transform setval keypath]]
             [cljs.tools.reader.edn :as edn]
             [clojure.string :as str]
@@ -91,9 +91,27 @@
                                       (conj patho 0)
                                       (first element)
                                       (get-specialty-attribute-options patho))
-   [:input {:default-value (last element)
+   [:input {:value (last element)
+            :type "text"
             :key (str the-key " text")
-            :on-change (fn [e] (change-element! (conj patho 1) (str (daiklave.state/get-change-value e))))}]])
+            :on-change (fn [e] (change-element! (conj patho 1) (str (get-change-value e))))}]])
+
+(rum/defc intimacy-module < rum/static
+  [[intensity intimacy-type description :as element] patho the-key]
+  (println "\uD83D\uDE31 Making intimacy module for " element)
+  [:span {:key the-key}
+   (daigen/dropdown-keyword-fieldless (str "Intimacy" the-key)
+                                      (conj patho 0)
+                                      intensity
+                                      intimacy-intensities)
+   [:input {:value intimacy-type
+            :type "text"
+            :key (str the-key " type")
+            :on-change #(change-element! (conj patho 1) (str (get-change-value %)))}]
+   [:input {:value description
+            :type "text"
+            :key (str the-key " description")
+            :on-change #(change-element! (conj patho 2) (str (get-change-value %)))}]])
 
 ;[fieldvalue select-map fieldoptions prewrap-onchange-fn beauty-fn keyprefix]
 

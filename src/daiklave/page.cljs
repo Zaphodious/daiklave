@@ -61,8 +61,16 @@
                     (conj the-path :specialties)
                     (:specialties char-data-section)
                     daichar/specialty-module
-                    "Add Specialty"
-                    "Remove This")])
+                    "➕ Specialty"
+                    "➖"
+                    [:archery "Long-range shots"])
+   (daigen/vec-view "Intimacies"
+                    (conj the-path :intimacies)
+                    (:intimacies char-data-section)
+                    daichar/intimacy-module
+                    "➕ Intimacy"
+                    "❌"
+                    [:minor "Disgust" "Injustice visited upon the meek."])])
 ;[section-name set-path the-set element-count options beauty-fn]
 
 (defn page-fn-for

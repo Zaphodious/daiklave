@@ -98,11 +98,12 @@
   [fieldname fieldpath]
   (let [fieldvalue (:view (daiklave.state/fetch-view-for fieldpath))]
     [:div.field [:label fieldname]
-     [:input.entry {:type          "text"
-                    :default-value fieldvalue
-                    :on-change     (fn [e]
-                                     (change-element! fieldpath
-                                                      (fn [a] (get-change-value e))))}]]))
+     [:input.entry {:type      "text"
+                    :value     fieldvalue
+                    :on-change (fn [e]
+                                 (change-element!
+                                   fieldpath
+                                   (fn [a] (get-change-value e))))}]]))
 
 (rum/defc read-only-field < rum/static
   [fieldname fieldvalue]
@@ -168,22 +169,29 @@
                       (str section-name "-subelement-" i "-" k "-")))
                   the-sorted-vec)]))
 
-(rum/defc vec-view < rum/static
-  [section-name vec-path the-vec element-component add-button-message subtract-button-message]
-  (println section-name vec-path the-vec)
-  [:.pagesection
-   [:h3 section-name]
-   [:button.add-button {:on-click (fn []
-                                    (change-element! vec-path (conj the-vec [:archery "Long-range shots"])))}
-                       add-button-message]
-   [:ul
-     (map-indexed (fn [i e]
-                    [:li
-                     [:button.subtract-button {:on-click (fn []
-                                                           (change-element! vec-path (remove-nth the-vec i)))}
-                                              subtract-button-message]
-                     (element-component e (conj vec-path i) (str section-name "-" vec-path))])
-        the-vec)]])
+(rum/defc vec-view
+  [section-name vec-path the-vec element-component add-button-message subtract-button-message new-element]
+  (let [a :a]
+    (println section-name vec-path the-vec)
+    [:.pagesection
+     [:h3 section-name]
+     [:button.add-button {:on-click (fn []
+                                      (change-element! vec-path (conj the-vec new-element)))}
+      add-button-message]
+     [:button.sort-button {:on-click (fn []
+                                       (change-element! vec-path (vec (sort the-vec))))}
+      "\uD83D\uDC9E Sort"]
+     [:ul
+      (map-indexed (fn [i e]
+                     [:li
+                      {:key (str section-name "list item " i)}
+                      [:button.subtract-button
+                       {:on-click (fn []
+                                    (println "\uD83E\uDD21 Removing " e ", which is hard, because instead we're removing " (nth the-vec i))
+                                    (change-element! vec-path (remove-nth the-vec i)))}
+                       subtract-button-message]
+                      (element-component e (conj vec-path i) (str section-name "-" vec-path))])
+                   the-vec)]]))
 
 
 ;[fieldvalue select-map fieldoptions prewrap-onchange-fn beauty-fn keyprefix]
