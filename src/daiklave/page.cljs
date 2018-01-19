@@ -23,8 +23,11 @@
 
                    "Download Chronicles and Characters"]]
    [:.pagesection [:h2 "Utilities"]]
-   [:.pagesection [:h2 "Chronicles"]]
-   (daigen/raw-element-div {:view (:chrons (rum/react daistate/app-state)), :path [:chrons]})])
+   [:.pagesection [:a {:href (daifrag/link-fragment-for [:characters])}
+                   [:h2 "Characters"]]]
+   [:.pagesection [:a {:href (daifrag/link-fragment-for [:chrons])}
+                   [:h2 "Chronicles"]]]
+   #_(daigen/raw-element-div {:view (:chrons (rum/react daistate/app-state)), :path [:chrons]})])
 
 (rum/defc chron-page < rum/static
   [{chron-data :view the-path :path}]
@@ -37,9 +40,9 @@
     [:ul
      [:li (daigen/textfield "Name" (conj the-path :name))]]]
    (daigen/raw-element-div vals)
-   (daigen/section-shortcut "Merits" :merits chron-data)
-   (daigen/section-shortcut "Charms" :charms chron-data)
-   (daigen/section-shortcut "Artifacts" :artifacts chron-data)]
+   (daigen/section-shortcut "Merits" (conj the-path :merits))
+   (daigen/section-shortcut "Charms" (conj the-path :charms))
+   (daigen/section-shortcut "Artifacts" (conj the-path :artifacts))]
   #_ (daigen/raw-element-div {:path (conj the-path :characters)
                               :view (:characters chron-data)}))
 
@@ -83,7 +86,10 @@
   [{:keys [view path] :as viewmap}]
   (if
     (not (:category view))
-    #(multi-page viewmap)
+    (cond
+      (map? view) #(multi-page viewmap)
+      :else #(home-page))
+
     (case (:category view)
       :home #(home-page)
       :chron #(chron-page viewmap)

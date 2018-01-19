@@ -110,9 +110,9 @@
   [:div.field [:label fieldname] [:span.entry (str/capitalize (str fieldvalue))]])
 
 (rum/defc section-shortcut < rum/static
-  [section-name section-key chron-data]
+  [section-name section-path]
   [:div.pagesection
-   [:a {:href (daifrag/dep-standard-link-fragment (:key chron-data) section-key)}
+   [:a {:href (daifrag/link-fragment-for section-path)}
     [:h3 section-name]]])
 
 (defn raw-element-div

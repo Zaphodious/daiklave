@@ -11,8 +11,6 @@
 (defn link-fragment-for [thingy]
   (str "#" (make-fragment thingy)))
 
-(defn dep-standard-link-fragment [the-key the-section] (link-fragment-for {:key the-key :section the-section}))
-
 (defn- make-path-vec [path-elements]
   (let [pathvec (if (seq? (first path-elements))
                   (first path-elements)
@@ -31,8 +29,6 @@
               (if (vector? (first path-elements))
                 (first path-elements)
                 path-elements))))
-
-
 
 (defn dep-parse-fragment [frag]
   (r/read-string (u/url-decode frag)))
