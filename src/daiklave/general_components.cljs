@@ -116,8 +116,10 @@
     [:h3 section-name]]])
 
 (defn raw-element-div
-  [{:keys [view path]}]
-  (into [:div]
+  [{:keys [view path] :as element} & extra-element-fns]
+
+  (into
+    (into [:div]
         (map
           (fn [[k v]]
             [:a {:href (daifrag/path-frag (conj path k))}
@@ -129,7 +131,9 @@
                         " - "
                         (str/capitalize (name (:subtype v))))]
               [:p (:description v)]]])
-          view)))
+          view))
+    (map (fn [f] (f element))
+         extra-element-fns)))
 
 (rum/defc stat-section < rum/state
   [section-name stat-map the-range section-path]

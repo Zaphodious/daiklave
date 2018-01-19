@@ -17,7 +17,8 @@
    [:.pagesection [:p "Welcome to Anathema: Reincarnated"]]
    [:.pagesection [:a
                    {:href (str "data:text/plain;charset=utf-8,"
-                               (url/url-encode (pr-str (:chrons @daistate/app-state))))
+                               (url/url-encode (prn-str {:chrons (:chrons @daistate/app-state)}
+                                                        :characters (:characters @daistate/app-state))))
                     :download "Anathema_Data.edn"}
 
                    "Download Chronicles and Characters"]]
@@ -38,16 +39,14 @@
    (daigen/raw-element-div vals)
    (daigen/section-shortcut "Merits" :merits chron-data)
    (daigen/section-shortcut "Charms" :charms chron-data)
-   (daigen/section-shortcut "Artifacts" :artifacts chron-data)
-   (daigen/raw-element-div {:path (conj the-path :characters)
-                            :view (:characters chron-data)})])
-
-
+   (daigen/section-shortcut "Artifacts" :artifacts chron-data)]
+  #_ (daigen/raw-element-div {:path (conj the-path :characters)
+                              :view (:characters chron-data)}))
 
 (rum/defc charsheet < rum/static
   [{char-data-section :view the-path :path :as total-view}]
   [:div
-   (daigen/banner (:name char-data-section) (:subtitle char-data-section) (:img char-data-section))
+   (daigen/banner (:name char-data-section) (:description char-data-section) (:img char-data-section))
    (daichar/chardata total-view)
    (daigen/stat-section "Attributes"
                          (into (sorted-map-by daichar/sort-attributes-by)

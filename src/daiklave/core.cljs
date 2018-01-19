@@ -28,13 +28,20 @@
    ;[:li [:h3 [:a (href "characters") "Characters"]] [:ul [:li [:a "New"]]]]
    [:li [:h3 [:a {:href (daifrag/path-frag :chrons)}
               "Chronicles"]]]
+   [:li [:h3 [:a {:href (daifrag/path-frag :characters)}
+              "Characters"]]]
    ;[:ul [:li [:a "New"]]]]
    [:li [:h3 [:a "Dice Roller"]]]
    [:li [:h3 [:a "Settings"]]]])
 
 (rum/defc titlebar < rum/reactive
   []
-  [:h1 (:name (:view (daistate/fetch-view-for (rum/react daistate/current-view) (rum/react daistate/app-state))))])
+  (let [current (rum/react daistate/current-view)
+        appy (rum/react daistate/app-state)
+        the-view (:view (daistate/fetch-view-for current appy))]
+    [:h1 (if (:category the-view)
+           (:name the-view)
+           (str/capitalize (name (last current))))]))
 
 (rum/mount (titlebar)
            (. js/document (getElementById "titlebar")))

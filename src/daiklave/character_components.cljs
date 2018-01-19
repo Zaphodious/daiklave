@@ -5,6 +5,7 @@
             [cljs.tools.reader.edn :as edn]
             [clojure.string :as str]
             [daiklave.general-components :as daigen :refer [textfield read-only-field dropdown-keyword banner]]
+            [daiklave.url :as daifrag]
             [clojure.set :as set]))
 
 (def attribute-keys [:strength :dexterity :stamina :charisma :manipulation :appearance :perception :intelligence :wits])
@@ -49,7 +50,7 @@
    [:h3 "Core Character Info"]
    [:ul
     [:li (textfield "Name" (conj the-path :name))]
-    [:li (textfield "Epithet" (conj the-path :subtitle))]
+    [:li (textfield "Epithet" (conj the-path :description))]
     [:li (textfield "Player" (conj the-path :player))]
     [:li (textfield "Image" (conj the-path :img))]
     [:li (read-only-field "Type" (str/capitalize (name (:type char-data-section))))]
