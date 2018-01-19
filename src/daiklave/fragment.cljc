@@ -1,4 +1,4 @@
-(ns daiklave.url
+(ns daiklave.fragment
   (:require [cemerick.url :as u]
             #?(:cljs [cljs.tools.reader :as r]
                :clj [clojure.tools.reader :as r])

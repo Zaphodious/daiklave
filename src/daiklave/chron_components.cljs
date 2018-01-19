@@ -7,4 +7,4 @@
             [cljs.tools.reader.edn :as edn]
             [clojure.string :as str]
             [cljs.reader :as reader]
-            [daiklave.url :as daifrag]))
+            [daiklave.fragment :as daifrag]))

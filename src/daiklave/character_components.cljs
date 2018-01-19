@@ -5,7 +5,7 @@
             [cljs.tools.reader.edn :as edn]
             [clojure.string :as str]
             [daiklave.general-components :as daigen :refer [textfield read-only-field dropdown-keyword banner]]
-            [daiklave.url :as daifrag]
+            [daiklave.fragment :as daifrag]
             [clojure.set :as set]))
 
 (def attribute-keys [:strength :dexterity :stamina :charisma :manipulation :appearance :perception :intelligence :wits])

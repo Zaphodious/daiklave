@@ -4,7 +4,7 @@
             [cljs-time.core :as time]
             [daiklave.default-data :as daifault]
             [cemerick.url :as url :refer [url url-encode]]
-            [daiklave.url :as dfrag]
+            [daiklave.fragment :as dfrag]
             [com.rpl.specter :as sp]
             [com.rpl.specter.navs :as spn]))
 

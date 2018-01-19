@@ -4,7 +4,7 @@
             [daiklave.category-components :as daicat]
             [daiklave.chron-components :as daichron]
             [daiklave.state :as daistate]
-            [daiklave.url :as daifrag]
+            [daiklave.fragment :as daifrag]
             [clojure.string :as str]
             [com.rpl.specter :as sp]
             [daiklave.page :as page]))

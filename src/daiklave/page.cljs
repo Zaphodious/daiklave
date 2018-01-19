@@ -1,5 +1,5 @@
 (ns daiklave.page
-  (:require [daiklave.url :as daifrag]
+  (:require [daiklave.fragment :as daifrag]
             [rum.core :as rum]
             [cemerick.url :as url]
             [clojure.string :as str]
