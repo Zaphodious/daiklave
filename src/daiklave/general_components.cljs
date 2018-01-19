@@ -157,7 +157,6 @@
                       (change-element! set-path (set (assoc the-sorted-vec i k))))
         wrapped-beauty-fn (fn [[i k]]
                             (beauty-fn k))]
-    (println "sorted vec is " the-sorted-vec)
     [:.pagesection
      [:h3 section-name]
      (map-indexed (fn [i k]
@@ -173,28 +172,34 @@
                   the-sorted-vec)]))
 
 (rum/defc vec-view
-  [section-name vec-path the-vec element-component add-button-message subtract-button-message new-element]
-  (let [a :a]
-    (println section-name vec-path the-vec)
-    [:.pagesection
-     [:h3 section-name]
-     [:button.add-button {:on-click (fn []
-                                      (change-element! vec-path (conj the-vec new-element)))}
-      add-button-message]
-     [:button.sort-button {:on-click (fn []
-                                       (change-element! vec-path (vec (sort the-vec))))}
-      "\uD83D\uDC9E Sort"]
-     [:ul
-      (map-indexed (fn [i e]
-                     [:li
-                      {:key (str section-name "list item " i)}
-                      [:button.subtract-button
-                       {:on-click (fn []
-                                    (println "\uD83E\uDD21 Removing " e ", which is hard, because instead we're removing " (nth the-vec i))
-                                    (change-element! vec-path (remove-nth the-vec i)))}
-                       subtract-button-message]
-                      (element-component e (conj vec-path i) (str section-name "-" vec-path))])
-                   the-vec)]]))
+  ([section-name singular-name vec-path the-vec element-component new-element]
+   (vec-view section-name singular-name vec-path the-vec element-component new-element false compare))
+  ([section-name singular-name vec-path the-vec element-component new-element buttons-on-top sort-fn]
+   (let [func-buttons [[:button.add-button
+                            {:on-click (fn []
+                                         (change-element! vec-path (conj the-vec new-element)))}
+                            (str "➕ New " singular-name)]
+
+                       [:button.sort-button {:on-click (fn []
+                                                         (change-element!
+                                                           vec-path
+                                                           (vec (sort sort-fn the-vec))))}
+                         "\uD83D\uDC9E Sort"]]]
+     [:.pagesection
+      [:h3 section-name]
+      (when buttons-on-top func-buttons)
+      [:ul
+       (map-indexed (fn [i e]
+                      [:li
+                       {:key (str section-name "list item " i)}
+                       [:button.subtract-button
+                        {:on-click (fn []
+                                     (change-element! vec-path (remove-nth the-vec i)))}
+                        "➖"]
+                       (element-component e (conj vec-path i) (str section-name "-" vec-path))])
+                    the-vec)]
+      (when (not buttons-on-top) func-buttons)])))
+
 
 
 ;[fieldvalue select-map fieldoptions prewrap-onchange-fn beauty-fn keyprefix]

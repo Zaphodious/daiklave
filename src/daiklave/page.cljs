@@ -67,18 +67,16 @@
                           daichar/ability-all-keys
                           #(str/capitalize (name %)))
    (daigen/vec-view "Specialties"
+                    "Specialty"
                     (conj the-path :specialties)
                     (:specialties char-data-section)
                     daichar/specialty-module
-                    "➕ Specialty"
-                    "➖"
                     [:archery "Long-range shots"])
    (daigen/vec-view "Intimacies"
+                    "Intimacy"
                     (conj the-path :intimacies)
                     (:intimacies char-data-section)
                     daichar/intimacy-module
-                    "➕ Intimacy"
-                    "❌"
                     [:minor "Disgust" "Injustice visited upon the meek."])])
 ;[section-name set-path the-set element-count options beauty-fn]
 
