@@ -1,7 +1,6 @@
 (ns daiklave.core
   (:require [rum.core :as rum]
             [daiklave.character-components :as daichar]
-            [daiklave.category-components :as daicat]
             [daiklave.chron-components :as daichron]
             [daiklave.state :as daistate]
             [daiklave.fragment :as daifrag]
