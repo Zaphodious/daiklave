@@ -144,20 +144,38 @@ body {
 
 .field {
   width: 100%;
+  padding: 5px;
 }
 
 .field label {
-  width: 70px;
+  width: 100px;
   display: inline-block;
+  vertical-align: top;
   text-align: right;
   padding-right: 5px;
 }
 
 .field .entry {
-  min-width: calc(100%  -  100px  -  70px  -  15px);
+  min-width: calc(100%  -  100px  -  70px);
   max-width: calc(100%  -  70px);
-  height: 30px;
-  display: inline;
+  height: 2em;
+  display: inline-block;
+}
+
+.field .entry .rank-list {
+  height: 100%;
+}
+
+.field .entry .rank-list li {
+  float: left;
+  text-align: center;
+  height: inherit;
+}
+
+.field .entry .rank-list li * {
+  display: block;
+  width: 20px;
+  height: 100%;
 }
 
 .field .entry .spinner {

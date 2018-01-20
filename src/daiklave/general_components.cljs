@@ -94,7 +94,7 @@
                      [:span.active-dot " ⚫ "]
                      [:span.inactive-dot " ⚪ "])]]]))
 
-(rum/defc textfield < rum/static
+(rum/defc textfield
   [fieldname fieldpath]
   (let [fieldvalue (:view (daiklave.state/fetch-view-for fieldpath))]
     [:div.field [:label fieldname]
@@ -105,9 +105,38 @@
                                    fieldpath
                                    (fn [a] (get-change-value e))))}]]))
 
+(rum/defc textarea
+  [fieldname fieldpath]
+  (let [fieldvalue (:view (daiklave.state/fetch-view-for fieldpath))]
+    [:div.field [:label fieldname]
+     [:textarea.entry {:value fieldvalue
+                       :on-change #(change-element!
+                                     fieldpath
+                                     (get-change-value %))}]]))
+
 (rum/defc read-only-field < rum/static
   [fieldname fieldvalue]
   [:div.field [:label fieldname] [:span.entry (str/capitalize (str fieldvalue))]])
+
+(defn translate-toggle-change
+  [changeval]
+  (= changeval "on"))
+(rum/defc toggle-fieldless < rum/static
+  [fieldpath fieldvalue]
+  (println "toggle value is " (pr-str fieldvalue))
+  [:.entry [:span.toggle-text {:class (if fieldvalue "yes" "no")}
+            (if fieldvalue "Yes" "No")]
+   [:button {:type :buttom
+             :on-click #(change-element! fieldpath true)}
+    "Yes"]
+   [:button {:type :button
+             :on-click #(change-element! fieldpath false)}
+    "No"]])
+
+(rum/defc toggle < rum/static
+  [fieldname fieldpath fieldvalue]
+  [:.field [:label fieldname]
+   (toggle-fieldless fieldpath fieldvalue)])
 
 (rum/defc section-shortcut < rum/static
   [section-name section-path]
@@ -188,7 +217,7 @@
                                                          (change-element!
                                                            vec-path
                                                            (vec (sort sort-fn the-vec))))}
-                        "\uD83D\uDC9E Sort"]]
+                        "\uD83D\uDD03 Sort"]]
          element-class (if full-page
                          "pagesection"
                          "vec-item")
@@ -201,7 +230,7 @@
                                              [:button.subtract-button
                                               {:on-click (fn []
                                                            (change-element! vec-path (remove-nth the-vec i)))}
-                                              "➖"]
+                                              "❌"]
                                              (element-component e (conj vec-path i) (str section-name "-" vec-path))])
                                           the-vec)]]
 

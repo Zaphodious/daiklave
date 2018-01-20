@@ -134,15 +134,27 @@
                       :float      :right}]
     [:.char-banner-title {:float :left}]]
 
-   [:.field {:width :100%}
-    [:label {:width         :70px,
+   [:.field {:width :100%
+             :padding :5px}
+    [:label {:width         :100px,
              :display       :inline-block,
+             :vertical-align :top
              :text-align    :right,
              :padding-right :5px}]
-    [:.entry {:min-width (calchelper :100% - :100px - :70px - :15px)
+    [:.entry {:min-width (calchelper :100% - :100px - :70px) ;:15px)
               :max-width (calchelper :100% - :70px)
-              :height    :30px,
-              :display   :inline}
+              :height    :2em,
+              :display   :inline-block}
+     [:.rank-list
+      {:height :100%}
+      [:li {:float      :left
+            :text-align :center
+            :height     :inherit}
+           [:* {:display :block
+                 :width   :20px
+                 :height  :100%}]]]
+
+
      [:.spinner {:height  "inherit",
                  :display :inline}]
      [:.dotpart {:display :inline}]]]])
