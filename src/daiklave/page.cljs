@@ -5,7 +5,8 @@
             [clojure.string :as str]
             [daiklave.general-components :as daigen]
             [daiklave.state :as daistate]
-            [daiklave.character-components :as daichar]))
+            [daiklave.character-components :as daichar]
+            [daiklave.chron-components :as daichron]))
 
 (rum/defc multi-page < rum/static
   [viewmap]
@@ -86,7 +87,7 @@
     (not (:category view))
     (cond
       (map? view) #(multi-page viewmap)
-      :else #(home-page))
+      :else #(daichron/merit-view viewmap))
 
     (case (:category view)
       :home #(home-page)

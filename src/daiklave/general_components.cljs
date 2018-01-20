@@ -173,10 +173,14 @@
 
 (rum/defc vec-view
   ([section-name singular-name vec-path the-vec element-component new-element]
-   (vec-view section-name singular-name vec-path the-vec element-component new-element false compare))
-  ([section-name singular-name vec-path the-vec element-component new-element buttons-on-top sort-fn]
+   (vec-view section-name singular-name vec-path the-vec element-component new-element false false compare))
+  ([section-name singular-name vec-path the-vec element-component new-element buttons-on-top full-page sort-fn]
    (let [func-buttons [[:button.add-button
                             {:on-click (fn []
+                                         (println "element being added- "
+                                                  (pr-str new-element)
+                                                  " at "
+                                                  (pr-str vec-path))
                                          (change-element! vec-path (conj the-vec new-element)))}
                             (str "➕ New " singular-name)]
 
@@ -185,13 +189,18 @@
                                                            vec-path
                                                            (vec (sort sort-fn the-vec))))}
                          "\uD83D\uDC9E Sort"]]]
-     [:.pagesection
+     [(if full-page
+        :#data-view-body
+        :.pagesection)
       [:h3 section-name]
       (when buttons-on-top func-buttons)
-      [:ul
+      [:ul.vec-view
        (map-indexed (fn [i e]
                       [:li
-                       {:key (str section-name "list item " i)}
+                       {:key (str section-name "list item " i)
+                        :class (if full-page
+                                 "pagesection"
+                                 "vec-item")}
                        [:button.subtract-button
                         {:on-click (fn []
                                      (change-element! vec-path (remove-nth the-vec i)))}
