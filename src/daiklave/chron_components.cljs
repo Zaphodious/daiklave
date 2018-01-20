@@ -26,7 +26,6 @@
 
 (rum/defc merit-view < rum/static
   [{:keys [view path] :as viewmap}]
-  (println "the view" view)
   (daigen/vec-view "Merits"
                    "Merit"
                    path

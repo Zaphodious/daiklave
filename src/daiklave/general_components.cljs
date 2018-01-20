@@ -120,18 +120,18 @@
 
   (into
     (into [:div]
-        (map
-          (fn [[k v]]
-            [:a {:href (daifrag/path-frag (conj path k))}
-             [:.pagesection
-              [:img.profile-image {:src (:img v)
-                                   :alt (str "Character image for " (:name v))}]
-              [:h3 (:name v)]
-              [:h4 (str (str/capitalize (name (:type v)))
-                        " - "
-                        (str/capitalize (name (:subtype v))))]
-              [:p (:description v)]]])
-          view))
+          (map
+            (fn [[k v]]
+              [:a {:href (daifrag/path-frag (conj path k))}
+               [:.pagesection
+                [:img.profile-image {:src (:img v)
+                                     :alt (str "Character image for " (:name v))}]
+                [:h3 (:name v)]
+                [:h4 (str (str/capitalize (name (:type v)))
+                          " - "
+                          (str/capitalize (name (:subtype v))))]
+                [:p (:description v)]]])
+            view))
     (map (fn [f] (f element))
          extra-element-fns)))
 
@@ -175,39 +175,43 @@
   ([section-name singular-name vec-path the-vec element-component new-element]
    (vec-view section-name singular-name vec-path the-vec element-component new-element false false compare))
   ([section-name singular-name vec-path the-vec element-component new-element buttons-on-top full-page sort-fn]
-   (let [func-buttons [[:button.add-button
-                            {:on-click (fn []
-                                         (println "element being added- "
-                                                  (pr-str new-element)
-                                                  " at "
-                                                  (pr-str vec-path))
-                                         (change-element! vec-path (conj the-vec new-element)))}
-                            (str "➕ New " singular-name)]
+   (let [outside-element-class (if full-page
+                                 "pagesection"
+                                 "vec-extra")
+         func-buttons [:div {:class outside-element-class}
+                       [:button.add-button
+                        {:on-click (fn []
+                                     (change-element! vec-path (conj the-vec new-element)))}
+                        (str "➕ New " singular-name)]
 
                        [:button.sort-button {:on-click (fn []
                                                          (change-element!
                                                            vec-path
                                                            (vec (sort sort-fn the-vec))))}
-                         "\uD83D\uDC9E Sort"]]]
+                        "\uD83D\uDC9E Sort"]]
+         element-class (if full-page
+                         "pagesection"
+                         "vec-item")
+
+         marked-up-elements [:ul.vec-view
+                             (map-indexed (fn [i e]
+                                            [:li
+                                             {:key   (str section-name "list item " i)
+                                              :class element-class}
+                                             [:button.subtract-button
+                                              {:on-click (fn []
+                                                           (change-element! vec-path (remove-nth the-vec i)))}
+                                              "➖"]
+                                             (element-component e (conj vec-path i) (str section-name "-" vec-path))])
+                                          the-vec)]]
+
      [(if full-page
         :#data-view-body
         :.pagesection)
-      [:h3 section-name]
-      (when buttons-on-top func-buttons)
-      [:ul.vec-view
-       (map-indexed (fn [i e]
-                      [:li
-                       {:key (str section-name "list item " i)
-                        :class (if full-page
-                                 "pagesection"
-                                 "vec-item")}
-                       [:button.subtract-button
-                        {:on-click (fn []
-                                     (change-element! vec-path (remove-nth the-vec i)))}
-                        "➖"]
-                       (element-component e (conj vec-path i) (str section-name "-" vec-path))])
-                    the-vec)]
-      (when (not buttons-on-top) func-buttons)])))
+      (if (not full-page) [:h3 section-name])
+      (if buttons-on-top func-buttons)
+      marked-up-elements
+      (if (not buttons-on-top) func-buttons)])))
 
 
 

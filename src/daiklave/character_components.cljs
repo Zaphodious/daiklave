@@ -43,8 +43,6 @@
 
 (rum/defc chardata < rum/static
   [{char-data-section :view the-path :path}]
-  (println (conj the-path :name))
-  (println (str "the path is " the-path))
   [:.pagesection
    ;[:img.profile-image {:src (:img char-data-section)}]
    [:h3 "Core Character Info"]
@@ -79,14 +77,12 @@
         at-least-one-point (filter #(< 0 (last %))
                                     (into ability-section
                                           reduced-additionals))]
-    (println reduced-additionals)
    (into (sorted-set)
      (map first at-least-one-point))))
 
 
 (rum/defc specialty-module < rum/static
   [element patho the-key]
-  (println "path for " element " is " patho)
   [:span {:key the-key}
    (daigen/dropdown-keyword-fieldless (str "Specialty " the-key)
                                       (conj patho 0)
@@ -99,7 +95,6 @@
 
 (rum/defc intimacy-module < rum/static
   [[intensity intimacy-type description :as element] patho the-key]
-  (println "\uD83D\uDE31 Making intimacy module for " element)
   [:span {:key the-key}
    (daigen/dropdown-keyword-fieldless (str "Intimacy" the-key)
                                       (conj patho 0)

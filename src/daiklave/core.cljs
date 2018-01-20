@@ -18,7 +18,6 @@
 
 (rum/defc content-area-reactive < rum/reactive
   []
-  (println "updating")
   (new-content-area (daistate/fetch-view-for (rum/react daistate/current-view) (rum/react daistate/app-state))))
 
 (rum/defc menu []

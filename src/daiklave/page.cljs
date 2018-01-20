@@ -32,7 +32,6 @@
 
 (rum/defc chron-page < rum/static
   [{chron-data :view the-path :path}]
-  (println "chron-data is " chron-data)
   [:div
    (daigen/banner (:name chron-data)
                   (:description chron-data)

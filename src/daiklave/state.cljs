@@ -18,7 +18,6 @@
 (defonce changelistener
          (js/addEventListener
            "hashchange" (fn [a]
-                            (println "changing current view to " (get-current-url-frag))
                             (swap! current-view (fn [b] (get-current-url-frag))))))
 
 (def
