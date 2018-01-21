@@ -5,6 +5,7 @@
             [clojure.string :as str]
             [daiklave.general-components :as daigen]
             [daiklave.state :as daistate]
+            [daiklave.seq :as daiseq :refer [second-to-last]]
             [daiklave.character-components :as daichar]
             [daiklave.chron-components :as daichron]))
 
@@ -80,15 +81,21 @@
                     [:minor "Disgust" "Injustice visited upon the meek."])])
 ;[section-name set-path the-set element-count options beauty-fn]
 
+
+
 (defn page-fn-for
   [{:keys [view path] :as viewmap}]
+  (println "changing to viewmap " viewmap)
   (if
-    (not (:category view))
-    (cond
-      (map? view) #(multi-page viewmap)
-      :else #(daichron/merit-view viewmap))
-
+    (and view (:category view))
     (case (:category view)
       :home #(home-page)
       :chron #(chron-page viewmap)
-      :character #(charsheet viewmap))))
+      :character #(charsheet viewmap)
+      :charms #(daichron/charm-page viewmap))
+    (cond
+      (map? view) #(multi-page viewmap)
+      (= :merits (last path)) #(daichron/merit-view viewmap)
+      (= :charms (second-to-last path)) #(daichron/charm-view-by-ability viewmap))))
+
+

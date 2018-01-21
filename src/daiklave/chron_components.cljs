@@ -70,6 +70,19 @@
                    true
                    compare-merit))
 
+(rum/defc charm-page < rum/static
+  [{:keys [view path] :as viewmap}]
+  [:#data-view-body
+   (map (fn [a]
+          (daigen/section-shortcut (str/capitalize (name a)) (conj path a)))
+        (sort daiklave.character-components/ability-all-keys))])
+
+(rum/defc charm-view-by-ability < rum/static
+  [{:keys [view path] :as viewmap}]
+  (println "viewmappo is " viewmap)
+  [:#data-view-body [:.pagesection [:p "Hello"]]])
+
+
 ;[section-name singular-name vec-path the-vec element-component new-element buttons-on-top full-page sort-fn]
 
 ;[section-name singular-name vec-path the-vec element-component new-element]
@@ -81,3 +94,4 @@
    :ranks #{1 3 5}
    :repurchasable true
    :type :story}
+

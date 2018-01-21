@@ -28,4 +28,10 @@
              :page 159
              :ranks #{2 3 4 5}
              :repurchasable true
-             :type :story}]})
+             :type :story}]
+   :charms {:name "Charms"
+            :category :charms
+            :type :solar
+            :subtype :charmlist
+            :img "https://i.imgur.com/Xo9GgHm.png"
+            :athletics []}})
