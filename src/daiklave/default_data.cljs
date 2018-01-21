@@ -34,4 +34,37 @@
             :type :solar
             :subtype :charmlist
             :img "https://i.imgur.com/Xo9GgHm.png"
-            :athletics []}})
+            :archery [{:name "Wise Arrow"
+                       :cost "1m"
+                       :mins [1 2]
+                       :ability :archery
+                       :keywords ""
+                       :type :supplemental
+                       :duration "Instant"
+                       :prereq-charms "None"
+                       :description "Fire an arrow which knows which way is up"}],
+            :athletics [],
+            :awareness [],
+            :brawl [],
+            :bureaucracy [],
+            :craft [],
+            :dodge [],
+            :integrity [],
+            :investigation [],
+            :larceny [],
+            :linguistics [],
+            :lore [],
+            :martial-arts [],
+            :medicine [],
+            :melee [],
+            :occult [],
+            :performance [],
+            :presence [],
+            :resistance [],
+            :ride [],
+            :sail [],
+            :socialize [],
+            :stealth [],
+            :survival [],
+            :thrown [],
+            :war []}})

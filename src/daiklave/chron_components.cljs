@@ -17,7 +17,6 @@
      (map
        (fn [n]
          [:li
-           ;(str (if (rank-set n) n "_"))
           [:button {:type     :button
                      :on-click #(let [nset #{n}
                                       setop (if (rank-set n)
@@ -31,7 +30,6 @@
 (rum/defc merit-module < rum/static
   [element patho the-key]
   [:span.merit-module
-   ;[:h4 (:name element)]
    (daigen/textfield "Name" (conj patho :name))
    (daigen/textarea "Description" (conj patho :description))
    (daigen/textarea "Drawback" (conj patho :drawback))
@@ -39,10 +37,18 @@
    (daigen/dropdown-keyword "Type" (conj patho :type) (:type element) [:innate :story :purchased])
    (daigen/toggle "Repurchasable" (conj patho :repurchasable) (:repurchasable element))
    (merit-rank-widget "Possible Ranks" (:ranks element) (conj patho :ranks))])
-   ;(pr-str element)])
 
 (def merit-compare-magnitude
   {:name 3,  :page 1, :type 2})
+
+(defn make-compare-fn
+  [magnitude-map]
+  (fn [a b]
+    (reduce +
+            (map
+              (fn [[k v]]
+                (* v (compare (k a) (k b))))
+             magnitude-map))))
 
 (defn compare-merit
   [a b]
@@ -68,7 +74,20 @@
                     :type :story}
                    false
                    true
-                   compare-merit))
+                   (make-compare-fn {:name 3,  :page 1, :type 2})))
+
+(rum/defc charm-module < rum/static
+  [element patho the-key]
+  [:span.charm-module {:key the-key}
+   (daigen/textfield "Name" (conj patho :name))
+   (daigen/read-only-field "Ability" (str/capitalize (name (:ability element))))
+   (daigen/dot-dropdown "Prereq Rank" (conj patho :mins 1) (range 1 6) (-> element :mins last))
+   (daigen/dot-dropdown "Prereq Essence" (conj patho :mins 0) (range 1 6) (-> element :mins first))
+   (daigen/textfield "Keywords" (conj patho :keywords))
+   (daigen/textfield "Page" (conj patho :page))
+   (daigen/dropdown-keyword "Type" (conj patho :type) (:type element) (sort [:simple, :supplemental, :reflexive, :permanent]))
+   (daigen/textfield "Duration" (conj patho :duration))
+   (daigen/textarea "Description" (conj patho :description))])
 
 (rum/defc charm-page < rum/static
   [{:keys [view path] :as viewmap}]
@@ -80,18 +99,22 @@
 (rum/defc charm-view-by-ability < rum/static
   [{:keys [view path] :as viewmap}]
   (println "viewmappo is " viewmap)
-  [:#data-view-body [:.pagesection [:p "Hello"]]])
+  (daigen/vec-view "Charms"
+                   "Charm"
+                   path
+                   view
+                   charm-module
+                   {:name ""
+                    :cost ""
+                    :mins [1 2]
+                    :ability (last path)
+                    :keywords ""
+                    :type :supplemental
+                    :duration "Instant"
+                    :prereq-charms "None"
+                    :description ""}
+                   false
+                   true
+                   (make-compare-fn {:mins 5 :name 3})))
 
-
-;[section-name singular-name vec-path the-vec element-component new-element buttons-on-top full-page sort-fn]
-
-;[section-name singular-name vec-path the-vec element-component new-element]
-
-#_{:name "Allies"
-   :description "Allies, yo!"
-   :drawback "Dey be people n shiii"
-   :page 158
-   :ranks #{1 3 5}
-   :repurchasable true
-   :type :story}
 
