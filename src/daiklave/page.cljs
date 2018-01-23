@@ -18,9 +18,9 @@
   [:div
    [:.pagesection [:p "Welcome to Anathema: Reincarnated"]]
    [:.pagesection [:a
-                   {:href (str "data:text/plain;charset=utf-8,"
-                               (url/url-encode (prn-str {:chrons (:chrons @daistate/app-state)}
-                                                        :characters (:characters @daistate/app-state))))
+                   {:href     (str "data:text/plain;charset=utf-8,"
+                                   (url/url-encode (prn-str (-> @daistate/app-state :chrons (get "0")))))
+
                     :download "Anathema_Data.edn"}
 
                    "Download Chronicles and Characters"]]

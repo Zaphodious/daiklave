@@ -1,6 +1,7 @@
 (ns daiklave.chron-components
   (:require [rum.core :as rum]
             [daiklave.general-components :as daigen]
+            [daiklave.character-components :as daichar]
             [daiklave.state :as lys :refer [change-element! get-change-value]]
             [com.rpl.specter :as sp :refer [transform setval]]
             [cljs.tools.reader.edn :as edn]
@@ -94,11 +95,10 @@
   [:#data-view-body
    (map (fn [a]
           (daigen/section-shortcut (str/capitalize (name a)) (conj path a)))
-        (sort daiklave.character-components/ability-all-keys))])
+        (sort daichar/ability-all-keys))])
 
 (rum/defc charm-view-by-ability < rum/static
   [{:keys [view path] :as viewmap}]
-  (println "viewmappo is " viewmap)
   (daigen/vec-view "Charms"
                    "Charm"
                    path
