@@ -109,6 +109,12 @@
             :key (str the-key " description")
             :on-change #(change-element! (conj patho 2) (str (get-change-value %)))}]])
 
+(rum/defc mundane-weapon-module < rum/static
+  [element patho the-key]
+  [:span
+   (daigen/textfield-fieldless "" (conj patho 0) (first element))
+   (daigen/textfield-fieldless "" (conj patho 1) (second element))
+   (daigen/textfield-fieldless "" (conj patho 2) (last element))])
 ;[fieldvalue select-map fieldoptions prewrap-onchange-fn beauty-fn keyprefix]
 
 

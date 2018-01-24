@@ -94,22 +94,28 @@
                      [:span.active-dot " ⚫ "]
                      [:span.inactive-dot " ⚪ "])]]]))
 
+(rum/defc textfield-fieldless < rum/static
+  [fieldclass fieldpath fieldvalue]
+  [:input {:type      "text"
+           :value     fieldvalue
+           :class     fieldclass
+           :key (str fieldclass fieldpath)
+           :on-change (fn [e]
+                        (change-element!
+                          fieldpath
+                          (fn [a] (get-change-value e))))}])
+
 (rum/defc textfield
   [fieldname fieldpath]
   (let [fieldvalue (:view (daiklave.state/fetch-view-for fieldpath))]
     [:div.field [:label fieldname]
-     [:input.entry {:type      "text"
-                    :value     fieldvalue
-                    :on-change (fn [e]
-                                 (change-element!
-                                   fieldpath
-                                   (fn [a] (get-change-value e))))}]]))
+     (textfield-fieldless "entry" fieldpath fieldvalue)]))
 
 (rum/defc textarea
   [fieldname fieldpath]
   (let [fieldvalue (:view (daiklave.state/fetch-view-for fieldpath))]
     [:div.field [:label fieldname]
-     [:textarea.entry {:value fieldvalue
+     [:textarea.entry {:value     fieldvalue
                        :on-change #(change-element!
                                      fieldpath
                                      (get-change-value %))}]]))
@@ -126,10 +132,10 @@
   (println "toggle value is " (pr-str fieldvalue))
   [:.entry [:span.toggle-text {:class (if fieldvalue "yes" "no")}
             (if fieldvalue "Yes" "No")]
-   [:button {:type :buttom
+   [:button {:type     :buttom
              :on-click #(change-element! fieldpath true)}
     "Yes"]
-   [:button {:type :button
+   [:button {:type     :button
              :on-click #(change-element! fieldpath false)}
     "No"]])
 
@@ -210,7 +216,10 @@
          func-buttons [:div {:class outside-element-class}
                        [:button.add-button
                         {:on-click (fn []
-                                     (change-element! vec-path (conj the-vec new-element)))}
+                                     (change-element!
+                                       vec-path
+                                       (conj (if the-vec the-vec [])
+                                         new-element)))}
                         (str "➕ New " singular-name)]
 
                        [:button.sort-button {:on-click (fn []

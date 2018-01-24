@@ -78,7 +78,14 @@
                     (conj the-path :intimacies)
                     (:intimacies char-data-section)
                     daichar/intimacy-module
-                    [:minor "Disgust" "Injustice visited upon the meek."])])
+                    [:minor "Disgust" "Injustice visited upon the meek."])
+   (daigen/vec-view "Mundane Weapons"
+                    "Weapon"
+                    (conj the-path :mundane-weapons)
+                    (:mundane-weapons char-data-section)
+                    daichar/mundane-weapon-module
+                    ["Knife" "Lethal, Melee, Thrown (Short)" "Its a knife"])])
+
 ;[section-name set-path the-set element-count options beauty-fn]
 
 
