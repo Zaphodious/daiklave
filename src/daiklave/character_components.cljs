@@ -111,7 +111,7 @@
 
 (rum/defc mundane-weapon-module < rum/static
   [element patho the-key]
-  [:span
+  [:span {:key the-key}
    (daigen/textfield-fieldless "" (conj patho 0) (first element))
    (daigen/textfield-fieldless "" (conj patho 1) (second element))
    (daigen/textfield-fieldless "" (conj patho 2) (last element))])
