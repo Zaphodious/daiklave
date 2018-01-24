@@ -37,15 +37,17 @@
 (defn fetch-view-for
   ([] (fetch-view-for @current-view @app-state))
   ([path] (fetch-view-for path @app-state))
-  ( [frag state]
-    (let [sanifrag (if (or (nil? frag)
-                           (empty? frag)
-                           (= "" frag))
+  ( [path state]
+    (let [sanifrag (if (or (nil? path)
+                           (empty? path)
+                           (= "" path))
                      [:home]
-                     frag)
-          pathvec (apply sp/keypath sanifrag)]
+                     path)
+          pathvec (apply sp/keypath sanifrag)
+          the-view (unwrap-if-singular (sp/select pathvec state))]
       {:path sanifrag
-       :view (unwrap-if-singular (sp/select pathvec state))})))
+       :view the-view
+       :category (:category the-view)})))
 
 (defn change-element!
   [element-path change-val]

@@ -6,7 +6,8 @@
             [daiklave.fragment :as daifrag]
             [clojure.string :as str]
             [com.rpl.specter :as sp]
-            [daiklave.page :as page]))
+            [daiklave.page :as page]
+            [daiklave.form-and-page :as form-and-page]))
 
 (enable-console-print!)
 
@@ -41,13 +42,7 @@
            (:name the-view)
            (str/capitalize (name (last current))))]))
 
-(rum/mount (titlebar)
-           (. js/document (getElementById "titlebar")))
-
-(rum/mount (menu)
-           (. js/document (getElementById "menubar")))
-
-(rum/mount (content-area-reactive)
+(rum/mount (form-and-page/page-from-path)
            (. js/document (getElementById "app")))
 
 (defn on-js-reload [])
