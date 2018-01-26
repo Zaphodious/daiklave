@@ -4,6 +4,7 @@
             [garden.media :as gm]
             [garden.color :as gc]
             [garden.arithmetic :as ga]
+            [garden.selectors :as gs]
             [clojure.string :as str]))
 
 (gd/defcssfn url)
@@ -31,6 +32,13 @@
   (let [calcstring (->> args (map replace-operators) (map name-or-string) (map #(str % " ")) (reduce str) str/trim)]
     (calc calcstring)))
 
+(defn unit-fn-for [unittype]
+  (fn [n] (str (double n) unittype)))
+
+(def -px (unit-fn-for "px"))
+(def -em (unit-fn-for "em"))
+(def -% (unit-fn-for "%"))
+
 (defn quoth [n]
   (str "/'" n "/'"))
 
@@ -57,7 +65,104 @@
 (def navshadow "0 0 15px black")
 (def elementshadow "0 0 5px grey")
 
+(def page-content-margin-scalar 7)
+(def page-content-margin (keyword (str page-content-margin-scalar "px")))
+(def standard-field-width (calchelper :100% - :80px - :10px - :2em - page-content-margin - page-content-margin))
+
 (def mobilestyle
+  [[:* {:margin      0
+        :font-family "Bellefair, sans-serif"
+        :color       color-off-dark}]
+   [:body {:background-color color-off-bright
+           :height           :100%}]
+   [:#app-frame {:width  :100%
+                 :height :100%}]
+   [:.page {:width  :100%
+            :height :100%}
+    [:h1.page-title {:width            :100%
+                     :background-color color-p-main
+                     :color            color-off-bright
+                     :text-align       :center
+                     :box-shadow       elementshadow}]
+    [:.page-content {:height   (calchelper :100vh - title-bar-height)
+                     :overflow :scroll}
+     [:.page-section {:background-color color-brightest
+                      :margin           (calchelper page-content-margin * 2)
+                      :box-shadow       elementshadow
+                      :padding          :10px}
+      [:img {:max-width :100%}]
+      [:img.banner-image {:display    :block
+                          :text-align :center
+                          :margin     (-px -10)
+                          :margin-top (-px 10)
+                          :max-width  (calchelper (-% 100) + (-px 20))}]
+
+      [:img.profile-image {:max-width    :50%
+                           :display      :inline
+                           :margin       (-px 1)
+                           :margin-top   (-px 5)
+                           :border       :inset
+                           :border-width (-px 1)}]
+      [:.profile-text {:float      :right
+                       :display    :inline
+                       :width      (calchelper :50% - (-px 20))
+                       :text-align :left
+                       :margin     (-px 5)}]
+      [:h1 :h2 {:text-align :justify}]
+      [:h3 :h4 :h5 :h6 {:text-align    :justify
+                        :border-bottom :solid
+                        :border-width  :1px
+                        :padding       :4px}]
+      [:.button-bar {:padding :5px}
+       [:button {:margin :4px}]]]]]
+   [:form
+    [:* {:padding :.5em}]
+    [:p
+     [:label {:width      :80px
+              :display    :inline-block
+              :text-align :right}]
+     [:.field {:width   (calchelper :100% - :80px - :10px - :2em - page-content-margin - page-content-margin)
+               :display :inline-block
+               :margin  (-px (/ 2 page-content-margin-scalar))
+               :align :center}
+      [:.dot-entry {:width (-em 2.5)}]
+      [:.dot-bar {:display :inline-block}]
+      [:.inactive-dot :.active-dot {:margin 0, :padding (-px 0)}]
+      [:.inactive-dot
+       [:&:before {:content "\"⚪\""}]]
+      [:.active-dot
+       [:&:before {:content "\"⚫\""}]]]
+     [:.read-only {:border           0,
+                   :background-color color-brightest}]
+     [:textarea {:height :3.2em}]]
+    [:.mini-label {:display :none}]
+    [:.dec-button {:display :inline-block}]
+    [:.first-of-three :.second-of-three :.third-of-three {:display :inline-block}]
+    [:.first-of-three :.second-of-three {:width (calchelper (-% 30) - :50px)}]
+    [:.third-of-three {:width (calchelper (-% 60) - :37px)}]]
+   [:form.mini-form {:width (calchelper (-% 100) - :25px)
+                     :display :inline-block}]])
+
+
+
+#_[:span.inactive-dot :span.active-dot
+   {:width         (-px 10)
+    :height        (-px 10)
+    ;:margin        (-px 1)
+    :margin        (-px 3)
+    :margin-top :auto
+    :margin-bottom :auto
+    :padding       (-px 0)
+    :border-radius (-px 20)
+    :border        :solid
+    :border-width  :1px
+    :display       :inline-block}
+   [:span.active-dot {:content          "1"
+                      :background-color :white}]
+   [:span.inactive-dot {:content          "0"
+                        :background-color :black}]]
+
+(def mobilestyle-old
   [[:* {:margin      0 :padding 0
         :font-family "Bellefair, sans-serif"
         :color       color-off-dark}]
@@ -69,20 +174,9 @@
            :background-position   "center"
            :background-repeat     "no-repeat"
            :background-attachment "fixed"
-           :background-size       "cover"}]
-   [:#titlebar {:background-color color-p-main
-                :color            color-off-bright
-                :padding          "0"
-                :margin           0
-                :text-align       "center"
-                :position         :fixed
-                :top              0
-                :width            :100%
-                :height           title-bar-height
-                :box-shadow       navshadow}
-    [:h1 {:color       "inherit"
-          :text-shadow (str "1px 1px 1px " (gc/as-hex color-p-light))}
-     [:* {:color "inherit"}]]]
+           :background-size       "cover"
+           :width                 :100%}]
+
    [:#menubar (-> {:position         :fixed
                    :z-index          100
                    :bottom           :-45px
@@ -112,11 +206,26 @@
            [:a {:color color-off-bright}]]
       [:ul [:li {:margin-top :-8px}
             [:a {:color color-brightest}]]]]]]
-   [:#data-view-body {:position :fixed
-                      :top      title-bar-height
-                      :width    :100%
-                      :height   (calchelper :100% - title-bar-height)
-                      :overflow :scroll}]
+   [:.page {:width :100%}
+    [:.page-title {:background-color color-p-main
+                   :color            color-off-bright
+                   :padding          "0"
+                   :margin           0
+                   :text-align       "center"
+                   :position         :fixed
+                   :top              0
+                   :width            :inherit
+                   :height           title-bar-height
+                   :box-shadow       navshadow}
+     [:h1 {;:color       "inherit"
+           :text-shadow (str "1px 1px 1px " (gc/as-hex color-p-light))}
+      [:* {:color "inherit"}]]]]
+
+   [:.page-content {:position :fixed
+                    :top      title-bar-height
+                    :width    :100%
+                    :height   (calchelper :100% - title-bar-height)
+                    :overflow :scroll}]
    [:.pagesection {:padding          "10px"
                    :margin           "20px"
                    :margin-right     :10px
@@ -134,13 +243,13 @@
                       :float      :right}]
     [:.char-banner-title {:float :left}]]
 
-   [:.field {:width :100%
+   [:.field {:width   :100%
              :padding :5px}
-    [:label {:width         :100px,
-             :display       :inline-block,
+    [:label {:width          :100px,
+             :display        :inline-block,
              :vertical-align :top
-             :text-align    :right,
-             :padding-right :5px}]
+             :text-align     :right,
+             :padding-right  :5px}]
     [:.entry {:min-width (calchelper :100% - :100px - :70px) ;:15px)
               :max-width (calchelper :100% - :70px)
               :height    :2em,
@@ -150,9 +259,9 @@
       [:li {:float      :left
             :text-align :center
             :height     :inherit}
-           [:* {:display :block
-                 :width   :20px
-                 :height  :100%}]]]
+       [:* {:display :block
+            :width   :20px
+            :height  :100%}]]]
 
 
      [:.spinner {:height  "inherit",

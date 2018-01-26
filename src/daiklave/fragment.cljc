@@ -30,5 +30,5 @@
                 (first path-elements)
                 path-elements))))
 
-(defn dep-parse-fragment [frag]
+(defn parse-fragment [frag]
   (r/read-string (u/url-decode frag)))

@@ -7,6 +7,7 @@
             [clojure.string :as str]
             [com.rpl.specter :as sp]
             [daiklave.page :as page]
+            [daiklave.elem-defs]
             [daiklave.form-and-page :as form-and-page]))
 
 (enable-console-print!)
@@ -33,6 +34,7 @@
    [:li [:h3 [:a "Dice Roller"]]]
    [:li [:h3 [:a "Settings"]]]])
 
+
 (rum/defc titlebar < rum/reactive
   []
   (let [current (rum/react daistate/current-view)
@@ -42,7 +44,7 @@
            (:name the-view)
            (str/capitalize (name (last current))))]))
 
-(rum/mount (form-and-page/page-from-path)
+(rum/mount (form-and-page/app-frame)
            (. js/document (getElementById "app")))
 
 (defn on-js-reload [])

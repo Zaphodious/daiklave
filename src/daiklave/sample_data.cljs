@@ -6,7 +6,8 @@
 
   {:home       {:app-home true
                 :name     "Anathema: Reincarnated"
-                :category :home}
+                :category :home
+                :img "https://i.imgur.com/5Hka26I.png"}
    :characters {"424242"    {:name                 "Rajmael",
                              :description          "The Starfire Wing Scholar"
                              :concept              "Sorcerer Philosopher King0"
