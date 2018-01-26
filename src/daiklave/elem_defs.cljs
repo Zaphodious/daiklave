@@ -5,7 +5,8 @@
             [daiklave.state :as daistate]
             [daiklave.data-help :as daihelp]
             [clojure.string :as str]
-            [clojure.tools.reader :as reader]))
+            [clojure.tools.reader :as reader]
+            [clojure.set :as set]))
 
 
 
@@ -21,8 +22,10 @@
 
 (defn standard-read-on-change-for
   [path readonly?]
-  (fn [a] (when (not readonly?)
-            (daistate/change-element! path (reader/read-string (daistate/get-change-value a))))))
+  (fn [a]
+    (println "changing to " (daistate/get-change-value a) " and readonly is " readonly?)
+    (when (not readonly?)
+          (daistate/change-element! path (reader/read-string (daistate/get-change-value a))))))
 
 (rum/defc dummy-of < rum/static
   [numbah]
@@ -53,6 +56,32 @@
     :value value}
    (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str key "-select-" n)} (make-pretty a)])
                 options)])
+
+#_(rum/defc fixed-set-view < rum/static
+    [section-name set-path the-set element-count options beauty-fn]
+    (let [options-set (set options)
+          the-sorted-vec (into []
+                               (sort the-set))
+          replace-fn! (fn [[i k]]
+                        (change-element! set-path (set (assoc the-sorted-vec i k))))
+          wrapped-beauty-fn (fn [[i k]]
+                              (beauty-fn k))])
+    [:.pagesection
+     [:h3 section-name]
+     (map-indexed (fn [i k]
+                    (dropdown-general
+                      [i k]
+                      {:key (str section-name "-selector-" i)}
+                      (into (sorted-set)
+                            (map (fn [a] [i a])
+                                 (conj (remove the-set options) k)))
+                      replace-fn!
+                      wrapped-beauty-fn
+                      (str section-name "-subelement-" i "-" k "-")))
+                  the-sorted-vec)])
+
+
+
 
 (rum/defc number-field < rum/static
   [{:keys [path value options key name read-only min max] :as fieldmap}]
@@ -103,6 +132,51 @@
              (make-pretty (:subtype view)))]]
    [:img.profile-image {:src (:img view)}]])
 
+#_(rum/defc fixed-set-selectors < rum/static
+    [{:keys [path value options key name read-only] :as fieldmap}]
+    (let [sorted-value (into [] (sort value))
+          value-set (set options)
+          replace-fn-for (fn [i]
+                           (fn [k] (daistate/change-element! path (set (assoc sorted-value i k)))))]
+      [:.set-selectors
+       (map-indexed (fn [n a]
+                      (println "element " a " of " sorted-value)
+                      [:select
+                       {:on-change (replace-fn-for n)
+                        :name name
+                        :key (str key "-selector-" a)
+                        :value a}
+                       (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str key "-select-" n)} (make-pretty a)])
+                                    options)])
+                                    ;(remove (set (remove #(= a %) sorted-value)) options))])
+                    sorted-value)]))
+
+(rum/defc fixed-seq-selectors < rum/static
+  [set-path the-seq options]
+  (let [options-set (set options)
+        seq-vec (into [] the-seq)
+        the-sorted-vec (into []
+                             (sort the-seq))]
+    [:.set-selectors
+     [:.button-bar [:button {:on-click (fn []
+                                         (println "changing " seq-vec " to " the-sorted-vec)
+                                         (daistate/change-element! set-path the-sorted-vec))} "sort"]]
+     (map-indexed (fn [i k]
+                    (println "path for " k " is " (conj set-path i))
+                    #_(fp/form-field-for
+                        {:field-type :select-single, :name (str "set-select-" i)}
+                        :value k, :key (str "castefield"), :path (conj set-path i)
+                                       :options options)
+                      [:select.set-selector
+                       {:value (pr-str k)
+                        :on-change (standard-read-on-change-for (conj set-path i) false)}
+                       (map-indexed
+                         (fn [n a] [:option {:value (pr-str a)} (make-pretty a)])
+                         (remove
+                           (set (remove #{k} the-seq))
+                           options))])
+                  seq-vec)]))
+
 (defmethod fp/page-for-viewmap :home
   [{:keys [path view] :as viewmap}]
   (fp/page-of "Anathema Home" "Exalted 3rd Ed"
@@ -140,7 +214,8 @@
                   {:field-type :select-single, :name "chartype", :label "Type", :value (:type view), :key (str "typefield"), :path (conj path :type), :options [:solar, :mortal], :read-only (not (= :mortal (:type view)))}
                   {:field-type :text, :name "charimg", :label "Image", :value (:img view), :key (str "imgfield"), :path (conj path :img)}
                   {:field-type :big-text, :name "charanima", :label "Anima", :value (:anima view), :key (str "animafield"), :path (conj path :anima), :read-only (= :mortal (:type view))}
-                  {:field-type :select-single, :name "charcaste", :label "Caste", :value (:caste view), :key (str "castefield"), :path (conj path :caste), :options [:dawn, :eclipse, :night, :twilight, :zenith]}])
+                  {:field-type :select-single, :name "charcaste", :label "Caste", :value (:subtype view), :key (str "castefield"), :path (conj path :subtype), :options [:dawn, :eclipse, :night, :twilight, :zenith]}
+                  {:field-type :select-single :name "charsupernal" :label "Supernal" :read-only (= :mortal (:type view)) :path (conj path :supernal), :value (:supernal view), :options (into [] (set/intersection (set (:favored-abilities view)) (get daihelp/caste-abilities (:subtype view))))}])
                (fp/form-of "Attributes"
                            "attributeinfo"
                            (map (fn [[k v]]
@@ -158,6 +233,13 @@
                                    :min 0 :max 5})
                                 (into (sorted-map)
                                   (:abilities view))))
+               (fp/section-of "Favored Abilities"
+                              "favoredabilities"
+                              ;[set-path the-set element-count options beauty-fn]
+                              (fixed-seq-selectors
+                                (conj path :favored-abilities)
+                                (:favored-abilities view)
+                                daihelp/ability-all-keys))
                (fp/soft-table-for "Intimacies"
                                   "intimacyinfo"
                                   (conj path :intimacies)

@@ -141,7 +141,9 @@
     [:.first-of-three :.second-of-three {:width (calchelper (-% 30) - :50px)}]
     [:.third-of-three {:width (calchelper (-% 60) - :37px)}]]
    [:form.mini-form {:width (calchelper (-% 100) - :25px)
-                     :display :inline-block}]])
+                     :display :inline-block}]
+   [:.set-selectors
+    [:.set-selector {:width (-% 100)}]]])
 
 
 

@@ -161,3 +161,7 @@ form.mini-form {
   width: calc(100.0%  -  25px);
   display: inline-block;
 }
+
+.set-selectors .set-selector {
+  width: 100.0%;
+}
