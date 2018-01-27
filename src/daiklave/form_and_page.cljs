@@ -44,8 +44,9 @@
    [:h3 form-title]
    [:form
     (map-indexed (fn [n a]
-                   [:p {:key (str  (pr-str @daistate/current-view) "-" n "- p")}
-                    [:label {:for (:key a)} (:label a)]
+                   [:p {:key (str  (pr-str (:path a)) "-" n "- p")}
+                    [:label {:for (pr-str (:path a))}
+                     (:label a)]
                     (form-field-for a)])
                  form-field-dec-vec)]])
 
@@ -96,7 +97,7 @@
   [form-name form-field-dec-vec]
   [:form.mini-form
    (map-indexed (fn [n a]
-                  (list [:label.mini-label {:for (:key a)}
+                  (list [:label.mini-label {:for (pr-str (:path a))}
                          (:label a)]
                         (form-field-for a)))
 

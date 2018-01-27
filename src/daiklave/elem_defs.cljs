@@ -33,45 +33,47 @@
    [:input {:type "text" :value (str numbah) :disabled true}]])
 
 (rum/defc text-field < rum/static
-  [{:keys [path value options key name read-only class]}]
-  [:input.field {:type      :text, :value value, :id key,
-                 :key key,
+  [{:keys [path value options read-only class]}]
+  [:input.field {:type      :text, :value value, :id (pr-str path)
+                 :key       (pr-str path)
                  :class     (str class " " (if read-only "read-only" ""))
                  :on-change (standard-on-change-for path read-only),
                  :readOnly  read-only}])
 
 (rum/defc text-area < rum/static
-  [{:keys [path value options key name read-only]}]
-  [:textarea.field {:id key, :key key, :value value
+  [{:keys [path value options read-only]}]
+  [:textarea.field {:id        (pr-str path)
+                    :key       (pr-str path)
+                    :value     value
                     :class     (if read-only "read-only" "")
                     :readOnly  read-only
                     :on-change (standard-on-change-for path read-only)}])
 
 (rum/defc single-dropdown < rum/static
-  [{:keys [path value options key name read-only] :as fieldmap}]
+  [{:keys [path value options read-only] :as fieldmap}]
   [:select.field
    {:on-change #(standard-read-on-change-for path read-only)
-    :id      key
+    :id        (pr-str path)
     :class     (if read-only "read-only" "")
     :disabled  read-only
     :value     value}
-   (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str key "-select-" n)} (make-pretty a)])
+   (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str (pr-str path) "-select-" n)} (make-pretty a)])
                 options)])
 
 (rum/defc number-field < rum/static
-  [{:keys [path value options key name read-only min max] :as fieldmap}]
+  [{:keys [path value options read-only min max] :as fieldmap}]
   [:input.field
    {:type      :number
-    :value     value :id key :key key
+    :value     value :id (pr-str path) :key (pr-str path)
     :min       min :max max
     :on-change (standard-on-change-for path read-only)}])
 
 (rum/defc dot-field < rum/static
-  [{:keys [path value options key name read-only min max] :as fieldmap}]
+  [{:keys [path value options read-only min max] :as fieldmap}]
   [:.field
    [:input.dot-entry
     {:type      :number
-     :value     value :id key :key key
+     :value     value :id (pr-str path) :key (pr-str path)
      :min       min :max max
      :on-change (standard-on-change-for path read-only)}]
    [:p.dot-bar
@@ -83,31 +85,31 @@
          (range 1 (inc max)))]])
 
 (rum/defc merit-possible-ranks-field < rum/static
-  [{:keys [path value] :as fieldmap}]
+  [{:keys [path value readonly] :as fieldmap}]
   [:.field
    (map-indexed (fn [n a]
                   [:span.rank-selection
-                   [:label.rank-label {:for (pr-str (conj path n))
+                   [:label.rank-label {:for   (pr-str (conj path n))
                                        :class (if (value a) "checked" "unchecked")}
-                                      (inc n)]
-                   [:input {:type :checkbox
-                            :key (pr-str (conj path n))
-                            :id (pr-str (conj path n))
-                            :checked (value a)
+                    (inc n)]
+                   [:input {:type      :checkbox
+                            :key       (pr-str (conj path n))
+                            :id        (pr-str (conj path n))
+                            :checked   (value a)
                             :on-change (fn [e]
                                          (daistate/change-element! path (if (value a)
                                                                           (set (remove #{a} value))
                                                                           (conj value a))))}]])
 
-             (range 1 6))])
+                (range 1 6))])
 
 (rum/defc checkbox-field
   [{:keys [path value] :as fieldmap}]
   [:input.field
-   {:type :checkbox
-    :id (pr-str path)
-    :key (pr-str path)
-    :checked value
+   {:type      :checkbox
+    :id        (pr-str path)
+    :key       (pr-str path)
+    :checked   value
     :on-change (fn [e]
                  (daistate/change-element! path (not value)))}])
 
@@ -215,20 +217,22 @@
 
 (defmethod fp/page-for-viewmap :chron
   [{:keys [path view] :as viewmap}]
-  (fp/page-of (:name view)
-              (:description view)
-              (:img view)
-              (into
-                [(fp/form-of
-                   "Core Info"
-                   "coreinfo"
-                   [{:field-type :text, :name "charname", :label "Name", :value (:name view), :key (str "namefield"), :path (conj path :name)}
-                    {:field-type :text, :name "chardesc", :label "Epithet", :value (:description view), :key (str "descfield"), :path (conj path :description)}
-                    {:field-type :text, :name "charimg", :label "Image", :value (:img view), :key (str "imgfield") :path (conj path :img)}])
-                 (section-link-of "Merits"
-                                  "merit-section-link"
-                                  (conj path :merits)
-                                  [:p "meritas"])])))
+  (fp/page-of
+    (:name view)
+    (:description view)
+    (:img view)
+    (into
+      [(fp/form-of
+         "Core Info"
+         "coreinfo"
+         [{:field-type :text, :label "Name", :value (:name view), :path (conj path :name)}
+          {:field-type :text, :label "Epithet", :value (:description view), :path (conj path :description)}
+          {:field-type :text, :label "Image", :value (:img view), :path (conj path :img)}])
+       (section-link-of
+         "Merits"
+         "merit-section-link"
+         (conj path :merits)
+         [:p "meritas"])])))
 
 
 
@@ -253,10 +257,10 @@
       (fp/form-of
         (:name a)
         (str (:name a) "-form")
-        [{:field-type :text, :name "meritname", :label "Name", :value (:name a), :key (pr-str (conj p :name)) :path (conj p :name)},
-         {:field-type :big-text, :name "meritdesc", :label "Description", :value (:description a), :key (pr-str (conj p :description)), :path (conj p :name)}
-         {:field-type :number, :name "meritpage", :label "Page", :value (:page a), :key (pr-str (conj p :page)), :path (conj p :page)}
-         {:field-type :select-single, :name "merittype", :label "Type", :value (:type a), :key (pr-str (conj p :type)), :path (conj p :type), :options [:story :purchased :innate]},
+        [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
+         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)}
+         {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
+         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate]},
          {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
          {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}]))))
 
@@ -269,28 +273,28 @@
               [(fp/form-of
                  "Core Info"
                  "coreinfo"
-                 [{:field-type :text, :name "charname", :label "Name", :value (:name view), :key (str "namefield"), :path (conj path :name)}
-                  {:field-type :text, :name "chardesc", :label "Epithet", :value (:description view), :key (str "descfield"), :path (conj path :description)}
-                  {:field-type :text, :name "playername", :label "Player", :value (:player view), :key (str "playerfield"), :path (conj path :player)}
-                  {:field-type :select-single, :name "chartype", :label "Type", :value (:type view), :key (str "typefield"), :path (conj path :type), :options [:solar, :mortal], :read-only (not (= :mortal (:type view)))}
-                  {:field-type :text, :name "charimg", :label "Image", :value (:img view), :key (str "imgfield"), :path (conj path :img)}
-                  {:field-type :big-text, :name "charanima", :label "Anima", :value (:anima view), :key (str "animafield"), :path (conj path :anima), :read-only (= :mortal (:type view))}
-                  {:field-type :select-single, :name "charcaste", :label "Caste", :value (:subtype view), :key (str "castefield"), :path (conj path :subtype), :options [:dawn, :eclipse, :night, :twilight, :zenith]}
-                  {:field-type :select-single :name "charsupernal" :label "Supernal" :read-only (= :mortal (:type view)) :path (conj path :supernal), :value (:supernal view), :options (into [] (set/intersection (set (:favored-abilities view)) (get daihelp/caste-abilities (:subtype view))))}])
+                 [{:field-type :text, :label "Name", :value (:name view), :path (conj path :name)}
+                  {:field-type :text, :label "Epithet", :value (:description view), :path (conj path :description)}
+                  {:field-type :text, :label "Player", :value (:player view), :path (conj path :player)}
+                  {:field-type :select-single, :label "Type", :value (:type view), :path (conj path :type), :options [:solar, :mortal], :read-only (not (= :mortal (:type view)))}
+                  {:field-type :text, :label "Image", :value (:img view), :path (conj path :img)}
+                  {:field-type :big-text, :label "Anima", :value (:anima view), :path (conj path :anima), :read-only (= :mortal (:type view))}
+                  {:field-type :select-single, :label "Caste", :value (:subtype view), :path (conj path :subtype), :options [:dawn, :eclipse, :night, :twilight, :zenith]}
+                  {:field-type :select-single :label "Supernal" :read-only (= :mortal (:type view)) :path (conj path :supernal), :value (:supernal view), :options (into [] (set/intersection (set (:favored-abilities view)) (get daihelp/caste-abilities (:subtype view))))}])
                (fp/form-of "Attributes"
                            "attributeinfo"
                            (map (fn [[k v]]
-                                  {:field-type :dots, :name (str k "-field")
+                                  {:field-type :dots,
                                    :label      (make-pretty k)
-                                   :value      v, :key (str k "-field"), :path (into path [:attributes k])
+                                   :value      v, :path (into path [:attributes k])
                                    :min        1 :max 5})
                                 (daihelp/sort-attribute-map (:attributes view))))
                (fp/form-of "Abilities"
                            "abilityinfo"
                            (map (fn [[k v]]
-                                  {:field-type :dots, :name (str k "-field"),
+                                  {:field-type :dots,
                                    :label      (make-pretty k)
-                                   :value      v, :key (str k "-field"), :path (into path [:abilities k])
+                                   :value      v, :path (into path [:abilities k])
                                    :min        0 :max 5})
                                 (into (sorted-map)
                                       (:abilities view))))
@@ -310,25 +314,19 @@
                                                  (fp/mini-form-of
                                                    (last a)
                                                    [{:field-type :select-single,
-                                                     :name       (str "intensity-field-" n)
                                                      :label      "Intensity"
                                                      :value      (first a)
-                                                     :key        (str "intensity-" n)
                                                      :path       (into path [:intimacies 0])
                                                      :options    [:defining, :major, :minor]
                                                      :class      "first-of-three"}
                                                     {:field-type :text,
-                                                     :name       (str "intimacy-type-field" n)
                                                      :value      (second a)
                                                      :label      "Type"
-                                                     :key        (str "intimacy-type-" n)
                                                      :path       (into path [:intimacies 1])
                                                      :class      "second-of-three"}
                                                     {:field-type :text,
-                                                     :name       (str "intimacy-desc-field" n)
                                                      :value      (last a)
                                                      :label      "Description"
-                                                     :key        (str "intimacy-desc-" n)
                                                      :path       (into path [:intimacies 2])
                                                      :class      "third-of-three"}]))
                                                (:intimacies view)))]))
