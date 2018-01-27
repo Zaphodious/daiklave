@@ -50,9 +50,11 @@
                     :on-change (standard-on-change-for path read-only)}])
 
 (rum/defc single-dropdown < rum/static
-  [{:keys [path value options read-only] :as fieldmap}]
+  [{:keys [path value options read-only special-change-fn] :as fieldmap}]
   [:select.field
-   {:on-change #(standard-read-on-change-for path read-only)
+   {:on-change (if special-change-fn
+                 special-change-fn
+                 #(standard-read-on-change-for path read-only))
     :id        (pr-str path)
     :class     (if read-only "read-only" "")
     :disabled  read-only
@@ -142,25 +144,6 @@
              (make-pretty (:subtype view)))]]
    [:img.profile-image {:src (:img view)}]])
 
-#_(rum/defc fixed-set-selectors < rum/static
-    [{:keys [path value options key name read-only] :as fieldmap}]
-    (let [sorted-value (into [] (sort value))
-          value-set (set options)
-          replace-fn-for (fn [i]
-                           (fn [k] (daistate/change-element! path (set (assoc sorted-value i k)))))]
-      [:.set-selectors
-       (map-indexed (fn [n a]
-                      (println "element " a " of " sorted-value)
-                      [:select
-                       {:on-change (replace-fn-for n)
-                        :name      name
-                        :key       (str key "-selector-" a)
-                        :value     a}
-                       (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str key "-select-" n)} (make-pretty a)])
-                                    options)])
-                    ;(remove (set (remove #(= a %) sorted-value)) options))])
-                    sorted-value)]))
-
 (rum/defc fixed-seq-selectors < rum/static
   [set-path the-seq options]
   (let [options-set (set options)
@@ -186,6 +169,36 @@
                          (set (remove #{k} the-seq))
                          options))])
                   seq-vec)]))
+
+(rum/defcs navlist < (rum/local false ::key) rum/static
+  [{local-atom ::key} {:keys [path options] :as fieldmap}]
+  (println "navilistor for " path " contains " options)
+  (let [should-drop @local-atom
+        path-points-to-option? ((set options) (last path))
+        current-element (if path-points-to-option? (last path) (first options))
+        base-path (vec (if path-points-to-option? (drop-last path) path))
+        toggle-button [:button
+                       {:on-click (fn [a] (swap! local-atom not))}
+                       (if should-drop "Hide Options" "Show Options")]]
+    (println "should drop is " should-drop)
+    [:.navlist-container
+     [:p.navlist-selected
+      {:focusable true}
+      (make-pretty current-element)]
+     toggle-button
+     [:ul.field.navlist
+      {:class (if should-drop
+                "shown"
+                "hidden")}
+      (map (fn [a] [:li [:a {:href  (daifrag/link-fragment-for (conj base-path a))
+                             :class (if (= a current-element) "selected" "")}
+                            (make-pretty a)]])
+           options)]
+     (when should-drop toggle-button)]))
+
+(rum/defc charm-selector < rum/static
+  [path]
+  (navlist {:path path, :options daihelp/ability-all-keys}))
 
 (rum/defc section-link-of < rum/build-defc
   [section-title section-name section-path extra-link-info]
@@ -232,7 +245,13 @@
          "Merits"
          "merit-section-link"
          (conj path :merits)
-         [:p "meritas"])])))
+         [:p "meritas"])
+       (section-link-of
+         "Charms"
+         "charm-section-link"
+         (conj path :charms)
+         [:p "charmers"])])))
+
 
 
 
@@ -240,30 +259,84 @@
   [{:keys [path view] :as viewmap}]
   ;[page-title page-subtitle page-img path elements new-element sort-fn form-fn]
   (fp/page-table-for
-    (:name view)
-    (:description view)
-    (:img view)
-    (conj path :merit-vec)
-    (:merit-vec view)
-    {:name          "Allies"
-     :description   "Allies, yo!"
-     :drawback      "Dey be people n shiii"
-     :page          158
-     :ranks         #{1 3 5}
-     :repurchasable true
-     :type          :story}
-    (fn [a b] (compare (:name a) (:name b)))
-    (fn [a p]
-      (fp/form-of
-        (:name a)
-        (str (:name a) "-form")
-        [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
-         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)}
-         {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
-         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate]},
-         {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
-         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}]))))
+    {:page-title    (:name view)
+     :page-subtitle (:description view)
+     :page-img      (:img view)
+     :path          (conj path :merit-vec)
+     :elements      (:merit-vec view)
+     :new-element   {:name          "Allies"
+                     :description   "Allies, yo!"
+                     :drawback      "Dey be people n shiii"
+                     :page          158
+                     :ranks         #{1 3 5}
+                     :repurchasable true
+                     :type          :story}
+     :sort-fn       (daihelp/map-compare-fn-for {:name 3})
+     :form-fn       (fn [a p]
+                      (fp/form-of
+                        (:name a)
+                        (str (:name a) "-form")
+                        [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
+                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)}
+                         {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
+                         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate]},
+                         {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
+                         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}]))}))
 
+(rum/defc charm-page < rum/static
+  [{:keys [path view] :as viewmap}]
+  (let [charm-focus (if ((set daihelp/ability-all-keys) (last path))
+                      (last path)
+                      (first daihelp/ability-all-keys))
+        base-path (if (= (last path) :charms)
+                    path
+                    (drop-last path))
+        base-view (:view (daistate/fetch-view-for base-path))]
+    (println "base-patho is " base-path)
+    (println "base-view is " base-view)
+    (fp/page-table-for
+      {:page-title      (:name base-view)
+       :page-subtitle   (:description base-view)
+       :page-img        (:img base-view)
+       :path            path
+       :elements        (get base-view (last path))
+       :selector-title  "Which Ability"
+       :selector-widget (charm-selector path)
+       :new-element     {:name          "Wise Arrow"
+                         :cost          "1m"
+                         :min-essence 1
+                         :min-ability 2
+                         :category      :charm
+                         :ability       charm-focus
+                         :page          255
+                         :keywords      ""
+                         :type          :supplemental
+                         :duration      "Instant"
+                         :prereq-charms "None"
+                         :description   "Fire an arrow which knows which way is up"}
+       :sort-fn         (daihelp/map-compare-fn-for {:page 5, :min-essence 3, :min-ability 1})
+       :form-fn         (fn [a p]
+                          (fp/form-of
+                            (:name a)
+                            (str (:name a) "-form")
+                            [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
+                             {:field-type :text, :label "Cost", :value (:cost a), :path (conj p :cost)},
+                             {:field-type :select-single, :label "Ability", :value (:ability a), :path (conj p :ability), :options daihelp/ability-all-keys, :read-only true},
+                             {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
+                             {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a ), :path (conj p :min-ability), :min 1, :max 5,}
+                             {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)},
+                             {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
+                             {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
+                             {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywrods)}
+                             {:field-type :text, :label "Duration", :value (:duration a), :path (conj p :duration)}
+                             {:field-type :text, :label "Prereq Charms", :value (:prereq-charms a), :path (conj p :prereq-charms)}]))})))
+
+
+
+
+(defmethod fp/page-for-viewmap :charms
+  [viewmap]
+  (charm-page viewmap))
 
 (defmethod fp/page-for-viewmap :character
   [{:keys [path view] :as viewmap}]

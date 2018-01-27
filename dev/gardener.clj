@@ -78,7 +78,13 @@
 (def standard-field-width (calchelper :100% - :80px - :10px - :2em - page-content-margin - page-content-margin))
 
 (def mobilestyle
-  [[:&:focus {:outline-style  :solid
+  [[:.helper-dl-link {:position :absolute
+                      :top :8px
+                      :left :10px
+                      :color color-brightest
+                      :border :solid
+                      :border-width :1px}]
+   [:&:focus {:outline-style  :solid
               :outline-width  :1px
               :outline-color  (assoc (gc/as-rgb color-p-lighter) :alpha 0.5)
               :outline-offset :0px
@@ -181,7 +187,12 @@
                         :color            color-brightest
                         :text-shadow      title-text-shadow}]
       [:.button-bar {:padding :5px}
-       [:button {:margin :4px}]]]]]
+       [:button {:margin :4px}]]
+      [:.navlist-container
+       [:.navlist-selected {:tab-index 1}]
+       [:ul.field.navlist.hidden {:display :none}]
+       [:ul.field.navlist.shown {:display :block}]]]]]
+
    [:form
     [:* {:padding :.5em}]
     [:p

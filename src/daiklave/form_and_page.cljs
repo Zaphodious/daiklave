@@ -1,9 +1,13 @@
 (ns daiklave.form-and-page
   (:require [rum.core :as rum]
-            [daiklave.state :as daistate]))
+            [daiklave.state :as daistate]
+            [cemerick.url :as url]))
 
 
 (defmulti page-for-viewmap (fn [a] (-> a :view :category)))
+(defmethod page-for-viewmap nil
+  [{:keys [path view] :as viewmap}]
+  (page-for-viewmap (assoc (daistate/fetch-view-for (vec (drop-last path))) :path path)))
 
 (defmulti form-field-for :field-type)
 ; request map {:element n :fieldtype m :path p}
@@ -24,6 +28,10 @@
                              [[]]
                              patho)]
     [:#app-frame
+     [:a.helper-dl-link {:href (str "data:text/plain;charset=utf-8,"
+                                    (url/url-encode (prn-str (-> @daistate/app-state :chrons (get "0")))))
+                         :download "Anathema_Data.edn"}
+      "Download Exalted Core for Alex"]
      (page-for-viewmap viewmap)]))
 
 
@@ -68,11 +76,11 @@
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]))
 ;[page-title page-subtitle page-img page-section-seq]
 (rum/defc page-table-for < rum/static
-  [page-title page-subtitle page-img path elements new-element sort-fn form-fn]
+  [{:keys [page-title page-subtitle page-img path elements new-element sort-fn form-fn selector-widget selector-title]}]
   (let [now-state (vec elements)
         neg-fn-make (fn [n] (fn [] (daistate/change-element! path (daiklave.seq/remove-nth now-state n))))
         add-fn (fn [] (daistate/change-element! path #(conj % new-element)))
-        sort-button-fn (fn [] (daistate/change-element! path #(sort sort-fn %)))]
+        sort-button-fn (fn [] (daistate/change-element! path #(into [] (sort sort-fn %))))]
     ;(println "now-state " (pr-str now-state))
     [:.page
      [:h1.page-title page-title]
@@ -80,6 +88,10 @@
       [:.page-section
        [:h2.page-subtitle page-subtitle]
        [:img.banner-image {:src page-img}]]
+      (when selector-widget
+        [:.page-section
+         [:h3 selector-title]
+         selector-widget])
       [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
       (map-indexed (fn [n a]
                      (list

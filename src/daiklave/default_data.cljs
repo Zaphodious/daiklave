@@ -41,10 +41,12 @@
             :img "https://i.imgur.com/Xo9GgHm.png"
             :archery [{:name "Wise Arrow"
                        :cost "1m"
-                       :mins [1 2]
+                       :min-essence 1
+                       :min-ability 2
                        :category :charm
                        :ability :archery
-                       :keywords ""
+                       :page 255
+                       :keywords "Uniform"
                        :type :supplemental
                        :duration "Instant"
                        :prereq-charms "None"

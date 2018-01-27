@@ -35,3 +35,11 @@
              ability-keys)))
 (def inflate-ability-map (memoize inflate-ability-map-imp))
 
+(defn map-compare-fn-for
+  [magnitude-map]
+  (fn [a b]
+    (reduce +
+            (map
+              (fn [[k v]]
+                (* v (compare (k a) (k b))))
+              magnitude-map))))
