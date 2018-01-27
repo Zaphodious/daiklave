@@ -3,7 +3,7 @@
             [daiklave.state :as daistate]))
 
 
-(defmulti page-for-viewmap :category)
+(defmulti page-for-viewmap (fn [a] (-> a :view :category)))
 
 (defmulti form-field-for :field-type)
 ; request map {:element n :fieldtype m :path p}
@@ -44,8 +44,8 @@
    [:h3 form-title]
    [:form
     (map-indexed (fn [n a]
-                   [:p {:key (str form-name "-" n "- p")}
-                    [:label {:for (:name a)} (:label a)]
+                   [:p {:key (str  (pr-str @daistate/current-view) "-" n "- p")}
+                    [:label {:for (:key a)} (:label a)]
                     (form-field-for a)])
                  form-field-dec-vec)]])
 
@@ -65,12 +65,38 @@
                      a])
                   mini-forms)
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]))
+;[page-title page-subtitle page-img page-section-seq]
+(rum/defc page-table-for < rum/static
+  [page-title page-subtitle page-img path elements new-element sort-fn form-fn]
+  (let [now-state (vec elements)
+        neg-fn-make (fn [n] (fn [] (daistate/change-element! path (daiklave.seq/remove-nth now-state n))))
+        add-fn (fn [] (daistate/change-element! path #(conj % new-element)))
+        sort-button-fn (fn [] (daistate/change-element! path #(sort sort-fn %)))]
+    ;(println "now-state " (pr-str now-state))
+    [:.page
+     [:h1.page-title page-title]
+     [:.page-content
+      [:.page-section
+       [:h2.page-subtitle page-subtitle]
+       [:img.banner-image {:src page-img}]]
+      [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
+      (map-indexed (fn [n a]
+                     (list
+                       [:.element-button-bar
+                        [:button.subtract-button
+                         {:on-click (neg-fn-make n)
+                          :key (pr-str path)}
+                         "remove"]]
+                       (form-fn a (conj path n))))
+
+                   now-state)
+      [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]]))
 
 (rum/defc mini-form-of < rum/static
   [form-name form-field-dec-vec]
   [:form.mini-form
    (map-indexed (fn [n a]
-                  (list [:label.mini-label {:for (:name a)}
+                  (list [:label.mini-label {:for (:key a)}
                          (:label a)]
                         (form-field-for a)))
 

@@ -5,7 +5,8 @@
             [garden.color :as gc]
             [garden.arithmetic :as ga]
             [garden.selectors :as gs]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clojure.set :as set]))
 
 (gd/defcssfn url)
 (gd/defcssfn blur)
@@ -48,7 +49,9 @@
 
 (def color-p-main (gc/hex->rgb "#795548"))
 (def color-p-light (gc/hex->rgb "#a98274"))
+(def color-p-lighter (gc/lighten color-p-light 10))
 (def color-p-dark (gc/hex->rgb "#4b2c20"))
+(def color-p-darker (gc/darken color-p-dark 0.5))
 (def color-brightest (gc/from-name :white))
 (def color-off-bright (gc/hex->rgb "#e0e0e0"))
 (def color-darkest (gc/from-name :black))
@@ -64,15 +67,61 @@
 (def title-bar-height "3em")
 (def navshadow "0 0 15px black")
 (def elementshadow "0 0 5px grey")
+(def buttonshadow (str "0 1px 2px" (gc/as-hex color-p-dark)))
+(def focusshadow (str "0 3px 10px" (gc/as-hex color-p-dark)))
+(def focusshadowtext (str "0 5px 10px" (gc/as-hex color-p-dark)))
+
+(def title-text-shadow (str "0 0 6px" (gc/as-hex color-p-dark)))
 
 (def page-content-margin-scalar 7)
 (def page-content-margin (keyword (str page-content-margin-scalar "px")))
 (def standard-field-width (calchelper :100% - :80px - :10px - :2em - page-content-margin - page-content-margin))
 
 (def mobilestyle
-  [[:* {:margin      0
+  [[:&:focus {:outline-style  :solid
+              :outline-width  :1px
+              :outline-color  (assoc (gc/as-rgb color-p-lighter) :alpha 0.5)
+              :outline-offset :0px
+              :outline-radius :5px
+              :box-shadow     focusshadow
+              :z-index        100}]
+
+   [:* {:margin      0
         :font-family "Bellefair, sans-serif"
         :color       color-off-dark}]
+   [:button {:background-color color-brightest
+             :border-style     :solid
+             :border-width     :1px
+             :border-color     :none
+             :box-shadow       buttonshadow
+             :text-shadow      (str "0 0 6px" (gc/as-hex color-p-light))
+             ;:border-radius (-px 5)
+             :color            color-darkest
+             :margin-right     :2px
+             :margin-left      :2px}]
+
+   ;:border-radius (-px 5)}]
+   [:input :select :textarea {:background-color color-brightest
+                              :border-bottom    :solid
+                              :border-width     :1px
+                              :border-color     :grey
+                              :border-left      :none
+                              :border-right     :none
+                              :border-top       :none
+                              :height           (-% 75)
+                              :margin-bottom    (-px 3)
+                              :margin-left      (-px 5)
+                              :padding-right    0}
+    ;:margin-left (-px 3)}
+    [:&:focus {:outline       :none
+               :box-shadow    :none
+               :border-width  :3px
+               :margin-bottom (-px 1)}]]
+   ;:box-shadow   focusshadowtext}]]
+   ;:border-width :3px}]]
+   ;:border-radius (-px 5)}]
+   ["input[type=checkbox]" {:height :20px
+                            :width :20px}]
    [:body {:background-color color-off-bright
            :height           :100%}]
    [:#app-frame {:width  :100%
@@ -82,12 +131,22 @@
     [:h1.page-title {:width            :100%
                      :background-color color-p-main
                      :color            color-off-bright
+                     :text-shadow      title-text-shadow
                      :text-align       :center
-                     :box-shadow       elementshadow}]
+                     :font-weight      :bolder
+                     :box-shadow       elementshadow
+                     :z-index          10}]
     [:.page-content {:height   (calchelper :100vh - title-bar-height)
                      :overflow :scroll}
+     [:.element-button-bar {:background-color :transparent
+                            :margin           (-px (* page-content-margin-scalar 2))
+                            :margin-bottom    (-px (- (* -1 page-content-margin-scalar 6.6) 1))
+                            ;:box-shadow       elementshadow
+                            :text-align       :right
+                            :padding          (-px 7)}]
+
      [:.page-section {:background-color color-brightest
-                      :margin           (calchelper page-content-margin * 2)
+                      :margin           (-px (* page-content-margin-scalar 2))
                       :box-shadow       elementshadow
                       :padding          :10px}
       [:img {:max-width :100%}]
@@ -109,22 +168,31 @@
                        :text-align :left
                        :margin     (-px 5)}]
       [:h1 :h2 {:text-align :justify}]
-      [:h3 :h4 :h5 :h6 {:text-align    :justify
-                        :border-bottom :solid
-                        :border-width  :1px
-                        :padding       :4px}]
+      [:h3 :h4 :h5 :h6 {:text-align       :justify
+                        :border-bottom    :solid
+                        :border-width     :1px
+                        :padding          :4px
+                        :padding-left     :15px
+                        :padding-top      :7px
+                        :margin-top       :-10px
+                        :margin-left      :-10px
+                        :margin-right     :-10px
+                        :background-color color-p-main
+                        :color            color-brightest
+                        :text-shadow      title-text-shadow}]
       [:.button-bar {:padding :5px}
        [:button {:margin :4px}]]]]]
    [:form
     [:* {:padding :.5em}]
     [:p
-     [:label {:width      :80px
+     [:label {:width      (calchelper :30% - :10px)
+              :height (-% 100)
               :display    :inline-block
               :text-align :right}]
-     [:.field {:width   (calchelper :100% - :80px - :10px - :2em - page-content-margin - page-content-margin)
+     [:.field {:width   (calchelper :100% - :30% + :10px - :10px - :2em - page-content-margin - page-content-margin)
                :display :inline-block
-               :margin  (-px (/ 2 page-content-margin-scalar))
-               :align :center}
+               ;:margin  (-px (/ 2 page-content-margin-scalar))
+               :align   :center}
       [:.dot-entry {:width (-em 2.5)}]
       [:.dot-bar {:display :inline-block}]
       [:.inactive-dot :.active-dot {:margin 0, :padding (-px 0)}]
@@ -138,12 +206,30 @@
     [:.mini-label {:display :none}]
     [:.dec-button {:display :inline-block}]
     [:.first-of-three :.second-of-three :.third-of-three {:display :inline-block}]
-    [:.first-of-three :.second-of-three {:width (calchelper (-% 30) - :50px)}]
+    [:.first-of-three :.second-of-three {:width (calchelper (-% 26) - :50px)}]
     [:.third-of-three {:width (calchelper (-% 60) - :37px)}]]
-   [:form.mini-form {:width (calchelper (-% 100) - :25px)
+   [:form.mini-form {:width   (calchelper (-% 100) - :25px)
                      :display :inline-block}]
    [:.set-selectors
-    [:.set-selector {:width (-% 100)}]]])
+    [:.set-selector {:width (-% 100)}]]
+   [:span.rank-selection {:width   :2em
+                          :padding 0
+                          :margin  0
+                          :display :inline-block}
+    [:input {:display :inline-block
+             :margin 0
+             :opacity 0
+             :margin-left :-12px}]
+    [:label {:width   :10px
+             :height :10px
+             :padding :5px
+             :padding-bottom :12px
+             :text-align :center
+             :display :inline-block
+             :border-radius :10px}]
+    [:.checked {:border :solid
+                :border-width :1px}]]])
+
 
 
 
@@ -152,7 +238,7 @@
     :height        (-px 10)
     ;:margin        (-px 1)
     :margin        (-px 3)
-    :margin-top :auto
+    :margin-top    :auto
     :margin-bottom :auto
     :padding       (-px 0)
     :border-radius (-px 20)

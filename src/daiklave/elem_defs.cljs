@@ -25,7 +25,7 @@
   (fn [a]
     (println "changing to " (daistate/get-change-value a) " and readonly is " readonly?)
     (when (not readonly?)
-          (daistate/change-element! path (reader/read-string (daistate/get-change-value a))))))
+      (daistate/change-element! path (reader/read-string (daistate/get-change-value a))))))
 
 (rum/defc dummy-of < rum/static
   [numbah]
@@ -34,78 +34,82 @@
 
 (rum/defc text-field < rum/static
   [{:keys [path value options key name read-only class]}]
-  [:input.field {:type      :text, :value value, :name name, :key key,
+  [:input.field {:type      :text, :value value, :id key,
+                 :key key,
                  :class     (str class " " (if read-only "read-only" ""))
                  :on-change (standard-on-change-for path read-only),
                  :readOnly  read-only}])
 
 (rum/defc text-area < rum/static
   [{:keys [path value options key name read-only]}]
-  [:textarea.field {:name      name, :key key, :value value
-                    :class (if read-only "read-only" "")
-                    :readOnly read-only
+  [:textarea.field {:id key, :key key, :value value
+                    :class     (if read-only "read-only" "")
+                    :readOnly  read-only
                     :on-change (standard-on-change-for path read-only)}])
 
 (rum/defc single-dropdown < rum/static
   [{:keys [path value options key name read-only] :as fieldmap}]
   [:select.field
    {:on-change #(standard-read-on-change-for path read-only)
-    :name name
-    :class (if read-only "read-only" "")
-    :disabled read-only
-    :value value}
+    :id      key
+    :class     (if read-only "read-only" "")
+    :disabled  read-only
+    :value     value}
    (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str key "-select-" n)} (make-pretty a)])
                 options)])
-
-#_(rum/defc fixed-set-view < rum/static
-    [section-name set-path the-set element-count options beauty-fn]
-    (let [options-set (set options)
-          the-sorted-vec (into []
-                               (sort the-set))
-          replace-fn! (fn [[i k]]
-                        (change-element! set-path (set (assoc the-sorted-vec i k))))
-          wrapped-beauty-fn (fn [[i k]]
-                              (beauty-fn k))])
-    [:.pagesection
-     [:h3 section-name]
-     (map-indexed (fn [i k]
-                    (dropdown-general
-                      [i k]
-                      {:key (str section-name "-selector-" i)}
-                      (into (sorted-set)
-                            (map (fn [a] [i a])
-                                 (conj (remove the-set options) k)))
-                      replace-fn!
-                      wrapped-beauty-fn
-                      (str section-name "-subelement-" i "-" k "-")))
-                  the-sorted-vec)])
-
-
-
 
 (rum/defc number-field < rum/static
   [{:keys [path value options key name read-only min max] :as fieldmap}]
   [:input.field
-   {:type :number
-    :value value :name name :key key
-    :min min :max max
+   {:type      :number
+    :value     value :id key :key key
+    :min       min :max max
     :on-change (standard-on-change-for path read-only)}])
 
 (rum/defc dot-field < rum/static
   [{:keys [path value options key name read-only min max] :as fieldmap}]
   [:.field
    [:input.dot-entry
-    {:type :number
-     :value value :name name :key key
-     :min min :max max
+    {:type      :number
+     :value     value :id key :key key
+     :min       min :max max
      :on-change (standard-on-change-for path read-only)}]
    [:p.dot-bar
     (map (fn [a] (if (or (< (dec a) value) (= value 0))
-                    [:span.active-dot {:key      (str "dot-active " a)
-                                       :on-click #(daistate/change-element! path a)}]
-                    [:span.inactive-dot {:key      (str "dot-inactive " a)
-                                         :on-click #(daistate/change-element! path a)}]))
-        (range 1 (inc max)))]])
+                   [:span.active-dot {:key      (str "dot-active " a)
+                                      :on-click #(daistate/change-element! path a)}]
+                   [:span.inactive-dot {:key      (str "dot-inactive " a)
+                                        :on-click #(daistate/change-element! path a)}]))
+         (range 1 (inc max)))]])
+
+(rum/defc merit-possible-ranks-field < rum/static
+  [{:keys [path value] :as fieldmap}]
+  [:.field
+   (map-indexed (fn [n a]
+                  [:span.rank-selection
+                   [:label.rank-label {:for (pr-str (conj path n))
+                                       :class (if (value a) "checked" "unchecked")}
+                                      (inc n)]
+                   [:input {:type :checkbox
+                            :key (pr-str (conj path n))
+                            :id (pr-str (conj path n))
+                            :checked (value a)
+                            :on-change (fn [e]
+                                         (daistate/change-element! path (if (value a)
+                                                                          (set (remove #{a} value))
+                                                                          (conj value a))))}]])
+
+             (range 1 6))])
+
+(rum/defc checkbox-field
+  [{:keys [path value] :as fieldmap}]
+  [:input.field
+   {:type :checkbox
+    :id (pr-str path)
+    :key (pr-str path)
+    :checked value
+    :on-change (fn [e]
+                 (daistate/change-element! path (not value)))}])
 
 (defmethod fp/form-field-for :dummy
   [{:keys [path value]}]
@@ -120,6 +124,10 @@
   [n] (number-field n))
 (defmethod fp/form-field-for :dots
   [n] (dot-field n))
+(defmethod fp/form-field-for :merit-possible-ranks
+  [n] (merit-possible-ranks-field n))
+(defmethod fp/form-field-for :boolean
+  [n] (checkbox-field n))
 
 (rum/defc content-link-section < rum/static
   [{:keys [view path] :as viewmap}]
@@ -143,12 +151,12 @@
                       (println "element " a " of " sorted-value)
                       [:select
                        {:on-change (replace-fn-for n)
-                        :name name
-                        :key (str key "-selector-" a)
-                        :value a}
+                        :name      name
+                        :key       (str key "-selector-" a)
+                        :value     a}
                        (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str key "-select-" n)} (make-pretty a)])
                                     options)])
-                                    ;(remove (set (remove #(= a %) sorted-value)) options))])
+                    ;(remove (set (remove #(= a %) sorted-value)) options))])
                     sorted-value)]))
 
 (rum/defc fixed-seq-selectors < rum/static
@@ -166,16 +174,21 @@
                     #_(fp/form-field-for
                         {:field-type :select-single, :name (str "set-select-" i)}
                         :value k, :key (str "castefield"), :path (conj set-path i)
-                                       :options options)
-                      [:select.set-selector
-                       {:value (pr-str k)
-                        :on-change (standard-read-on-change-for (conj set-path i) false)}
-                       (map-indexed
-                         (fn [n a] [:option {:value (pr-str a)} (make-pretty a)])
-                         (remove
-                           (set (remove #{k} the-seq))
-                           options))])
+                        :options options)
+                    [:select.set-selector
+                     {:value     (pr-str k)
+                      :on-change (standard-read-on-change-for (conj set-path i) false)}
+                     (map-indexed
+                       (fn [n a] [:option {:value (pr-str a)} (make-pretty a)])
+                       (remove
+                         (set (remove #{k} the-seq))
+                         options))])
                   seq-vec)]))
+
+(rum/defc section-link-of < rum/build-defc
+  [section-title section-name section-path extra-link-info]
+  [:a {:href (daifrag/link-fragment-for section-path)}
+   (fp/section-of section-title section-name extra-link-info)])
 
 (defmethod fp/page-for-viewmap :home
   [{:keys [path view] :as viewmap}]
@@ -200,6 +213,54 @@
                                     a)))
                      (into [])))))
 
+(defmethod fp/page-for-viewmap :chron
+  [{:keys [path view] :as viewmap}]
+  (fp/page-of (:name view)
+              (:description view)
+              (:img view)
+              (into
+                [(fp/form-of
+                   "Core Info"
+                   "coreinfo"
+                   [{:field-type :text, :name "charname", :label "Name", :value (:name view), :key (str "namefield"), :path (conj path :name)}
+                    {:field-type :text, :name "chardesc", :label "Epithet", :value (:description view), :key (str "descfield"), :path (conj path :description)}
+                    {:field-type :text, :name "charimg", :label "Image", :value (:img view), :key (str "imgfield") :path (conj path :img)}])
+                 (section-link-of "Merits"
+                                  "merit-section-link"
+                                  (conj path :merits)
+                                  [:p "meritas"])])))
+
+
+
+(defmethod fp/page-for-viewmap :merits
+  [{:keys [path view] :as viewmap}]
+  ;[page-title page-subtitle page-img path elements new-element sort-fn form-fn]
+  (fp/page-table-for
+    (:name view)
+    (:description view)
+    (:img view)
+    (conj path :merit-vec)
+    (:merit-vec view)
+    {:name          "Allies"
+     :description   "Allies, yo!"
+     :drawback      "Dey be people n shiii"
+     :page          158
+     :ranks         #{1 3 5}
+     :repurchasable true
+     :type          :story}
+    (fn [a b] (compare (:name a) (:name b)))
+    (fn [a p]
+      (fp/form-of
+        (:name a)
+        (str (:name a) "-form")
+        [{:field-type :text, :name "meritname", :label "Name", :value (:name a), :key (pr-str (conj p :name)) :path (conj p :name)},
+         {:field-type :big-text, :name "meritdesc", :label "Description", :value (:description a), :key (pr-str (conj p :description)), :path (conj p :name)}
+         {:field-type :number, :name "meritpage", :label "Page", :value (:page a), :key (pr-str (conj p :page)), :path (conj p :page)}
+         {:field-type :select-single, :name "merittype", :label "Type", :value (:type a), :key (pr-str (conj p :type)), :path (conj p :type), :options [:story :purchased :innate]},
+         {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
+         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}]))))
+
+
 (defmethod fp/page-for-viewmap :character
   [{:keys [path view] :as viewmap}]
   (fp/page-of (:name view)
@@ -220,19 +281,19 @@
                            "attributeinfo"
                            (map (fn [[k v]]
                                   {:field-type :dots, :name (str k "-field")
-                                   :label (make-pretty k)
-                                   :value v, :key (str k "-field"), :path (into path [:attributes k])
-                                   :min 1 :max 5})
+                                   :label      (make-pretty k)
+                                   :value      v, :key (str k "-field"), :path (into path [:attributes k])
+                                   :min        1 :max 5})
                                 (daihelp/sort-attribute-map (:attributes view))))
                (fp/form-of "Abilities"
                            "abilityinfo"
                            (map (fn [[k v]]
                                   {:field-type :dots, :name (str k "-field"),
-                                   :label (make-pretty k)
-                                   :value v, :key (str k "-field"), :path (into path [:abilities k])
-                                   :min 0 :max 5})
+                                   :label      (make-pretty k)
+                                   :value      v, :key (str k "-field"), :path (into path [:abilities k])
+                                   :min        0 :max 5})
                                 (into (sorted-map)
-                                  (:abilities view))))
+                                      (:abilities view))))
                (fp/section-of "Favored Abilities"
                               "favoredabilities"
                               ;[set-path the-set element-count options beauty-fn]
@@ -249,27 +310,27 @@
                                                  (fp/mini-form-of
                                                    (last a)
                                                    [{:field-type :select-single,
-                                                     :name (str "intensity-field-" n)
-                                                     :label "Intensity"
-                                                     :value (first a)
-                                                     :key (str "intensity-" n)
-                                                     :path (into path [:intimacies 0])
-                                                     :options [:defining,:major,:minor]
-                                                     :class "first-of-three"}
+                                                     :name       (str "intensity-field-" n)
+                                                     :label      "Intensity"
+                                                     :value      (first a)
+                                                     :key        (str "intensity-" n)
+                                                     :path       (into path [:intimacies 0])
+                                                     :options    [:defining, :major, :minor]
+                                                     :class      "first-of-three"}
                                                     {:field-type :text,
-                                                     :name (str "intimacy-type-field" n)
-                                                     :value (second a)
-                                                     :label "Type"
-                                                     :key (str "intimacy-type-" n)
-                                                     :path (into path [:intimacies 1])
-                                                     :class "second-of-three"}
+                                                     :name       (str "intimacy-type-field" n)
+                                                     :value      (second a)
+                                                     :label      "Type"
+                                                     :key        (str "intimacy-type-" n)
+                                                     :path       (into path [:intimacies 1])
+                                                     :class      "second-of-three"}
                                                     {:field-type :text,
-                                                     :name (str "intimacy-desc-field" n)
-                                                     :value (last a)
-                                                     :label "Description"
-                                                     :key (str "intimacy-desc-" n)
-                                                     :path (into path [:intimacies 2])
-                                                     :class "third-of-three"}]))
+                                                     :name       (str "intimacy-desc-field" n)
+                                                     :value      (last a)
+                                                     :label      "Description"
+                                                     :key        (str "intimacy-desc-" n)
+                                                     :path       (into path [:intimacies 2])
+                                                     :class      "third-of-three"}]))
                                                (:intimacies view)))]))
 
 ;[path value options key name]

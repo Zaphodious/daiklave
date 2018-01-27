@@ -58,11 +58,11 @@
          pathvec (apply sp/keypath sanifrag)
          the-view (unwrap-if-singular (sp/select pathvec state))]
      {:path     sanifrag
-      :view     the-view
-      :category (:category the-view)})))
+      :view     the-view})))
 
 (defn change-element!
   [element-path change-val]
+  (println "you gotsa " element-path ", and you gotsa " change-val)
   (let [change-fn (if (fn? change-val)
                     change-val
                     (fn [a] change-val))]
