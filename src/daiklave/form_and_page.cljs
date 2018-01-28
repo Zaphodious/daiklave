@@ -61,8 +61,8 @@
 (rum/defc soft-table-for < rum/static
   [form-title form-name path new-element sort-fn mini-forms]
   (let [neg-fn-make (fn [n] (fn [] (daistate/change-element! path #(daiklave.seq/remove-nth % n))))
-        add-fn (fn [] (daistate/change-element! path #(conj % new-element)))
-        sort-button-fn (fn [] (daistate/change-element! path #(sort sort-fn %)))]
+        add-fn (fn [] (daistate/change-element! path #(vec (conj % new-element))))
+        sort-button-fn (fn [] (daistate/change-element! path #(vec (sort sort-fn %))))]
     [:.page-section
      [:h3 form-title]
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]

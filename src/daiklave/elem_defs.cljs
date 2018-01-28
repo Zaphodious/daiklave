@@ -378,6 +378,26 @@
                                 (conj path :favored-abilities)
                                 (:favored-abilities view)
                                 daihelp/ability-all-keys))
+               (fp/soft-table-for "Specialties"
+                                  "specialtyinfo"
+                                  (conj path :specialties)
+                                  [(:supernal view) "Doing Awesome Things"]
+                                  compare
+                                  (map-indexed (fn [n a]
+                                                 (fp/mini-form-of
+                                                   (last a)
+                                                   [{:field-type :select-single,
+                                                     :label      "Ability"
+                                                     :value      (first a)
+                                                     :path       (into path [:specialties n 0])
+                                                     :options    daihelp/ability-all-keys
+                                                     :class      "first-of-three"}
+                                                    {:field-type :text,
+                                                     :value      (second a)
+                                                     :label      "Description"
+                                                     :path       (into path [:specialties n 1])
+                                                     :class      "third-of-three"}]))
+                                               (:specialties view)))
                (fp/soft-table-for "Intimacies"
                                   "intimacyinfo"
                                   (conj path :intimacies)
@@ -389,18 +409,18 @@
                                                    [{:field-type :select-single,
                                                      :label      "Intensity"
                                                      :value      (first a)
-                                                     :path       (into path [:intimacies 0])
+                                                     :path       (into path [:intimacies n 0])
                                                      :options    [:defining, :major, :minor]
                                                      :class      "first-of-three"}
                                                     {:field-type :text,
                                                      :value      (second a)
                                                      :label      "Type"
-                                                     :path       (into path [:intimacies 1])
+                                                     :path       (into path [:intimacies n 1])
                                                      :class      "second-of-three"}
                                                     {:field-type :text,
                                                      :value      (last a)
                                                      :label      "Description"
-                                                     :path       (into path [:intimacies 2])
+                                                     :path       (into path [:intimacies n 2])
                                                      :class      "third-of-three"}]))
                                                (:intimacies view)))]))
 
