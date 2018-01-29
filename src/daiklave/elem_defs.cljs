@@ -92,18 +92,18 @@
    (map-indexed (fn [n a]
                   [:span.rank-selection
                    [:label.rank-label {:for   (pr-str (conj path n))
-                                       :class (if (value a) "checked" "unchecked")}
-                    (inc n)]
+                                       :class (if (value n) "checked" "unchecked")}
+                    n]
                    [:input {:type      :checkbox
                             :key       (pr-str (conj path n))
                             :id        (pr-str (conj path n))
-                            :checked   (value a)
+                            :checked   (value n)
                             :on-change (fn [e]
                                          (daistate/change-element! path (if (value a)
                                                                           (set (remove #{a} value))
                                                                           (conj value a))))}]])
 
-                (range 1 6))])
+                (range 0 6))])
 
 (rum/defc checkbox-field
   [{:keys [path value] :as fieldmap}]
