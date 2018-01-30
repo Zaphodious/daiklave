@@ -170,6 +170,25 @@
                          options))])
                   seq-vec)]))
 
+(rum/defc health-module < rum/state
+  [{:keys [health-track path]}]
+  [:health-module
+   [:.button-bar
+    [:button "Heal 1"]
+    [:button "+ Bashing"]
+    [:button "+ Lethal"]
+    [:button "+ Aggravated"]]
+   [:.button-bar [:button "Add Health Level"]]
+   (fp/form-field-for {:field-type :select-single
+                       :value :1
+                       :options [:0 :1 :2 :4]})
+
+   [:ul.track
+    (map (fn [a]
+           [:li.health-box {:class a} (make-pretty a)])
+         (daihelp/inflate-health-track health-track))]])
+
+
 (rum/defcs navlist < (rum/local false ::key) rum/static
   [{local-atom ::key} {:keys [path options] :as fieldmap}]
   (println "navilistor for " path " contains " options)
@@ -204,6 +223,8 @@
   [section-title section-name section-path extra-link-info]
   [:a {:href (daifrag/link-fragment-for section-path)}
    (fp/section-of section-title section-name extra-link-info)])
+
+(println "getting to home!")
 
 (defmethod fp/page-for-viewmap :home
   [{:keys [path view] :as viewmap}]
@@ -284,11 +305,13 @@
                         (:name a)
                         (str (:name a) "-form")
                         [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
-                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)}
+                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)}
                          {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
-                         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate]},
+                         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate :flaw]},
                          {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
-                         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}]))}))
+                         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}
+                         (when (:repurchasable a)
+                           {:field-type :boolean, :label "Upgrading", :path (conj p :upgrading), :value (:upgrading a)})]))}))
 
 (defmethod fp/page-for-viewmap :mundane-weapons
   [{:keys [path view] :as viewmap}]
@@ -487,6 +510,8 @@
                                                      :path       (into path [:intimacies n 2])
                                                      :class      "third-of-three"}]))
                                                (:intimacies view)))]))
+
+
 
 ;[path value options key name]
 

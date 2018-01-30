@@ -10,6 +10,7 @@
   (page-for-viewmap (assoc (daistate/fetch-view-for (vec (drop-last path))) :path path)))
 
 (defmulti form-field-for :field-type)
+(defmethod page-for-viewmap nil [_] nil)
 ; request map {:element n :fieldtype m :path p}
 
 (rum/defc page-from-path < rum/reactive
