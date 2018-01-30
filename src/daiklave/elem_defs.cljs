@@ -206,6 +206,11 @@
   [:a {:href (daifrag/link-fragment-for section-path)}
    (fp/section-of section-title section-name extra-link-info)])
 
+(rum/defc health-track < rum/static
+  [{:keys [path view] :as viewmap}]
+  [:.health-module
+   "Health Module"])
+
 (defmethod fp/page-for-viewmap :home
   [{:keys [path view] :as viewmap}]
   (fp/page-of "Anathema Home" "Exalted 3rd Ed"
@@ -492,7 +497,10 @@
                                                      :label      "Description"
                                                      :path       (into path [:intimacies n 2])
                                                      :class      "third-of-three"}]))
-                                               (:intimacies view)))]))
+                                               (:intimacies view)))
+               (fp/section-of "Health Track"
+                              "health-track-module"
+                 (health-track {:path (conj path :health-module) :view (:health-module view)}))]))
 
 ;[path value options key name]
 
