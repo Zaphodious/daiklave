@@ -206,10 +206,22 @@
   [:a {:href (daifrag/link-fragment-for section-path)}
    (fp/section-of section-title section-name extra-link-info)])
 
-(rum/defc health-track < rum/static
-  [{:keys [path view] :as viewmap}]
-  [:.health-module
-   "Health Module"])
+(rum/defcs health-track < rum/static (rum/local {:level-add :add, :damage-add :add} :field-states)
+  [{:keys [field-states] :as this-state} {:keys [path view] :as viewmap}]
+  (println "this atom is " field-states)
+  (let [change-field-states (fn [k v] (swap! field-states #(assoc % k (reader/read-string (daistate/get-change-value v)))))
+        add-remove-drop (fn [k]
+                          (fp/form-field-for {:field-type        :select-single,
+                                              :value             (k @field-states)
+                                              :path              (conj path k),
+                                              :options           [:add :remove],
+                                              :special-change-fn (fn [a]
+                                                                   (change-field-states k a)
+                                                                   (println "level add is " (daistate/get-change-value a))
+                                                                   (println "level-add-atom is " field-states))}))]
+    [:.health-module
+     [:.button-bar (add-remove-drop :damage-add) [:button "Bashing"] [:button "Lethal"] [:button "Aggravated"]]
+     [:.button-bar (add-remove-drop :level-add) [:button "0"] [:button "-1"] [:button "-2"] [:button "-4"]]]))
 
 (defmethod fp/page-for-viewmap :home
   [{:keys [path view] :as viewmap}]
