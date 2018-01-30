@@ -117,17 +117,21 @@
                               :height           (-% 75)
                               :margin-bottom    (-px 3)
                               :margin-left      (-px 5)
-                              :padding-right    0}
+                              :padding-right    0
+                              :vertical-align :bottom}
     ;:margin-left (-px 3)}
-    [:&:focus {:outline       :none
-               :box-shadow    :none
-               :border-width  :3px
-               :margin-bottom (-px 1)}]]
+    [:&:focus {:outline          :none
+               :box-shadow       :none
+               :border-width     :3px
+               :border-bottom    :double
+               :margin-bottom    (-px 1)
+               :background-color color-off-bright}]]
    ;:box-shadow   focusshadowtext}]]
    ;:border-width :3px}]]
    ;:border-radius (-px 5)}]
    ["input[type=checkbox]" {:height :20px
-                            :width :20px}]
+                            :width :20px}
+       [:&:focus {:height :30px}]]
    [:body {:background-color color-off-bright
            :height           :100%}]
    [:#app-frame {:width  :100%
@@ -223,21 +227,51 @@
                      :display :inline-block}]
    [:.set-selectors
     [:.set-selector {:width (-% 100)}]]
-   [:span.rank-selection {:width   :2em
+   [:span.rank-selection {:width   :1.5em
+                          :height :1.5em
                           :padding 0
                           :margin  0
+                          ;:margin-top :1em
                           :display :inline-block}
-    [:input {:display :inline-block
+                         [:&:focus-within
+                          [:span.select-helper {:display          :inline-block
+                                                :float            :right
+                                                :opacity :0.5
+                                                :background-color (gc/darken color-off-bright 30)
+                                                :height           :20px
+                                                :width            :10px
+                                                :padding          :0px
+                                                :margin           0
+                                                :position         :relative
+                                                :bottom           :24px
+                                                :right            :8px
+                                                :border-radius    :10px
+                                                :z-index 2}]]
+    [:span.select-helper {:display :none}]
+
+    [:input {:display :inline
              :margin 0
              :opacity 0
-             :margin-left :-12px}]
+             :width :15px
+             :height :15px
+             :position :relative
+             :z-index 10
+             :right :0px
+             :bottom :7px
+             ;:margin-bottom :-30px}]
+             ;:width :1px}]
+             :margin-left :-18px}]
+
     [:label {:width   :10px
              :height :10px
              :padding :5px
              :padding-bottom :12px
              :text-align :center
              :display :inline-block
-             :border-radius :10px}]
+             :border-radius :10px
+             :z-index 6
+             :position :relative}]
+
     [:.checked {:border :solid
                 :border-width :1px}]]])
 

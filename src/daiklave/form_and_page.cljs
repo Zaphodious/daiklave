@@ -1,7 +1,8 @@
 (ns daiklave.form-and-page
   (:require [rum.core :as rum]
             [daiklave.state :as daistate]
-            [cemerick.url :as url]))
+            [cemerick.url :as url]
+            [daiklave.seq :as daiseq]))
 
 
 (defmulti page-for-viewmap (fn [a] (-> a :view :category)))
@@ -11,6 +12,7 @@
 
 (defmulti form-field-for :field-type)
 ; request map {:element n :fieldtype m :path p}
+(defmethod form-field-for nil [_] nil)
 
 (rum/defc page-from-path < rum/reactive
   [viewmap]
@@ -56,11 +58,11 @@
                     [:label {:for (pr-str (:path a))}
                      (:label a)]
                     (form-field-for a)])
-                 form-field-dec-vec)]])
+                 (daiseq/clear-nil form-field-dec-vec))]])
 
 (rum/defc soft-table-for < rum/static
   [form-title form-name path new-element sort-fn mini-forms]
-  (let [neg-fn-make (fn [n] (fn [] (daistate/change-element! path #(daiklave.seq/remove-nth % n))))
+  (let [neg-fn-make (fn [n] (fn [] (daistate/change-element! path #(daiseq/remove-nth % n))))
         add-fn (fn [] (daistate/change-element! path #(vec (conj % new-element))))
         sort-button-fn (fn [] (daistate/change-element! path #(vec (sort sort-fn %))))]
     [:.page-section
@@ -113,7 +115,7 @@
                          (:label a)]
                         (form-field-for a)))
 
-                form-field-dec-vec)])
+                (daiseq/clear-nil form-field-dec-vec))])
 
 (rum/defc section-of < rum/static
   [section-title section-name section-comp]

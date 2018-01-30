@@ -93,7 +93,7 @@
                   [:span.rank-selection
                    [:label.rank-label {:for   (pr-str (conj path n))
                                        :class (if (value a) "checked" "unchecked")}
-                    (inc n)]
+                    n]
                    [:input {:type      :checkbox
                             :key       (pr-str (conj path n))
                             :id        (pr-str (conj path n))
@@ -101,9 +101,10 @@
                             :on-change (fn [e]
                                          (daistate/change-element! path (if (value a)
                                                                           (set (remove #{a} value))
-                                                                          (conj value a))))}]])
+                                                                          (conj value a))))}]
+                   [:span.select-helper]])
 
-                (range 1 6))])
+                (range 0 6))])
 
 (rum/defc checkbox-field
   [{:keys [path value] :as fieldmap}]
@@ -277,18 +278,23 @@
                      :page          158
                      :ranks         #{1 3 5}
                      :repurchasable true
-                     :type          :story}
+                     :upgrading false
+                     :type          :story
+                     :confers-merits "Each Merit On\nA New\nLine"}
      :sort-fn       (daihelp/map-compare-fn-for {:name 3})
      :form-fn       (fn [a p]
                       (fp/form-of
                         (:name a)
                         (str (:name a) "-form")
                         [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
-                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)}
+                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)}
                          {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
-                         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate]},
+                         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate :flaw]},
                          {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
-                         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}]))}))
+                         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}
+                         (if (:repurchasable a)
+                           {:field-type :boolean, :label "Upgrade On Repurchase", :path (conj p :upgrading), :value (:upgrading a)})
+                         {:field-type :big-text, :label "Merits Conferred", :value (:confers-merits a), :path (conj p :confers-merits)}]))}))
 
 (defmethod fp/page-for-viewmap :mundane-weapons
   [{:keys [path view] :as viewmap}]

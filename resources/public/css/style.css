@@ -44,6 +44,7 @@ input, select, textarea {
   border-left: none;
   border-color: grey;
   height: 75.0%;
+  vertical-align: bottom;
   border-right: none;
   border-top: none;
   margin-bottom: 3.0px;
@@ -56,12 +57,18 @@ input:focus, select:focus, textarea:focus {
   outline: none;
   box-shadow: none;
   border-width: 3px;
+  border-bottom: double;
   margin-bottom: 1.0px;
+  background-color: #e0e0e0;
 }
 
 input[type=checkbox] {
   height: 20px;
   width: 20px;
+}
+
+input[type=checkbox]:focus {
+  height: 30px;
 }
 
 body {
@@ -255,27 +262,56 @@ form.mini-form {
 }
 
 span.rank-selection {
-  width: 2em;
+  width: 1.5em;
+  height: 1.5em;
   padding: 0;
   margin: 0;
   display: inline-block;
 }
 
-span.rank-selection input {
-  display: inline-block;
+span.rank-selection:focus-within span.select-helper {
+  float: right;
+  width: 10px;
+  right: 8px;
+  height: 20px;
   margin: 0;
+  padding: 0px;
+  position: relative;
+  z-index: 2;
+  background-color: #949494;
+  border-radius: 10px;
+  display: inline-block;
+  bottom: 24px;
+  opacity: 0.5;
+}
+
+span.rank-selection span.select-helper {
+  display: none;
+}
+
+span.rank-selection input {
+  width: 15px;
+  right: 0px;
+  height: 15px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  margin-left: -18px;
+  display: inline;
+  bottom: 7px;
   opacity: 0;
-  margin-left: -12px;
 }
 
 span.rank-selection label {
-  width: 10px;
-  height: 10px;
-  padding: 5px;
-  padding-bottom: 12px;
   text-align: center;
+  width: 10px;
+  z-index: 6;
+  padding: 5px;
   display: inline-block;
+  position: relative;
+  padding-bottom: 12px;
   border-radius: 10px;
+  height: 10px;
 }
 
 span.rank-selection .checked {
