@@ -27,26 +27,6 @@
 
 (def intimacy-intensities [:defining :major :minor])
 
-(defn- always [x] (fn [& _] x))
-(defn- inflate-health-track-imp [{:keys [levels bashing lethal aggravated] [zero one two four] :levels}]
-  (let [base-track
-        (reduce into []
-                [(take zero (repeat 0))
-                 (take one (repeat -1))
-                 (take two (repeat -2))
-                 (take four (repeat -4))])
-        damage-track
-        (reduce into []
-              [(take bashing (repeat :bashing))
-               (take lethal (repeat :lethal))
-               (take aggravated (repeat :aggravated))
-               (take (- (reduce + levels) (+ bashing lethal aggravated)) (repeat :empty))])]
-    (map list
-         base-track
-         damage-track)))
-
-(def inflate-health-track (memoize inflate-health-track-imp))
-
 (defn- inflate-ability-map-imp [old-ab-map]
   (into (sorted-map)
         (map (fn [ab]

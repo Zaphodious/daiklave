@@ -92,18 +92,18 @@
    (map-indexed (fn [n a]
                   [:span.rank-selection
                    [:label.rank-label {:for   (pr-str (conj path n))
-                                       :class (if (value n) "checked" "unchecked")}
-                    n]
+                                       :class (if (value a) "checked" "unchecked")}
+                    (inc n)]
                    [:input {:type      :checkbox
                             :key       (pr-str (conj path n))
                             :id        (pr-str (conj path n))
-                            :checked   (value n)
+                            :checked   (value a)
                             :on-change (fn [e]
                                          (daistate/change-element! path (if (value a)
                                                                           (set (remove #{a} value))
                                                                           (conj value a))))}]])
 
-                (range 0 6))])
+                (range 1 6))])
 
 (rum/defc checkbox-field
   [{:keys [path value] :as fieldmap}]
@@ -170,25 +170,6 @@
                          options))])
                   seq-vec)]))
 
-(rum/defc health-module < rum/state
-  [{:keys [health-track path]}]
-  [:health-module
-   [:.button-bar
-    [:button "Heal 1"]
-    [:button "+ Bashing"]
-    [:button "+ Lethal"]
-    [:button "+ Aggravated"]]
-   [:.button-bar [:button "Add Health Level"]]
-   (fp/form-field-for {:field-type :select-single
-                       :value :1
-                       :options [:0 :1 :2 :4]})
-
-   [:ul.track
-    (map (fn [a]
-           [:li.health-box {:class a} (make-pretty a)])
-         (daihelp/inflate-health-track health-track))]])
-
-
 (rum/defcs navlist < (rum/local false ::key) rum/static
   [{local-atom ::key} {:keys [path options] :as fieldmap}]
   (println "navilistor for " path " contains " options)
@@ -223,8 +204,6 @@
   [section-title section-name section-path extra-link-info]
   [:a {:href (daifrag/link-fragment-for section-path)}
    (fp/section-of section-title section-name extra-link-info)])
-
-(println "getting to home!")
 
 (defmethod fp/page-for-viewmap :home
   [{:keys [path view] :as viewmap}]
@@ -305,13 +284,11 @@
                         (:name a)
                         (str (:name a) "-form")
                         [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
-                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)}
+                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)}
                          {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
-                         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate :flaw]},
+                         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate]},
                          {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
-                         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}
-                         (when (:repurchasable a)
-                           {:field-type :boolean, :label "Upgrading", :path (conj p :upgrading), :value (:upgrading a)})]))}))
+                         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}]))}))
 
 (defmethod fp/page-for-viewmap :mundane-weapons
   [{:keys [path view] :as viewmap}]
@@ -397,23 +374,23 @@
      :page-img      (:img view)
      :path          (conj path :martial-arts-vec)
      :elements      (:martial-arts-vec view)
-     :new-element   {:name        "Black Claw Style"
-                     :category    :martial-arts-style
-                     :description "Black Claw style is one of the few martial arts created by a demon, taught to the Exalted in the First Age by Mara, the Shadow-Lover."
-                     :type        :martial-arts-style
-                     :subtype     :martial-arts
-                     :style-info  {:weapons   "This style uses exclusively unarmed attacks, emphasizing claw strikes and sudden, lunging kicks."
-                                   :armor     "Black Claw style is incompatible with armor."
-                                   :abilities "Black Claw stylists often feign the appearance of fighting on the defensive, using Dodge to both evade attacks and disengage from close combat. Presence is also useful to them, as many of their Charms allow them to sway the hearts and minds of enemies and bystanders alike in combat."}
-                     :charms      [{:name          "Open Palm Caress"
-                                    :cost          "4m"
-                                    :min-essence   1
-                                    :min-ability   2
-                                    :type          :supplemental
-                                    :keywords      "Mastery"
-                                    :duration      "Instant"
-                                    :prereq-charms "None"
-                                    :description   "From the very beginning, things start to go wrong. Righteous heroes find themselves cast as vicious bullies when they fight a student of the Black Claw—even when she starts the fight. Open Palm Caress can be used whenever the martial artist rolls Join Battle. As long as at least one enemy received more successes on the roll than the martial artist did, he and his allies are seen as having initiated hostilities, regardless of how the fight actually began. This applies both to any bystanders to the fight and to the enemies themselves, who might suddenly find themselves confused as to why they are attacking the Black Claw stylist. Characters may see through this deception with a reflexive read intentions roll against the martial artist’s Guile. The Black Claw stylist gains a single point of Initiative for each opponent or bystander who was fooled by this ruse, up to a maximum of her Manipulation. \n\n Mastery: The martial artist’s performance is so convincing that if she uses her first turn to make a clinch or decisive attack against an enemy who beat her Join Battle and failed to overcome her Guile, she may pay a point of Willpower to treat that attack as an ambush."}]}
+     :new-element   [{:name        "Black Claw Style"
+                      :category    :martial-arts-style
+                      :description "Black Claw style is one of the few martial arts created by a demon, taught to the Exalted in the First Age by Mara, the Shadow-Lover."
+                      :type        :martial-arts-style
+                      :subtype     :martial-arts
+                      :style-info  {:weapons   "This style uses exclusively unarmed attacks, emphasizing claw strikes and sudden, lunging kicks."
+                                    :armor     "Black Claw style is incompatible with armor."
+                                    :abilities "Black Claw stylists often feign the appearance of fighting on the defensive, using Dodge to both evade attacks and disengage from close combat. Presence is also useful to them, as many of their Charms allow them to sway the hearts and minds of enemies and bystanders alike in combat."}
+                      :charms      [{:name          "Open Palm Caress"
+                                     :cost          "4m"
+                                     :min-essence   1
+                                     :min-ability   2
+                                     :type          :supplemental
+                                     :keywords      "Mastery"
+                                     :duration      "Instant"
+                                     :prereq-charms "None"
+                                     :description   "From the very beginning, things start to go wrong. Righteous heroes find themselves cast as vicious bullies when they fight a student of the Black Claw—even when she starts the fight. Open Palm Caress can be used whenever the martial artist rolls Join Battle. As long as at least one enemy received more successes on the roll than the martial artist did, he and his allies are seen as having initiated hostilities, regardless of how the fight actually began. This applies both to any bystanders to the fight and to the enemies themselves, who might suddenly find themselves confused as to why they are attacking the Black Claw stylist. Characters may see through this deception with a reflexive read intentions roll against the martial artist’s Guile. The Black Claw stylist gains a single point of Initiative for each opponent or bystander who was fooled by this ruse, up to a maximum of her Manipulation. \n\n Mastery: The martial artist’s performance is so convincing that if she uses her first turn to make a clinch or decisive attack against an enemy who beat her Join Battle and failed to overcome her Guile, she may pay a point of Willpower to treat that attack as an ambush."}]}]
      :sort-fn       (daihelp/map-compare-fn-for {:name 2})
      :form-fn       (fn [a p]
                       (fp/form-of
@@ -510,8 +487,6 @@
                                                      :path       (into path [:intimacies n 2])
                                                      :class      "third-of-three"}]))
                                                (:intimacies view)))]))
-
-
 
 ;[path value options key name]
 
