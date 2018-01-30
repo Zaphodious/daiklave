@@ -1,4 +1,5 @@
-(ns daiklave.data-help)
+(ns daiklave.data-help
+  [:require [daiklave.seq :as daiseq :refer [vec-of nudge-insert-at]]])
 
 (def attribute-keys [:strength :dexterity :stamina :charisma :manipulation :appearance :perception :intelligence :wits])
 
@@ -43,3 +44,16 @@
               (fn [[k v]]
                 (* v (compare (k a) (k b))))
               magnitude-map))))
+
+(defn flatten-health-module [{:keys [levels bashing lethal aggravated]}]
+  (map vec-of
+       (reduce concat
+               (map-indexed (fn [n a]
+                              (take a (repeat (* -1 n))))
+                            (nudge-insert-at levels 3 0)))
+       (concat
+         (take aggravated (repeat :aggravated))
+         (take lethal (repeat :lethal))
+         (take bashing (repeat :bashing))
+         (take (reduce + levels) (repeat :none)))))
+

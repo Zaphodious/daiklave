@@ -11,3 +11,8 @@
 
 (defn clear-nil [s]
   (filter #(not (nil? %)) s))
+
+(defn vec-of [& args]
+  (vec args))
+(defn nudge-insert-at [veccer i element]
+  (concat (subvec veccer 0 i) [element] (subvec veccer i (count veccer))))
