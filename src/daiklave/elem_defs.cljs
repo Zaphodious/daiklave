@@ -243,23 +243,49 @@
   (fp/page-of "Anathema Home" "Exalted 3rd Ed"
               (:img view)
 
-              (into
-                (->> [:characters]
-                     (daistate/viewmaps-for-children)
-                     (map content-link-section)
-                     (map (fn [a] (fp/section-of
-                                    "\uD83D\uDE42 Character"
-                                    (str "character" (:name (:view a)))
-                                    a)))
-                     (into []))
-                (->> [:chrons]
-                     (daistate/viewmaps-for-children)
-                     (map content-link-section)
-                     (map (fn [a] (fp/section-of
-                                    "\uD83D\uDDFA️Chronicle"
-                                    (str "chron" (:name (:view a)))
-                                    a)))
-                     (into [])))))
+              (list
+                (section-link-of
+                  "Characters"
+                  "character-link"
+                  [:characters]
+                  {})
+                (section-link-of
+                  "Chronicles"
+                  "chron-link"
+                  [:chrons]
+                  {}))))
+;[section-title section-name section-path extra-link-info]
+(defn print-pass [n] (println n) n)
+(defmethod fp/page-for-viewmap :characters
+  [{:keys [path view] :as viewmap}]
+  (fp/page-of (:name view) (:description view)
+              (:img view)
+
+              (->> [:characters]
+                   (daistate/viewmaps-for-children)
+                   (filter (fn [a] (map? (:view a))))
+                   (map content-link-section)
+                   (map (fn [a] (fp/section-of
+                                  "Character"
+                                  (str "character" (:name (:view a)))
+                                  a)))
+                   (into []))))
+(defmethod fp/page-for-viewmap :chrons
+  [{:keys [path view] :as viewmap}]
+  (fp/page-of (:name view) (:description view)
+              (:img view)
+
+              (->> [:chrons]
+                   (daistate/viewmaps-for-children)
+                   (filter (fn [a] (map? (:view a))))
+                   (map content-link-section)
+                   (map (fn [a] (fp/section-of
+                                  "Chronicles"
+                                  (str "chron" (:name (:view a)))
+                                  a)))
+                   (into []))))
+
+
 
 (defmethod fp/page-for-viewmap :chron
   [{:keys [path view] :as viewmap}]

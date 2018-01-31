@@ -34,7 +34,13 @@
                                     (url/url-encode (prn-str (-> @daistate/app-state :chrons (get "0")))))
                          :download "Anathema_Data.edn"}
       "Download Exalted Core for Alex"]
-     (page-for-viewmap viewmap)]))
+     (println "vec of paths " vec-of-paths)
+     (if (> 600 (:width (daistate/get-screen-size)))
+       (page-for-viewmap viewmap)
+       [:table.page-list
+        [:tbody
+         [:tr
+          (map (fn [a] [:td a]) (map page-for-viewmap (map daistate/fetch-view-for vec-of-paths)))]]])]))
 
 
 

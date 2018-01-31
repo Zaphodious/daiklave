@@ -72,12 +72,28 @@ input[type=checkbox]:focus {
   height: 30px;
 }
 
-body {
-  background-color: #e0e0e0;
+html {
   height: 100%;
 }
 
+body {
+  background-color: #e0e0e0;
+  height: 100%;
+  overflow: hide;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hide;
+}
+
 #app-frame {
+  position: fixed;
+  overflow-y: hidden;
+  overflow-x: auto;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 }
@@ -100,7 +116,8 @@ body {
 
 .page .page-content {
   height: calc(100vh  -  3em);
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .page .page-content .element-button-bar {
@@ -183,6 +200,24 @@ body {
 }
 
 .page .page-content .page-section .navlist-container ul.field.navlist.shown {
+  display: block;
+}
+
+table.page-list {
+  display: block;
+}
+
+table.page-list tbody {
+  display: block;
+  height: calc(100%  -  50px);
+}
+
+table.page-list tbody tr td {
+
+}
+
+table.page-list tbody tr td .page {
+  width: 400px;
   display: block;
 }
 

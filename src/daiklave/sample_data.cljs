@@ -8,7 +8,11 @@
                 :name     "Anathema: Reincarnated"
                 :category :home
                 :img "https://i.imgur.com/5Hka26I.png"}
-   :characters {"424242"    {:name                 "Rajmael",
+   :characters {:name "Characters"
+                :category :characters
+                :img "https://orig00.deviantart.net/1587/f/2006/340/5/b/exalted_2nd_ed__exalt_types_by_chriss2d.jpg"
+                :description "The Heroes That Move The World"
+                "424242"    {:name                 "Rajmael",
                              :description          "The Starfire Wing Scholar"
                              :concept              "Sorcerer Philosopher King0"
                              :anima                "The Five Truths of Wu Du Xun"
@@ -102,7 +106,12 @@
                                                  [:major "Principle" "I've Earned My Liberty"]
                                                  [:minor "Rush" "The wind as I run is the voice of my mother"]
                                                  [:minor "distaste" "The cheater's victory of the bane of my father"]]}}
-   :chrons     {"452452452" {:name          "Seas of Doom",
+   :chrons     {:name "Chronicles"
+                :category :chrons
+                :img "https://i.imgur.com/f1vYAW7.jpg"
+                :description "The Stories That Shape Creation"
+
+                "452452452" {:name          "Seas of Doom",
                              :category      :chron,
                              :type          :solar,
                              :subtype       :adventure

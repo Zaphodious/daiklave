@@ -126,16 +126,25 @@
                :border-bottom    :double
                :margin-bottom    (-px 1)
                :background-color color-off-bright}]]
+
    ;:box-shadow   focusshadowtext}]]
    ;:border-width :3px}]]
    ;:border-radius (-px 5)}]
    ["input[type=checkbox]" {:height :20px
                             :width :20px}
        [:&:focus {:height :30px}]]
+   [:html {:height :100%}]
    [:body {:background-color color-off-bright
-           :height           :100%}]
-   [:#app-frame {:width  :100%
-                 :height :100%}]
+           :height           :100%
+           :overflow :hide}]
+   [:#app {:width :100% :height :100% :overflow :hide}]
+   [:#app-frame {:position   :fixed
+                 :overflow-y :hidden
+                 :overflow-x :auto
+                 :top        0
+                 :left       0
+                 :width      :100%
+                 :height     :100%}]
    [:.page {:width  :100%
             :height :100%}
     [:h1.page-title {:width            :100%
@@ -147,7 +156,8 @@
                      :box-shadow       elementshadow
                      :z-index          10}]
     [:.page-content {:height   (calchelper :100vh - title-bar-height)
-                     :overflow :scroll}
+                     :overflow-y :auto
+                     :overflow-x :hidden}
      [:.element-button-bar {:background-color :transparent
                             :margin           (-px (* page-content-margin-scalar 2))
                             :margin-bottom    (-px (- (* -1 page-content-margin-scalar 6.6) 1))
@@ -196,6 +206,18 @@
        [:.navlist-selected {:tab-index 1}]
        [:ul.field.navlist.hidden {:display :none}]
        [:ul.field.navlist.shown {:display :block}]]]]]
+   [:table.page-list {:display :block}
+                      ;:overflow :scroll
+    [:tbody {:display :block
+             :height (calchelper :100% - :50px)}
+     [:tr
+      [:td {};:display :inline
+
+       [:.page {:width :400px
+                :display :block}
+
+                ;:height (calchelper :100% - :40px)}
+        :.page-content]]]]]
 
    [:form
     [:* {:padding :.5em}]
