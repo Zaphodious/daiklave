@@ -34,6 +34,7 @@ button {
   box-shadow: 0 1px 2px#4b2c20;
   margin-left: 2px;
   background-color: #ffffff;
+  border-radius: 2.0px;
   text-shadow: 0 0 6px#a98274;
   color: #000000;
 }
@@ -317,4 +318,57 @@ span.rank-selection label {
 span.rank-selection .checked {
   border: solid;
   border-width: 1px;
+}
+
+ul.health-track {
+  padding: 0;
+  text-align: justify;
+}
+
+ul.health-track li.health-box {
+  min-width: 28px;
+  width: 36px;
+  background-position: right bottom;
+  border-width: 1px;
+  max-width: 100px;
+  background-repeat: no-repeat;
+  height: 36px;
+  margin: 2px;
+  border: outset;
+  vertical-align: center;
+  padding: 0;
+  min-height: 28px;
+  background-size: 70%;
+  box-shadow: 0 0 5px grey;
+  background-color: white;
+  border-radius: 10px;
+  display: inline-block;
+  max-height: 100px;
+}
+
+ul.health-track li.bashing-damage {
+  border-color: yellow;
+  background-image: url(../img/quick-slash.png);
+}
+
+ul.health-track li.lethal-damage {
+  border-color: orange;
+  background-image: url(../img/perpendicular-rings.png);
+}
+
+ul.health-track li.aggravated-damage {
+  border-color: red;
+  background-image: url(../img/spikes-half.png);
+}
+
+button.bashing {
+  border-color: yellow;
+}
+
+button.lethal {
+  border-color: orange;
+}
+
+button.aggravated {
+  border-color: red;
 }

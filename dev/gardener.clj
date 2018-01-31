@@ -101,7 +101,7 @@
              :border-color     :none
              :box-shadow       buttonshadow
              :text-shadow      (str "0 0 6px" (gc/as-hex color-p-light))
-             ;:border-radius (-px 5)
+             :border-radius (-px 2)
              :color            color-darkest
              :margin-right     :2px
              :margin-left      :2px}]
@@ -273,7 +273,39 @@
              :position :relative}]
 
     [:.checked {:border :solid
-                :border-width :1px}]]])
+                :border-width :1px}]]
+   [:ul.health-track  {:padding 0
+                       :text-align :justify}
+    [:li.health-box {:display :inline-block
+                     :padding 0
+                     :margin :2px
+                     :box-shadow elementshadow
+                     :min-width :28px
+                     :min-height :28px
+                     :max-width :100px
+                     :max-height :100px
+                     :width :36px
+                     :height :36px
+                     :border :outset
+                     :border-width :1px
+                     :border-radius :10px
+                     :background-color :white
+                     :vertical-align :center
+                     ;:background-image (url "../img/damage_blank.png")
+                     :background-size :70%
+                     :background-repeat :no-repeat
+                     :background-position "right bottom"}]
+    [:li.bashing-damage {:border-color :yellow
+                         :background-image (url "../img/quick-slash.png")}]
+    [:li.lethal-damage {:border-color :orange
+                        :background-image (url "../img/perpendicular-rings.png")}]
+
+    [:li.aggravated-damage {:border-color :red
+                            :background-image (url "../img/spikes-half.png")}]]
+   [:button.bashing {:border-color :yellow}]
+   [:button.lethal {:border-color :orange}]
+   [:button.aggravated {:border-color :red}]])
+
 
 
 

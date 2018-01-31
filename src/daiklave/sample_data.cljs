@@ -18,6 +18,10 @@
                              :category             :character,
                              :type                 :solar,
                              :chrons ["0","242424"],
+                             :health-module {:levels [4 1 4 5]
+                                             :bashing 2
+                                             :lethal 1
+                                             :aggravated 3}
                              :subtype              :twilight,
                              :last-accessed        4535361
                              :attributes           {:strength 2, :dexterity 4, :stamina 2, :charisma 3, :manipulation 3, :appearance 3, :perception 2, :intelligence 5, :wits 4}
@@ -47,6 +51,10 @@
                              :category             :character,
                              :type                 :solar,
                              :chrons ["0","242424"],
+                             :health-module {:levels [3 1 4 5]
+                                             :bashing 2
+                                             :lethal 1
+                                             :aggravated 3}
                              :subtype              :dawn,
                              :last-accessed        0
                              :attributes           {:strength 4, :dexterity 4, :stamina 3, :charisma 3, :manipulation 3, :appearance 3, :perception 3, :intelligence 3, :wits 3}
@@ -74,6 +82,10 @@
                              :chrons ["0","452452452"],
                              :subtype           :zenith,
                              :chron             "452452452",
+                             :health-module {:levels [3 1 4 5]
+                                             :bashing 2
+                                             :lethal 1
+                                             :aggravated 3}
                              :last-accessed     987253
                              :attributes        {:strength   4, :dexterity 4, :stamina 3,
                                                  :charisma   3, :manipulation 2, :appearance 2,

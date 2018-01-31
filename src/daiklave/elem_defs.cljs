@@ -209,7 +209,11 @@
 (rum/defcs health-track < rum/static (rum/local {:level-add :add, :damage-add :add} :field-states)
   [{:keys [field-states] :as this-state} {:keys [path view] :as viewmap}]
   (println "this atom is " field-states)
-  (let [change-field-states (fn [k v] (swap! field-states #(assoc % k (reader/read-string (daistate/get-change-value v)))))
+  (let [add-remove-fn (fn [{:keys [modifier path]}]
+                        (case (modifier @field-states)
+                          :add (fn [] (daistate/change-element! path inc))
+                          :remove (fn [] (daistate/change-element! path dec))))
+        change-field-states (fn [k v] (swap! field-states #(assoc % k (reader/read-string (daistate/get-change-value v)))))
         add-remove-drop (fn [k]
                           (fp/form-field-for {:field-type        :select-single,
                                               :value             (k @field-states)
@@ -220,8 +224,19 @@
                                                                    (println "level add is " (daistate/get-change-value a))
                                                                    (println "level-add-atom is " field-states))}))]
     [:.health-module
-     [:.button-bar (add-remove-drop :damage-add) [:button "Bashing"] [:button "Lethal"] [:button "Aggravated"]]
-     [:.button-bar (add-remove-drop :level-add) [:button "0"] [:button "-1"] [:button "-2"] [:button "-4"]]]))
+     [:.button-bar (add-remove-drop :damage-add)
+      [:button.bashing {:on-click (add-remove-fn {:modifier :damage-add, :path (conj path :bashing)})} "Bashing"]
+      [:button.lethal {:on-click (add-remove-fn {:modifier :damage-add, :path (conj path :lethal),} )} "Lethal"]
+      [:button.aggravated {:on-click (add-remove-fn {:modifier :damage-add, :path (conj path :aggravated),})} "Aggravated"]]
+     [:.button-bar (add-remove-drop :level-add)
+      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 0])} )}"0"]
+      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 1])} )} "-1"]
+      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 2])} )} "-2"]
+      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 3])} )} "-4"]]
+     [:ul.health-track
+      (map (fn [[level damage]]
+             [:li.health-box {:class (str level"-level" " " (name damage)"-damage")} (str level)])
+           (daihelp/flatten-health-module view))]]))
 
 (defmethod fp/page-for-viewmap :home
   [{:keys [path view] :as viewmap}]
