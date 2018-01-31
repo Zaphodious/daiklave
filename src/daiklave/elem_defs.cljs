@@ -393,7 +393,7 @@
     (println "base-patho is " base-path)
     (println "base-view is " base-view)
     (if (= :charms (last path))
-      (fp/page-of "Charms" "Sublime Tools of the Chosen"
+      (fp/page-of "Charms" "Dingys what shini bois do"
                    (:img base-view)
                   "charm-ability-page"
                   (map

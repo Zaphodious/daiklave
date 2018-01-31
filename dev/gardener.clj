@@ -165,7 +165,7 @@
                      :font-weight      :bolder
                      :box-shadow       elementshadow
                      :z-index          10}]
-    [:.page-content {:height   (calchelper :100vh - title-bar-height)
+    [:.page-content {:height   (calchelper :100vh - title-bar-height - :10px)
                      :overflow-y :auto
                      :overflow-x :hidden}
      [:.element-button-bar {:background-color :transparent
@@ -319,16 +319,16 @@
                      :background-size :70%
                      :background-repeat :no-repeat
                      :background-position "right bottom"}]
-    [:li.bashing-damage {:border-color :yellow
+    [:li.bashing-damage {:border-color :blue
                          :background-image (url "../img/quick-slash.png")}]
-    [:li.lethal-damage {:border-color :orange
+    [:li.lethal-damage {:border-color :red
                         :background-image (url "../img/perpendicular-rings.png")}]
 
-    [:li.aggravated-damage {:border-color :red
+    [:li.aggravated-damage {:border-color :green
                             :background-image (url "../img/spikes-half.png")}]]
-   [:button.bashing {:border-color :yellow}]
-   [:button.lethal {:border-color :orange}]
-   [:button.aggravated {:border-color :red}]])
+   [:button.bashing {:border-color :blue}]
+   [:button.lethal {:border-color :red}]
+   [:button.aggravated {:border-color :green}]])
 
 (def desktop-style
   [[:table.page-list {:display :block}

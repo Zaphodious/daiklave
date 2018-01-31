@@ -115,7 +115,7 @@ body {
 }
 
 .page .page-content {
-  height: calc(100vh  -  3em);
+  height: calc(100vh  -  3em  -  10px);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -364,30 +364,30 @@ ul.health-track li.health-box {
 }
 
 ul.health-track li.bashing-damage {
-  border-color: yellow;
+  border-color: blue;
   background-image: url(../img/quick-slash.png);
 }
 
 ul.health-track li.lethal-damage {
-  border-color: orange;
+  border-color: red;
   background-image: url(../img/perpendicular-rings.png);
 }
 
 ul.health-track li.aggravated-damage {
-  border-color: red;
+  border-color: green;
   background-image: url(../img/spikes-half.png);
 }
 
 button.bashing {
-  border-color: yellow;
+  border-color: blue;
 }
 
 button.lethal {
-  border-color: orange;
+  border-color: red;
 }
 
 button.aggravated {
-  border-color: red;
+  border-color: green;
 }
 
 table.page-list {
