@@ -29,8 +29,8 @@
             samples/sample-state))))
 
 (defn get-screen-size []
-  {:width  (.-width js/screen)
-   :height (.-height js/screen)})
+  {:width  (-> js/document .-documentElement .-clientWidth)
+   :height (-> js/document .-documentElement .-clientHeight)})
 
 (def screen-size
   (atom (get-screen-size)))
@@ -39,6 +39,7 @@
          (js/addEventListener
            "resize"
            (fn [a]
+             (println "RESIZE! " (get-screen-size))
              (reset! screen-size (get-screen-size)))))
 
 (defn unwrap-if-singular [coll]
