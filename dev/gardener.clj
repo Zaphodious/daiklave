@@ -6,12 +6,22 @@
             [garden.arithmetic :as ga]
             [garden.selectors :as gs]
             [clojure.string :as str]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [garden.stylesheet :as gss :refer [at-media]]
+            [garden.types :as gt]))
 
 (gd/defcssfn url)
 (gd/defcssfn blur)
 (gd/defcssfn calc)
 
+(defn supports [support-statement garden-seq]
+  (fn [previous-css] (str previous-css "\n\n\n" "@Supports (" support-statement ") {\n     " (g/css garden-seq) "}")))
+
+(defn grid-area-strings [& stringers]
+  (reduce str
+    (map
+      (fn [a] (str "\n\"" a "\""))
+      stringers)))
 
 (defn name-or-string [thing]
   (try
@@ -206,18 +216,10 @@
        [:.navlist-selected {:tab-index 1}]
        [:ul.field.navlist.hidden {:display :none}]
        [:ul.field.navlist.shown {:display :block}]]]]]
-   [:table.page-list {:display :block}
-                      ;:overflow :scroll
-    [:tbody {:display :block
-             :height (calchelper :100% - :50px)}
-     [:tr
-      [:td {};:display :inline
 
-       [:.page {:width :400px
-                :display :block}
 
                 ;:height (calchelper :100% - :40px)}
-        :.page-content]]]]]
+
 
    [:form
     [:* {:padding :.5em}]
@@ -328,143 +330,71 @@
    [:button.lethal {:border-color :orange}]
    [:button.aggravated {:border-color :red}]])
 
+(def desktop-style
+  [[:table.page-list {:display :block}
+    ;:overflow :scroll
+    [:tbody {;:display :block
+             :height (calchelper :100% - :50px)}
+     [:tr
+      [:td {};:display :inline
+
+       [:.page {:width :400px
+                :display :block}]
+       [:.character-page {:width :1000px}]]]]]])
+        ;[:h1.page-title {:width :900px}]]]]]]])
+   ;[(gt/->CSSAtRule "Supports" {:grid-template-areas "\"...\""})]]);"@Supports (grid-template-areas: \"...\")"
 
 
+(def character-page-desktop-style
+  (supports "grid-template-areas: \"...\""
+            [:table
+             [:.character-page
+              [:.page-content {:display               :grid
+                               :grid-template-columns "1fr 1fr 1fr 3fr 3fr"
+                               :grid-template-areas (grid-area-strings "header header core core core"
+                                                                       "header header ... ... ..."
+                                                                       "attr attr attr attr attr"
+                                                                       "abil abil abil spec merit"
+                                                                       "abil abil abil fav merit"
+                                                                       "abil abil abil ... ..."
+                                                                       "... ... ... ... ..."
+                                                                       "inti inti inti inti inti"
+                                                                       "health health health health health")}
 
-
-#_[:span.inactive-dot :span.active-dot
-   {:width         (-px 10)
-    :height        (-px 10)
-    ;:margin        (-px 1)
-    :margin        (-px 3)
-    :margin-top    :auto
-    :margin-bottom :auto
-    :padding       (-px 0)
-    :border-radius (-px 20)
-    :border        :solid
-    :border-width  :1px
-    :display       :inline-block}
-   [:span.active-dot {:content          "1"
-                      :background-color :white}]
-   [:span.inactive-dot {:content          "0"
-                        :background-color :black}]]
-
-(def mobilestyle-old
-  [[:* {:margin      0 :padding 0
-        :font-family "Bellefair, sans-serif"
-        :color       color-off-dark}]
-   [:h1 {:font-size "2em"
-         :padding   ".25em"}]
-   [:h2 {:font-size "1.5em"}]
-   [:body {:background-image      "none"                    ;(url "../img/ex_map.png")
-           :background-color      color-off-bright
-           :background-position   "center"
-           :background-repeat     "no-repeat"
-           :background-attachment "fixed"
-           :background-size       "cover"
-           :width                 :100%}]
-
-   [:#menubar (-> {:position         :fixed
-                   :z-index          100
-                   :bottom           :-45px
-                   :right            :-45px
-                   :background-color color-p-dark
-                   :width            :100px
-                   :height           :100px
-                   :border-radius    :200px
-                   :box-shadow       navshadow}
-                  (into (prefix-it :transition "height .07s")))
-    [:* {:color :transparent}]]
-   [:#menubar:hover {:background-color (gc/darken color-p-dark 5)
-                     :padding          "0px"
-                     :padding-right    "60px"
-                     :width            :160px
-                     :height           :210px
-                     :border-radius    :0
-                     :bottom           0
-                     :right            0}
-
-    [:ul {:background-color color-p-dark
-          :margin           0
-          :padding          :10px
-          :height           :100%}
-     [:* {:list-style :none}]
-     [:li [:h3 {:padding-bottom :8px}
-           [:a {:color color-off-bright}]]
-      [:ul [:li {:margin-top :-8px}
-            [:a {:color color-brightest}]]]]]]
-   [:.page {:width :100%}
-    [:.page-title {:background-color color-p-main
-                   :color            color-off-bright
-                   :padding          "0"
-                   :margin           0
-                   :text-align       "center"
-                   :position         :fixed
-                   :top              0
-                   :width            :inherit
-                   :height           title-bar-height
-                   :box-shadow       navshadow}
-     [:h1 {;:color       "inherit"
-           :text-shadow (str "1px 1px 1px " (gc/as-hex color-p-light))}
-      [:* {:color "inherit"}]]]]
-
-   [:.page-content {:position :fixed
-                    :top      title-bar-height
-                    :width    :100%
-                    :height   (calchelper :100% - title-bar-height)
-                    :overflow :scroll}]
-   [:.pagesection {:padding          "10px"
-                   :margin           "20px"
-                   :margin-right     :10px
-                   :background-color color-brightest
-                   :display          :block
-                   :float            :left
-                   :width            (calchelper :100% - :60px)
-                   ;:max-height       :200px
-                   :box-shadow       elementshadow}
-
-    [:ul [:li {:list-style "none"}]]
-    [:.banner-image {:max-width :100%}]
-    [:.profile-image {:max-width  :100px
-                      :max-height :250px
-                      :float      :right}]
-    [:.char-banner-title {:float :left}]]
-
-   [:.field {:width   :100%
-             :padding :5px}
-    [:label {:width          :100px,
-             :display        :inline-block,
-             :vertical-align :top
-             :text-align     :right,
-             :padding-right  :5px}]
-    [:.entry {:min-width (calchelper :100% - :100px - :70px) ;:15px)
-              :max-width (calchelper :100% - :70px)
-              :height    :2em,
-              :display   :inline-block}
-     [:.rank-list
-      {:height :100%}
-      [:li {:float      :left
-            :text-align :center
-            :height     :inherit}
-       [:* {:display :block
-            :width   :20px
-            :height  :100%}]]]
-
-
-     [:.spinner {:height  "inherit",
-                 :display :inline}]
-     [:.dotpart {:display :inline}]]]])
+               [:.page-header {:grid-area "header"}]
+               [:.coreinfo {:grid-area "core"}
+                [:form {:column-count 2}]]
+               [:.attributeinfo {:grid-area "attr"}
+                [:form {:column-count 3}]]
+               [:.abilityinfo {:grid-area "abil"}]
+               [:.attributeinfo :.abilityinfo
+                [:form
+                 [:p {;:border :solid
+                      :padding-left :20px
+                      :padding-right 0}
+                  [:label {:width :20%}]
+                  [:p {:float :right
+                       :margin-right :-30px
+                       :padding :7px}]]]]
+               [:.favoredabilities {:grid-area "fav"}]
+               [:.specialtyinfo {:grid-area "spec"}]
+               [:.health-track-module {:grid-area "health"}
+                [:.button-bar {:display :inline-block}]]
+               [:.intimacyinfo {:grid-area "inti"}]]]]))
 
 
 
 (defn add-generated-statement [csser]
   (str "/*This file is automatically generated. Any changes made will be overwritten by dev/gardener.clj*/\n\n\n" csser))
 
+
+
 (defn compile-style! []
   (spit "resources/public/css/style.css"
-        (->> mobilestyle
+        (->> (into mobilestyle desktop-style)
              (map g/css)
              (reduce (fn [a b] (str a "\n\n" b)))
+             character-page-desktop-style
              add-generated-statement)))
 
 (compile-style!)

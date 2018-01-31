@@ -45,18 +45,18 @@
 
 
 (rum/defc page-of < rum/static
-  [page-title page-subtitle page-img page-section-seq]
-  [:.page
+  [page-title page-subtitle page-img page-class page-section-seq]
+  [:.page {:class page-class}
    [:h1.page-title page-title]
    [:.page-content
-    [:.page-section
+    [:.page-section.page-header
      [:h2.page-subtitle page-subtitle]
      [:img.banner-image {:src page-img}]]
     page-section-seq]])
 
 (rum/defc form-of < rum/static
   [form-title form-name form-field-dec-vec]
-  [:.page-section
+  [:.page-section {:class form-name}
    [:h3 form-title]
    [:form
     (map-indexed (fn [n a]
@@ -71,7 +71,7 @@
   (let [neg-fn-make (fn [n] (fn [] (daistate/change-element! path #(daiseq/remove-nth % n))))
         add-fn (fn [] (daistate/change-element! path #(vec (conj % new-element))))
         sort-button-fn (fn [] (daistate/change-element! path #(vec (sort sort-fn %))))]
-    [:.page-section
+    [:.page-section {:class form-name}
      [:h3 form-title]
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
      (map-indexed (fn [n a]
@@ -84,13 +84,13 @@
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]))
 ;[page-title page-subtitle page-img page-section-seq]
 (rum/defc page-table-for < rum/static
-  [{:keys [page-title page-subtitle page-img path elements new-element sort-fn form-fn selector-widget selector-title]}]
+  [{:keys [page-title page-subtitle page-img path elements new-element sort-fn form-fn selector-widget selector-title class]}]
   (let [now-state (vec elements)
         neg-fn-make (fn [n] (fn [] (daistate/change-element! path (daiklave.seq/remove-nth now-state n))))
         add-fn (fn [] (daistate/change-element! path #(conj % new-element)))
         sort-button-fn (fn [] (daistate/change-element! path #(into [] (sort sort-fn %))))]
     ;(println "now-state " (pr-str now-state))
-    [:.page
+    [:.page {:class class}
      [:h1.page-title page-title]
      [:.page-content
       [:.page-section
@@ -125,6 +125,6 @@
 
 (rum/defc section-of < rum/static
   [section-title section-name section-comp]
-  [:.page-section
+  [:.page-section {:class section-name}
    [:h3 section-title]
    section-comp])

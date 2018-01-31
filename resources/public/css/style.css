@@ -203,24 +203,6 @@ body {
   display: block;
 }
 
-table.page-list {
-  display: block;
-}
-
-table.page-list tbody {
-  display: block;
-  height: calc(100%  -  50px);
-}
-
-table.page-list tbody tr td {
-
-}
-
-table.page-list tbody tr td .page {
-  width: 400px;
-  display: block;
-}
-
 form * {
   padding: .5em;
 }
@@ -407,3 +389,100 @@ button.lethal {
 button.aggravated {
   border-color: red;
 }
+
+table.page-list {
+  display: block;
+}
+
+table.page-list tbody {
+  height: calc(100%  -  50px);
+}
+
+table.page-list tbody tr td {
+
+}
+
+table.page-list tbody tr td .page {
+  width: 400px;
+  display: block;
+}
+
+table.page-list tbody tr td .character-page {
+  width: 1000px;
+}
+
+
+@Supports (grid-template-areas: "...") {
+     table .character-page .page-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 3fr 3fr;
+  grid-template-areas: 
+"header header core core core"
+"header header ... ... ..."
+"attr attr attr attr attr"
+"abil abil abil spec merit"
+"abil abil abil fav merit"
+"abil abil abil ... ..."
+"... ... ... ... ..."
+"inti inti inti inti inti"
+"health health health health health";
+}
+
+table .character-page .page-content .page-header {
+  grid-area: header;
+}
+
+table .character-page .page-content .coreinfo {
+  grid-area: core;
+}
+
+table .character-page .page-content .coreinfo form {
+  column-count: 2;
+}
+
+table .character-page .page-content .attributeinfo {
+  grid-area: attr;
+}
+
+table .character-page .page-content .attributeinfo form {
+  column-count: 3;
+}
+
+table .character-page .page-content .abilityinfo {
+  grid-area: abil;
+}
+
+table .character-page .page-content .attributeinfo form p, table .character-page .page-content .abilityinfo form p {
+  padding-left: 20px;
+  padding-right: 0;
+}
+
+table .character-page .page-content .attributeinfo form p label, table .character-page .page-content .abilityinfo form p label {
+  width: 20%;
+}
+
+table .character-page .page-content .attributeinfo form p p, table .character-page .page-content .abilityinfo form p p {
+  float: right;
+  margin-right: -30px;
+  padding: 7px;
+}
+
+table .character-page .page-content .favoredabilities {
+  grid-area: fav;
+}
+
+table .character-page .page-content .specialtyinfo {
+  grid-area: spec;
+}
+
+table .character-page .page-content .health-track-module {
+  grid-area: health;
+}
+
+table .character-page .page-content .health-track-module .button-bar {
+  display: inline-block;
+}
+
+table .character-page .page-content .intimacyinfo {
+  grid-area: inti;
+}}

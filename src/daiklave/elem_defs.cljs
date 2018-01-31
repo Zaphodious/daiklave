@@ -242,7 +242,7 @@
   [{:keys [path view] :as viewmap}]
   (fp/page-of "Anathema Home" "Exalted 3rd Ed"
               (:img view)
-
+              "home-page"
               (list
                 (section-link-of
                   "Characters"
@@ -260,7 +260,7 @@
   [{:keys [path view] :as viewmap}]
   (fp/page-of (:name view) (:description view)
               (:img view)
-
+              "character-select-page"
               (->> [:characters]
                    (daistate/viewmaps-for-children)
                    (filter (fn [a] (map? (:view a))))
@@ -274,7 +274,7 @@
   [{:keys [path view] :as viewmap}]
   (fp/page-of (:name view) (:description view)
               (:img view)
-
+              "chron-select-page"
               (->> [:chrons]
                    (daistate/viewmaps-for-children)
                    (filter (fn [a] (map? (:view a))))
@@ -293,6 +293,7 @@
     (:name view)
     (:description view)
     (:img view)
+    "chron-page"
     (into
       [(fp/form-of
          "Core Info"
@@ -329,6 +330,7 @@
      :page-subtitle (:description view)
      :page-img      (:img view)
      :path          (conj path :merit-vec)
+     :class "merits-page"
      :elements      (:merit-vec view)
      :new-element   {:name          "Allies"
                      :description   "Allies, yo!"
@@ -361,6 +363,7 @@
      :page-subtitle (:description view)
      :page-img      (:img view)
      :path          (conj path :weapons-vec)
+     :class "mundane-weapons-page"
      :elements      (:weapons-vec view)
      :new-element   {:name        "Wind and Fire Wheel"
                      :description "An elegant weapon, from a more... civilized age."
@@ -389,42 +392,53 @@
         base-view (:view (daistate/fetch-view-for base-path))]
     (println "base-patho is " base-path)
     (println "base-view is " base-view)
-    (fp/page-table-for
-      {:page-title      (:name base-view)
-       :page-subtitle   (:description base-view)
-       :page-img        (:img base-view)
-       :path            path
-       :elements        (get base-view (last path))
-       :selector-title  "Which Ability"
-       :selector-widget (charm-selector path)
-       :new-element     {:name          "Wise Arrow"
-                         :cost          "1m"
-                         :min-essence   1
-                         :min-ability   2
-                         :category      :charm
-                         :ability       charm-focus
-                         :page          255
-                         :keywords      ""
-                         :type          :supplemental
-                         :duration      "Instant"
-                         :prereq-charms "None"
-                         :description   "Fire an arrow which knows which way is up"}
-       :sort-fn         (daihelp/map-compare-fn-for {:page 5, :min-essence 3, :min-ability 1})
-       :form-fn         (fn [a p]
-                          (fp/form-of
-                            (:name a)
-                            (str (:name a) "-form")
-                            [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
-                             {:field-type :text, :label "Cost", :value (:cost a), :path (conj p :cost)},
-                             {:field-type :select-single, :label "Ability", :value (:ability a), :path (conj p :ability), :options daihelp/ability-all-keys, :read-only true},
-                             {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
-                             {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a), :path (conj p :min-ability), :min 1, :max 5,}
-                             {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)},
-                             {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
-                             {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
-                             {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywrods)}
-                             {:field-type :text, :label "Duration", :value (:duration a), :path (conj p :duration)}
-                             {:field-type :text, :label "Prereq Charms", :value (:prereq-charms a), :path (conj p :prereq-charms)}]))})))
+    (if (= :charms (last path))
+      (fp/page-of "Charms" "Sublime Tools of the Chosen"
+                   (:img base-view)
+                  "charm-ability-page"
+                  (map
+                    (fn [k] (section-link-of (make-pretty k)
+                                             (str "section-link-for" k)
+                                             (conj path k)
+                                             {}))
+                    (conj daihelp/ability-keys :craft)))
+      (fp/page-table-for
+        {:page-title      (make-pretty charm-focus)
+         :page-subtitle   (:description base-view)
+         :page-img        (:img base-view)
+         :path            path
+         :class "charms-selector-page"
+         :elements        (get base-view (last path))
+         :selector-title  "Which Ability"
+         :selector-widget (charm-selector path)
+         :new-element     {:name          "Wise Arrow"
+                           :cost          "1m"
+                           :min-essence   1
+                           :min-ability   2
+                           :category      :charm
+                           :ability       charm-focus
+                           :page          255
+                           :keywords      ""
+                           :type          :supplemental
+                           :duration      "Instant"
+                           :prereq-charms "None"
+                           :description   "Fire an arrow which knows which way is up"}
+         :sort-fn         (daihelp/map-compare-fn-for {:page 5, :min-essence 3, :min-ability 1})
+         :form-fn         (fn [a p]
+                            (fp/form-of
+                              (:name a)
+                              (str (:name a) "-form")
+                              [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
+                               {:field-type :text, :label "Cost", :value (:cost a), :path (conj p :cost)},
+                               {:field-type :select-single, :label "Ability", :value (:ability a), :path (conj p :ability), :options daihelp/ability-all-keys, :read-only true},
+                               {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
+                               {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a), :path (conj p :min-ability), :min 1, :max 5,}
+                               {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)},
+                               {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
+                               {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
+                               {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywrods)}
+                               {:field-type :text, :label "Duration", :value (:duration a), :path (conj p :duration)}
+                               {:field-type :text, :label "Prereq Charms", :value (:prereq-charms a), :path (conj p :prereq-charms)}]))}))))
 
 (defmethod fp/page-for-viewmap :charms
   [viewmap]
@@ -437,6 +451,7 @@
      :page-subtitle (:description view)
      :page-img      (:img view)
      :path          (conj path :martial-arts-vec)
+     :class "martial-arts-styles-page"
      :elements      (:martial-arts-vec view)
      :new-element   [{:name        "Black Claw Style"
                       :category    :martial-arts-style
@@ -471,6 +486,7 @@
   (fp/page-of (:name view)
               (:description view)
               (:img view)
+              "character-page"
               [(fp/form-of
                  "Core Info"
                  "coreinfo"
