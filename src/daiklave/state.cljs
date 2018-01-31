@@ -6,7 +6,8 @@
             [cemerick.url :as url :refer [url url-encode]]
             [daiklave.fragment :as dfrag]
             [com.rpl.specter :as sp]
-            [com.rpl.specter.navs :as spn]))
+            [com.rpl.specter.navs :as spn]
+            [clojure.browser.dom :as dom]))
 
 (defn get-current-url-frag []
   (dfrag/parse-fragment (:anchor (url (.-href js/location)))))
@@ -19,6 +20,8 @@
          (js/addEventListener
            "hashchange" (fn [a]
                           (swap! current-view (fn [b] (get-current-url-frag))))))
+
+
 
 (def
   app-state

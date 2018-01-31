@@ -2,7 +2,8 @@
   (:require [rum.core :as rum]
             [daiklave.state :as daistate]
             [cemerick.url :as url]
-            [daiklave.seq :as daiseq]))
+            [daiklave.seq :as daiseq]
+            [clojure.browser.dom :as dom]))
 
 
 (defmulti page-for-viewmap (fn [a] (-> a :view :category)))
@@ -19,7 +20,15 @@
 
   [:h1 (str "Hello, this is the page for " viewmap)])
 
-(rum/defc app-frame < rum/reactive
+(defn scroll-app-frame-right-mixin []
+  (let [cache-atom (atom [])]
+    {:after-render (fn [s]
+                     (when (not (= @cache-atom @daistate/current-view))
+                       (reset! cache-atom @daistate/current-view)
+                       (set! (.-scrollLeft (dom/get-element "app-frame")) 1000000))
+                     s)}))
+
+(rum/defc app-frame < rum/reactive (scroll-app-frame-right-mixin)
   []
   (let [patho (rum/react daistate/current-view)
         app-data (rum/react daistate/app-state)
@@ -29,6 +38,7 @@
                                (conj c (conj (last c) a)))
                              [[]]
                              patho)]
+    ;
     [:#app-frame
      [:a.helper-dl-link {:href (str "data:text/plain;charset=utf-8,"
                                     (url/url-encode (prn-str (-> @daistate/app-state :chrons (get "0")))))

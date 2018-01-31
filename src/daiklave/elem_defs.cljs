@@ -407,10 +407,10 @@
          :page-subtitle   (:description base-view)
          :page-img        (:img base-view)
          :path            path
-         :class "charms-selector-page"
+         :class "charms-list-page"
          :elements        (get base-view (last path))
-         :selector-title  "Which Ability"
-         :selector-widget (charm-selector path)
+        ; :selector-title  "Which Ability"
+         ;:selector-widget (charm-selector path)
          :new-element     {:name          "Wise Arrow"
                            :cost          "1m"
                            :min-essence   1

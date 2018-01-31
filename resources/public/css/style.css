@@ -411,6 +411,10 @@ table.page-list tbody tr td .character-page {
   width: 1000px;
 }
 
+table.page-list tbody tr td .merits-page, table.page-list tbody tr td .charms-list-page {
+  width: 700px;
+}
+
 
 @Supports (grid-template-areas: "...") {
      table .character-page .page-content {

@@ -340,7 +340,8 @@
 
        [:.page {:width :400px
                 :display :block}]
-       [:.character-page {:width :1000px}]]]]]])
+       [:.character-page {:width :1000px}]
+       [:.merits-page :.charms-list-page {:width :700px}]]]]]])
         ;[:h1.page-title {:width :900px}]]]]]]])
    ;[(gt/->CSSAtRule "Supports" {:grid-template-areas "\"...\""})]]);"@Supports (grid-template-areas: \"...\")"
 
