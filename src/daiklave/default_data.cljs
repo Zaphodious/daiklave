@@ -19,7 +19,9 @@
                                         :page          158
                                         :ranks         #{1 3 5}
                                         :repurchasable true
-                                        :type          :story}]}
+                                        :type          :story
+                                        :upgrading false
+                                        :character-tags [[] [] [] [] []]}]}
 
    :charms              {:name          "Charms"
                          :category      :charms

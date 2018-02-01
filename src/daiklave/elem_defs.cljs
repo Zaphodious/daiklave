@@ -33,11 +33,12 @@
    [:input {:type "text" :value (str numbah) :disabled true}]])
 
 (rum/defc text-field < rum/static
-  [{:keys [path value options read-only class]}]
+  [{:keys [path value options read-only class special-change-fn]}]
   [:input.field {:type      :text, :value value, :id (pr-str path)
                  :key       (pr-str path)
                  :class     (str class " " (if read-only "read-only" ""))
-                 :on-change (standard-on-change-for path read-only),
+                 :on-change (if special-change-fn special-change-fn
+                              (standard-on-change-for path read-only))
                  :readOnly  read-only}])
 
 (rum/defc text-area < rum/static
@@ -330,31 +331,43 @@
      :page-subtitle (:description view)
      :page-img      (:img view)
      :path          (conj path :merit-vec)
-     :class "merits-page"
+     :class         "merits-page"
      :elements      (:merit-vec view)
-     :new-element   {:name          "Allies"
-                     :description   "Allies, yo!"
-                     :drawback      "Dey be people n shiii"
-                     :page          158
-                     :ranks         #{1 3 5}
-                     :repurchasable true
-                     :upgrading false
-                     :type          :story
+     :new-element   {:name           "Allies"
+                     :description    "Allies, yo!"
+                     :drawback       "Dey be people n shiii"
+                     :page           158
+                     :ranks          #{1 3 5}
+                     :repurchasable  true
+                     :upgrading      false
+                     :type           :story
+                     :character-tags [[] [] [] [] []]
                      :confers-merits "Each Merit On\nA New\nLine"}
      :sort-fn       (daihelp/map-compare-fn-for {:name 3})
      :form-fn       (fn [a p]
                       (fp/form-of
                         (:name a)
                         (str (:name a) "-form")
-                        [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
-                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)}
-                         {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
-                         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate :flaw]},
-                         {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
-                         {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}
-                         (if (:repurchasable a)
-                           {:field-type :boolean, :label "Upgrade On Repurchase", :path (conj p :upgrading), :value (:upgrading a)})
-                         {:field-type :big-text, :label "Merits Conferred", :value (:confers-merits a), :path (conj p :confers-merits)}]))}))
+                        (into
+                          [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
+                           {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)}
+                           {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
+                           {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate :flaw]},
+                           {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
+                           {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}
+                           (if (:repurchasable a)
+                             {:field-type :boolean, :label "Upgrade On Repurchase", :path (conj p :upgrading), :value (:upgrading a)})
+                           {:field-type :big-text, :label "Merits Conferred", :value (:confers-merits a), :path (conj p :confers-merits)}]
+                          (map (fn [z]
+                                 {:field-type        :text,
+                                  :label             (str "Player-Tags at " z),
+                                  :value             (->> (dec z) (nth (:character-tags a)) daihelp/keyword-vec-to-string)
+                                  :path              (into p [:character-tags (dec z)]),
+                                  :special-change-fn (fn [e]
+                                                       (daistate/change-element!
+                                                         (into p [:character-tags (dec z)])
+                                                         (daihelp/string-to-keyword-vec (daistate/get-change-value e))))})
+                               (into (sorted-set) (:ranks a))))))}))
 
 (defmethod fp/page-for-viewmap :mundane-weapons
   [{:keys [path view] :as viewmap}]

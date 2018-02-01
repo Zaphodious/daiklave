@@ -1,5 +1,6 @@
 (ns daiklave.data-help
-  [:require [daiklave.seq :as daiseq :refer [vec-of nudge-insert-at]]])
+  [:require [daiklave.seq :as daiseq :refer [vec-of nudge-insert-at]]
+            [clojure.string :as str]])
 
 (def attribute-keys [:strength :dexterity :stamina :charisma :manipulation :appearance :perception :intelligence :wits])
 
@@ -57,4 +58,17 @@
          (take lethal (repeat :lethal))
          (take bashing (repeat :bashing))
          (take (reduce + levels) (repeat :none)))))
+
+(defn string-to-keyword-vec [stringer]
+  (->> (-> stringer str/trim str/lower-case (str/replace " " ", ") (str/replace "," "  ") (str/split " "))
+       (filter #(not (= "" %)))
+       (map keyword)
+       (into [])))
+(defn keyword-vec-to-string [keyvec]
+  (->> keyvec
+       (map name)
+       (map str/capitalize)
+       (map #(str % ", "))
+       (reduce str)
+       (str/trim)))
 
