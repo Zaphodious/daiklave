@@ -451,7 +451,8 @@
                                {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
                                {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywrods)}
                                {:field-type :text, :label "Duration", :value (:duration a), :path (conj p :duration)}
-                               {:field-type :text, :label "Prereq Charms", :value (:prereq-charms a), :path (conj p :prereq-charms)}]))}))))
+                               {:field-type :text, :label "Prereq Charms", :value (:prereq-charms a), :path (conj p :prereq-charms)}
+                               {:field-type :text, :label "Character-Tags Added", :value (daihelp/keyword-vec-to-string (:character-tags a)), :path (conj p :character-tags), :special-change-fn (fn [x] (daistate/change-element! (conj p :character-tags) (daihelp/string-to-keyword-vec (daistate/get-change-value x))))}]))}))))
 
 (defmethod fp/page-for-viewmap :charms
   [viewmap]
