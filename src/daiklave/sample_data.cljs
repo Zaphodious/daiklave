@@ -33,6 +33,13 @@
                              :abilities-additional [[:martial-arts, 3, "Single Point Shining Into The Void"]]
                              :favored-abilities    [:awareness, :brawl, :bureaucracy, :dodge, :integrity, :linguistics, :lore, :occult, :socialize, :martial-arts]
                              :supernal             :lore
+                             :essence {:xp-spent 55
+                                       :xp-wallet 10
+                                       :rating 1
+                                       :motes-spent-personal 4
+                                       :motes-spent-peripheral 2
+                                       :motes-committed-peripheral 2
+                                       :motes-committed-personal 0}
                              :specialties          [[:athletics "Acrobatics"]
                                                     [:integrity "Resisting Bribery"]
                                                     [:socialize "Read Intentions"]
@@ -66,6 +73,13 @@
                              :abilities-additional [[:craft, 2, "Bladewright"]]
                              :favored-abilities    [:archery, :athletics, :brawl, :craft, :integrity, :larceny, :melee, :resistance, :sail, :survival]
                              :supernal             :melee
+                             :essence {:xp-spent 55
+                                       :xp-wallet 10
+                                       :rating 1
+                                       :motes-spent-personal 4
+                                       :motes-spent-peripheral 2
+                                       :motes-committed-peripheral 2
+                                       :motes-committed-personal 0}
                              :specialties          [[:sail "Captiancy"]
                                                     [:melee "Swords"]
                                                     [:survival "Tracking"]
@@ -97,6 +111,13 @@
                              :abilities         {:athletics 5, :awareness 3, :brawl 3, :integrity 2, :linguistics 1, :lore 2, :occult 2, :performance 3, :presence 3, :resistance 3, :thrown 2}
                              :favored-abilities [:athletics, :brawl, :integrity, :lore, :occult, :performance, :presence, :resistance, :thrown, :awareness]
                              :supernal          :athletics
+                             :essence {:xp-spent 55
+                                       :xp-wallet 10
+                                       :rating 1
+                                       :motes-spent-personal 4
+                                       :motes-spent-peripheral 2
+                                       :motes-committed-peripheral 2
+                                       :motes-committed-personal 0}
                              :specialties       [[:athletics "Racing"]
                                                  [:performance "Oratory"]
                                                  [:linguistics "Holy Solar Texts"]
