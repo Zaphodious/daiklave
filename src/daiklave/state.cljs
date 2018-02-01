@@ -67,12 +67,13 @@
 (defn change-element!
   [element-path change-val]
   (println "you gotsa " element-path ", and you gotsa " change-val)
-  (let [change-fn (if (fn? change-val)
-                    change-val
-                    (fn [a] change-val))]
-    (sp/transform [sp/ATOM
-                   (apply sp/keypath element-path)]
-                  change-fn app-state)))
+  (if (and element-path change-val)
+    (let [change-fn (if (fn? change-val)
+                      change-val
+                      (fn [a] change-val))]
+      (sp/transform [sp/ATOM
+                     (apply sp/keypath element-path)]
+                    change-fn app-state))))
 
 (defn get-change-value [e] (.. e -target -value))
 

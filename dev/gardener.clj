@@ -224,11 +224,11 @@
    [:form
     [:* {:padding :.5em}]
     [:p
-     [:label {:width      (calchelper :30% - :10px)
+     [:label {:width      (calchelper :20% - :10px)
               :height (-% 100)
               :display    :inline-block
               :text-align :right}]
-     [:.field {:width   (calchelper :100% - :30% + :10px - :10px - :2em - page-content-margin - page-content-margin)
+     [:.field {:width   (calchelper :100% - :20% + :10px - :10px - :2em - page-content-margin - page-content-margin)
                :display :inline-block
                ;:margin  (-px (/ 2 page-content-margin-scalar))
                :align   :center}
@@ -298,6 +298,14 @@
 
     [:.checked {:border :solid
                 :border-width :1px}]]
+   [:.balanced-number-field {:width :110%;:max-width :200px}
+                             ;:border :solid
+                             :margin-right :-10px}
+    [:input {:width :15px}]
+    [:label {:font-size :0.5em
+             :padding :0}]
+    [:button {:width :15px
+              :padding 0}]]
    [:ul.health-track  {:padding 0
                        :text-align :justify}
     [:li.health-box {:display :inline-block
@@ -355,11 +363,11 @@
                                :grid-template-areas (grid-area-strings "header header core core core"
                                                                        "header header ... ... ..."
                                                                        "attr attr attr attr attr"
-                                                                       "abil abil abil spec merit"
-                                                                       "abil abil abil fav merit"
+                                                                       "abil abil abil fav ..."
+                                                                       "abil abil abil spec ..."
                                                                        "abil abil abil ... ..."
-                                                                       "... ... ... ... ..."
-                                                                       "inti inti inti inti inti"
+                                                                       "ess ess ess inti inti"
+                                                                       "... ... ... inti inti"
                                                                        "health health health health health")}
 
                [:.page-header {:grid-area "header"}]
@@ -381,7 +389,9 @@
                [:.specialtyinfo {:grid-area "spec"}]
                [:.health-track-module {:grid-area "health"}
                 [:.button-bar {:display :inline-block}]]
-               [:.intimacyinfo {:grid-area "inti"}]]]]))
+               [:.intimacyinfo {:grid-area "inti"}]
+               [:.essence-module {:grid-area "ess"}
+                [:form {:column-count 1}]]]]]))
 
 
 

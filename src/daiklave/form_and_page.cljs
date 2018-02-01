@@ -64,17 +64,21 @@
      [:img.banner-image {:src page-img}]]
     page-section-seq]])
 
+(rum/defc in-section-form-of < rum/static
+  [form-name form-field-dec-vec]
+  [:form
+   (map-indexed (fn [n a]
+                  [:p {:key (str  (pr-str (:path a)) "-" n "- p")}
+                   [:label {:for (pr-str (:path a))}
+                    (:label a)]
+                   (form-field-for a)])
+                (daiseq/clear-nil form-field-dec-vec))])
 (rum/defc form-of < rum/static
   [form-title form-name form-field-dec-vec]
   [:.page-section {:class form-name}
    [:h3 form-title]
-   [:form
-    (map-indexed (fn [n a]
-                   [:p {:key (str  (pr-str (:path a)) "-" n "- p")}
-                    [:label {:for (pr-str (:path a))}
-                     (:label a)]
-                    (form-field-for a)])
-                 (daiseq/clear-nil form-field-dec-vec))]])
+   (in-section-form-of form-name form-field-dec-vec)])
+
 
 (rum/defc soft-table-for < rum/static
   [form-title form-name path new-element sort-fn mini-forms]
@@ -132,6 +136,8 @@
                         (form-field-for a)))
 
                 (daiseq/clear-nil form-field-dec-vec))])
+
+
 
 (rum/defc section-of < rum/static
   [section-title section-name section-comp]

@@ -208,14 +208,14 @@ form * {
 }
 
 form p label {
-  width: calc(30%  -  10px);
+  width: calc(20%  -  10px);
   height: 100.0%;
   display: inline-block;
   text-align: right;
 }
 
 form p .field {
-  width: calc(100%  -  30%  +  10px  -  10px  -  2em  -  7px  -  7px);
+  width: calc(100%  -  20%  +  10px  -  10px  -  2em  -  7px  -  7px);
   display: inline-block;
   align: center;
 }
@@ -337,6 +337,25 @@ span.rank-selection .checked {
   border-width: 1px;
 }
 
+.balanced-number-field {
+  width: 110%;
+  margin-right: -10px;
+}
+
+.balanced-number-field input {
+  width: 15px;
+}
+
+.balanced-number-field label {
+  font-size: 0.5em;
+  padding: 0;
+}
+
+.balanced-number-field button {
+  width: 15px;
+  padding: 0;
+}
+
 ul.health-track {
   padding: 0;
   text-align: justify;
@@ -424,11 +443,11 @@ table.page-list tbody tr td .merits-page, table.page-list tbody tr td .charms-li
 "header header core core core"
 "header header ... ... ..."
 "attr attr attr attr attr"
-"abil abil abil spec merit"
-"abil abil abil fav merit"
+"abil abil abil fav ..."
+"abil abil abil spec ..."
 "abil abil abil ... ..."
-"... ... ... ... ..."
-"inti inti inti inti inti"
+"ess ess ess inti inti"
+"... ... ... inti inti"
 "health health health health health";
 }
 
@@ -489,4 +508,12 @@ table .character-page .page-content .health-track-module .button-bar {
 
 table .character-page .page-content .intimacyinfo {
   grid-area: inti;
+}
+
+table .character-page .page-content .essence-module {
+  grid-area: ess;
+}
+
+table .character-page .page-content .essence-module form {
+  column-count: 1;
 }}

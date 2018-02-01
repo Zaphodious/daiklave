@@ -69,7 +69,25 @@
    {:type      :number
     :value     value :id (pr-str path) :key (pr-str path)
     :min       min :max max
+    :readOnly read-only
     :on-change (standard-on-change-for path read-only)}])
+
+(rum/defc balanced-number-field < rum/static
+  [{:keys [path-a path-b value-a value-b read-only min-a min-b max-a max-b label-a label-b] :as fieldmap}]
+  (let [button-fn-for (fn [up?]
+                        (fn [] (daistate/change-element! path-a (if up? inc dec))
+                               (daistate/change-element! path-b (if up? dec inc))))]
+    [:.field.balanced-number-field
+     [:label.text-a {:for (pr-str path-a)} label-a]
+     [:input.side-a {:value value-a :id (pr-str path-a) :key (pr-str path-a) :min min-a :max max-a
+                     :on-change (fn [a]) :readOnly true}]
+     [:button {:on-click (button-fn-for true)} "⇐"]
+     "+"
+     [:button {:on-click (button-fn-for false)} "⇒"]
+     [:input.side-b {:value value-b :id (pr-str path-b) :key (pr-str path-b) :min min-b :max max-b
+                     :on-change (standard-on-change-for path-b read-only) :readOnly read-only}]
+     [:label.text-b {:for (pr-str path-b)} label-b]]))
+
 
 (rum/defc dot-field < rum/static
   [{:keys [path value options read-only min max] :as fieldmap}]
@@ -128,6 +146,8 @@
   [n] (single-dropdown n))
 (defmethod fp/form-field-for :number
   [n] (number-field n))
+(defmethod fp/form-field-for :balanced-number
+  [n] (balanced-number-field n))
 (defmethod fp/form-field-for :dots
   [n] (dot-field n))
 (defmethod fp/form-field-for :merit-possible-ranks
@@ -238,6 +258,12 @@
       (map (fn [[level damage]]
              [:li.health-box {:class (str level"-level" " " (name damage)"-damage")} (str level)])
            (daihelp/flatten-health-module view))]]))
+
+(rum/defc solar-essence-section < rum/static
+  [{character-view :view patho :path}]
+  [:.essence-module
+   [:.button-bar "Essence Level" [:button "Inc"] [:button "Dec"]]])
+
 
 (defmethod fp/page-for-viewmap :home
   [{:keys [path view] :as viewmap}]
@@ -581,6 +607,31 @@
                                                      :path       (into path [:intimacies n 2])
                                                      :class      "third-of-three"}]))
                                                (:intimacies view)))
+               (let [{essence-view :view essence-path :path} (daistate/fetch-view-for (conj path :essence))
+                     essence-expanded (daihelp/inflate-essence-map essence-view)]
+                 (fp/form-of "Essence"
+                              "essence-module"
+                            [{:field-type :number, :label "Rating", :min 1, :max 2, :value (:rating essence-expanded), :path (conj essence-path :rating)}
+                             {:field-type :balanced-number, :label "XP",
+                              :value-a (:xp-spent essence-expanded), :path-a (conj essence-path :xp-spent), :min-a 1, :max-a 1000000, :label-a "Spent"
+                              :value-b (:xp-wallet essence-expanded), :path-b (conj essence-path :xp-wallet), :min-b 0, :max-b 1000000, :label-b "Unspent"}
+
+                             {:field-type :balanced-number, :label "Personal",
+                              :value-a (:essence-personal-remaining essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Remaining"
+                              :value-b (:motes-spent-personal essence-expanded), :path-b (conj essence-path :motes-spent-personal), :min-b 0, :max-b 1000000, :label-b "Spent"}
+                             {:field-type :balanced-number, :label "Pool",
+                              :value-a (:essence-max-personal essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
+                              :value-b (:motes-committed-personal essence-expanded), :path-b (conj essence-path :motes-committed-personal), :min-b 0, :max-b 1000000, :label-b "Committed"}
+
+                             {:field-type :balanced-number, :label "Peripheral",
+                              :value-a (:essence-peripheral-remaining essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Remaining"
+                              :value-b (:motes-spent-peripheral essence-expanded), :path-b (conj essence-path :motes-spent-peripheral), :min-b 0, :max-b 1000000, :label-b "Spent"}
+                             {:field-type :balanced-number, :label "Pool",
+                              :value-a (:essence-max-peripheral essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
+                              :value-b (:motes-committed-peripheral essence-expanded), :path-b (conj essence-path :motes-committed-peripheral), :min-b 0, :max-b 1000000, :label-b "Committed"}]))
+
+
+
                (fp/section-of "Health Track"
                               "health-track-module"
                  (health-track {:path (conj path :health-module) :view (:health-module view)}))]))

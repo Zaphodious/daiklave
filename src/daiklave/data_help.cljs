@@ -72,3 +72,17 @@
        (reduce str)
        (str/trim)))
 
+(defn personal-essence-for [rank]
+  (+ 10 (* rank 3)))
+
+(defn peripheral-essence-for [rank]
+  (+ 27 (* rank 7)))
+
+(defn inflate-essence-map [{:keys [rating xp-spent xp-wallet rating motes-spent-personal motes-spent-peripheral motes-committed-personal motes-committed-peripheral] :as essence-map}]
+  (let [essence-max-peripheral (- (peripheral-essence-for rating)  motes-committed-peripheral)
+        essence-max-personal (- (personal-essence-for rating) motes-committed-personal)]
+    (into essence-map
+            {:essence-max-personal essence-max-personal
+             :essence-max-peripheral essence-max-peripheral
+             :essence-personal-remaining (- essence-max-personal motes-spent-personal)
+             :essence-peripheral-remaining (- essence-max-peripheral motes-spent-peripheral)})))
