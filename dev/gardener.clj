@@ -366,14 +366,17 @@
                                                       "attr attr attr attr attr attr attr attr attr"
                                                       "abil abil abil will will will favo favo favo"
                                                       "abil abil abil essi essi essi favo favo favo"
-                                                      "abil abil abil essi essi essi .... .... ...."
-                                                      "abil abil abil essi essi essi .... .... ...."
+                                                      "abil abil abil essi essi essi xpxp xpxp xpxp"
+                                                      "abil abil abil essi essi essi xpxp xpxp xpxp"
+                                                      "abil abil abil .... .... .... xpxp xpxp xpxp"
                                                       "abil abil abil .... .... .... .... .... ...."
+                                                      ".... .... .... .... .... .... .... .... ...."
+                                                      "heal heal heal heal heal heal heal heal heal"
                                                       ".... .... .... .... .... .... .... .... ...."
                                                       "spec spec spec inti inti inti inti inti inti"
                                                       "spec spec spec inti inti inti inti inti inti"
-                                                      ".... .... .... inti inti inti inti inti inti"
-                                                      "heal heal heal heal heal heal heal heal heal")}
+                                                      ".... .... .... inti inti inti inti inti inti")}
+
 
                [:.page-header {:grid-area "head"}]
                [:.coreinfo {:grid-area "core"}
@@ -397,7 +400,8 @@
                [:.intimacyinfo {:grid-area "inti"}]
                [:.essence-module {:grid-area "essi"}
                 [:form {:column-count 1}]]
-               [:.willpower-module {:grid-area "will"}]]]]))
+               [:.willpower-module {:grid-area "will"}]
+               [:.experience-module {:grid-area "xpxp"}]]]]))
 
 
 

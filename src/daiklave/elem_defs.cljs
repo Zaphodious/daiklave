@@ -607,14 +607,23 @@
                                                      :path       (into path [:intimacies n 2])
                                                      :class      "third-of-three"}]))
                                                (:intimacies view)))
+               (fp/form-of "Experience"
+                           "experience-module"
+                           [{:field-type :balanced-number, :label "Regular"
+                             :value-a (-> view :xp :spent), :path-a (conj path :xp :spent), :min-a 1, :max-a 1000000, :label-a "Spent"
+                             :value-b (-> view :xp :wallet), :path-b (conj path :xp :wallet), :min-b 0, :max-b 1000000, :label-b "Unspent"}
+                            {:field-type :number, :label "Solar", :value (-> view :xp :solar), :min 0, :max 100000, :path (conj path :xp :solar)}
+                            {:field-type :number, :label "Silver", :value (-> view :xp :silver), :min 0, :max 100000, :path (conj path :xp :silver)}
+                            {:field-type :number, :label "Gold", :value (-> view :xp :gold), :min 0, :max 100000, :path (conj path :xp :gold)}
+                            {:field-type :number, :label "White", :value (-> view :xp :white), :min 0, :max 100000, :path (conj path :xp :white)}])
                (let [{essence-view :view essence-path :path} (daistate/fetch-view-for (conj path :essence))
                      essence-expanded (daihelp/inflate-essence-map essence-view)]
                  (fp/form-of "Essence"
                               "essence-module"
-                            [{:field-type :number, :label "Rating", :min 1, :max 2, :value (:rating essence-expanded), :path (conj essence-path :rating)}
-                             {:field-type :balanced-number, :label "XP",
-                              :value-a (:xp-spent essence-expanded), :path-a (conj essence-path :xp-spent), :min-a 1, :max-a 1000000, :label-a "Spent"
-                              :value-b (:xp-wallet essence-expanded), :path-b (conj essence-path :xp-wallet), :min-b 0, :max-b 1000000, :label-b "Unspent"}
+                            [{:field-type :number, :label "Rating", :min 1, :max 5, :value (:rating essence-expanded), :path (conj essence-path :rating)}
+                             #_{:field-type :balanced-number, :label "XP",
+                                :value-a (:xp-spent essence-expanded), :path-a (conj essence-path :xp-spent), :min-a 1, :max-a 1000000, :label-a "Spent"
+                                :value-b (:xp-wallet essence-expanded), :path-b (conj essence-path :xp-wallet), :min-b 0, :max-b 1000000, :label-b "Unspent"}
 
                              {:field-type :balanced-number, :label "Personal",
                               :value-a (:essence-personal-remaining essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Remaining"

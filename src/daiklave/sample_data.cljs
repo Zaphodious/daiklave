@@ -26,7 +26,8 @@
                                              :bashing 2
                                              :lethal 1
                                              :aggravated 3}
-                             :willpower {:temporary 2 :max 9}
+                             :willpower {:temporary 2 :max 9},
+                             :crafting [{:rating 3, :description ""}]
                              :subtype              :twilight,
                              :last-accessed        4535361
                              :attributes           {:strength 2, :dexterity 4, :stamina 2, :charisma 3, :manipulation 3, :appearance 3, :perception 2, :intelligence 5, :wits 4}
@@ -34,9 +35,13 @@
                              :abilities-additional [[:martial-arts, 3, "Single Point Shining Into The Void"]]
                              :favored-abilities    [:awareness, :brawl, :bureaucracy, :dodge, :integrity, :linguistics, :lore, :occult, :socialize, :martial-arts]
                              :supernal             :lore
-                             :essence {:xp-spent 55
-                                       :xp-wallet 10
-                                       :rating 1
+                             :xp {:spent 55
+                                  :wallet 10
+                                  :solar 0
+                                  :silver 3
+                                  :gold 2
+                                  :white 1}
+                             :essence {:rating 1
                                        :motes-spent-personal 4
                                        :motes-spent-peripheral 2
                                        :motes-committed-peripheral 2
@@ -75,9 +80,13 @@
                              :abilities-additional [[:craft, 2, "Bladewright"]]
                              :favored-abilities    [:archery, :athletics, :brawl, :craft, :integrity, :larceny, :melee, :resistance, :sail, :survival]
                              :supernal             :melee
-                             :essence {:xp-spent 55
-                                       :xp-wallet 10
-                                       :rating 1
+                             :xp {:spent 55
+                                  :wallet 10
+                                  :solar 0
+                                  :silver 3
+                                  :gold 2
+                                  :white 1}
+                             :essence {:rating 1
                                        :motes-spent-personal 4
                                        :motes-spent-peripheral 2
                                        :motes-committed-peripheral 2
@@ -114,9 +123,13 @@
                              :abilities         {:athletics 5, :awareness 3, :brawl 3, :integrity 2, :linguistics 1, :lore 2, :occult 2, :performance 3, :presence 3, :resistance 3, :thrown 2}
                              :favored-abilities [:athletics, :brawl, :integrity, :lore, :occult, :performance, :presence, :resistance, :thrown, :awareness]
                              :supernal          :athletics
-                             :essence {:xp-spent 55
-                                       :xp-wallet 10
-                                       :rating 1
+                             :xp {:spent 55
+                                  :wallet 10
+                                  :solar 0
+                                  :silver 3
+                                  :gold 2
+                                  :white 1}
+                             :essence {:rating 1
                                        :motes-spent-personal 4
                                        :motes-spent-peripheral 2
                                        :motes-committed-peripheral 2

@@ -445,14 +445,16 @@ table.page-list tbody tr td .merits-page, table.page-list tbody tr td .charms-li
 "attr attr attr attr attr attr attr attr attr"
 "abil abil abil will will will favo favo favo"
 "abil abil abil essi essi essi favo favo favo"
-"abil abil abil essi essi essi .... .... ...."
-"abil abil abil essi essi essi .... .... ...."
+"abil abil abil essi essi essi xpxp xpxp xpxp"
+"abil abil abil essi essi essi xpxp xpxp xpxp"
+"abil abil abil .... .... .... xpxp xpxp xpxp"
 "abil abil abil .... .... .... .... .... ...."
+".... .... .... .... .... .... .... .... ...."
+"heal heal heal heal heal heal heal heal heal"
 ".... .... .... .... .... .... .... .... ...."
 "spec spec spec inti inti inti inti inti inti"
 "spec spec spec inti inti inti inti inti inti"
-".... .... .... inti inti inti inti inti inti"
-"heal heal heal heal heal heal heal heal heal";
+".... .... .... inti inti inti inti inti inti";
 }
 
 table .character-page .page-content .page-header {
@@ -524,4 +526,8 @@ table .character-page .page-content .essence-module form {
 
 table .character-page .page-content .willpower-module {
   grid-area: will;
+}
+
+table .character-page .page-content .experience-module {
+  grid-area: xpxp;
 }}
