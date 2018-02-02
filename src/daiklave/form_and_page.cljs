@@ -58,6 +58,8 @@
   [page-title page-subtitle page-img page-class page-section-seq]
   [:.page {:class page-class}
    [:h1.page-title page-title]
+   [:ul.page-menu
+    [:li [:a "Printer View"]]]
    [:.page-content
     [:.page-section.page-header
      [:h2.page-subtitle page-subtitle]
