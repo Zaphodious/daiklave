@@ -239,6 +239,9 @@
        [:&:before {:content "\"⚪\""}]]
       [:.active-dot
        [:&:before {:content "\"⚫\""}]]]
+     [:.number-field
+      [:input {:width (calchelper :100% - :80px)}]
+      [:button {:width :20px}]]
      [:.read-only {:border           0,
                    :background-color color-brightest}]
      [:textarea {:height :3.2em}]]

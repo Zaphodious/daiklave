@@ -65,12 +65,16 @@
 
 (rum/defc number-field < rum/static
   [{:keys [path value options read-only min max] :as fieldmap}]
-  [:input.field
-   {:type      :number
-    :value     value :id (pr-str path) :key (pr-str path)
-    :min       min :max max
-    :readOnly read-only
-    :on-change (standard-on-change-for path read-only)}])
+  (let [button-fn (partial daistate/change-element! path)]
+    [:.field.number-field
+     [:button {:on-click #(button-fn inc)} "+"]
+     [:button {:on-click #(button-fn dec)} "-"]
+     [:input
+      {:type      :number
+       :value     value :id (pr-str path) :key (pr-str path)
+       :min       min :max max
+       :readOnly read-only
+       :on-change (standard-on-change-for path read-only)}]]))
 
 (rum/defc balanced-number-field < rum/static
   [{:keys [path-a path-b value-a value-b read-only min-a min-b max-a max-b label-a label-b] :as fieldmap}]

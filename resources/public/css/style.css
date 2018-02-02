@@ -241,6 +241,14 @@ form p .field .active-dot:before {
   content: "⚫";
 }
 
+form p .number-field input {
+  width: calc(100%  -  80px);
+}
+
+form p .number-field button {
+  width: 20px;
+}
+
 form p .read-only {
   border: 0;
   background-color: #ffffff;
