@@ -26,6 +26,7 @@
                                              :bashing 2
                                              :lethal 1
                                              :aggravated 3}
+                             :willpower {:temporary 2 :max 9}
                              :subtype              :twilight,
                              :last-accessed        4535361
                              :attributes           {:strength 2, :dexterity 4, :stamina 2, :charisma 3, :manipulation 3, :appearance 3, :perception 2, :intelligence 5, :wits 4}
@@ -66,6 +67,7 @@
                                              :bashing 2
                                              :lethal 1
                                              :aggravated 3}
+                             :willpower {:temporary 2 :max 4}
                              :subtype              :dawn,
                              :last-accessed        0
                              :attributes           {:strength 4, :dexterity 4, :stamina 3, :charisma 3, :manipulation 3, :appearance 3, :perception 3, :intelligence 3, :wits 3}
@@ -104,6 +106,7 @@
                                              :bashing 2
                                              :lethal 1
                                              :aggravated 3}
+                             :willpower {:temporary 2 :max 7}
                              :last-accessed     987253
                              :attributes        {:strength   4, :dexterity 4, :stamina 3,
                                                  :charisma   3, :manipulation 2, :appearance 2,

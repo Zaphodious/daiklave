@@ -630,7 +630,9 @@
                               :value-a (:essence-max-peripheral essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
                               :value-b (:motes-committed-peripheral essence-expanded), :path-b (conj essence-path :motes-committed-peripheral), :min-b 0, :max-b 1000000, :label-b "Committed"}]))
 
-
+               (fp/form-of "Willpower"
+                           "willpower-module"
+                           [])
 
                (fp/section-of "Health Track"
                               "health-track-module"
