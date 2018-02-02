@@ -438,21 +438,25 @@ table.page-list tbody tr td .merits-page, table.page-list tbody tr td .charms-li
 @Supports (grid-template-areas: "...") {
      table .character-page .page-content {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 3fr 3fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas: 
-"header header core core core"
-"header header ... ... ..."
-"attr attr attr attr attr"
-"abil abil abil fav ..."
-"abil abil abil spec ..."
-"abil abil abil ... ..."
-"ess ess ess inti inti"
-"... ... ... inti inti"
-"health health health health health";
+"head head core core core core core core core"
+"head head .... .... .... .... .... .... ...."
+"attr attr attr attr attr attr attr attr attr"
+"abil abil abil will will will favo favo favo"
+"abil abil abil essi essi essi favo favo favo"
+"abil abil abil essi essi essi .... .... ...."
+"abil abil abil essi essi essi .... .... ...."
+"abil abil abil .... .... .... .... .... ...."
+".... .... .... .... .... .... .... .... ...."
+"spec spec spec inti inti inti inti inti inti"
+"spec spec spec inti inti inti inti inti inti"
+".... .... .... inti inti inti inti inti inti"
+"heal heal heal heal heal heal heal heal heal";
 }
 
 table .character-page .page-content .page-header {
-  grid-area: header;
+  grid-area: head;
 }
 
 table .character-page .page-content .coreinfo {
@@ -491,7 +495,7 @@ table .character-page .page-content .attributeinfo form p p, table .character-pa
 }
 
 table .character-page .page-content .favoredabilities {
-  grid-area: fav;
+  grid-area: favo;
 }
 
 table .character-page .page-content .specialtyinfo {
@@ -499,7 +503,7 @@ table .character-page .page-content .specialtyinfo {
 }
 
 table .character-page .page-content .health-track-module {
-  grid-area: health;
+  grid-area: heal;
 }
 
 table .character-page .page-content .health-track-module .button-bar {
@@ -511,9 +515,13 @@ table .character-page .page-content .intimacyinfo {
 }
 
 table .character-page .page-content .essence-module {
-  grid-area: ess;
+  grid-area: essi;
 }
 
 table .character-page .page-content .essence-module form {
   column-count: 1;
+}
+
+table .character-page .page-content .willpower-module {
+  grid-area: will;
 }}

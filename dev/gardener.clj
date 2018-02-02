@@ -359,18 +359,23 @@
             [:table
              [:.character-page
               [:.page-content {:display               :grid
-                               :grid-template-columns "1fr 1fr 1fr 3fr 3fr"
-                               :grid-template-areas (grid-area-strings "header header core core core"
-                                                                       "header header ... ... ..."
-                                                                       "attr attr attr attr attr"
-                                                                       "abil abil abil fav ..."
-                                                                       "abil abil abil spec ..."
-                                                                       "abil abil abil ... ..."
-                                                                       "ess ess ess inti inti"
-                                                                       "... ... ... inti inti"
-                                                                       "health health health health health")}
+                               :grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
+                               :grid-template-areas (grid-area-strings
+                                                      "head head core core core core core core core"
+                                                      "head head .... .... .... .... .... .... ...."
+                                                      "attr attr attr attr attr attr attr attr attr"
+                                                      "abil abil abil will will will favo favo favo"
+                                                      "abil abil abil essi essi essi favo favo favo"
+                                                      "abil abil abil essi essi essi .... .... ...."
+                                                      "abil abil abil essi essi essi .... .... ...."
+                                                      "abil abil abil .... .... .... .... .... ...."
+                                                      ".... .... .... .... .... .... .... .... ...."
+                                                      "spec spec spec inti inti inti inti inti inti"
+                                                      "spec spec spec inti inti inti inti inti inti"
+                                                      ".... .... .... inti inti inti inti inti inti"
+                                                      "heal heal heal heal heal heal heal heal heal")}
 
-               [:.page-header {:grid-area "header"}]
+               [:.page-header {:grid-area "head"}]
                [:.coreinfo {:grid-area "core"}
                 [:form {:column-count 2}]]
                [:.attributeinfo {:grid-area "attr"}
@@ -385,13 +390,14 @@
                   [:p {:float :right
                        :margin-right :-30px
                        :padding :7px}]]]]
-               [:.favoredabilities {:grid-area "fav"}]
+               [:.favoredabilities {:grid-area "favo"}]
                [:.specialtyinfo {:grid-area "spec"}]
-               [:.health-track-module {:grid-area "health"}
+               [:.health-track-module {:grid-area "heal"}
                 [:.button-bar {:display :inline-block}]]
                [:.intimacyinfo {:grid-area "inti"}]
-               [:.essence-module {:grid-area "ess"}
-                [:form {:column-count 1}]]]]]))
+               [:.essence-module {:grid-area "essi"}
+                [:form {:column-count 1}]]
+               [:.willpower-module {:grid-area "will"}]]]]))
 
 
 

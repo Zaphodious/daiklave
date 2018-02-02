@@ -632,7 +632,10 @@
 
                (fp/form-of "Willpower"
                            "willpower-module"
-                           [])
+                           [{:field-type :number, :label "Max", :value (-> view :willpower :max), :path (conj path :willpower :max)},
+                            {:field-type :balanced-number, :label "Temporary",
+                             :value-a (- (-> view :willpower :max) (-> view :willpower :temporary)), :path-a nil, :min-a 1, :max-a 10, :label-a "Remaining"
+                             :value-b (-> view :willpower :temporary), :path-b (conj path :willpower :temporary), :min-b 0, :max-b 1000000, :label-b "Spent"}])
 
                (fp/section-of "Health Track"
                               "health-track-module"
