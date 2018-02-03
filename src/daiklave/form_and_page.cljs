@@ -60,10 +60,6 @@
         vec-of-paths (vec-of-paths-for patho)]
     ;
     [:#app-frame
-     [:a.helper-dl-link {:href     (str "data:text/plain;charset=utf-8,"
-                                        (url/url-encode (prn-str (-> @daistate/app-state :chrons (get "0")))))
-                         :download "Anathema_Data.edn"}
-      "Download Exalted Core for Alex"]
      (println "vec of paths " vec-of-paths)
      (if (> 600 (:width (daistate/get-screen-size)))
        (page-for-viewmap viewmap)
