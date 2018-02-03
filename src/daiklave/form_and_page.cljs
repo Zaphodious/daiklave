@@ -65,15 +65,15 @@
       [:li "GoTo: "]]]))
 
 (rum/defc page-of < rum/static
-  [page-title page-subtitle page-img page-class page-section-seq]
-  [:.page {:class page-class}
-   [:h1.page-title page-title]
+  [{:keys [title subtitle img class sections]}]
+  [:.page {:class class}
+   [:h1.page-title title]
    (page-menu-assembly nil)
    [:.page-content
     [:.page-section.page-header
-     [:h2.page-subtitle page-subtitle]
-     [:img.banner-image {:src page-img}]]
-    page-section-seq]])
+     [:h2.page-subtitle subtitle]
+     [:img.banner-image {:src img}]]
+    sections]])
 
 (rum/defc in-section-form-of < rum/static
   [form-name form-field-dec-vec]
@@ -115,28 +115,26 @@
         add-fn (fn [] (daistate/change-element! path #(conj % new-element)))
         sort-button-fn (fn [] (daistate/change-element! path #(into [] (sort sort-fn %))))]
     ;(println "now-state " (pr-str now-state))
-    [:.page {:class class}
-     [:h1.page-title page-title]
-     [:.page-content
-      [:.page-section
-       [:h2.page-subtitle page-subtitle]
-       [:img.banner-image {:src page-img}]]
-      (when selector-widget
-        [:.page-section
-         [:h3 selector-title]
-         selector-widget])
-      [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
-      (map-indexed (fn [n a]
-                     (list
-                       [:.element-button-bar
-                        [:button.subtract-button
-                         {:on-click (neg-fn-make n)
-                          :key      (pr-str path)}
-                         "remove"]]
-                       (form-fn a (conj path n))))
+    (page-of {:title page-title
+               :subtitle page-subtitle
+               :img page-img
+               :class class
+               :sections [(when selector-widget
+                            [:.page-section
+                             [:h3 selector-title]
+                             selector-widget])
+                          [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
+                          (map-indexed (fn [n a]
+                                         (list
+                                           [:.element-button-bar
+                                            [:button.subtract-button
+                                             {:on-click (neg-fn-make n)
+                                              :key      (pr-str path)}
+                                             "remove"]]
+                                           (form-fn a (conj path n))))
 
-                   now-state)
-      [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]]))
+                                       now-state)
+                          [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]})))
 
 (rum/defc mini-form-of < rum/static
   [form-name form-field-dec-vec]
