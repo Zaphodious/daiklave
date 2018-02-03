@@ -37,6 +37,9 @@
             (conj c (conj (last c) a)))
           [[]]
           path))
+
+
+
 (rum/defc app-frame < rum/reactive (scroll-app-frame-right-mixin)
   []
   (let [patho (rum/react daistate/current-view)
@@ -68,8 +71,8 @@
            [:li [:a display-name]]))
        (vec-of-paths-for page-path))]))
 
-(rum/defcs page-menu-assembly < rum/static (rum/local false :menu-showing)
-  [local-state page-path]
+(rum/defcs page-menu-assembly < rum/static (rum/local false :menu-showing) rum/reactive
+  [local-state page-path minimized-atom]
   (let [show-menu-atom (:menu-showing local-state)]
     [:.menu-assembly
      [:button.menu-toggle
@@ -78,15 +81,16 @@
      [:.page-menu {:class (if @show-menu-atom "menu-showing" "menu-hidden")}
       (build-breadcrumb page-path)
       [:ul
+       [:li [:a {:on-click #(swap! minimized-atom not)} (if (rum/react minimized-atom) "Show Irrelevant Fields" "Hide Irrelevant Fields")]]
        [:li [:a "Print"]]
        [:li [:a "Download"]]]]]))
 
 
-(rum/defc page-of < rum/static
-  [{:keys [title subtitle img class sections path]}]
-  [:.page {:class class}
+(rum/defcs page-of < rum/static (rum/local true :minimized)
+  [{:keys [minimized]} {:keys [title subtitle img class sections path]}]
+  [:.page {:class (str (if @minimized "minimized" "maximized") " " class)}
    [:h1.page-title title]
-   (page-menu-assembly path)
+   (page-menu-assembly path minimized)
    [:.page-content
     [:.page-section.page-header
      [:h2.page-subtitle subtitle]
@@ -97,7 +101,8 @@
   [form-name form-field-dec-vec]
   [:form
    (map-indexed (fn [n a]
-                  [:p {:key (str (pr-str (:path a)) "-" n "- p")}
+                  [:p {:class (:class a)
+                       :key (str (pr-str (:path a)) "-" n "- p")}
                    [:label {:for (pr-str (:path a))}
                     (:label a)]
                    (form-field-for a)])

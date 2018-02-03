@@ -155,6 +155,11 @@
                  :left       0
                  :width      :100%
                  :height     :100%}]
+   [:.minimized-field {:transition "opacity .5s"}]
+   [:.page.minimized [:* [:.minimized-field {:opacity 0
+                                             :display :none}]]]
+   [:.page.maximized [:* [:.minimized-field {:opacity 1
+                                             :display :inherit}]]]
    [:.page {:width  :100%
             :height :100%
             :position :relative}

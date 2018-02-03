@@ -15,7 +15,7 @@
 (defn sort-attribute-map [attr-map]
   (into (sorted-map-by sort-attributes-by) attr-map))
 
-(def ability-keys [:archery, :athletics, :awareness, :brawl, :bureaucracy, :craft, :dodge, :integrity, :investigation, :larceny, :linguistics, :lore, :medicine, :melee, :occult, :performance, :presence, :resistance, :ride, :sail, :socialize, :stealth, :survival, :thrown, :war])
+(def ability-keys [:archery, :athletics, :awareness, :brawl, :bureaucracy, :dodge, :integrity, :investigation, :larceny, :linguistics, :lore, :medicine, :melee, :occult, :performance, :presence, :resistance, :ride, :sail, :socialize, :stealth, :survival, :thrown, :war])
 
 (def ability-additional-keys [:craft, :martial-arts])
 
