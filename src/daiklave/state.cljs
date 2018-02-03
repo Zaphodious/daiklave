@@ -88,4 +88,13 @@
          (map
            fetch-view-for))))
 
+(def current-paste-handler (atom (fn [a] (println "thing is " a))))
 
+(defonce pastelistener
+         (js/addEventListener
+           "paste" (fn [a]
+                     (when
+                       (and (.hasFocus js/document)
+                            (not (= "INPUT" (-> js/document .-activeElement .-tagName)))
+                            (not (= "TEXTAREA" (-> js/document .-activeElement .-tagName))))
+                       (@current-paste-handler (-> a .-clipboardData (.getData "text/plain")))))))
