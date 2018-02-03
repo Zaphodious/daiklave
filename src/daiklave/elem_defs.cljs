@@ -457,9 +457,6 @@
          :path            path
          :class "charms-list-page"
          :elements        (get base-view (last path))
-         :selector-title "New By Paste"
-         :selector-widget [:input
-                             {:on-change println}]
         ; :selector-title  "Which Ability"
          ;:selector-widget (charm-selector path)
          :new-element     {:name          "Wise Arrow"

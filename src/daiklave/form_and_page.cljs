@@ -139,7 +139,7 @@
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]))
 ;[page-title page-subtitle page-img page-section-seq]
 (rum/defc page-table-for < rum/static
-  [{:keys [page-title page-subtitle page-img path elements new-element sort-fn form-fn selector-widget selector-title class]}]
+  [{:keys [page-title page-subtitle page-img path elements new-element sort-fn form-fn selector-widget selector-title class text-to-element-fn]}]
   (let [now-state (vec elements)
         neg-fn-make (fn [n] (fn [] (daistate/change-element! path (daiklave.seq/remove-nth now-state n))))
         add-fn (fn [] (daistate/change-element! path #(conj % new-element)))
@@ -165,7 +165,12 @@
                                             (form-fn a (conj path n))))
 
                                         now-state)
-                           [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]})))
+                           [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
+                           (when text-to-element-fn
+                             [:.page-section
+                              [:h3 "New By Paste"]
+                              [:p "If a properly formatted element is in the text field below, it will be used as the new element when the '+' button is clicked."]
+                              [:input {:type :text}]])]})))
 
 (rum/defc mini-form-of < rum/static
   [form-name form-field-dec-vec]
