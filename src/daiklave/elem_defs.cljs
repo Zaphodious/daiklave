@@ -275,6 +275,7 @@
                :subtitle "Exalted 3rd Ed"
                :img (:img view)
                :class "home-page"
+               :path path
                :sections [(section-link-of
                             "Characters"
                             "character-link"
@@ -292,6 +293,7 @@
   (fp/page-of {:title (:name view)
                :subtitle (:description view)
                :img (:img view)
+               :path path
                :class "character-select-page"
                :sections (->> [:characters]
                               (daistate/viewmaps-for-children)
@@ -309,6 +311,7 @@
                :subtitle (:description view)
                :img (:img view)
                :class "chron-select-page"
+               :path path
                :sections (->> [:chrons]
                               (daistate/viewmaps-for-children)
                               (filter (fn [a] (map? (:view a))))
@@ -327,6 +330,7 @@
                :subtitle (:description view)
                :img (:img view)
                :class "chron-page"
+               :path path
                :sections (into
                            [(fp/form-of
                               "Core Info"
@@ -442,6 +446,7 @@
                    :subtitle "Dingys what shini bois do"
                    :img (:img base-view)
                    :class "charm-ability-page"
+                   :path path
                    :sections (map
                                (fn [k] (section-link-of (make-pretty k)
                                                         (str "section-link-for" k)
@@ -534,6 +539,7 @@
                :subtitle (:description view)
                :img (:img view)
                :class "character-page"
+               :path path
                :sections
                [(fp/form-of
                   "Core Info"

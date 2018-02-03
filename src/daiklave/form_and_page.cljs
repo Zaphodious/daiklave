@@ -65,10 +65,10 @@
       [:li "GoTo: "]]]))
 
 (rum/defc page-of < rum/static
-  [{:keys [title subtitle img class sections]}]
+  [{:keys [title subtitle img class sections path]}]
   [:.page {:class class}
    [:h1.page-title title]
-   (page-menu-assembly nil)
+   (page-menu-assembly path)
    [:.page-content
     [:.page-section.page-header
      [:h2.page-subtitle subtitle]
@@ -116,13 +116,14 @@
         sort-button-fn (fn [] (daistate/change-element! path #(into [] (sort sort-fn %))))]
     ;(println "now-state " (pr-str now-state))
     (page-of {:title page-title
-               :subtitle page-subtitle
-               :img page-img
-               :class class
-               :sections [(when selector-widget
+              :subtitle page-subtitle
+              :img page-img
+              :class class
+              :path path
+              :sections [(when selector-widget
                             [:.page-section
                              [:h3 selector-title]
-                             selector-widget])
+                             selector-widget]
                           [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
                           (map-indexed (fn [n a]
                                          (list
@@ -134,7 +135,7 @@
                                            (form-fn a (conj path n))))
 
                                        now-state)
-                          [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]})))
+                          [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]])]})))
 
 (rum/defc mini-form-of < rum/static
   [form-name form-field-dec-vec]
