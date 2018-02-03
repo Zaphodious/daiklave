@@ -38,7 +38,18 @@
           [[]]
           path))
 
-
+(defn download-data-at [path]
+  (let [pathos (vec-of-paths-for path)
+        fetches (map daistate/fetch-view-for pathos)
+        names (map
+                (fn [{:keys [view path]}]
+                  (if (:name view) (:name view) (make-pretty (last path))))
+                fetches)
+        elem-name (reduce #(str %1 "-" %2) names)
+        fetch-elem (daistate/fetch-view-for path)]
+       {:href (str "data:text/plain;charset=utf-8,"
+                   (url/url-encode (prn-str fetch-elem)))
+        :download (str elem-name ".edn")}))
 
 (rum/defc app-frame < rum/reactive (scroll-app-frame-right-mixin)
   []
@@ -83,7 +94,7 @@
       [:ul
        [:li [:a {:on-click #(swap! minimized-atom not)} (if (rum/react minimized-atom) "Show Irrelevant Fields" "Hide Irrelevant Fields")]]
        [:li [:a "Print"]]
-       [:li [:a "Download"]]]]]))
+       [:li [:a (download-data-at page-path) "Download"]]]]]))
 
 
 (rum/defcs page-of < rum/static (rum/local true :minimized)
