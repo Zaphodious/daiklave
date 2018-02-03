@@ -58,6 +58,16 @@
          [:tr
           (map (fn [a] [:td a]) (map page-for-viewmap (map daistate/fetch-view-for vec-of-paths)))]]])]))
 
+(defn build-breadcrumb [page-path]
+  (when page-path
+    [:ul
+     (map
+       (fn [a]
+         (let [view-name (:name (:view (daistate/fetch-view-for a)))
+               display-name (if view-name view-name (make-pretty (last a)))]
+           [:li [:a display-name]]))
+       (vec-of-paths-for page-path))]))
+
 (rum/defcs page-menu-assembly < rum/static (rum/local false :menu-showing)
   [local-state page-path]
   (let [show-menu-atom (:menu-showing local-state)]
@@ -65,14 +75,12 @@
      [:button.menu-toggle
       {:on-click #(swap! show-menu-atom not)}
       (if @show-menu-atom "Hide Menu" "Show Menu")]
-     [:ul.page-menu {:class (if @show-menu-atom "menu-showing" "menu-hidden")}
-      [:li [:a "Print"]]
-      [:li [:a "Download"]]
-      (when page-path
-        [[:li "GoTo: "]
-         (map
-           (fn [a] [:li [:a (str/capitalize (make-pretty (:name (:view (daistate/fetch-view-for a)))))]])
-           (vec-of-paths-for page-path))])]]))
+     [:.page-menu {:class (if @show-menu-atom "menu-showing" "menu-hidden")}
+      (build-breadcrumb page-path)
+      [:ul
+       [:li [:a "Print"]]
+       [:li [:a "Download"]]]]]))
+
 
 (rum/defc page-of < rum/static
   [{:keys [title subtitle img class sections path]}]

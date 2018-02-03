@@ -128,28 +128,30 @@ body {
   z-index: 20;
 }
 
-.page .menu-assembly ul.page-menu {
+.page .menu-assembly .page-menu {
   background-color: #a98274;
   position: absolute;
   z-index: 9;
   box-shadow: 0 0 5px grey;
-  transition: top .5s;
+  transition: top .5s, opacity .5s;
   width: calc(100%  -  40px);
   padding: 5px;
 }
 
-.page .menu-assembly ul.page-menu li {
+.page .menu-assembly .page-menu ul li {
   display: inline-block;
   padding-right: 5px;
 }
 
-.page .menu-assembly ul.menu-showing {
+.page .menu-assembly .menu-showing {
   top: 0px;
   left: 13px;
+  opacity: 1;
 }
 
-.page .menu-assembly ul.menu-hidden {
-  top: -23px;
+.page .menu-assembly .menu-hidden {
+  opacity: 0;
+  top: -70px;
   left: 13px;
 }
 

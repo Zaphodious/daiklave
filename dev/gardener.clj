@@ -174,20 +174,24 @@
                            :right :20px
                            :top :-28px
                            :z-index 20}]
-     [:ul.page-menu {:background-color color-p-light
+     [:.page-menu {:background-color color-p-light
                      :position :absolute
 
                      :z-index 9
                      :box-shadow elementshadow
-                     :transition "top .5s"
+                     :transition "top .5s, opacity .5s"
                      :width (calchelper :100% - :40px)
                      :padding :5px}
-      [:li {:display :inline-block
-            :padding-right :5px}]]
-     [:ul.menu-showing {:top :0px
-                        :left :13px}]
-     [:ul.menu-hidden {;:position :fixed
-                       :top :-23px
+      [:ul
+       [:li {:display :inline-block
+             :padding-right :5px}]]]
+
+     [:.menu-showing {:top :0px
+                        :left :13px
+                      :opacity 1}]
+     [:.menu-hidden {;:position :fixed
+                       :opacity 0
+                       :top :-70px
                        :left :13px}]]
                        ;:right :0px}]]
     [:.page-content {:height   (calchelper :100vh - title-bar-height - :10px)
