@@ -130,22 +130,22 @@
               :img page-img
               :class class
               :path path
-              :sections [(when selector-widget
+                :sections [(when selector-widget
                             [:.page-section
                              [:h3 selector-title]
-                             selector-widget]
-                          [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
-                          (map-indexed (fn [n a]
-                                         (list
-                                           [:.element-button-bar
-                                            [:button.subtract-button
-                                             {:on-click (neg-fn-make n)
-                                              :key      (pr-str path)}
-                                             "remove"]]
-                                           (form-fn a (conj path n))))
+                             selector-widget])
+                           [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
+                           (map-indexed (fn [n a]
+                                          (list
+                                            [:.element-button-bar
+                                             [:button.subtract-button
+                                              {:on-click (neg-fn-make n)
+                                               :key      (pr-str path)}
+                                              "remove"]]
+                                            (form-fn a (conj path n))))
 
-                                       now-state)
-                          [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]])]})))
+                                        now-state)
+                           [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]})))
 
 (rum/defc mini-form-of < rum/static
   [form-name form-field-dec-vec]
