@@ -3,8 +3,13 @@
             [daiklave.state :as daistate]
             [cemerick.url :as url]
             [daiklave.seq :as daiseq]
-            [clojure.browser.dom :as dom]))
+            [clojure.browser.dom :as dom]
+            [clojure.string :as str]))
 
+(defn make-pretty [keyw]
+  (cond
+    (keyword? keyw) (str/capitalize (name keyw))
+    :else (str keyw)))
 
 (defmulti page-for-viewmap (fn [a] (-> a :view :category)))
 (defmethod page-for-viewmap nil
@@ -27,17 +32,18 @@
                        (reset! cache-atom @daistate/current-view)
                        (set! (.-scrollLeft (dom/get-element "app-frame")) 1000000))
                      s)}))
-
+(defn vec-of-paths-for [path]
+  (reduce (fn [c a]
+            (conj c (conj (last c) a)))
+          [[]]
+          path))
 (rum/defc app-frame < rum/reactive (scroll-app-frame-right-mixin)
   []
   (let [patho (rum/react daistate/current-view)
         app-data (rum/react daistate/app-state)
         viewmap (daistate/fetch-view-for patho app-data)
         screen-size (rum/react daistate/screen-size)
-        vec-of-paths (reduce (fn [c a]
-                               (conj c (conj (last c) a)))
-                             [[]]
-                             patho)]
+        vec-of-paths (vec-of-paths-for patho)]
     ;
     [:#app-frame
      [:a.helper-dl-link {:href     (str "data:text/plain;charset=utf-8,"
@@ -62,7 +68,11 @@
      [:ul.page-menu {:class (if @show-menu-atom "menu-showing" "menu-hidden")}
       [:li [:a "Print"]]
       [:li [:a "Download"]]
-      [:li "GoTo: "]]]))
+      (when page-path
+        [[:li "GoTo: "]
+         (map
+           (fn [a] [:li [:a (str/capitalize (make-pretty (:name (:view (daistate/fetch-view-for a)))))]])
+           (vec-of-paths-for page-path))])]]))
 
 (rum/defc page-of < rum/static
   [{:keys [title subtitle img class sections path]}]

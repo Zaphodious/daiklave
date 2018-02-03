@@ -1,5 +1,5 @@
 (ns daiklave.elem-defs
-  (:require [daiklave.form-and-page :as fp]
+  (:require [daiklave.form-and-page :as fp :refer [make-pretty]]
             [rum.core :as rum]
             [daiklave.fragment :as daifrag]
             [daiklave.state :as daistate]
@@ -10,10 +10,7 @@
 
 
 
-(defn make-pretty [keyw]
-  (cond
-    (keyword? keyw) (str/capitalize (name keyw))
-    :else (str keyw)))
+
 
 (defn standard-on-change-for
   [path readonly?]
