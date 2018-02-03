@@ -40,8 +40,8 @@
                              patho)]
     ;
     [:#app-frame
-     [:a.helper-dl-link {:href (str "data:text/plain;charset=utf-8,"
-                                    (url/url-encode (prn-str (-> @daistate/app-state :chrons (get "0")))))
+     [:a.helper-dl-link {:href     (str "data:text/plain;charset=utf-8,"
+                                        (url/url-encode (prn-str (-> @daistate/app-state :chrons (get "0")))))
                          :download "Anathema_Data.edn"}
       "Download Exalted Core for Alex"]
      (println "vec of paths " vec-of-paths)
@@ -52,14 +52,23 @@
          [:tr
           (map (fn [a] [:td a]) (map page-for-viewmap (map daistate/fetch-view-for vec-of-paths)))]]])]))
 
-
+(rum/defcs page-menu-assembly < rum/static (rum/local false :menu-showing)
+  [local-state page-path]
+  (let [show-menu-atom (:menu-showing local-state)]
+    [:.menu-assembly
+     [:button.menu-toggle
+      {:on-click #(swap! show-menu-atom not)}
+      (if @show-menu-atom "Hide Menu" "Show Menu")]
+     [:ul.page-menu {:class (if @show-menu-atom "menu-showing" "menu-hidden")}
+      [:li [:a "Print"]]
+      [:li [:a "Download"]]
+      [:li "GoTo: "]]]))
 
 (rum/defc page-of < rum/static
   [page-title page-subtitle page-img page-class page-section-seq]
   [:.page {:class page-class}
    [:h1.page-title page-title]
-   [:ul.page-menu
-    [:li [:a "Printer View"]]]
+   (page-menu-assembly nil)
    [:.page-content
     [:.page-section.page-header
      [:h2.page-subtitle page-subtitle]
@@ -70,7 +79,7 @@
   [form-name form-field-dec-vec]
   [:form
    (map-indexed (fn [n a]
-                  [:p {:key (str  (pr-str (:path a)) "-" n "- p")}
+                  [:p {:key (str (pr-str (:path a)) "-" n "- p")}
                    [:label {:for (pr-str (:path a))}
                     (:label a)]
                    (form-field-for a)])
@@ -122,7 +131,7 @@
                        [:.element-button-bar
                         [:button.subtract-button
                          {:on-click (neg-fn-make n)
-                          :key (pr-str path)}
+                          :key      (pr-str path)}
                          "remove"]]
                        (form-fn a (conj path n))))
 

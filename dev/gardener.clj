@@ -156,7 +156,8 @@
                  :width      :100%
                  :height     :100%}]
    [:.page {:width  :100%
-            :height :100%}
+            :height :100%
+            :position :relative}
     [:h1.page-title {:width            :100%
                      :background-color color-p-main
                      :color            color-off-bright
@@ -164,7 +165,31 @@
                      :text-align       :center
                      :font-weight      :bolder
                      :box-shadow       elementshadow
+                     :position :relative
                      :z-index          10}]
+
+    [:.menu-assembly {:position :absolute
+                      :width :100%}
+     [:button.menu-toggle {:position :absolute
+                           :right :20px
+                           :top :-28px
+                           :z-index 20}]
+     [:ul.page-menu {:background-color color-p-light
+                     :position :absolute
+
+                     :z-index 9
+                     :box-shadow elementshadow
+                     :transition "top .5s"
+                     :width (calchelper :100% - :40px)
+                     :padding :5px}
+      [:li {:display :inline-block
+            :padding-right :5px}]]
+     [:ul.menu-showing {:top :0px
+                        :left :13px}]
+     [:ul.menu-hidden {;:position :fixed
+                       :top :-23px
+                       :left :13px}]]
+                       ;:right :0px}]]
     [:.page-content {:height   (calchelper :100vh - title-bar-height - :10px)
                      :overflow-y :auto
                      :overflow-x :hidden}
