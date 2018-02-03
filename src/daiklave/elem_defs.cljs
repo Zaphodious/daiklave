@@ -6,7 +6,8 @@
             [daiklave.data-help :as daihelp]
             [clojure.string :as str]
             [clojure.tools.reader :as reader]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [daiklave.text-to-data :as ttd]))
 
 
 
@@ -459,6 +460,7 @@
          :elements        (get base-view (last path))
         ; :selector-title  "Which Ability"
          ;:selector-widget (charm-selector path)
+         :text-to-element-fn ttd/charm-to-data
          :new-element     {:name          "Wise Arrow"
                            :cost          "1m"
                            :min-essence   1
