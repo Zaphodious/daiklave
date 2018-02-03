@@ -64,8 +64,8 @@
   [{:keys [path value options read-only min max] :as fieldmap}]
   (let [button-fn (partial daistate/change-element! path)]
     [:.field.number-field
-     [:button {:on-click #(button-fn inc)} "+"]
-     [:button {:on-click #(button-fn dec)} "-"]
+     [:button {:type :button, :on-click #(button-fn inc)} "+"]
+     [:button {:type :button, :on-click #(button-fn dec)} "-"]
      [:input
       {:type      :number
        :value     value :id (pr-str path) :key (pr-str path)
@@ -484,7 +484,7 @@
                                {:field-type :select-single, :label "Ability", :value (:ability a), :path (conj p :ability), :options daihelp/ability-all-keys, :read-only true},
                                {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
                                {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a), :path (conj p :min-ability), :min 1, :max 5,}
-                               {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)},
+                               {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)},
                                {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
                                {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
                                {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywrods)}
