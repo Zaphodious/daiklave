@@ -3,6 +3,7 @@
             [daiklave.state :as daistate]
             [cemerick.url :as url]
             [daiklave.seq :as daiseq]
+            [daiklave.text-to-data :as daitext]
             [clojure.browser.dom :as dom]
             [clojure.string :as str]))
 
@@ -138,11 +139,23 @@
                   mini-forms)
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]))
 ;[page-title page-subtitle page-img page-section-seq]
-(rum/defc page-table-for < rum/static
-  [{:keys [page-title page-subtitle page-img path elements new-element sort-fn form-fn selector-widget selector-title class text-to-element-fn]}]
+
+(rum/defcs page-table-for < rum/static (rum/local "" :paste-entry)
+  [{:keys [paste-entry]} {:keys [page-title page-subtitle page-img path elements new-element sort-fn form-fn selector-widget selector-title class text-to-element-fn]}]
   (let [now-state (vec elements)
         neg-fn-make (fn [n] (fn [] (daistate/change-element! path (daiklave.seq/remove-nth now-state n))))
-        add-fn (fn [] (daistate/change-element! path #(conj % new-element)))
+        add-fn (fn [] (daistate/change-element!
+                        path
+                        #(conj % (if (= "" @paste-entry)
+                                   new-element
+                                   (do
+                                     (let [stringer @paste-entry
+                                           elem (daitext/charm-to-data stringer)]
+                                       (println "to-add-is " stringer)
+                                       (println "charmer is " elem)
+                                       (reset! paste-entry "")
+                                       elem))))))
+
         sort-button-fn (fn [] (daistate/change-element! path #(into [] (sort sort-fn %))))]
     ;(println "now-state " (pr-str now-state))
     (page-of {:title page-title
@@ -170,7 +183,10 @@
                              [:.page-section
                               [:h3 "New By Paste"]
                               [:p "If a properly formatted element is in the text field below, it will be used as the new element when the '+' button is clicked."]
-                              [:input {:type :text}]])]})))
+                              [:textarea.paste-entry-field
+                               {:on-change (fn [e]
+                                             (println paste-entry)
+                                             (reset! paste-entry (daistate/get-change-value e)))}]])]})))
 
 (rum/defc mini-form-of < rum/static
   [form-name form-field-dec-vec]
