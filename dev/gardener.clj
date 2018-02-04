@@ -373,7 +373,8 @@
                             :background-image (url "../img/spikes-half.png")}]]
    [:button.bashing {:border-color :blue}]
    [:button.lethal {:border-color :red}]
-   [:button.aggravated {:border-color :green}]])
+   [:button.aggravated {:border-color :green}]
+   [:.paste-entry-field {:width (calchelper :100% - :10px)}]])
 
 (def desktop-style
   [[:table.page-list {:display :block}
