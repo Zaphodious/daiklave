@@ -635,7 +635,7 @@
                                 essence-expanded (daihelp/inflate-essence-map essence-view)]
                             (fp/form-of "Essence"
                                         "essence-module"
-                                        [{:field-type :number, :label "Rating", :min 1, :max 5, :value (:rating essence-expanded), :path (conj essence-path :rating)}
+                                        [{:field-type :dots, :label "Rating", :min 1, :max 5, :value (:rating essence-expanded), :path (conj essence-path :rating)}
                                          #_{:field-type :balanced-number, :label "XP",
                                             :value-a    (:xp-spent essence-expanded), :path-a (conj essence-path :xp-spent), :min-a 1, :max-a 1000000, :label-a "Spent"
                                             :value-b    (:xp-wallet essence-expanded), :path-b (conj essence-path :xp-wallet), :min-b 0, :max-b 1000000, :label-b "Unspent"}
@@ -643,16 +643,17 @@
                                          {:field-type :balanced-number, :label "Personal",
                                           :value-a    (:essence-personal-remaining essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Remaining"
                                           :value-b    (:motes-spent-personal essence-expanded), :path-b (conj essence-path :motes-spent-personal), :min-b 0, :max-b 1000000, :label-b "Spent"}
-                                         {:field-type :balanced-number, :label "Pool",
-                                          :value-a    (:essence-max-personal essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
-                                          :value-b    (:motes-committed-personal essence-expanded), :path-b (conj essence-path :motes-committed-personal), :min-b 0, :max-b 1000000, :label-b "Committed"}
+                                         #_{:field-type :balanced-number, :label "Pool",
+                                            :value-a    (:essence-max-personal essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
+                                            :value-b    (:motes-committed-personal essence-expanded), :path-b (conj essence-path :motes-committed-personal), :min-b 0, :max-b 1000000, :label-b "Committed"}
 
                                          {:field-type :balanced-number, :label "Peripheral",
                                           :value-a    (:essence-peripheral-remaining essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Remaining"
                                           :value-b    (:motes-spent-peripheral essence-expanded), :path-b (conj essence-path :motes-spent-peripheral), :min-b 0, :max-b 1000000, :label-b "Spent"}
-                                         {:field-type :balanced-number, :label "Pool",
-                                          :value-a    (:essence-max-peripheral essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
-                                          :value-b    (:motes-committed-peripheral essence-expanded), :path-b (conj essence-path :motes-committed-peripheral), :min-b 0, :max-b 1000000, :label-b "Committed"}]))
+                                         #_{:field-type :balanced-number, :label "Pool",
+                                            :value-a    (:essence-max-peripheral essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
+                                            :value-b    (:motes-committed-peripheral essence-expanded), :path-b (conj essence-path :motes-committed-peripheral), :min-b 0, :max-b 1000000, :label-b "Committed"}
+                                         {:field-type :number, :label "Committed", :min 0, :max (:essence-peripheral-remaining essence-expanded), :value (:motes-committed-peripheral essence-expanded), :path (conj essence-path :motes-committed-peripheral)}]))
 
                           (fp/form-of "Willpower"
                                       "willpower-module"
