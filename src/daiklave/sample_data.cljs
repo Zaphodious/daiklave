@@ -22,6 +22,8 @@
                              :category             :character,
                              :type                 :solar,
                              :chrons ["0","242424"],
+                             :limit {:trigger "When something I've done is proven wrong"
+                                     :accrued 3}
                              :health-module {:levels [4 1 4 5]
                                              :bashing 2
                                              :lethal 1
@@ -68,6 +70,8 @@
                              :category             :character,
                              :type                 :solar,
                              :chrons ["0","242424"],
+                             :limit {:trigger "To be made utterly helpless"
+                                     :accrued 1}
                              :health-module {:levels [3 1 4 5]
                                              :bashing 2
                                              :lethal 1
@@ -109,8 +113,9 @@
                              :img               "https://i.imgur.com/wYnw5RQ.jpg"
                              :type              :solar,
                              :chrons ["0","452452452"],
+                             :limit {:trigger "Being delt with in bad faith"
+                                     :accrued 7}
                              :subtype           :zenith,
-                             :chron             "452452452",
                              :health-module {:levels [3 1 4 5]
                                              :bashing 2
                                              :lethal 1
