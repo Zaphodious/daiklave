@@ -597,6 +597,17 @@
                                                                 :path       (into path [:specialties n 1])
                                                                 :class      "third-of-three"}]))
                                                           (:specialties view)))
+                          (fp/form-of "Limit"
+                                      "limit-info"
+                                      [{:field-type :text
+                                        :label "Trigger"
+                                        :value (-> view :limit :trigger)
+                                        :path (conj path :limit :trigger)}
+                                       {:field-type :dots
+                                        :label "Accrued"
+                                        :value (-> view :limit :accrued)
+                                        :path (conj path :limit :accrued)
+                                        :min 0 :max 10}])
                           (fp/soft-table-for "Intimacies"
                                              "intimacyinfo"
                                              (conj path :intimacies)

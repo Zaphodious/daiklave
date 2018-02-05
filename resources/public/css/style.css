@@ -515,6 +515,7 @@ table.page-list tbody tr td .merits-page, table.page-list tbody tr td .charms-li
 "abil abil abil essi essi essi xpxp xpxp xpxp"
 "abil abil abil essi essi essi xpxp xpxp xpxp"
 "abil abil abil .... .... .... xpxp xpxp xpxp"
+"abil abil abil .... .... limt limt limt limt"
 "abil abil abil .... .... .... .... .... ...."
 ".... .... .... .... .... .... .... .... ...."
 "heal heal heal heal heal heal heal heal heal"
@@ -597,4 +598,8 @@ table .character-page .page-content .willpower-module {
 
 table .character-page .page-content .experience-module {
   grid-area: xpxp;
+}
+
+table .character-page .page-content .limit-info {
+  grid-area: limt;
 }}

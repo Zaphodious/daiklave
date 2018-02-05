@@ -407,6 +407,7 @@
                                                       "abil abil abil essi essi essi xpxp xpxp xpxp"
                                                       "abil abil abil essi essi essi xpxp xpxp xpxp"
                                                       "abil abil abil .... .... .... xpxp xpxp xpxp"
+                                                      "abil abil abil .... .... limt limt limt limt"
                                                       "abil abil abil .... .... .... .... .... ...."
                                                       ".... .... .... .... .... .... .... .... ...."
                                                       "heal heal heal heal heal heal heal heal heal"
@@ -439,7 +440,8 @@
                [:.essence-module {:grid-area "essi"}
                 [:form {:column-count 1}]]
                [:.willpower-module {:grid-area "will"}]
-               [:.experience-module {:grid-area "xpxp"}]]]]))
+               [:.experience-module {:grid-area "xpxp"}]
+               [:.limit-info {:grid-area "limt"}]]]]))
 
 
 
