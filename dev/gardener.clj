@@ -103,7 +103,7 @@
               :z-index        100}]
 
    [:* {:margin      0
-        :font-family "Bellefair, sans-serif"
+        :font-family "Karma, sans-serif"
         :color       color-off-dark}]
    [:button {:background-color color-brightest
              :border-style     :solid

@@ -2,3 +2,31 @@
     font-family: Bellefair;
     src: url("../fonts/Bellefair-Regular.ttf");
 }
+@font-face {
+    font-family: Envision;
+    src: url("../fonts/Envision Roman.ttf");
+}
+@font-face {
+    font-family: Shogo;
+    src: url("../fonts/GL-Tsukiji-Shogo.ttf");
+}
+@font-face {
+    font-family: Karma;
+    src: url("../fonts/Karma-Medium.otf");
+    font-weight: normal;
+}
+@font-face {
+    font-family: Karma;
+    src: url("../fonts/Karma-Bold.otf");
+    font-weight: bold;
+}
+@font-face {
+    font-family: Karma;
+    src: url("../fonts/Karma-Light.otf");
+    font-weight: lighter;
+}
+@font-face {
+    font-family: Karma;
+    src: url("../fonts/Karma-SemiBold.otf");
+    font-weight: bolder;
+}
