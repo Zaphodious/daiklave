@@ -7,10 +7,10 @@
   {:home       {:app-home true
                 :name     "Anathema: Reincarnated"
                 :category :home
-                :img "https://i.imgur.com/5Hka26I.png"}
+                :img "img/app-symbol.png"}
    :characters {:name "Characters"
                 :category :characters
-                :img "https://orig00.deviantart.net/1587/f/2006/340/5/b/exalted_2nd_ed__exalt_types_by_chriss2d.jpg"
+                :img "https://i.imgur.com/Cbmme8c.jpg"
                 :description "The Heroes That Move The World"
                 "424242"    {:name                 "Rajmael",
                              :description          "The Starfire Wing Scholar"

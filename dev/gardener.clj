@@ -13,6 +13,8 @@
 (gd/defcssfn url)
 (gd/defcssfn blur)
 (gd/defcssfn calc)
+(gd/defcssfn src)
+(gd/defcssfn linear-gradient)
 
 (defn supports [support-statement garden-seq]
   (fn [previous-css] (str previous-css "\n\n\n" "@Supports (" support-statement ") {\n     " (g/css garden-seq) "}")))
@@ -63,9 +65,39 @@
 (def color-p-dark (gc/hex->rgb "#4b2c20"))
 (def color-p-darker (gc/darken color-p-dark 0.5))
 (def color-brightest (gc/from-name :white))
-(def color-off-bright (gc/hex->rgb "#e0e0e0"))
+(def color-text-bright (gc/hex->rgb "#e0e0e0"))
 (def color-darkest (gc/from-name :black))
 (def color-off-dark (gc/lighten color-darkest 0.2))
+
+(def brown {:main               "#795578"
+            :accent             "#FFC7B3"
+            :element-active     "#A67563"
+            :element-lighter    "#8C6354"
+            :element-darker     "#66483D"
+            :background-lighter "#4D362E"
+            :background-darker  "#33241F"})
+
+(def sun-gold (gc/hex->rgb "#f4c53e"))
+(def section-title-gradient (linear-gradient
+                              (gc/darken sun-gold 20)
+                              (gc/darken sun-gold 30)
+                              (gc/darken sun-gold 30)
+                              (gc/darken sun-gold 30)
+                              (gc/darken sun-gold 30)
+                              (gc/darken sun-gold 30)))
+
+(def title-background-image  [;(url "../img/canvas_transparent_header.png")
+                              (url "../img/brushed_metal.png")
+                              (linear-gradient
+                                (assoc (gc/darken sun-gold 35) :alpha 0.7)
+                                (assoc (gc/darken sun-gold 30) :alpha 0.7)
+                                (assoc (gc/darken sun-gold 25) :alpha 0.7)
+                                (assoc (gc/darken sun-gold 20) :alpha 0.7)
+                                (assoc (gc/darken sun-gold 15) :alpha 0.7)
+                                (assoc (gc/lighten sun-gold 5) :alpha 0.7)
+                                (assoc (gc/lighten sun-gold 30) :alpha 0.7))])
+
+(def title-color (gc/lighten sun-gold 10))
 
 
 (defn prefix-it [stylekey stylerule]
@@ -76,25 +108,22 @@
 
 (def title-bar-height "3em")
 (def navshadow "0 0 15px black")
-(def elementshadow "0 0 5px grey")
+(def elementshadow (str "0 0 10px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
 (def buttonshadow (str "0 1px 2px" (gc/as-hex color-p-dark)))
 (def focusshadow (str "0 3px 10px" (gc/as-hex color-p-dark)))
 (def focusshadowtext (str "0 5px 10px" (gc/as-hex color-p-dark)))
+(def section-inner-shadow (str "inset " navshadow))
 
-(def title-text-shadow (str "0 0 6px" (gc/as-hex color-p-dark)))
+(def title-text-shadow (str "0 0 10px " (gc/as-hex (gc/darken sun-gold 10))))
+
+
 
 (def page-content-margin-scalar 7)
 (def page-content-margin (keyword (str page-content-margin-scalar "px")))
 (def standard-field-width (calchelper :100% - :80px - :10px - :2em - page-content-margin - page-content-margin))
 
 (def mobilestyle
-  [[:.helper-dl-link {:position :absolute
-                      :top :8px
-                      :left :10px
-                      :color color-brightest
-                      :border :solid
-                      :border-width :1px}]
-   [:&:focus {:outline-style  :solid
+  [[:&:focus {:outline-style  :solid
               :outline-width  :1px
               :outline-color  (assoc (gc/as-rgb color-p-lighter) :alpha 0.5)
               :outline-offset :0px
@@ -105,6 +134,7 @@
    [:* {:margin      0
         :font-family "Karma, sans-serif"
         :color       color-off-dark}]
+   [:h1 :h2 :h3 :h4 :h5 :h6 {:font-family "Envision, serif"}]
    [:button {:background-color color-brightest
              :border-style     :solid
              :border-width     :1px
@@ -117,7 +147,8 @@
              :margin-left      :2px}]
 
    ;:border-radius (-px 5)}]
-   [:input :select :textarea {:background-color color-brightest
+   [:input :select :textarea {:background-color (gc/rgba 255 255 255 0.3)
+                              :background-image (url "../img/canvas_transparent_input.png")
                               :border-bottom    :solid
                               :border-width     :1px
                               :border-color     :grey
@@ -135,7 +166,7 @@
                :border-width     :3px
                :border-bottom    :double
                :margin-bottom    (-px 1)
-               :background-color color-off-bright}]]
+               :background-color color-text-bright}]]
 
    ;:box-shadow   focusshadowtext}]]
    ;:border-width :3px}]]
@@ -144,7 +175,12 @@
                             :width :20px}
        [:&:focus {:height :30px}]]
    [:html {:height :100%}]
-   [:body {:background-color color-off-bright
+   [:body {;:background-color (:background-darker brown)
+           :background-image (url "../img/solar_bg.jpg")
+           :background-repeat :no-repeat
+           :background-attachment :fixed
+           :background-position [:right :center]
+           :background-size :cover
            :height           :100%
            :overflow :hide}]
    [:#app {:width :100% :height :100% :overflow :hide}]
@@ -164,13 +200,20 @@
             :height :100%
             :position :relative}
     [:h1.page-title {:width            :100%
-                     :background-color color-p-main
-                     :color            color-off-bright
-                     :text-shadow      title-text-shadow
+                     ;:background-color (:element-darker brown)
+
+                     ;:color            color-text-bright
+                     ;:background  page-title-gradient
+                     :background-image title-background-image
+
+                     ;(gc/darken sun-gold 50)
+                    ; :color            title-color
+                     ;:text-shadow      title-text-shadow
                      :text-align       :center
                      :font-weight      :bolder
                      :box-shadow       elementshadow
-                     :position :relative
+                     :text-shadow      title-text-shadow
+                     :position         :relative
                      :z-index          10}]
 
     [:.menu-assembly {:position :absolute
@@ -179,11 +222,11 @@
                            :right :20px
                            :top :-28px
                            :z-index 20}]
-     [:.page-menu {:background-color color-p-light
+     [:.page-menu {:background-color (:element-darker brown)
                      :position :absolute
 
                      :z-index 9
-                     :box-shadow elementshadow
+                     ;:box-shadow elementshadow
                      :transition "top .5s, opacity .5s"
                      :width (calchelper :100% - :40px)
                      :padding :5px}
@@ -202,6 +245,7 @@
     [:.page-content {:height   (calchelper :100vh - title-bar-height - :10px)
                      :overflow-y :auto
                      :overflow-x :hidden}
+
      [:.element-button-bar {:background-color :transparent
                             :margin           (-px (* page-content-margin-scalar 2))
                             :margin-bottom    (-px (- (* -1 page-content-margin-scalar 6.6) 1))
@@ -209,15 +253,32 @@
                             :text-align       :right
                             :padding          (-px 7)}]
 
-     [:.page-section {:background-color color-brightest
+     [:.page-section {;:background-color (:element-darker brown)
+                      ;:background-color (gc/rgba 255 255 255 0.4)
+                      :background-image (url "../img/canvas_paper.png")
                       :margin           (-px (* page-content-margin-scalar 2))
-                      :box-shadow       elementshadow
-                      :padding          :10px}
-      [:img {:max-width :100%}]
+                      ;:box-shadow       elementshadow
+                      :padding          :10px
+                      :padding-top 0
+                      :margin-bottom :30px
+                      ;:border :solid
+                      :border-width :1px
+                      :border-color sun-gold
+                      ;:border-color section-border-color
+                      ;:border-style :solid
+                      ;:border-width :3px
+                      ;:border-bottom-left-radius :30px
+                      ;:border-top-right-radius :30px
+                      :box-shadow elementshadow}
+
+      [:img {:max-width :100%
+             :overflow :hidden}]
+             ;:border-top-right-radius :30px
+             ;:border-bottom-left-radius :30px}]
       [:img.banner-image {:display    :block
                           :text-align :center
                           :margin     (-px -10)
-                          :margin-top (-px 10)
+                          :margin-top (-px 0)
                           :max-width  (calchelper (-% 100) + (-px 20))}]
 
       [:img.profile-image {:max-width    :50%
@@ -234,22 +295,34 @@
       [:h1 :h2 {:text-align :justify}]
       [:h3 :h4 :h5 :h6 {:text-align       :justify
                         :border-bottom    :solid
+                        :border-color "#6f98a9"
+
+
+                        :background-image title-background-image
+                                             ;(assoc (gc/as-rgb (gc/from-name "white")) :alpha 0.7))]
+
+
                         :border-width     :1px
                         :padding          :4px
                         :padding-left     :15px
                         :padding-top      :7px
-                        :margin-top       :-10px
+                        :margin-top       :0px
                         :margin-left      :-10px
                         :margin-right     :-10px
-                        :background-color color-p-main
-                        :color            color-brightest
+                        ;:background    section-title-gradient
+                        ;:color            (gc/lighten sun-gold 10)
                         :text-shadow      title-text-shadow}]
+                        ;:box-shadow    elementshadow}]
       [:.button-bar {:padding :5px}
        [:button {:margin :4px}]]
       [:.navlist-container
        [:.navlist-selected {:tab-index 1}]
        [:ul.field.navlist.hidden {:display :none}]
-       [:ul.field.navlist.shown {:display :block}]]]]]
+       [:ul.field.navlist.shown {:display :block}]]]
+     [:.page-header {:background-color :transparent
+                     :background-image :none
+                     :border :none
+                     :box-shadow :none}]]]
 
 
                 ;:height (calchelper :100% - :40px)}
@@ -298,7 +371,7 @@
                           [:span.select-helper {:display          :inline-block
                                                 :float            :right
                                                 :opacity :0.5
-                                                :background-color (gc/darken color-off-bright 30)
+                                                :background-color (gc/darken color-text-bright 30)
                                                 :height           :20px
                                                 :width            :10px
                                                 :padding          :0px

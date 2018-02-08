@@ -101,7 +101,7 @@
    (page-menu-assembly path minimized)
    [:.page-content
     [:.page-section.page-header
-     [:h2.page-subtitle subtitle]
+     ;[:h3.page-subtitle subtitle]
      [:img.banner-image {:src img}]]
     sections]])
 
