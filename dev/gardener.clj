@@ -97,6 +97,15 @@
                                 (assoc (gc/lighten sun-gold 5) :alpha 0.7)
                                 (assoc (gc/lighten sun-gold 30) :alpha 0.7))])
 
+(def menu-background-image
+  (into [(linear-gradient
+           (assoc (gc/lighten sun-gold 25) :alpha 0.5)
+           (assoc (gc/darken sun-gold 20) :alpha 0.5))]
+        title-background-image))
+
+
+
+
 (def title-color (gc/lighten sun-gold 10))
 
 
@@ -133,8 +142,16 @@
 
    [:* {:margin      0
         :font-family "Karma, sans-serif"
+        :font-weight :normal
+        :font-size :13px
         :color       color-off-dark}]
-   [:h1 :h2 :h3 :h4 :h5 :h6 {:font-family "Envision, serif"}]
+   [:h1 :h2 :h3 :h4 :h5 :h6
+    {:font-size   :25px
+     :font-family "Envision, serif"
+     :font-weight :bold
+     :color (gc/darken (gc/complement sun-gold) 50)}
+    [:p {:font-weight :normal}]]
+
    [:button {:background-color color-brightest
              :border-style     :solid
              :border-width     :1px
@@ -190,12 +207,38 @@
                  :top        0
                  :left       0
                  :width      :100%
-                 :height     :100%}]
+                 :height     :100%}
+    [:.menu-assembly {:position :absolute
+                      :width :100%}
+     [:button.menu-toggle {:position :absolute
+                           :right :20px
+                           :top :3px
+                           :z-index 20}]
+     [:.page-menu {:background-image menu-background-image
+                   :position         :absolute
+                   :box-shadow "inset 0 0 5px grey"
+
+                   :z-index          9
+                   ;:box-shadow elementshadow
+                   :transition       "top .5s, opacity .5s"
+                   :width            (calchelper :100% - :40px)
+                   :padding          :5px}
+      [:ul
+       [:li {:display :inline-block
+             :padding-right :5px}]]]
+
+     [:.menu-showing {:top :35px
+                      :left :13px
+                      :opacity 1}]
+     [:.menu-hidden {;:position :fixed
+                     :opacity 0
+                     :top :-70px
+                     :left :13px}]]]
    [:.minimized-field {:transition "opacity .5s"}]
-   [:.page.minimized [:* [:.minimized-field {:opacity 0
-                                             :display :none}]]]
-   [:.page.maximized [:* [:.minimized-field {:opacity 1
-                                             :display :inherit}]]]
+   [:#app-frame.minimized [:* [:.minimized-field {:opacity 0
+                                                  :display :none}]]]
+   [:#app-frame.page.maximized [:* [:.minimized-field {:opacity 1
+                                                       :display :inherit}]]]
    [:.page {:width  :100%
             :height :100%
             :position :relative}
@@ -216,31 +259,7 @@
                      :position         :relative
                      :z-index          10}]
 
-    [:.menu-assembly {:position :absolute
-                      :width :100%}
-     [:button.menu-toggle {:position :absolute
-                           :right :20px
-                           :top :-28px
-                           :z-index 20}]
-     [:.page-menu {:background-color (:element-darker brown)
-                     :position :absolute
 
-                     :z-index 9
-                     ;:box-shadow elementshadow
-                     :transition "top .5s, opacity .5s"
-                     :width (calchelper :100% - :40px)
-                     :padding :5px}
-      [:ul
-       [:li {:display :inline-block
-             :padding-right :5px}]]]
-
-     [:.menu-showing {:top :0px
-                        :left :13px
-                      :opacity 1}]
-     [:.menu-hidden {;:position :fixed
-                       :opacity 0
-                       :top :-70px
-                       :left :13px}]]
                        ;:right :0px}]]
     [:.page-content {:height   (calchelper :100vh - title-bar-height - :10px)
                      :overflow-y :auto
@@ -369,7 +388,7 @@
                           :display :inline-block}
                          [:&:focus-within
                           [:span.select-helper {:display          :inline-block
-                                                :float            :right
+                                                ;:float            :right
                                                 :opacity :0.5
                                                 :background-color (gc/darken color-text-bright 30)
                                                 :height           :20px
@@ -449,47 +468,44 @@
    [:button.aggravated {:border-color :green}]
    [:.paste-entry-field {:width (calchelper :100% - :10px)}]])
 
+(gs/defselector page ".page")
 (def desktop-style
-  [[:table.page-list {:display :block}
-    ;:overflow :scroll
-    [:tbody {;:display :block
-             :height (calchelper :100% - :50px)}
-     [:tr
-      [:td {};:display :inline
+  [[:.desktop
+     [:.menu-assembly {:position :fixed
+                       :left 0
+                       :width :200px}]
+    [:.pages {:width    :100%
+              :position :fixed
+              :right    0}
+     [:.page {:display :inline-block
+              :position :fixed
+              :top 0}]
+     [(page (gs/nth-child 1)) {:width :30%
+                               :left 0}]
+     [(page (gs/nth-child 2)) {:width :70%
+                               :left :30%}]
 
-       [:.page {:width :400px
-                :display :block}]
-       [:.character-page {:width :1000px}]
-       [:.merits-page :.charms-list-page {:width :700px}]]]]]])
+
+     [:.page-content {:display :grid
+                      :overflow-y :scroll
+                      :width :100%}]]]])
+
+
+#_[:tr
+     [:td
+      {:position :relative
+       :left :40px}
+      [:&:last-child {:background-color :blue}]]]
         ;[:h1.page-title {:width :900px}]]]]]]])
    ;[(gt/->CSSAtRule "Supports" {:grid-template-areas "\"...\""})]]);"@Supports (grid-template-areas: \"...\")"
 
 
 (def character-page-desktop-style
   (supports "grid-template-areas: \"...\""
-            [:table
+            [:.desktop
              [:.character-page
-              [:.page-content {:display               :grid
-                               :grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
-                               :grid-template-areas (grid-area-strings
-                                                      "head head core core core core core core core"
-                                                      "head head .... .... .... .... .... .... ...."
-                                                      "attr attr attr attr attr attr attr attr attr"
-                                                      "abil abil abil will will will favo favo favo"
-                                                      "abil abil abil essi essi essi favo favo favo"
-                                                      "abil abil abil essi essi essi xpxp xpxp xpxp"
-                                                      "abil abil abil essi essi essi xpxp xpxp xpxp"
-                                                      "abil abil abil .... .... .... xpxp xpxp xpxp"
-                                                      "abil abil abil .... .... limt limt limt limt"
-                                                      "abil abil abil .... .... .... .... .... ...."
-                                                      ".... .... .... .... .... .... .... .... ...."
-                                                      "heal heal heal heal heal heal heal heal heal"
-                                                      ".... .... .... .... .... .... .... .... ...."
-                                                      "spec spec spec inti inti inti inti inti inti"
-                                                      "spec spec spec inti inti inti inti inti inti"
-                                                      ".... .... .... inti inti inti inti inti inti")}
-
-
+              [:.page-content {:display :grid
+                               :grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}
                [:.page-header {:grid-area "head"}]
                [:.coreinfo {:grid-area "core"}
                 [:form {:column-count 2}]]
@@ -501,8 +517,8 @@
                  [:p {;:border :solid
                       :padding-left :20px
                       :padding-right 0}
-                  [:label {:width :20%}]
-                  [:p {:float :right
+                  [:label {:width :23%}]
+                  [:p {;:float :right
                        :margin-right :-30px
                        :padding :7px}]]]]
                [:.favoredabilities {:grid-area "favo"}]
@@ -514,7 +530,65 @@
                 [:form {:column-count 1}]]
                [:.willpower-module {:grid-area "will"}]
                [:.experience-module {:grid-area "xpxp"}]
-               [:.limit-info {:grid-area "limt"}]]]]))
+               [:.limit-info {:grid-area "limt"}]]
+              (gss/at-media {:min-width :700px}
+                            [:.page-content {:grid-template-areas (grid-area-strings
+                                                                    "head head head head head head head head head"
+                                                                    ".... .... .... .... .... .... .... .... ...."
+                                                                    "core core core core core core core core core"
+                                                                    "attr attr attr attr attr attr attr attr attr"
+                                                                    "abil abil abil abil abil favo favo favo favo"
+                                                                    "abil abil abil abil abil favo favo favo favo"
+                                                                    "abil abil abil abil abil .... .... .... ...."
+                                                                    "xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp"
+                                                                    "essi essi essi essi essi essi essi essi essi"
+                                                                    "will will will will will will will will will"
+                                                                    "limt limt limt limt limt limt limt limt limt"
+                                                                    "heal heal heal heal heal heal heal heal heal"
+                                                                    ".... .... .... .... .... .... .... .... ...."
+                                                                    "spec spec spec spec spec spec spec spec spec"
+                                                                    "inti inti inti inti inti inti inti inti inti"
+                                                                    "inti inti inti inti inti inti inti inti inti")}
+                                            [:.attributeinfo
+                                             [:form {:column-count 2}]]])
+              (gss/at-media {:min-width :900px}
+                            [:.page-content {:grid-template-areas (grid-area-strings
+                                                                    "head head head head head head head head head"
+                                                                    ".... .... .... .... .... .... .... .... ...."
+                                                                    "core core core core core core core core core"
+                                                                    "attr attr attr attr attr attr attr attr attr"
+                                                                    "abil abil abil abil favo favo favo favo favo"
+                                                                    "abil abil abil abil favo favo favo favo favo"
+                                                                    "abil abil abil abil .... .... .... .... ...."
+                                                                    "xpxp xpxp xpxp xpxp essi essi essi essi essi"
+                                                                    "will will will will limt limt limt limt limt"
+                                                                    "heal heal heal heal heal heal heal heal heal"
+                                                                    ".... .... .... .... .... .... .... .... ...."
+                                                                    "spec spec spec spec spec spec spec spec spec"
+                                                                    "inti inti inti inti inti inti inti inti inti"
+                                                                    "inti inti inti inti inti inti inti inti inti")}
+                                            [:.attributeinfo
+                                             [:form {:column-count 2}]]])
+              (gss/at-media {:min-width :1100px}
+                            [:.page-content {:grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
+                                             :grid-template-areas (grid-area-strings
+                                                                    "head head core core core core core core core"
+                                                                    "head head .... .... .... .... .... .... ...."
+                                                                    "attr attr attr attr attr attr attr attr attr"
+                                                                    "abil abil abil essi essi essi favo favo favo"
+                                                                    "abil abil abil essi essi essi favo favo favo"
+                                                                    "abil abil abil .... .... .... xpxp xpxp xpxp"
+                                                                    "abil abil abil .... .... .... .... .... ...."
+                                                                    "abil abil abil .... .... .... .... .... ...."
+                                                                    "will will will will limt limt limt limt limt"
+                                                                    "heal heal heal heal heal heal heal heal heal"
+                                                                    ".... .... .... .... .... .... .... .... ...."
+                                                                    "spec spec spec spec inti inti inti inti inti"
+                                                                    "spec spec spec spec inti inti inti inti inti"
+                                                                    ".... .... .... .... inti inti inti inti inti")}
+                                            [:.attributeinfo
+                                             [:form {:column-count 3}]]])]]))
+
 
 
 

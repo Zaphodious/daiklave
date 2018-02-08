@@ -4,6 +4,7 @@
             [cemerick.url :as url]
             [daiklave.seq :as daiseq]
             [daiklave.text-to-data :as daitext]
+            [daiklave.fragment :as daifrag]
             [clojure.browser.dom :as dom]
             [clojure.string :as str]))
 
@@ -52,22 +53,30 @@
                    (url/url-encode (prn-str fetch-elem)))
         :download (str elem-name ".edn")}))
 
-(rum/defc app-frame < rum/reactive (scroll-app-frame-right-mixin)
-  []
+(declare page-menu-assembly)
+
+(rum/defcs app-frame < rum/reactive (scroll-app-frame-right-mixin) (rum/local true :minimized)
+  [{:keys [minimized]}]
   (let [patho (rum/react daistate/current-view)
         app-data (rum/react daistate/app-state)
         viewmap (daistate/fetch-view-for patho app-data)
+        viewmap-one-up (daistate/fetch-view-for (drop-last patho) app-data)
         screen-size (rum/react daistate/screen-size)
         vec-of-paths (vec-of-paths-for patho)]
     ;
     [:#app-frame
+     {:class (str
+               (if (< 700 (:width (daistate/get-screen-size))) "desktop" "mobile")
+               " "
+               (if @minimized "minimized" "maximized"))}
      (println "vec of paths " vec-of-paths)
-     (if (> 600 (:width (daistate/get-screen-size)))
-       (page-for-viewmap viewmap)
-       [:table.page-list
-        [:tbody
-         [:tr
-          (map (fn [a] [:td a]) (map page-for-viewmap (map daistate/fetch-view-for vec-of-paths)))]]])]))
+     (page-menu-assembly patho minimized)
+     (if (< 700 (:width (daistate/get-screen-size)))
+       [:.pages
+        (page-for-viewmap viewmap-one-up)
+        (page-for-viewmap viewmap)]
+       (page-for-viewmap viewmap))]))
+
 
 (defn build-breadcrumb [page-path]
   (when page-path
@@ -76,7 +85,7 @@
        (fn [a]
          (let [view-name (:name (:view (daistate/fetch-view-for a)))
                display-name (if view-name view-name (make-pretty (last a)))]
-           [:li [:a display-name]]))
+           [:li [:a {:href (daifrag/link-fragment-for a)} display-name]]))
        (vec-of-paths-for page-path))]))
 
 (rum/defcs page-menu-assembly < rum/static (rum/local false :menu-showing) rum/reactive
@@ -94,11 +103,11 @@
        [:li [:a (download-data-at page-path) "Download"]]]]]))
 
 
-(rum/defcs page-of < rum/static (rum/local true :minimized)
-  [{:keys [minimized]} {:keys [title subtitle img class sections path]}]
-  [:.page {:class (str (if @minimized "minimized" "maximized") " " class)}
+(rum/defc page-of < rum/static
+  [ {:keys [title subtitle img class sections path]}]
+  [:.page {:class (str  " " class)}
    [:h1.page-title title]
-   (page-menu-assembly path minimized)
+
    [:.page-content
     [:.page-section.page-header
      ;[:h3.page-subtitle subtitle]

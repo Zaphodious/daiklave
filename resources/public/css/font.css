@@ -19,13 +19,9 @@
 @font-face {
     font-family: Karma;
     src: url("../fonts/Karma-Light.otf");
-    font-weight: lighter;
+    font-weight: 200;
 }
-@font-face {
-    font-family: Karma;
-    src: url("../fonts/Karma-SemiBold.otf");
-    font-weight: bolder;
-}
+
 @font-face {
     font-family: 'Material Icons';
     font-style: normal;

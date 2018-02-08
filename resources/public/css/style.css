@@ -14,11 +14,20 @@
 * {
   margin: 0;
   font-family: Karma, sans-serif;
+  font-weight: normal;
+  font-size: 13px;
   color: #010101;
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-size: 25px;
   font-family: Envision, serif;
+  font-weight: bold;
+  color: #030e30;
+}
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  font-weight: normal;
 }
 
 button {
@@ -98,16 +107,55 @@ body {
   height: 100%;
 }
 
+#app-frame .menu-assembly {
+  position: absolute;
+  width: 100%;
+}
+
+#app-frame .menu-assembly button.menu-toggle {
+  position: absolute;
+  right: 20px;
+  top: 3px;
+  z-index: 20;
+}
+
+#app-frame .menu-assembly .page-menu {
+  background-image: linear-gradient(hsla(44.505493, 89.21568%, 85%, 0.5), hsla(44.505493, 89.21568%, 40%, 0.5)), url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 25%, 0.7), hsla(44.505493, 89.21568%, 30%, 0.7), hsla(44.505493, 89.21568%, 35%, 0.7), hsla(44.505493, 89.21568%, 40%, 0.7), hsla(44.505493, 89.21568%, 45%, 0.7), hsla(44.505493, 89.21568%, 65%, 0.7), hsla(44.505493, 89.21568%, 90%, 0.7));
+  position: absolute;
+  box-shadow: inset 0 0 5px grey;
+  z-index: 9;
+  transition: top .5s, opacity .5s;
+  width: calc(100%  -  40px);
+  padding: 5px;
+}
+
+#app-frame .menu-assembly .page-menu ul li {
+  display: inline-block;
+  padding-right: 5px;
+}
+
+#app-frame .menu-assembly .menu-showing {
+  top: 35px;
+  left: 13px;
+  opacity: 1;
+}
+
+#app-frame .menu-assembly .menu-hidden {
+  opacity: 0;
+  top: -70px;
+  left: 13px;
+}
+
 .minimized-field {
   transition: opacity .5s;
 }
 
-.page.minimized * .minimized-field {
+#app-frame.minimized * .minimized-field {
   opacity: 0;
   display: none;
 }
 
-.page.maximized * .minimized-field {
+#app-frame.page.maximized * .minimized-field {
   opacity: 1;
   display: inherit;
 }
@@ -127,44 +175,6 @@ body {
   text-shadow: 0 0 10px #f1b70e;
   position: relative;
   z-index: 10;
-}
-
-.page .menu-assembly {
-  position: absolute;
-  width: 100%;
-}
-
-.page .menu-assembly button.menu-toggle {
-  position: absolute;
-  right: 20px;
-  top: -28px;
-  z-index: 20;
-}
-
-.page .menu-assembly .page-menu {
-  background-color: #66483D;
-  position: absolute;
-  z-index: 9;
-  transition: top .5s, opacity .5s;
-  width: calc(100%  -  40px);
-  padding: 5px;
-}
-
-.page .menu-assembly .page-menu ul li {
-  display: inline-block;
-  padding-right: 5px;
-}
-
-.page .menu-assembly .menu-showing {
-  top: 0px;
-  left: 13px;
-  opacity: 1;
-}
-
-.page .menu-assembly .menu-hidden {
-  opacity: 0;
-  top: -70px;
-  left: 13px;
 }
 
 .page .page-content {
@@ -361,7 +371,6 @@ span.rank-selection {
 }
 
 span.rank-selection:focus-within span.select-helper {
-  float: right;
   width: 10px;
   right: 8px;
   height: 20px;
@@ -486,130 +495,208 @@ button.aggravated {
   width: calc(100%  -  10px);
 }
 
-table.page-list {
-  display: block;
+.desktop .menu-assembly {
+  position: fixed;
+  left: 0;
+  width: 200px;
 }
 
-table.page-list tbody {
-  height: calc(100%  -  50px);
+.desktop .pages {
+  width: 100%;
+  position: fixed;
+  right: 0;
 }
 
-table.page-list tbody tr td {
-
+.desktop .pages .page {
+  display: inline-block;
+  position: fixed;
+  top: 0;
 }
 
-table.page-list tbody tr td .page {
-  width: 400px;
-  display: block;
+.desktop .pages .page:nth-child(1n) {
+  width: 30%;
+  left: 0;
 }
 
-table.page-list tbody tr td .character-page {
-  width: 1000px;
+.desktop .pages .page:nth-child(2n) {
+  width: 70%;
+  left: 30%;
 }
 
-table.page-list tbody tr td .merits-page, table.page-list tbody tr td .charms-list-page {
-  width: 700px;
+.desktop .pages .page-content {
+  display: grid;
+  overflow-y: scroll;
+  width: 100%;
 }
 
 
 @Supports (grid-template-areas: "...") {
-     table .character-page .page-content {
+     .desktop .character-page .page-content {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-areas: 
-"head head core core core core core core core"
-"head head .... .... .... .... .... .... ...."
-"attr attr attr attr attr attr attr attr attr"
-"abil abil abil will will will favo favo favo"
-"abil abil abil essi essi essi favo favo favo"
-"abil abil abil essi essi essi xpxp xpxp xpxp"
-"abil abil abil essi essi essi xpxp xpxp xpxp"
-"abil abil abil .... .... .... xpxp xpxp xpxp"
-"abil abil abil .... .... limt limt limt limt"
-"abil abil abil .... .... .... .... .... ...."
-".... .... .... .... .... .... .... .... ...."
-"heal heal heal heal heal heal heal heal heal"
-".... .... .... .... .... .... .... .... ...."
-"spec spec spec inti inti inti inti inti inti"
-"spec spec spec inti inti inti inti inti inti"
-".... .... .... inti inti inti inti inti inti";
 }
 
-table .character-page .page-content .page-header {
+.desktop .character-page .page-content .page-header {
   grid-area: head;
 }
 
-table .character-page .page-content .coreinfo {
+.desktop .character-page .page-content .coreinfo {
   grid-area: core;
 }
 
-table .character-page .page-content .coreinfo form {
+.desktop .character-page .page-content .coreinfo form {
   column-count: 2;
 }
 
-table .character-page .page-content .attributeinfo {
+.desktop .character-page .page-content .attributeinfo {
   grid-area: attr;
 }
 
-table .character-page .page-content .attributeinfo form {
+.desktop .character-page .page-content .attributeinfo form {
   column-count: 3;
 }
 
-table .character-page .page-content .abilityinfo {
+.desktop .character-page .page-content .abilityinfo {
   grid-area: abil;
 }
 
-table .character-page .page-content .attributeinfo form p, table .character-page .page-content .abilityinfo form p {
+.desktop .character-page .page-content .attributeinfo form p, .desktop .character-page .page-content .abilityinfo form p {
   padding-left: 20px;
   padding-right: 0;
 }
 
-table .character-page .page-content .attributeinfo form p label, table .character-page .page-content .abilityinfo form p label {
-  width: 20%;
+.desktop .character-page .page-content .attributeinfo form p label, .desktop .character-page .page-content .abilityinfo form p label {
+  width: 23%;
 }
 
-table .character-page .page-content .attributeinfo form p p, table .character-page .page-content .abilityinfo form p p {
-  float: right;
+.desktop .character-page .page-content .attributeinfo form p p, .desktop .character-page .page-content .abilityinfo form p p {
   margin-right: -30px;
   padding: 7px;
 }
 
-table .character-page .page-content .favoredabilities {
+.desktop .character-page .page-content .favoredabilities {
   grid-area: favo;
 }
 
-table .character-page .page-content .specialtyinfo {
+.desktop .character-page .page-content .specialtyinfo {
   grid-area: spec;
 }
 
-table .character-page .page-content .health-track-module {
+.desktop .character-page .page-content .health-track-module {
   grid-area: heal;
 }
 
-table .character-page .page-content .health-track-module .button-bar {
+.desktop .character-page .page-content .health-track-module .button-bar {
   display: inline-block;
 }
 
-table .character-page .page-content .intimacyinfo {
+.desktop .character-page .page-content .intimacyinfo {
   grid-area: inti;
 }
 
-table .character-page .page-content .essence-module {
+.desktop .character-page .page-content .essence-module {
   grid-area: essi;
 }
 
-table .character-page .page-content .essence-module form {
+.desktop .character-page .page-content .essence-module form {
   column-count: 1;
 }
 
-table .character-page .page-content .willpower-module {
+.desktop .character-page .page-content .willpower-module {
   grid-area: will;
 }
 
-table .character-page .page-content .experience-module {
+.desktop .character-page .page-content .experience-module {
   grid-area: xpxp;
 }
 
-table .character-page .page-content .limit-info {
+.desktop .character-page .page-content .limit-info {
   grid-area: limt;
+}
+
+@media (min-width: 700px) {
+
+  .desktop .character-page .page-content {
+    grid-template-areas: 
+"head head head head head head head head head"
+".... .... .... .... .... .... .... .... ...."
+"core core core core core core core core core"
+"attr attr attr attr attr attr attr attr attr"
+"abil abil abil abil abil favo favo favo favo"
+"abil abil abil abil abil favo favo favo favo"
+"abil abil abil abil abil .... .... .... ...."
+"xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp"
+"essi essi essi essi essi essi essi essi essi"
+"will will will will will will will will will"
+"limt limt limt limt limt limt limt limt limt"
+"heal heal heal heal heal heal heal heal heal"
+".... .... .... .... .... .... .... .... ...."
+"spec spec spec spec spec spec spec spec spec"
+"inti inti inti inti inti inti inti inti inti"
+"inti inti inti inti inti inti inti inti inti";
+  }
+  
+  
+  
+  .desktop .character-page .page-content .attributeinfo form {
+    column-count: 2;
+  }
+
+}
+
+@media (min-width: 900px) {
+
+  .desktop .character-page .page-content {
+    grid-template-areas: 
+"head head head head head head head head head"
+".... .... .... .... .... .... .... .... ...."
+"core core core core core core core core core"
+"attr attr attr attr attr attr attr attr attr"
+"abil abil abil abil favo favo favo favo favo"
+"abil abil abil abil favo favo favo favo favo"
+"abil abil abil abil .... .... .... .... ...."
+"xpxp xpxp xpxp xpxp essi essi essi essi essi"
+"will will will will limt limt limt limt limt"
+"heal heal heal heal heal heal heal heal heal"
+".... .... .... .... .... .... .... .... ...."
+"spec spec spec spec spec spec spec spec spec"
+"inti inti inti inti inti inti inti inti inti"
+"inti inti inti inti inti inti inti inti inti";
+  }
+  
+  
+  
+  .desktop .character-page .page-content .attributeinfo form {
+    column-count: 2;
+  }
+
+}
+
+@media (min-width: 1100px) {
+
+  .desktop .character-page .page-content {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: 
+"head head core core core core core core core"
+"head head .... .... .... .... .... .... ...."
+"attr attr attr attr attr attr attr attr attr"
+"abil abil abil essi essi essi favo favo favo"
+"abil abil abil essi essi essi favo favo favo"
+"abil abil abil .... .... .... xpxp xpxp xpxp"
+"abil abil abil .... .... .... .... .... ...."
+"abil abil abil .... .... .... .... .... ...."
+"will will will will limt limt limt limt limt"
+"heal heal heal heal heal heal heal heal heal"
+".... .... .... .... .... .... .... .... ...."
+"spec spec spec spec inti inti inti inti inti"
+"spec spec spec spec inti inti inti inti inti"
+".... .... .... .... inti inti inti inti inti";
+  }
+  
+  
+  
+  .desktop .character-page .page-content .attributeinfo form {
+    column-count: 3;
+  }
+
 }}
