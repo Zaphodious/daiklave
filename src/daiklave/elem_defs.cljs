@@ -94,11 +94,12 @@
 (rum/defc dot-field < rum/static
   [{:keys [path value options read-only min max] :as fieldmap}]
   [:.field
-   [:input.dot-entry
-    {:type      :number
-     :value     value :id (pr-str path) :key (pr-str path)
-     :min       min :max max
-     :on-change (standard-on-change-for path read-only)}]
+   (when (daistate/get-setting-for-key :show-accessibility)
+     [:input.dot-entry
+      {:type      :number
+       :value     value :id (pr-str path) :key (pr-str path)
+       :min       min :max max
+       :on-change (standard-on-change-for path read-only)}])
    [:p.dot-bar
     (map (fn [a] (if (or (< (dec a) value) (= value 0))
                    [:span.active-dot {:key      (str "dot-active " a)
@@ -129,13 +130,14 @@
 
 (rum/defc checkbox-field
   [{:keys [path value] :as fieldmap}]
+  (println "checkbox for " path " showing " value)
   [:input.field
    {:type      :checkbox
     :id        (pr-str path)
     :key       (pr-str path)
     :checked   value
     :on-change (fn [e]
-                 (daistate/change-element! path (not value)))}])
+                 (daistate/change-element! path not))}])
 
 (defmethod fp/form-field-for :dummy
   [{:keys [path value]}]
@@ -283,7 +285,28 @@
                             "Chronicles"
                             "chron-link"
                             [:chrons]
+                            {})
+                          (section-link-of
+                            "Settings"
+                            "settings-link"
+                            [:settings]
                             {})]}))
+
+(defmethod fp/page-for-viewmap :settings
+  [{:keys [path view] :as viewmap}]
+  (println "------ settings page " viewmap)
+  (fp/page-of {:title    (:name view)
+               :subtitle (:description view)
+               :img      (:img view)
+               :class    "settings-page"
+               :path     path
+               :sections [(fp/form-of "Show/Hide Elements"
+                                      "showhide"
+                                      [{:field-type :boolean, :label "Show Accessability Elements",
+                                        :path (conj path :show-accessibility ), :value (:show-accessibility view)}
+                                       {:field-type :boolean, :label "Show Unused Elements",
+                                        :path (conj path :show-unused), :value (:show-unused view)}])]}))
+
 
 (defn print-pass [n] (println n) n)
 (defmethod fp/page-for-viewmap :characters
@@ -565,11 +588,13 @@
                                       (map (fn [k]
                                              (let [-v (-> view :abilities k)
                                                    v (if -v -v 0)]
-                                               {:field-type :dots,
-                                                :label      (make-pretty k)
-                                                :class      (if (= 0 v) "ability minimized-field" "ability")
-                                                :value      v, :path (into path [:abilities k])
-                                                :min        0 :max 5}))
+                                               (when (or (daistate/get-setting-for-key :show-unused)
+                                                         (not (= v 0)))
+                                                 {:field-type :dots,
+                                                  :label      (make-pretty k)
+                                                  :class      "ability"
+                                                  :value      v, :path (into path [:abilities k])
+                                                  :min        0 :max 5})))
                                            (sort daihelp/ability-keys)))
                           (fp/section-of "Favored Abilities"
                                          "favoredabilities"
@@ -601,14 +626,14 @@
                           (fp/form-of "Limit"
                                       "limit-info"
                                       [{:field-type :text
-                                        :label "Trigger"
-                                        :value (-> view :limit :trigger)
-                                        :path (conj path :limit :trigger)}
+                                        :label      "Trigger"
+                                        :value      (-> view :limit :trigger)
+                                        :path       (conj path :limit :trigger)}
                                        {:field-type :dots
-                                        :label "Accrued"
-                                        :value (-> view :limit :accrued)
-                                        :path (conj path :limit :accrued)
-                                        :min 0 :max 10}])
+                                        :label      "Accrued"
+                                        :value      (-> view :limit :accrued)
+                                        :path       (conj path :limit :accrued)
+                                        :min        0 :max 10}])
                           (fp/soft-table-for "Intimacies"
                                              "intimacyinfo"
                                              (conj path :intimacies)

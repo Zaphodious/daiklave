@@ -64,6 +64,9 @@
      {:path     sanifrag
       :view     the-view})))
 
+(defn get-setting-for-key [setting-key]
+  (:view (fetch-view-for [:settings setting-key])))
+
 (defn change-element!
   [element-path change-val]
   (println "you gotsa " element-path ", and you gotsa " change-val)

@@ -98,7 +98,8 @@
      [:.page-menu {:class (if @show-menu-atom "menu-showing" "menu-hidden")}
       (build-breadcrumb page-path)
       [:ul
-       [:li [:a {:on-click #(swap! minimized-atom not)} (if (rum/react minimized-atom) "Show Irrelevant Fields" "Hide Irrelevant Fields")]]
+       ;[:li [:a {:on-click #(swap! minimized-atom not)} (if (rum/react minimized-atom) "Show Irrelevant Fields" "Hide Irrelevant Fields")]]
+       [:li [:a {:href (daifrag/link-fragment-for [:settings])} "Settings"]]
        [:li [:a "Print"]]
        [:li [:a (download-data-at page-path) "Download"]]]]]))
 
