@@ -541,9 +541,10 @@
                :path     path
                :sections
                          [(fp/form-of
-                            "Core Info"
+                            "Information"
                             "coreinfo"
                             [{:field-type :text, :label "Name", :value (:name view), :path (conj path :name)}
+                             {:field-type :text, :label "Concept", :value (:concept view), :path (conj path :concept)}
                              {:field-type :text, :label "Epithet", :value (:description view), :path (conj path :description)}
                              {:field-type :text, :label "Player", :value (:player view), :path (conj path :player)}
                              {:field-type :select-single, :label "Type", :value (:type view), :path (conj path :type), :options [:solar, :mortal], :read-only (not (= :mortal (:type view)))}
