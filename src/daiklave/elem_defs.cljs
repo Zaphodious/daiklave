@@ -419,7 +419,7 @@
                           (map (fn [z]
                                  {:field-type        :text,
                                   :label             (str "Player-Tags at " z),
-                                  :value             (->> (dec z) (nth (:character-tags a)) daihelp/keyword-vec-to-string)
+                                  :value             (->> z (nth (:character-tags a)) daihelp/keyword-vec-to-string)
                                   :path              (into p [:character-tags (dec z)]),
                                   :special-change-fn (fn [e]
                                                        (daistate/change-element!
