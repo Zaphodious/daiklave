@@ -316,6 +316,40 @@ form p .field .active-dot:before {
   content: "⚫";
 }
 
+form p .field .favored {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  top: 15px;
+}
+
+form p .field .selected.dawn {
+  background-image: url(../img/dawn.png);
+}
+
+form p .field .selected.twilight {
+  background-image: url(../img/twilight.png);
+}
+
+form p .field .selected.night {
+  background-image: url(../img/night.png);
+}
+
+form p .field .selected.eclipse {
+  background-image: url(../img/eclipse.png);
+}
+
+form p .field .selected.zenith {
+  background-image: url(../img/zenith.png);
+}
+
+form p .field .not-selected {
+  background-image: url(../img/caste_check.png);
+}
+
 form p .number-field input {
   width: calc(100%  -  80px);
 }
@@ -566,7 +600,11 @@ button.aggravated {
 }
 
 .desktop .character-page .page-content .attributeinfo form p label, .desktop .character-page .page-content .abilityinfo form p label {
-  width: 23%;
+  width: 30%;
+}
+
+.desktop .character-page .page-content .attributeinfo form p .field, .desktop .character-page .page-content .abilityinfo form p .field {
+  width: 50%;
 }
 
 .desktop .character-page .page-content .attributeinfo form p p, .desktop .character-page .page-content .abilityinfo form p p {

@@ -364,7 +364,20 @@
       [:.inactive-dot
        [:&:before {:content "\"⚪\""}]]
       [:.active-dot
-       [:&:before {:content "\"⚫\""}]]]
+       [:&:before {:content "\"⚫\""}]]
+      [:.favored {:display :inline-block
+                  :width :20px
+                  :height :20px
+                  :background-position :center
+                  :background-size :cover
+                  :position :relative
+                  :top :15px}]
+      [:.selected.dawn {:background-image (url "../img/dawn.png")}]
+      [:.selected.twilight {:background-image (url "../img/twilight.png")}]
+      [:.selected.night {:background-image (url "../img/night.png")}]
+      [:.selected.eclipse {:background-image (url "../img/eclipse.png")}]
+      [:.selected.zenith {:background-image (url "../img/zenith.png")}]
+      [:.not-selected {:background-image (url "../img/caste_check.png")}]]
      [:.number-field
       [:input {:width (calchelper :100% - :80px)}]
       [:button {:width :20px}]]
@@ -517,7 +530,8 @@
                  [:p {;:border :solid
                       :padding-left :20px
                       :padding-right 0}
-                  [:label {:width :23%}]
+                  [:label {:width :30%}]
+                  [:.field {:width :50%}]
                   [:p {;:float :right
                        :margin-right :-30px
                        :padding :7px}]]]]

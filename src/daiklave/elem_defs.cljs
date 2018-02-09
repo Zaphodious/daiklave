@@ -92,7 +92,7 @@
 
 
 (rum/defc dot-field < rum/static
-  [{:keys [path value options read-only min max] :as fieldmap}]
+  [{:keys [path value options read-only min max aux-widget] :as fieldmap}]
   [:.field
    (when (daistate/get-setting-for-key :show-accessibility)
      [:input.dot-entry
@@ -100,6 +100,7 @@
        :value     value :id (pr-str path) :key (pr-str path)
        :min       min :max max
        :on-change (standard-on-change-for path read-only)}])
+   (when aux-widget aux-widget)
    [:p.dot-bar
     (map (fn [a] (if (or (< (dec a) value) (= value 0))
                    [:span.active-dot {:key      (str "dot-active " a)
@@ -594,7 +595,12 @@
                                                   :label      (make-pretty k)
                                                   :class      "ability"
                                                   :value      v, :path (into path [:abilities k])
-                                                  :min        0 :max 5})))
+                                                  :min        0 :max 5
+                                                  :aux-widget (if ((set (:favored-abilities view)) k)
+                                                                [:span.favored.selected
+                                                                 {:class (:subtype view)}]
+                                                                [:span.favored.not-selected])})))
+
                                            (sort daihelp/ability-keys)))
                           (fp/section-of "Favored Abilities"
                                          "favoredabilities"
