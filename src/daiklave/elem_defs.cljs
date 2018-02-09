@@ -394,7 +394,7 @@
      :new-element   {:name           "Allies"
                      :description    "Allies, yo!"
                      :drawback       "Dey be people n shiii"
-                     :page           158
+                     :page           "158"
                      :ranks          #{1 3 5}
                      :repurchasable  true
                      :upgrading      false
@@ -409,7 +409,7 @@
                         (into
                           [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
                            {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)}
-                           {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
+                           {:field-type :text, :label "Page", :value (:page a), :path (conj p :page)}
                            {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate :flaw]},
                            {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
                            {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}
