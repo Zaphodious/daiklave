@@ -49,7 +49,7 @@
                     :on-change (standard-on-change-for path read-only)}])
 
 (rum/defc single-dropdown < rum/static
-  [{:keys [path value options read-only special-change-fn] :as fieldmap}]
+  [{:keys [path value options read-only special-change-fn display-fn] :as fieldmap}]
   [:select.field
    {:on-change (if special-change-fn
                  special-change-fn
@@ -58,7 +58,10 @@
     :class     (if read-only "read-only" "")
     :disabled  read-only
     :value     value}
-   (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str (pr-str path) "-select-" n)} (make-pretty a)])
+   (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str (pr-str path) "-select-" n)}
+                           (if display-fn
+                             (display-fn a)
+                             (make-pretty a))])
                 options)])
 
 (rum/defc number-field < rum/static
@@ -643,6 +646,21 @@
                                         :value      (-> view :limit :accrued)
                                         :path       (conj path :limit :accrued)
                                         :min        0 :max 10}])
+                          (fp/soft-table-for "Chronicles Used"
+                                             "chrons-used"
+                                             (conj path :chrons)
+                                             "0"
+                                             compare
+                                             (map-indexed (fn [n a]
+                                                            (fp/mini-form-of (-> (daistate/fetch-view-for [:chrons a]) :view :name)
+                                                                             [{:field-type :select-single
+                                                                               :label      "Chronicle Used"
+                                                                               :value      (pr-str a)
+                                                                               :path       (conj path :chrons n)
+                                                                               :class      "single-selector"
+                                                                               :display-fn (fn [a] (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str))
+                                                                               :options    (->> [:chrons] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
+                                                          (:chrons view)))
                           (fp/soft-table-for "Intimacies"
                                              "intimacyinfo"
                                              (conj path :intimacies)
