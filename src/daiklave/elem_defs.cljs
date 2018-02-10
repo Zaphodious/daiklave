@@ -582,6 +582,22 @@
                              {:field-type :big-text, :label "Anima", :value (:anima view), :path (conj path :anima), :read-only (= :mortal (:type view))}
                              {:field-type :select-single, :label "Caste", :value (:subtype view), :path (conj path :subtype), :options [:dawn, :eclipse, :night, :twilight, :zenith]}
                              {:field-type :select-single :label "Supernal" :read-only (= :mortal (:type view)) :path (conj path :supernal), :value (:supernal view), :options (into [] (set/intersection (set (:favored-abilities view)) (get daihelp/caste-abilities (:subtype view))))}])
+                          (fp/soft-table-for "Chronicles Used"
+                                             "chrons-used"
+                                             (conj path :chrons)
+                                             "0"
+                                             compare
+                                             (map-indexed (fn [n a]
+                                                            (fp/mini-form-of (-> (daistate/fetch-view-for [:chrons a]) :view :name)
+                                                                             [{:field-type :text
+                                                                               :read-only true
+                                                                               :label      "Chronicle Used"
+                                                                               :value      (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str)
+                                                                               :path       (conj path :chrons n)
+                                                                               :class      "single-selector"}]))
+                                                                               ;:display-fn (fn [a] (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str))}]))
+                                                                               ;:options    (->> [:chrons] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
+                                                          (:chrons view)))
                           (fp/form-of "Attributes"
                                       "attributeinfo"
                                       (map (fn [[k v]]
@@ -646,21 +662,7 @@
                                         :value      (-> view :limit :accrued)
                                         :path       (conj path :limit :accrued)
                                         :min        0 :max 10}])
-                          (fp/soft-table-for "Chronicles Used"
-                                             "chrons-used"
-                                             (conj path :chrons)
-                                             "0"
-                                             compare
-                                             (map-indexed (fn [n a]
-                                                            (fp/mini-form-of (-> (daistate/fetch-view-for [:chrons a]) :view :name)
-                                                                             [{:field-type :select-single
-                                                                               :label      "Chronicle Used"
-                                                                               :value      (pr-str a)
-                                                                               :path       (conj path :chrons n)
-                                                                               :class      "single-selector"
-                                                                               :display-fn (fn [a] (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str))
-                                                                               :options    (->> [:chrons] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
-                                                          (:chrons view)))
+
                           (fp/soft-table-for "Intimacies"
                                              "intimacyinfo"
                                              (conj path :intimacies)
