@@ -135,7 +135,6 @@
 
 (rum/defc checkbox-field
   [{:keys [path value] :as fieldmap}]
-  (println "checkbox for " path " showing " value)
   [:input.field
    {:type      :checkbox
     :id        (pr-str path)

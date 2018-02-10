@@ -43,3 +43,30 @@
   (f/cljs-repl))
 
 (defn compile-style! [] (ga/compile-style!))
+
+(def merits (rest (take 5 (file-seq (clojure.java.io/file "dataentry/merits")))))
+(defn get-merits-from-entry
+  []
+  (reduce
+    into
+    (map
+      #(-> %
+           slurp
+           read-string
+           :view
+           :merit-vec)
+      merits)))
+
+(defn clean-merit-entries
+  [merit-entries]
+  (->> merit-entries
+       (map #(assoc % :page (str (:page %))))
+       (map #(assoc % :confers-merits ""))
+       (map #(dissoc % :drawback))))
+
+(defn process-merit-entries
+  []
+  (->> (get-merits-from-entry)
+      clean-merit-entries
+      (into [])
+      (spit "dataentry/output/merit-entries.edn")))
