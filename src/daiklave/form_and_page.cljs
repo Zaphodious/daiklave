@@ -133,7 +133,7 @@
 
 
 (rum/defc soft-table-for < rum/static
-  [form-title form-name path new-element sort-fn mini-forms]
+  [{:keys [form-title form-name path new-element sort-fn mini-forms] :as table-map}]
   (let [neg-fn-make (fn [n] (fn [] (daistate/change-element! path #(daiseq/remove-nth % n))))
         add-fn (fn [] (daistate/change-element! path #(vec (conj % new-element))))
         sort-button-fn (fn [] (daistate/change-element! path #(vec (sort sort-fn %))))]
