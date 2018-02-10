@@ -109,25 +109,29 @@
                                         :on-click #(daistate/change-element! path a)}]))
          (range 1 (inc max)))]])
 
+(defn- make-merit-ranks-field-data
+       [{:keys [path value readonly] :as fieldmap}]
+       [:.field
+        (map
+            (fn [n]
+               [:span.rank-selection
+                [:label.rank-label {:for   (pr-str (conj path n))
+                                    :class (if (value n) "checked" "unchecked")}
+                 n]
+                [:input {:type      :checkbox
+                         :key       (pr-str (conj path n))
+                         :id        (pr-str (conj path n))
+                         :checked   (value n)
+                         :on-change (fn [e]
+                                      (daistate/change-element! path (if (value n)
+                                                                       (set (remove #{n} value))
+                                                                       (conj value n))))}]
+                [:span.select-helper]])
+
+            (range 0 6))])
 (rum/defc merit-possible-ranks-field < rum/static
   [{:keys [path value readonly] :as fieldmap}]
-  [:.field
-   (map-indexed (fn [n a]
-                  [:span.rank-selection
-                   [:label.rank-label {:for   (pr-str (conj path n))
-                                       :class (if (value a) "checked" "unchecked")}
-                    n]
-                   [:input {:type      :checkbox
-                            :key       (pr-str (conj path n))
-                            :id        (pr-str (conj path n))
-                            :checked   (value a)
-                            :on-change (fn [e]
-                                         (daistate/change-element! path (if (value a)
-                                                                          (set (remove #{a} value))
-                                                                          (conj value a))))}]
-                   [:span.select-helper]])
-
-                (range 0 6))])
+  (make-merit-ranks-field-data fieldmap))
 
 (rum/defc checkbox-field
   [{:keys [path value] :as fieldmap}]
@@ -394,7 +398,7 @@
      :new-element   {:name           "Allies"
                      :description    "Allies, yo!"
                      :drawback       "Dey be people n shiii"
-                     :page           "158"
+                     :page           158
                      :ranks          #{1 3 5}
                      :repurchasable  true
                      :upgrading      false
@@ -409,23 +413,23 @@
                         (into
                           [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
                            {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)}
-                           {:field-type :text, :label "Page", :value (:page a), :path (conj p :page)}
-                           {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate :flaw]},
+                           {:field-type :text, :label "Page", :value (str (:page a)), :path (conj p :page)}
+                           {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:story :purchased :innate :flaw] :special-change-fn false},
                            {:field-type :merit-possible-ranks, :label "Ranks", :path (conj p :ranks), :value (:ranks a)}
                            {:field-type :boolean, :label "Repurchasable", :path (conj p :repurchasable), :value (:repurchasable a)}
                            (if (:repurchasable a)
                              {:field-type :boolean, :label "Upgrade On Repurchase", :path (conj p :upgrading), :value (:upgrading a)})
                            {:field-type :big-text, :label "Merits Conferred", :value (:confers-merits a), :path (conj p :confers-merits)}]
-                          (map (fn [z]
-                                 {:field-type        :text,
-                                  :label             (str "Player-Tags at " z),
-                                  :value             (->> z (nth (:character-tags a)) daihelp/keyword-vec-to-string)
-                                  :path              (into p [:character-tags (dec z)]),
-                                  :special-change-fn (fn [e]
-                                                       (daistate/change-element!
-                                                         (into p [:character-tags (dec z)])
-                                                         (daihelp/string-to-keyword-vec (daistate/get-change-value e))))})
-                               (into (sorted-set) (:ranks a))))))}))
+                          #_(map (fn [z]
+                                   {:field-type        :text,
+                                    :label             (str "Player-Tags at " z),
+                                    :value             (->> (dec z) (nth (:character-tags a)) daihelp/keyword-vec-to-string)
+                                    :path              (into p [:character-tags (dec z)]),
+                                    :special-change-fn (fn [e]
+                                                         (daistate/change-element!
+                                                           (into p [:character-tags (dec z)])
+                                                           (daihelp/string-to-keyword-vec (daistate/get-change-value e))))}
+                                   (into (sorted-set) (:ranks a)))))))}))
 
 (defmethod fp/page-for-viewmap :mundane-weapons
   [{:keys [path view] :as viewmap}]
