@@ -53,7 +53,7 @@
   [:select.field
    {:on-change (if special-change-fn
                  special-change-fn
-                 #(standard-read-on-change-for path read-only))
+                 (standard-read-on-change-for path read-only))
     :id        (pr-str path)
     :class     (if read-only "read-only" "")
     :disabled  read-only
