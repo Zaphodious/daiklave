@@ -208,6 +208,13 @@
                  :left       0
                  :width      :100%
                  :height     :100%}
+    [:.modular-window {:position         :fixed
+                       :height           :25%
+                       :top              (calchelper :50% - :20%)
+                       :width :70%
+                       :left (calchelper :50% - :30%)
+                       :z-index          100
+                       :background-color :blue}]
     [:.menu-assembly {:position :absolute
                       :width :100%}
      [:button.menu-toggle {:position :absolute

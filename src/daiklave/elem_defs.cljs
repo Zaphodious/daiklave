@@ -740,3 +740,5 @@
  ;[path value options key name]
 
 
+(defmethod fp/modular-for :add-chron-selector
+  [{:keys [currently-showing result-for result modular-arguments] :as selector-map}])

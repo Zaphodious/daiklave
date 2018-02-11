@@ -22,6 +22,9 @@
 ; request map {:element n :fieldtype m :path p}
 (defmethod form-field-for nil [_] nil)
 
+(defmulti modular-for :currently-showing)
+(defmethod modular-for nil [_] nil)
+
 (rum/defc page-from-path < rum/reactive
   [viewmap]
 
@@ -70,6 +73,13 @@
                " "
                (if @minimized "minimized" "maximized"))}
      (println "vec of paths " vec-of-paths)
+     [:.modular-window [:h3 "Select A Chron"]
+      [:.interior
+       [:input {:type :text :value "Under Hea"}]
+       [:ul
+        [:li "Under Heaven's Eye, by Alex"]
+        [:li "Under Heavenly Light, by Vexx0r"]
+        [:li "Under Heavy Burdens, by Deekorz"]]]]
      (page-menu-assembly patho minimized)
      (if (< 700 (:width (daistate/get-screen-size)))
        [:.pages

@@ -107,6 +107,16 @@ body {
   height: 100%;
 }
 
+#app-frame .modular-window {
+  position: fixed;
+  height: 25%;
+  top: calc(50%  -  20%);
+  width: 70%;
+  left: calc(50%  -  30%);
+  z-index: 100;
+  background-color: blue;
+}
+
 #app-frame .menu-assembly {
   position: absolute;
   width: 100%;
