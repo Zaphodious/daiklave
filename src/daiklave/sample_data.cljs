@@ -8,10 +8,8 @@
                 :name     "Anathema: Reincarnated"
                 :category :home
                 :img      "img/app-symbol.png"}
-   :modular {:currently-showing nil
-             :result-for nil
-             :result nil
-             :modular-arguments nil}
+   :modal {:modal-showing nil
+           :modal-arguments {}}
    :settings   {:name                    "Settings"
                 :category                :settings
                 :img                     "https://i.imgur.com/ffipFnl.jpg"

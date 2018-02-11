@@ -65,36 +65,40 @@
         viewmap (daistate/fetch-view-for patho app-data)
         viewmap-one-up (daistate/fetch-view-for (drop-last patho) app-data)
         screen-size (rum/react daistate/screen-size)
-        vec-of-paths (vec-of-paths-for patho)]
-    ;
+        vec-of-paths (vec-of-paths-for patho)
+        {:keys [modal-showing modal-arguments] :as modal-map} (daistate/fetch-view-for [:modal])]
+    ;{:currently-showing nil
+    ;:result-for nil
+    ;:result nil
+    ;:modular-arguments nil
     [:#app-frame
      {:class (str
                (if (< 700 (:width (daistate/get-screen-size))) "desktop" "mobile")
                " "
-               "modal-having"
+               (when modal-showing "modal-having")
                " "
                (if @minimized "minimized" "maximized"))}
      (println "vec of paths " vec-of-paths)
-     [:.modal-blur]
-     [:.modal-window [:h3.modal-title "Select A Chron"]
-      [:.interior
-       [:.chron-search-using
-        [:input {:type :text :value "Under Hea"}]
-        [:ul
-         [:li.selected {:style {:background-image "url(../img/app-symbol.png)"}}
-          [:.chron-title "Under Heaven's Eye"]
-          [:.chron-byline "Alex"]
-          [:.chron-contains "Charms, Merits"]]
-         [:li {:style {:background-image "url(../img/app-symbol.png)"}}
-          [:.chron-title "Under Heavenly Light"]
-          [:.chron-byline "Vexx0r"]
-          [:.chron-contains "Charms, Evocations"]]
-         [:li {:style {:background-image "url(../img/app-symbol.png)"}}
-           [:.chron-title "Under Heavy Burdens"]
-           [:.chron-byline "Deekorz"]
-           [:.chron-contains "Spells, Martial Arts"]]]]]
-
-      [:.button-bar [:button "Select"] [:button "Cancel"]]]
+     (when modal-showing [:.modal-blur])
+     (when modal-showing
+       [:.modal-window [:h3.modal-title "Select A Chron"]
+        [:.interior
+         [:.chron-search-using
+          [:input {:type :text :value "Under Hea"}]
+          [:ul
+           [:li.selected {:style {:background-image "url(../img/app-symbol.png)"}}
+            [:.chron-title "Under Heaven's Eye"]
+            [:.chron-byline "Alex"]
+            [:.chron-contains "Charms, Merits"]]
+           [:li {:style {:background-image "url(../img/app-symbol.png)"}}
+            [:.chron-title "Under Heavenly Light"]
+            [:.chron-byline "Vexx0r"]
+            [:.chron-contains "Charms, Evocations"]]
+           [:li {:style {:background-image "url(../img/app-symbol.png)"}}
+             [:.chron-title "Under Heavy Burdens"]
+             [:.chron-byline "Deekorz"]
+             [:.chron-contains "Spells, Martial Arts"]]]]]
+        [:.button-bar [:button "Select"] [:button "Cancel"]]])
      (page-menu-assembly patho minimized)
      (if (< 700 (:width (daistate/get-screen-size)))
        [:.pages
