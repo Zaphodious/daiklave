@@ -71,15 +71,31 @@
      {:class (str
                (if (< 700 (:width (daistate/get-screen-size))) "desktop" "mobile")
                " "
+               "modal-having"
+               " "
                (if @minimized "minimized" "maximized"))}
      (println "vec of paths " vec-of-paths)
-     [:.modular-window [:h3 "Select A Chron"]
+     [:.modal-blur]
+     [:.modal-window [:h3.modal-title "Select A Chron"]
       [:.interior
-       [:input {:type :text :value "Under Hea"}]
-       [:ul
-        [:li "Under Heaven's Eye, by Alex"]
-        [:li "Under Heavenly Light, by Vexx0r"]
-        [:li "Under Heavy Burdens, by Deekorz"]]]]
+       [:.chron-search-using
+        [:input {:type :text :value "Under Hea"}]
+        [:ul
+         [:li {:style {:background-image "url(../img/app-symbol.png)"}}
+          [:.chron-title "Under Heaven's Eye"]
+          [:.chron-byline "Alex"]
+          [:.chron-contains "Charms, Merits"]]
+         [:li {:style {:background-image "url(../img/app-symbol.png)"}}
+          [:.chron-title "Under Heavenly Light"]
+          [:.chron-byline "Vexx0r"]
+          [:.chron-contains "Charms, Evocations"]]
+
+         [:li {:style {:background-image "url(../img/app-symbol.png)"}}
+           [:.chron-title "Under Heavy Burdens"]
+           [:.chron-byline "Deekorz"]
+           [:.chron-contains "Spells, Martial Arts"]]]]]
+
+      [:.button-bar [:button "Select"] [:button "Cancel"]]]
      (page-menu-assembly patho minimized)
      (if (< 700 (:width (daistate/get-screen-size)))
        [:.pages

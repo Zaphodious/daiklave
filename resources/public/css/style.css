@@ -107,14 +107,88 @@ body {
   height: 100%;
 }
 
-#app-frame .modular-window {
+#app-frame .modal-blur {
   position: fixed;
-  height: 25%;
-  top: calc(50%  -  20%);
-  width: 70%;
-  left: calc(50%  -  30%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: hsla(15, 36.363636%, 43.137257%, 0.4);
+  z-index: 99;
+}
+
+#app-frame .modal-window {
+  background-position: right;
+  right: 10%;
+  top: 5%;
+  position: fixed;
   z-index: 100;
-  background-color: blue;
+  background-size: cover;
+  box-shadow: 0 0 10px #666666;
+  background-color: white;
+  border-radius: 20px;
+  bottom: 5%;
+  background-image: url(../img/brushed_metal.png), url(../img/koi_modal_back.jpg);
+  left: 10%;
+}
+
+#app-frame .modal-window h3.modal-title {
+  background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 25%, 0.7), hsla(44.505493, 89.21568%, 30%, 0.7), hsla(44.505493, 89.21568%, 35%, 0.7), hsla(44.505493, 89.21568%, 40%, 0.7), hsla(44.505493, 89.21568%, 45%, 0.7), hsla(44.505493, 89.21568%, 65%, 0.7), hsla(44.505493, 89.21568%, 90%, 0.7));
+  padding: 10px;
+  border-radius: 20px;
+}
+
+#app-frame .modal-window .button-bar {
+  float: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 15px;
+}
+
+#app-frame .modal-window .chron-search-using input {
+  width: calc(100%  -  30px);
+  margin-left: 15px;
+  height: 2em;
+  font-size: 2em;
+}
+
+#app-frame .modal-window .chron-search-using ul {
+  overflow: scroll;
+  display: block;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 50px;
+  top: 150px;
+  padding: 0;
+}
+
+#app-frame .modal-window .chron-search-using ul li {
+  list-style: none;
+  height: 100px;
+  margin: 0;
+  background-size: cover;
+  background-position: right;
+}
+
+#app-frame .modal-window .chron-search-using ul li .chron-title, #app-frame .modal-window .chron-search-using ul li .chron-byline, #app-frame .modal-window .chron-search-using ul li .chron-contains {
+  background-color: black;
+  color: white;
+  display: block;
+  width: max-content;
+}
+
+#app-frame .modal-window .chron-search-using ul li .chron-title:after, #app-frame .modal-window .chron-search-using ul li .chron-byline:after, #app-frame .modal-window .chron-search-using ul li .chron-contains:after {
+  display: block;
+}
+
+#app-frame .modal-window .chron-search-using ul li .chron-byline:before {
+  content: "By: ";
+}
+
+#app-frame .modal-window .chron-search-using ul li .chron-contains:before {
+  content: "Contains: ";
 }
 
 #app-frame .menu-assembly {

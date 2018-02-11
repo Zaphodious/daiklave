@@ -21,9 +21,9 @@
 
 (defn grid-area-strings [& stringers]
   (reduce str
-    (map
-      (fn [a] (str "\n\"" a "\""))
-      stringers)))
+          (map
+            (fn [a] (str "\n\"" a "\""))
+            stringers)))
 
 (defn name-or-string [thing]
   (try
@@ -86,16 +86,16 @@
                               (gc/darken sun-gold 30)
                               (gc/darken sun-gold 30)))
 
-(def title-background-image  [;(url "../img/canvas_transparent_header.png")
-                              (url "../img/brushed_metal.png")
-                              (linear-gradient
-                                (assoc (gc/darken sun-gold 35) :alpha 0.7)
-                                (assoc (gc/darken sun-gold 30) :alpha 0.7)
-                                (assoc (gc/darken sun-gold 25) :alpha 0.7)
-                                (assoc (gc/darken sun-gold 20) :alpha 0.7)
-                                (assoc (gc/darken sun-gold 15) :alpha 0.7)
-                                (assoc (gc/lighten sun-gold 5) :alpha 0.7)
-                                (assoc (gc/lighten sun-gold 30) :alpha 0.7))])
+(def title-background-image [;(url "../img/canvas_transparent_header.png")
+                             (url "../img/brushed_metal.png")
+                             (linear-gradient
+                               (assoc (gc/darken sun-gold 35) :alpha 0.7)
+                               (assoc (gc/darken sun-gold 30) :alpha 0.7)
+                               (assoc (gc/darken sun-gold 25) :alpha 0.7)
+                               (assoc (gc/darken sun-gold 20) :alpha 0.7)
+                               (assoc (gc/darken sun-gold 15) :alpha 0.7)
+                               (assoc (gc/lighten sun-gold 5) :alpha 0.7)
+                               (assoc (gc/lighten sun-gold 30) :alpha 0.7))])
 
 (def menu-background-image
   (into [(linear-gradient
@@ -143,13 +143,13 @@
    [:* {:margin      0
         :font-family "Karma, sans-serif"
         :font-weight :normal
-        :font-size :13px
+        :font-size   :13px
         :color       color-off-dark}]
    [:h1 :h2 :h3 :h4 :h5 :h6
     {:font-size   :25px
      :font-family "Envision, serif"
      :font-weight :bold
-     :color (gc/darken (gc/complement sun-gold) 50)}
+     :color       (gc/darken (gc/complement sun-gold) 50)}
     [:p {:font-weight :normal}]]
 
    [:button {:background-color color-brightest
@@ -158,7 +158,7 @@
              :border-color     :none
              :box-shadow       buttonshadow
              :text-shadow      (str "0 0 6px" (gc/as-hex color-p-light))
-             :border-radius (-px 2)
+             :border-radius    (-px 2)
              :color            color-darkest
              :margin-right     :2px
              :margin-left      :2px}]
@@ -176,7 +176,7 @@
                               :margin-bottom    (-px 3)
                               :margin-left      (-px 5)
                               :padding-right    0
-                              :vertical-align :bottom}
+                              :vertical-align   :bottom}
     ;:margin-left (-px 3)}
     [:&:focus {:outline          :none
                :box-shadow       :none
@@ -189,17 +189,17 @@
    ;:border-width :3px}]]
    ;:border-radius (-px 5)}]
    ["input[type=checkbox]" {:height :20px
-                            :width :20px}
-       [:&:focus {:height :30px}]]
+                            :width  :20px}
+    [:&:focus {:height :30px}]]
    [:html {:height :100%}]
    [:body {;:background-color (:background-darker brown)
-           :background-image (url "../img/solar_bg.jpg")
-           :background-repeat :no-repeat
+           :background-image      (url "../img/solar_bg.jpg")
+           :background-repeat     :no-repeat
            :background-attachment :fixed
-           :background-position [:right :center]
-           :background-size :cover
-           :height           :100%
-           :overflow :hide}]
+           :background-position   [:right :center]
+           :background-size       :cover
+           :height                :100%
+           :overflow              :hide}]
    [:#app {:width :100% :height :100% :overflow :hide}]
    [:#app-frame {:position   :fixed
                  :overflow-y :hidden
@@ -208,22 +208,73 @@
                  :left       0
                  :width      :100%
                  :height     :100%}
-    [:.modular-window {:position         :fixed
-                       :height           :25%
-                       :top              (calchelper :50% - :20%)
-                       :width :70%
-                       :left (calchelper :50% - :30%)
-                       :z-index          100
-                       :background-color :blue}]
+    [:.modal-blur {:position         :fixed
+                   :top              0
+                   :bottom           0
+                   :left             0
+                   :right            0
+                   :background-color (gc/rgba 150 90 70 0.4)
+                   :z-index          99}]
+    [:.modal-window {:position         :fixed
+                     ;:height           :25%
+                     :top              :5%
+                     :bottom           :5%
+                     :left             :10%
+                     :right            :10%
+                     :z-index          100
+                     :background-color :white
+                     :background-image [(url "../img/brushed_metal.png")
+                                        (url "../img/koi_modal_back.jpg")]
+                     :background-size :cover
+                     :background-position :right
+                     :border-radius :20px
+                     :box-shadow elementshadow}
+     [:h3.modal-title {:background-image title-background-image
+                       :padding :10px
+                       :border-radius :20px}]
+     [:.button-bar {:float :right
+                    :position :absolute
+                    :bottom 0
+                    :right 0
+                    :padding :15px}]
+     [:.chron-search-using
+      [:input {:width (calchelper :100% - :30px)
+               :margin-left :15px
+               :height :2em
+               :font-size :2em}]
+      [:ul {:overflow :scroll
+            ;:border :solid
+            :display :block
+            :position :absolute
+            :right 0
+            :left 0
+            :bottom :50px
+            :top :150px
+            :padding 0}
+       [:li {;:font-size :1.5em
+             :list-style :none
+             :height :100px
+             :margin 0
+             :background-size :cover
+             :background-position :right}
+        [:.chron-title :.chron-byline :.chron-contains
+         {:background-color :black
+          :color :white
+          :display :block
+          :width :max-content}
+         [:&:after {:display :block}]]
+        [:.chron-byline [:&:before {:content "\"By: \""}]]
+        [:.chron-contains [:&:before {:content "\"Contains: \""}]]]]]]
+
     [:.menu-assembly {:position :absolute
-                      :width :100%}
+                      :width    :100%}
      [:button.menu-toggle {:position :absolute
-                           :right :20px
-                           :top :3px
-                           :z-index 20}]
+                           :right    :20px
+                           :top      :3px
+                           :z-index  20}]
      [:.page-menu {:background-image menu-background-image
                    :position         :absolute
-                   :box-shadow "inset 0 0 5px grey"
+                   :box-shadow       "inset 0 0 5px grey"
 
                    :z-index          9
                    ;:box-shadow elementshadow
@@ -231,23 +282,25 @@
                    :width            (calchelper :100% - :40px)
                    :padding          :5px}
       [:ul
-       [:li {:display :inline-block
+       [:li {:display       :inline-block
              :padding-right :5px}]]]
 
-     [:.menu-showing {:top :35px
-                      :left :13px
+     [:.menu-showing {:top     :35px
+                      :left    :13px
                       :opacity 1}]
      [:.menu-hidden {;:position :fixed
                      :opacity 0
-                     :top :-70px
-                     :left :13px}]]]
+                     :top     :-70px
+                     :left    :13px}]]]
    [:.minimized-field {:transition "opacity .5s"}]
    [:#app-frame.minimized [:* [:.minimized-field {:opacity 0
                                                   :display :none}]]]
    [:#app-frame.page.maximized [:* [:.minimized-field {:opacity 1
                                                        :display :inherit}]]]
-   [:.page {:width  :100%
-            :height :100%
+
+
+   [:.page {:width    :100%
+            :height   :100%
             :position :relative}
     [:h1.page-title {:width            :100%
                      ;:background-color (:element-darker brown)
@@ -257,7 +310,7 @@
                      :background-image title-background-image
 
                      ;(gc/darken sun-gold 50)
-                    ; :color            title-color
+                     ; :color            title-color
                      ;:text-shadow      title-text-shadow
                      :text-align       :center
                      :font-weight      :bolder
@@ -267,8 +320,8 @@
                      :z-index          10}]
 
 
-                       ;:right :0px}]]
-    [:.page-content {:height   (calchelper :100vh - title-bar-height - :10px)
+    ;:right :0px}]]
+    [:.page-content {:height     (calchelper :100vh - title-bar-height - :10px)
                      :overflow-y :auto
                      :overflow-x :hidden}
 
@@ -285,22 +338,22 @@
                       :margin           (-px (* page-content-margin-scalar 2))
                       ;:box-shadow       elementshadow
                       :padding          :10px
-                      :padding-top 0
-                      :margin-bottom :30px
+                      :padding-top      0
+                      :margin-bottom    :30px
                       ;:border :solid
-                      :border-width :1px
-                      :border-color sun-gold
+                      :border-width     :1px
+                      :border-color     sun-gold
                       ;:border-color section-border-color
                       ;:border-style :solid
                       ;:border-width :3px
                       ;:border-bottom-left-radius :30px
                       ;:border-top-right-radius :30px
-                      :box-shadow elementshadow}
+                      :box-shadow       elementshadow}
 
       [:img {:max-width :100%
-             :overflow :hidden}]
-             ;:border-top-right-radius :30px
-             ;:border-bottom-left-radius :30px}]
+             :overflow  :hidden}]
+      ;:border-top-right-radius :30px
+      ;:border-bottom-left-radius :30px}]
       [:img.banner-image {:display    :block
                           :text-align :center
                           :margin     (-px -10)
@@ -321,11 +374,11 @@
       [:h1 :h2 {:text-align :justify}]
       [:h3 :h4 :h5 :h6 {:text-align       :justify
                         :border-bottom    :solid
-                        :border-color "#6f98a9"
+                        :border-color     "#6f98a9"
 
 
                         :background-image title-background-image
-                                             ;(assoc (gc/as-rgb (gc/from-name "white")) :alpha 0.7))]
+                        ;(assoc (gc/as-rgb (gc/from-name "white")) :alpha 0.7))]
 
 
                         :border-width     :1px
@@ -338,7 +391,7 @@
                         ;:background    section-title-gradient
                         ;:color            (gc/lighten sun-gold 10)
                         :text-shadow      title-text-shadow}]
-                        ;:box-shadow    elementshadow}]
+      ;:box-shadow    elementshadow}]
       [:.button-bar {:padding :5px}
        [:button {:margin :4px}]]
       [:.navlist-container
@@ -347,18 +400,18 @@
        [:ul.field.navlist.shown {:display :block}]]]
      [:.page-header {:background-color :transparent
                      :background-image :none
-                     :border :none
-                     :box-shadow :none}]]]
+                     :border           :none
+                     :box-shadow       :none}]]]
 
 
-                ;:height (calchelper :100% - :40px)}
+   ;:height (calchelper :100% - :40px)}
 
 
    [:form
     [:* {:padding :.5em}]
     [:p
      [:label {:width      (calchelper :20% - :10px)
-              :height (-% 100)
+              :height     (-% 100)
               :display    :inline-block
               :text-align :right}]
      [:.field {:width   (calchelper :100% - :20% + :10px - :10px - :2em - page-content-margin - page-content-margin)
@@ -372,13 +425,13 @@
        [:&:before {:content "\"⚪\""}]]
       [:.active-dot
        [:&:before {:content "\"⚫\""}]]
-      [:.favored {:display :inline-block
-                  :width :20px
-                  :height :20px
+      [:.favored {:display             :inline-block
+                  :width               :20px
+                  :height              :20px
                   :background-position :center
-                  :background-size :cover
-                  :position :relative
-                  :top :15px}]
+                  :background-size     :cover
+                  :position            :relative
+                  :top                 :15px}]
       [:.selected.dawn {:background-image (url "../img/dawn.png")}]
       [:.selected.twilight {:background-image (url "../img/twilight.png")}]
       [:.selected.night {:background-image (url "../img/night.png")}]
@@ -401,87 +454,87 @@
    [:.set-selectors
     [:.set-selector {:width (-% 100)}]]
    [:span.rank-selection {:width   :1.5em
-                          :height :1.5em
+                          :height  :1.5em
                           :padding 0
                           :margin  0
                           ;:margin-top :1em
                           :display :inline-block}
-                         [:&:focus-within
-                          [:span.select-helper {:display          :inline-block
-                                                ;:float            :right
-                                                :opacity :0.5
-                                                :background-color (gc/darken color-text-bright 30)
-                                                :height           :20px
-                                                :width            :10px
-                                                :padding          :0px
-                                                :margin           0
-                                                :position         :relative
-                                                :bottom           :24px
-                                                :right            :8px
-                                                :border-radius    :10px
-                                                :z-index 2}]]
+    [:&:focus-within
+     [:span.select-helper {:display          :inline-block
+                           ;:float            :right
+                           :opacity          :0.5
+                           :background-color (gc/darken color-text-bright 30)
+                           :height           :20px
+                           :width            :10px
+                           :padding          :0px
+                           :margin           0
+                           :position         :relative
+                           :bottom           :24px
+                           :right            :8px
+                           :border-radius    :10px
+                           :z-index          2}]]
     [:span.select-helper {:display :none}]
 
-    [:input {:display :inline
-             :margin 0
-             :opacity 0
-             :width :15px
-             :height :15px
-             :position :relative
-             :z-index 10
-             :right :0px
-             :bottom :7px
+    [:input {:display     :inline
+             :margin      0
+             :opacity     0
+             :width       :15px
+             :height      :15px
+             :position    :relative
+             :z-index     10
+             :right       :0px
+             :bottom      :7px
              ;:margin-bottom :-30px}]
              ;:width :1px}]
              :margin-left :-18px}]
 
-    [:label {:width   :10px
-             :height :10px
-             :padding :5px
+    [:label {:width          :10px
+             :height         :10px
+             :padding        :5px
              :padding-bottom :12px
-             :text-align :center
-             :display :inline-block
-             :border-radius :10px
-             :z-index 6
-             :position :relative}]
+             :text-align     :center
+             :display        :inline-block
+             :border-radius  :10px
+             :z-index        6
+             :position       :relative}]
 
-    [:.checked {:border :solid
+    [:.checked {:border       :solid
                 :border-width :1px}]]
-   [:.balanced-number-field {:width :110%;:max-width :200px}
+   [:.balanced-number-field {:width        :110%            ;:max-width :200px}
                              ;:border :solid
                              :margin-right :-10px}
     [:input {:width :15px}]
     [:label {:font-size :0.5em
-             :padding :0}]
-    [:button {:width :15px
+             :padding   :0}]
+    [:button {:width   :15px
               :padding 0}]]
-   [:ul.health-track  {:padding 0
-                       :text-align :justify}
-    [:li.health-box {:display :inline-block
-                     :padding 0
-                     :margin :2px
-                     :box-shadow elementshadow
-                     :min-width :28px
-                     :min-height :28px
-                     :max-width :100px
-                     :max-height :100px
-                     :width :36px
-                     :height :36px
-                     :border :outset
-                     :border-width :1px
-                     :border-radius :10px
-                     :background-color :white
-                     :vertical-align :center
+   [:ul.health-track {:padding    0
+                      :text-align :justify}
+    [:li.health-box {:display             :inline-block
+                     :padding             0
+                     :margin              :2px
+                     :box-shadow          elementshadow
+                     :min-width           :28px
+                     :min-height          :28px
+                     :max-width           :100px
+                     :max-height          :100px
+                     :width               :36px
+                     :height              :36px
+                     :border              :outset
+                     :border-width        :1px
+                     :border-radius       :10px
+                     :background-color    :white
+                     :vertical-align      :center
                      ;:background-image (url "../img/damage_blank.png")
-                     :background-size :70%
-                     :background-repeat :no-repeat
+                     :background-size     :70%
+                     :background-repeat   :no-repeat
                      :background-position "right bottom"}]
-    [:li.bashing-damage {:border-color :blue
+    [:li.bashing-damage {:border-color     :blue
                          :background-image (url "../img/quick-slash.png")}]
-    [:li.lethal-damage {:border-color :red
+    [:li.lethal-damage {:border-color     :red
                         :background-image (url "../img/perpendicular-rings.png")}]
 
-    [:li.aggravated-damage {:border-color :green
+    [:li.aggravated-damage {:border-color     :green
                             :background-image (url "../img/spikes-half.png")}]]
    [:button.bashing {:border-color :blue}]
    [:button.lethal {:border-color :red}]
@@ -491,40 +544,40 @@
 (gs/defselector page ".page")
 (def desktop-style
   [[:.desktop
-     [:.menu-assembly {:position :fixed
-                       :left 0
-                       :width :200px}]
+    [:.menu-assembly {:position :fixed
+                      :left     0
+                      :width    :200px}]
     [:.pages {:width    :100%
               :position :fixed
               :right    0}
-     [:.page {:display :inline-block
+     [:.page {:display  :inline-block
               :position :fixed
-              :top 0}]
+              :top      0}]
      [(page (gs/nth-child 1)) {:width :30%
-                               :left 0}]
+                               :left  0}]
      [(page (gs/nth-child 2)) {:width :70%
-                               :left :30%}]
+                               :left  :30%}]
 
 
-     [:.page-content {:display :grid
+     [:.page-content {:display    :grid
                       :overflow-y :scroll
-                      :width :100%}]]]])
+                      :width      :100%}]]]])
 
 
 #_[:tr
-     [:td
-      {:position :relative
-       :left :40px}
-      [:&:last-child {:background-color :blue}]]]
-        ;[:h1.page-title {:width :900px}]]]]]]])
-   ;[(gt/->CSSAtRule "Supports" {:grid-template-areas "\"...\""})]]);"@Supports (grid-template-areas: \"...\")"
+   [:td
+    {:position :relative
+     :left     :40px}
+    [:&:last-child {:background-color :blue}]]]
+;[:h1.page-title {:width :900px}]]]]]]])
+;[(gt/->CSSAtRule "Supports" {:grid-template-areas "\"...\""})]]);"@Supports (grid-template-areas: \"...\")"
 
 
 (def character-page-desktop-style
   (supports "grid-template-areas: \"...\""
             [:.desktop
              [:.character-page
-              [:.page-content {:display :grid
+              [:.page-content {:display               :grid
                                :grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}
                [:.page-header {:grid-area "head"}]
                [:.coreinfo {:grid-area "core"}
@@ -535,13 +588,13 @@
                [:.attributeinfo :.abilityinfo
                 [:form
                  [:p {;:border :solid
-                      :padding-left :20px
+                      :padding-left  :20px
                       :padding-right 0}
                   [:label {:width :30%}]
                   [:.field {:width :50%}]
                   [:p {;:float :right
                        :margin-right :-30px
-                       :padding :7px}]]]]
+                       :padding      :7px}]]]]
                [:.favoredabilities {:grid-area "favo"}]
                [:.specialtyinfo {:grid-area "spec"}]
                [:.health-track-module {:grid-area "heal"}
@@ -570,8 +623,8 @@
                                                                     "spec spec spec spec spec spec spec spec spec"
                                                                     "inti inti inti inti inti inti inti inti inti"
                                                                     "inti inti inti inti inti inti inti inti inti")}
-                                            [:.attributeinfo
-                                             [:form {:column-count 2}]]])
+                             [:.attributeinfo
+                              [:form {:column-count 2}]]])
               (gss/at-media {:min-width :900px}
                             [:.page-content {:grid-template-areas (grid-area-strings
                                                                     "head head head head head head head head head"
@@ -588,27 +641,27 @@
                                                                     "spec spec spec spec spec spec spec spec spec"
                                                                     "inti inti inti inti inti inti inti inti inti"
                                                                     "inti inti inti inti inti inti inti inti inti")}
-                                            [:.attributeinfo
-                                             [:form {:column-count 2}]]])
+                             [:.attributeinfo
+                              [:form {:column-count 2}]]])
               (gss/at-media {:min-width :1100px}
                             [:.page-content {:grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
-                                             :grid-template-areas (grid-area-strings
-                                                                    "head head core core core core core core core"
-                                                                    "head head .... .... .... .... .... .... ...."
-                                                                    "attr attr attr attr attr attr attr attr attr"
-                                                                    "abil abil abil essi essi essi favo favo favo"
-                                                                    "abil abil abil essi essi essi favo favo favo"
-                                                                    "abil abil abil .... .... .... xpxp xpxp xpxp"
-                                                                    "abil abil abil .... .... .... .... .... ...."
-                                                                    "abil abil abil .... .... .... .... .... ...."
-                                                                    "will will will will limt limt limt limt limt"
-                                                                    "heal heal heal heal heal heal heal heal heal"
-                                                                    ".... .... .... .... .... .... .... .... ...."
-                                                                    "spec spec spec spec inti inti inti inti inti"
-                                                                    "spec spec spec spec inti inti inti inti inti"
-                                                                    ".... .... .... .... inti inti inti inti inti")}
-                                            [:.attributeinfo
-                                             [:form {:column-count 3}]]])]]))
+                                             :grid-template-areas   (grid-area-strings
+                                                                      "head head core core core core core core core"
+                                                                      "head head .... .... .... .... .... .... ...."
+                                                                      "attr attr attr attr attr attr attr attr attr"
+                                                                      "abil abil abil essi essi essi favo favo favo"
+                                                                      "abil abil abil essi essi essi favo favo favo"
+                                                                      "abil abil abil .... .... .... xpxp xpxp xpxp"
+                                                                      "abil abil abil .... .... .... .... .... ...."
+                                                                      "abil abil abil .... .... .... .... .... ...."
+                                                                      "will will will will limt limt limt limt limt"
+                                                                      "heal heal heal heal heal heal heal heal heal"
+                                                                      ".... .... .... .... .... .... .... .... ...."
+                                                                      "spec spec spec spec inti inti inti inti inti"
+                                                                      "spec spec spec spec inti inti inti inti inti"
+                                                                      ".... .... .... .... inti inti inti inti inti")}
+                             [:.attributeinfo
+                              [:form {:column-count 3}]]])]]))
 
 
 
