@@ -590,6 +590,8 @@
                                               :path (conj path :chrons)
                                               :new-element "0"
                                               :sort-fn compare
+                                              :on-add-fn (fn [] (daistate/change-element! [:modal :modal-showing] :chron-change-sheet)
+                                                           nil)
                                               :mini-forms
                                               (map-indexed (fn [n a]
                                                              (fp/mini-form-of (-> (daistate/fetch-view-for [:chrons a]) :view :name)
@@ -740,5 +742,22 @@
  ;[path value options key name]
 
 
-(defmethod fp/modular-for :add-chron-selector
-  [{:keys [currently-showing result-for result modular-arguments] :as selector-map}])
+(defmethod fp/modal-for :chron-change-sheet
+  [_ {:keys [path]}]
+  (fp/modal-interior-for
+    [:.element-search
+     [:input {:type :text :value "Under Hea"}]
+     [:ul
+      [:li.selected {:style {:background-image "url(../img/app-symbol.png)"}}
+       [:.chron-title "Under Heaven's Eye"]
+       [:.chron-byline "Alex"]
+       [:.chron-contains "Charms, Merits"]]
+      [:li {:style {:background-image "url(../img/app-symbol.png)"}}
+       [:.chron-title "Under Heavenly Light"]
+       [:.chron-byline "Vexx0r"]
+       [:.chron-contains "Charms, Evocations"]]
+      [:li {:style {:background-image "url(../img/app-symbol.png)"}}
+       [:.chron-title "Under Heavy Burdens"]
+       [:.chron-byline "Deekorz"]
+       [:.chron-contains "Spells, Martial Arts"]]]]
+    [[:button "Add Selected Chronicle"]]))

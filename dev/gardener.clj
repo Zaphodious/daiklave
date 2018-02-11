@@ -237,11 +237,14 @@
                     :bottom 0
                     :right 0
                     :padding :15px}]
-     [:.chron-search-using
-      [:input {:width (calchelper :100% - :30px)
+     [:.element-search
+      [:input {:width (calchelper :100% - :50px)
                :margin-left :15px
-               :height :2em
-               :font-size :2em}]
+               :margin-top :3px
+               :height :50px
+               :font-size :20px
+               :padding-left :10px
+               :padding-right :10px}]
       [:ul {:overflow :scroll
             ;:border :solid
             :display :block
@@ -249,14 +252,16 @@
             :right 0
             :left 0
             :bottom :50px
-            :top :150px
-            :padding 0}
+            :top :110px
+            :padding 0
+            :box-shadow section-inner-shadow}
        [:li {;:font-size :1.5em
              :list-style :none
              :height :100px
-             :margin 0
+             :margin :10px
              :background-size :cover
-             :background-position :right}
+             :background-position :right
+             :box-shadow elementshadow}
         [:&.selected {:border :solid
                        :border-color :white}]
         [:.chron-title :.chron-byline :.chron-contains

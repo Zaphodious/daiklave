@@ -22,8 +22,8 @@
 ; request map {:element n :fieldtype m :path p}
 (defmethod form-field-for nil [_] nil)
 
-(defmulti modular-for :currently-showing)
-(defmethod modular-for nil [_] nil)
+(defmulti modal-for (fn [modal-type modal-args] modal-type))
+(defmethod modal-for nil [_ _] nil)
 
 (rum/defc page-from-path < rum/reactive
   [viewmap]
@@ -66,45 +66,34 @@
         viewmap-one-up (daistate/fetch-view-for (drop-last patho) app-data)
         screen-size (rum/react daistate/screen-size)
         vec-of-paths (vec-of-paths-for patho)
-        {:keys [modal-showing modal-arguments] :as modal-map} (daistate/fetch-view-for [:modal])]
-    ;{:currently-showing nil
-    ;:result-for nil
-    ;:result nil
-    ;:modular-arguments nil
+        {:keys [modal-showing modal-arguments] :as modal-map} (:view (daistate/fetch-view-for [:modal]))
+        showing-a-modal? (not (= :none modal-showing))]
     [:#app-frame
      {:class (str
                (if (< 700 (:width (daistate/get-screen-size))) "desktop" "mobile")
                " "
-               (when modal-showing "modal-having")
+               (when showing-a-modal? "modal-having")
                " "
                (if @minimized "minimized" "maximized"))}
      (println "vec of paths " vec-of-paths)
-     (when modal-showing [:.modal-blur])
-     (when modal-showing
+     (when showing-a-modal? [:.modal-blur])
+     (when showing-a-modal?
        [:.modal-window [:h3.modal-title "Select A Chron"]
         [:.interior
-         [:.chron-search-using
-          [:input {:type :text :value "Under Hea"}]
-          [:ul
-           [:li.selected {:style {:background-image "url(../img/app-symbol.png)"}}
-            [:.chron-title "Under Heaven's Eye"]
-            [:.chron-byline "Alex"]
-            [:.chron-contains "Charms, Merits"]]
-           [:li {:style {:background-image "url(../img/app-symbol.png)"}}
-            [:.chron-title "Under Heavenly Light"]
-            [:.chron-byline "Vexx0r"]
-            [:.chron-contains "Charms, Evocations"]]
-           [:li {:style {:background-image "url(../img/app-symbol.png)"}}
-             [:.chron-title "Under Heavy Burdens"]
-             [:.chron-byline "Deekorz"]
-             [:.chron-contains "Spells, Martial Arts"]]]]]
-        [:.button-bar [:button "Select"] [:button "Cancel"]]])
+         (modal-for modal-showing modal-arguments)]])
      (page-menu-assembly patho minimized)
      (if (< 700 (:width (daistate/get-screen-size)))
        [:.pages
         (page-for-viewmap viewmap-one-up)
         (page-for-viewmap viewmap)]
        (page-for-viewmap viewmap))]))
+
+(defn modal-interior-for
+  [modal-component buttons]
+  [modal-component
+   [:.button-bar buttons [:button
+                          {:on-click #(daistate/change-element! [:modal :modal-showing] :none)}
+                          "Cancel"]]])
 
 
 (defn build-breadcrumb [page-path]

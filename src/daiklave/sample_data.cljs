@@ -8,14 +8,14 @@
                 :name     "Anathema: Reincarnated"
                 :category :home
                 :img      "img/app-symbol.png"}
-   :modal {:modal-showing nil
-           :modal-arguments {}}
-   :settings   {:name                    "Settings"
-                :category                :settings
-                :img                     "https://i.imgur.com/ffipFnl.jpg"
-                :description             "Options that effect Anathema's behavior"
+   :modal      {:modal-showing   :none
+                :modal-arguments {}}
+   :settings   {:name               "Settings"
+                :category           :settings
+                :img                "https://i.imgur.com/ffipFnl.jpg"
+                :description        "Options that effect Anathema's behavior"
                 :show-accessibility false
-                :show-unused             false}
+                :show-unused        false}
 
    :characters {:name        "Characters"
                 :category    :characters
@@ -166,6 +166,7 @@
                               :category      :chron,
                               :type          :solar,
                               :subtype       :adventure
+                              :storyteller   "Gavyn"
                               :key           "452452452",
                               :img           "https://i.imgur.com/xLYsQ2j.jpg"
                               :description   "Rust Eyes brings a bunch of shini bois together",
@@ -175,9 +176,28 @@
                               :category      :chron,
                               :type          :active,
                               :subtype       :adventure
+                              :storyteller   "Alex"
                               :key           "242424",
                               :img           "https://i.imgur.com/yzGVjcX.jpg"
                               :description   "When the sidereals take notice, the world bends...",
-                              :last-accessed 1438418}}})
+                              :last-accessed 1438418}
+                "852852852"     {:name          "Under Heavenly Light",
+                                 :category      :chron,
+                                 :type          :active,
+                                 :subtype       :adventure
+                                 :storyteller   "Vexx0r"
+                                 :key           "852852852",
+                                 :img           "https://i.imgur.com/yzGVjcX.jpg"
+                                 :description   "When the sidereals take notice, the world bends...",
+                                 :last-accessed 1438418}
+                "01010101"     {:name          "Under Heavy Burdens",
+                                :category      :chron,
+                                :type          :active,
+                                :subtype       :adventure
+                                :storyteller   "Deekorz"
+                                :key           "01010101",
+                                :img           "https://i.imgur.com/yzGVjcX.jpg"
+                                :description   "When the sidereals take notice, the world bends...",
+                                :last-accessed 1438418}}})
 
 
