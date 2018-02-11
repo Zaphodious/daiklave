@@ -135,7 +135,7 @@ body {
 #app-frame .modal-window h3.modal-title {
   background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 25%, 0.7), hsla(44.505493, 89.21568%, 30%, 0.7), hsla(44.505493, 89.21568%, 35%, 0.7), hsla(44.505493, 89.21568%, 40%, 0.7), hsla(44.505493, 89.21568%, 45%, 0.7), hsla(44.505493, 89.21568%, 65%, 0.7), hsla(44.505493, 89.21568%, 90%, 0.7));
   padding: 10px;
-  border-radius: 20px;
+  border-radius: 20px 20px 0 0;
 }
 
 #app-frame .modal-window .button-bar {
@@ -170,6 +170,11 @@ body {
   margin: 0;
   background-size: cover;
   background-position: right;
+}
+
+#app-frame .modal-window .chron-search-using ul li.selected {
+  border: solid;
+  border-color: white;
 }
 
 #app-frame .modal-window .chron-search-using ul li .chron-title, #app-frame .modal-window .chron-search-using ul li .chron-byline, #app-frame .modal-window .chron-search-using ul li .chron-contains {

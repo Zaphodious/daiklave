@@ -231,7 +231,7 @@
                      :box-shadow elementshadow}
      [:h3.modal-title {:background-image title-background-image
                        :padding :10px
-                       :border-radius :20px}]
+                       :border-radius "20px 20px 0 0"}]
      [:.button-bar {:float :right
                     :position :absolute
                     :bottom 0
@@ -257,6 +257,8 @@
              :margin 0
              :background-size :cover
              :background-position :right}
+        [:&.selected {:border :solid
+                       :border-color :white}]
         [:.chron-title :.chron-byline :.chron-contains
          {:background-color :black
           :color :white

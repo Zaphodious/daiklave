@@ -81,7 +81,7 @@
        [:.chron-search-using
         [:input {:type :text :value "Under Hea"}]
         [:ul
-         [:li {:style {:background-image "url(../img/app-symbol.png)"}}
+         [:li.selected {:style {:background-image "url(../img/app-symbol.png)"}}
           [:.chron-title "Under Heaven's Eye"]
           [:.chron-byline "Alex"]
           [:.chron-contains "Charms, Merits"]]
@@ -89,7 +89,6 @@
           [:.chron-title "Under Heavenly Light"]
           [:.chron-byline "Vexx0r"]
           [:.chron-contains "Charms, Evocations"]]
-
          [:li {:style {:background-image "url(../img/app-symbol.png)"}}
            [:.chron-title "Under Heavy Burdens"]
            [:.chron-byline "Deekorz"]
