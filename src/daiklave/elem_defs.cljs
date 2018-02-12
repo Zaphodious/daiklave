@@ -585,25 +585,27 @@
 
 
                           ;[form-title form-name path new-element sort-fn mini-forms]
-                          (fp/soft-table-for {:form-title "Chronicles Used"
-                                              :form-name "chrons-used"
-                                              :path (conj path :chrons)
+                          (fp/soft-table-for {:form-title  "Chronicles Used"
+                                              :form-name   "chrons-used"
+                                              :path        (conj path :chrons)
                                               :new-element "0"
-                                              :sort-fn compare
-                                              :on-add-fn (fn [] (daistate/change-element! [:modal :modal-showing] :chron-change-sheet)
-                                                           nil)
+                                              :sort-fn     compare
+                                              :on-add-fn   (fn [] (daistate/change-element! [:modal]
+                                                                                            {:modal-showing   :chron-change-sheet
+                                                                                             :modal-arguments {:change-path (conj path :chrons)}})
+                                                             nil)
                                               :mini-forms
-                                              (map-indexed (fn [n a]
-                                                             (fp/mini-form-of (-> (daistate/fetch-view-for [:chrons a]) :view :name)
-                                                                              [{:field-type :text
-                                                                                :read-only true
-                                                                                :label      "Chronicle Used"
-                                                                                :value      (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str)
-                                                                                :path       (conj path :chrons n)
-                                                                                :class      "single-selector"}]))
-                                                                                ;:display-fn (fn [a] (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str))}]))
-                                                                                ;:options    (->> [:chrons] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
-                                                           (:chrons view))})
+                                                           (map-indexed (fn [n a]
+                                                                          (fp/mini-form-of (-> (daistate/fetch-view-for [:chrons a]) :view :name)
+                                                                                           [{:field-type :text
+                                                                                             :read-only  true
+                                                                                             :label      "Chronicle Used"
+                                                                                             :value      (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str)
+                                                                                             :path       (conj path :chrons n)
+                                                                                             :class      "single-selector"}]))
+                                                                        ;:display-fn (fn [a] (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str))}]))
+                                                                        ;:options    (->> [:chrons] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
+                                                                        (:chrons view))})
                           (fp/form-of "Attributes"
                                       "attributeinfo"
                                       (map (fn [[k v]]
@@ -637,27 +639,27 @@
                                            (conj path :favored-abilities)
                                            (:favored-abilities view)
                                            daihelp/ability-all-keys))
-                          (fp/soft-table-for {:form-title "Specialties"
-                                              :form-name "specialtyinfo"
-                                              :path (conj path :specialties)
+                          (fp/soft-table-for {:form-title  "Specialties"
+                                              :form-name   "specialtyinfo"
+                                              :path        (conj path :specialties)
                                               :new-element [(:supernal view) "Doing Awesome Things"]
-                                              :sort-fn compare
+                                              :sort-fn     compare
                                               :mini-forms
-                                              (map-indexed (fn [n a]
-                                                             (fp/mini-form-of
-                                                               (last a)
-                                                               [{:field-type :select-single,
-                                                                 :label      "Ability"
-                                                                 :value      (first a)
-                                                                 :path       (into path [:specialties n 0])
-                                                                 :options    daihelp/ability-all-keys
-                                                                 :class      "first-of-three"}
-                                                                {:field-type :text,
-                                                                 :value      (second a)
-                                                                 :label      "Description"
-                                                                 :path       (into path [:specialties n 1])
-                                                                 :class      "third-of-three"}]))
-                                                           (:specialties view))})
+                                                           (map-indexed (fn [n a]
+                                                                          (fp/mini-form-of
+                                                                            (last a)
+                                                                            [{:field-type :select-single,
+                                                                              :label      "Ability"
+                                                                              :value      (first a)
+                                                                              :path       (into path [:specialties n 0])
+                                                                              :options    daihelp/ability-all-keys
+                                                                              :class      "first-of-three"}
+                                                                             {:field-type :text,
+                                                                              :value      (second a)
+                                                                              :label      "Description"
+                                                                              :path       (into path [:specialties n 1])
+                                                                              :class      "third-of-three"}]))
+                                                                        (:specialties view))})
                           (fp/form-of "Limit"
                                       "limit-info"
                                       [{:field-type :text
@@ -669,32 +671,32 @@
                                         :value      (-> view :limit :accrued)
                                         :path       (conj path :limit :accrued)
                                         :min        0 :max 10}])
-                          (fp/soft-table-for {:form-title "Intimacies"
-                                              :form-name "intimacyinfo"
-                                              :path (conj path :intimacies)
+                          (fp/soft-table-for {:form-title  "Intimacies"
+                                              :form-name   "intimacyinfo"
+                                              :path        (conj path :intimacies)
                                               :new-element [:major "Disgust" "Dishonorable Combat"]
-                                              :sort-fn compare
+                                              :sort-fn     compare
                                               :mini-forms
-                                              (map-indexed (fn [n a]
-                                                             (fp/mini-form-of
-                                                               (last a)
-                                                               [{:field-type :select-single,
-                                                                 :label      "Intensity"
-                                                                 :value      (first a)
-                                                                 :path       (into path [:intimacies n 0])
-                                                                 :options    [:defining, :major, :minor]
-                                                                 :class      "first-of-three"}
-                                                                {:field-type :text,
-                                                                 :value      (second a)
-                                                                 :label      "Type"
-                                                                 :path       (into path [:intimacies n 1])
-                                                                 :class      "second-of-three"}
-                                                                {:field-type :text,
-                                                                 :value      (last a)
-                                                                 :label      "Description"
-                                                                 :path       (into path [:intimacies n 2])
-                                                                 :class      "third-of-three"}]))
-                                                           (:intimacies view))})
+                                                           (map-indexed (fn [n a]
+                                                                          (fp/mini-form-of
+                                                                            (last a)
+                                                                            [{:field-type :select-single,
+                                                                              :label      "Intensity"
+                                                                              :value      (first a)
+                                                                              :path       (into path [:intimacies n 0])
+                                                                              :options    [:defining, :major, :minor]
+                                                                              :class      "first-of-three"}
+                                                                             {:field-type :text,
+                                                                              :value      (second a)
+                                                                              :label      "Type"
+                                                                              :path       (into path [:intimacies n 1])
+                                                                              :class      "second-of-three"}
+                                                                             {:field-type :text,
+                                                                              :value      (last a)
+                                                                              :label      "Description"
+                                                                              :path       (into path [:intimacies n 2])
+                                                                              :class      "third-of-three"}]))
+                                                                        (:intimacies view))})
                           (fp/form-of "Experience"
                                       "experience-module"
                                       [{:field-type :balanced-number, :label "Regular"
@@ -750,8 +752,8 @@
 
 (defmethod fp/modal-for :chron-change-sheet
   [_ {:keys [change-path]}]
-  (let [{:keys [query selected]}
-        (:view (daistate/fetch-view-for [:modal]))]
+  (let [{:keys [query selected]} (:view (daistate/fetch-view-for [:modal]))
+        existant-chrons (daistate/fetch-view-for change-path)]
     (fp/modal-interior-for
       [:.element-search
        [:input {:type :text
@@ -759,15 +761,30 @@
                 :on-change (standard-on-change-for [:modal :query] false)}]
        [:ul
         (when (not (= "" query))
-          (map (fn [a] [:li {:style {:background-image (str "url(" (:img a) ")")}
-                             :class (when (= selected (:key a)) "selected")
-                             :on-click (fn []
-                                         (daistate/change-element! [:modal :selected] (:key a)))}
-                        [:.select-title (:name a)]
-                        [:.select-byline (:storyteller a)]
-                        [:.select-contains (get-chron-contains a)]])
+          (map (fn [a]
+                 (when (not ((set existant-chrons) (:key a)))
+                   [:li {:style {:background-image (str "url(" (:img a) ")")}
+                         :class (when (= selected (:key a)) "selected")
+                         :on-click (fn []
+                                     (daistate/change-element! [:modal :selected] (:key a)))}
+                    [:.select-title (:name a)]
+                    [:.select-byline (:storyteller a)]
+                    [:.select-contains (get-chron-contains a)]]))
                (:view (daistate/search-in [:chrons] query [:name :storyteller]))))]]
 
 
 
-      [[:button "Add Selected Chronicle"]])))
+      [[:button
+        {:on-click
+         (fn []
+           (println "---- change-path is " change-path)
+           (daistate/change-element!
+             change-path
+             (fn [a]
+               (conj a
+                 (:view (daistate/fetch-view-for [:modal :selected])))))
+           (daistate/change-element!
+             [:modal]
+             {:modal-showing :none
+              :modal-arguments {}}))}
+        "Add Selected Chronicle"]])))
