@@ -372,10 +372,11 @@
                       ;:border-width :3px
                       ;:border-bottom-left-radius :30px
                       ;:border-top-right-radius :30px
+                      :position         :relative
                       :box-shadow       elementshadow}
 
-      [:img {:max-width :100%
-             :overflow  :hidden}]
+                     [:img {:max-width :100%
+                            :overflow  :hidden}]
       ;:border-top-right-radius :30px
       ;:border-bottom-left-radius :30px}]
       [:img.banner-image {:display    :block
@@ -469,12 +470,14 @@
                    :background-color color-brightest}]
      [:textarea {:height :3.2em}]]
     [:.mini-label {:display :none}]
+
     [:.dec-button {:display :inline-block}]
     [:.first-of-three :.second-of-three :.third-of-three {:display :inline-block}]
     [:.first-of-three :.second-of-three {:width (calchelper (-% 26) - :50px)}]
     [:.third-of-three {:width (calchelper (-% 60) - :37px)}]]
    [:form.mini-form {:width   (calchelper (-% 100) - :25px)
                      :display :inline-block}]
+
    [:.set-selectors
     [:.set-selector {:width (-% 100)}]]
    [:span.rank-selection {:width   :1.5em
@@ -563,7 +566,22 @@
    [:button.bashing {:border-color :blue}]
    [:button.lethal {:border-color :red}]
    [:button.aggravated {:border-color :green}]
-   [:.paste-entry-field {:width (calchelper :100% - :10px)}]])
+   [:.paste-entry-field {:width (calchelper :100% - :10px)}]
+   [:.soft-table-row {;:background-color :blue
+                      :position :relative
+                      :top 0
+                      :padding-left :30px}
+    [:button {:position :absolute
+              :top :5px
+              :left :5px}]]
+   [:.intimacyinfo
+    [:.soft-table-row]
+     ;[:button {:top :-20px}]]
+
+    [:.soft-table-row {}];:border :solid}]
+    [:select {:width :100%}]
+    [:input {
+             :width (calchelper :100% - :20px)}]]])
 
 (gs/defselector page ".page")
 (def desktop-style

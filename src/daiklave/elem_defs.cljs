@@ -674,29 +674,55 @@
                           (fp/soft-table-for {:form-title  "Intimacies"
                                               :form-name   "intimacyinfo"
                                               :path        (conj path :intimacies)
-                                              :new-element [:major "Disgust" "Dishonorable Combat"]
-                                              :sort-fn     compare
-                                              :mini-forms
-                                                           (map-indexed (fn [n a]
-                                                                          (fp/mini-form-of
-                                                                            (last a)
-                                                                            [{:field-type :select-single,
-                                                                              :label      "Intensity"
-                                                                              :value      (first a)
-                                                                              :path       (into path [:intimacies n 0])
-                                                                              :options    [:defining, :major, :minor]
-                                                                              :class      "first-of-three"}
-                                                                             {:field-type :text,
-                                                                              :value      (second a)
-                                                                              :label      "Type"
-                                                                              :path       (into path [:intimacies n 1])
-                                                                              :class      "second-of-three"}
-                                                                             {:field-type :text,
-                                                                              :value      (last a)
-                                                                              :label      "Description"
-                                                                              :path       (into path [:intimacies n 2])
-                                                                              :class      "third-of-three"}]))
-                                                                        (:intimacies view))})
+                                              :new-element {:type :tie
+                                                            :severity :major
+                                                            :feeling "Disgust"
+                                                            :description "Fighting without honor"}
+                                              :sort-fn     (daiklave.data-help/map-compare-fn-for
+                                                             {:severity 100
+                                                              :description 10})
+                                              :mini-forms (map-indexed (fn [n a]
+                                                                         (fp/mini-form-of (:description a)
+                                                                                          [{:field-type :select-single
+                                                                                            :value (:severity a)
+                                                                                            :label "Intensity"
+                                                                                            :read-only true
+                                                                                            :options [:defining :major :minor]}
+                                                                                           (when (= :tie (:type a))
+                                                                                             {:field-type :text
+                                                                                              :read-only true
+                                                                                              :value (:feeling a)
+                                                                                              :label "Feeling"})
+                                                                                           {:field-type :text
+                                                                                            :read-only true
+                                                                                            :value (:description a)
+                                                                                            :label "Description"}]))
+
+                                                                       (:intimacies view))
+                                                        #_(map-indexed (fn [n a]
+                                                                           (fp/mini-form-of
+                                                                             (:description a)
+                                                                             [{:field-type :text,
+                                                                               :label      "Intensity"
+                                                                               :value      (:severity a)
+                                                                               :path       (into path [:intimacies n :severity])
+                                                                               :options    [:defining, :major, :minor]
+                                                                               :class      "first-of-three"
+                                                                               :read-only true}
+                                                                              (when (= :principle (:type a))
+                                                                                {:field-type :text,
+                                                                                 :value      (:type a)
+                                                                                 :label      "Type"
+                                                                                 :path       (into path [:intimacies n :type])
+                                                                                 :class      "second-of-three"
+                                                                                 :read-only true})
+                                                                              {:field-type :text,
+                                                                               :value      (:description a)
+                                                                               :label      "Description"
+                                                                               :path       (into path [:intimacies n :description])
+                                                                               :class      "third-of-three"
+                                                                               :read-only true}])
+                                                                         (:intimacies view)))})
                           (fp/form-of "Experience"
                                       "experience-module"
                                       [{:field-type :balanced-number, :label "Regular"

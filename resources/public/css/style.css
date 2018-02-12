@@ -306,14 +306,15 @@ body {
 }
 
 .page .page-content .page-section {
-  background-image: url(../img/canvas_paper.png);
-  margin: 14.0px;
-  padding: 10px;
-  padding-top: 0;
-  margin-bottom: 30px;
   border-width: 1px;
   border-color: #f4c53e;
+  margin: 14.0px;
+  padding: 10px;
+  position: relative;
+  margin-bottom: 30px;
   box-shadow: 0 0 10px #666666;
+  background-image: url(../img/canvas_paper.png);
+  padding-top: 0;
 }
 
 .page .page-content .page-section img {
@@ -641,6 +642,30 @@ button.aggravated {
 
 .paste-entry-field {
   width: calc(100%  -  10px);
+}
+
+.soft-table-row {
+  position: relative;
+  top: 0;
+  padding-left: 30px;
+}
+
+.soft-table-row button {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.intimacyinfo .soft-table-row {
+
+}
+
+.intimacyinfo select {
+  width: 100%;
+}
+
+.intimacyinfo input {
+  width: calc(100%  -  20px);
 }
 
 .desktop .menu-assembly {

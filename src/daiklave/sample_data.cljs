@@ -65,11 +65,11 @@
                                                      [:awareness "Indiscretions"]
                                                      [:lore "Desert Legends"]
                                                      [:lore "Demonology"]]
-                              :intimacies           [[:defining "Firm Conviction" "The Five Truths"]
-                                                     [:major "Joy" "There is no pleasure like a bright pupil"]
-                                                     [:major "Respect and Fear" "The Scarlet Empress"]
-                                                     [:minor "Gratitude" "Amon the Demon's Head"]
-                                                     [:minor "Profound Discomfort" "The Owl Screaming In Torment"]]}
+                              :intimacies           [{:type :principle, :severity :defining, :feeling "", :description "The Five Truths"}
+                                                     {:type :principle, :severity :major, :feeling "", :description "There is no pleasure like a bright pupil"}
+                                                     {:type :tie, :severity :major, :feeling "Respect and Fear", :description "The Scarlet Empress"}
+                                                     {:type :tie, :severity :minor, :feeling "Gratitude", :description "Amon the Demon's Head"}
+                                                     {:type :tie, :severity :minor, :feeling "Profound Discomfort", :description "The Owl Screaming In Torment"}]}
 
                 "963963963"  {:name                 "Alkaia",
                               :description          "Of the Lykopis"
@@ -110,10 +110,11 @@
                                                      [:melee "Swords"]
                                                      [:survival "Tracking"]
                                                      [:larceny "Lockpicking"]]
-                              :intimacies           [[:defining "Principle" "I am the strongest"]
-                                                     [:major "Thrill" "The wind at my sails"]
-                                                     [:minor "Disgust" "City folk"]
-                                                     [:minor "Distrust" "Rajmael"]]}
+                              :intimacies           [{:type :principle, :severity :defining, :feeling "", :description "I am the strongest"}
+                                                     {:type :tie, :severity :major, :feeling "Thrill", :description "The wind at my sails"}
+                                                     {:type :tie, :severity :minor, :feeling "Disgust", :description "City folk"}
+                                                     {:type :tie, :severity :minor, :feeling "Distrust", :description "Rajmael"}]}
+
                 "789789789"  {:name              "Daesh",
                               :description       "The Greastest Olympian"
                               :concept           "The Best Athlete in the world"
@@ -154,11 +155,12 @@
                                                   [:performance "Oratory"]
                                                   [:linguistics "Holy Solar Texts"]
                                                   [:awareness "Suprise Attacks"]]
-                              :intimacies        [[:defining "Principle" "He who can, should."]
-                                                  [:major "Principle" "The starting line is straight"]
-                                                  [:major "Principle" "I've Earned My Liberty"]
-                                                  [:minor "Rush" "The wind as I run is the voice of my mother"]
-                                                  [:minor "distaste" "The cheater's victory of the bane of my father"]]}}
+                              :intimacies        [{:type :principle, :severity :defining, :feeling "", :description "He who can, should."}
+                                                  {:type :principle, :severity :major, :feeling "", :description "The starting line is straight"}
+                                                  {:type :principle, :severity :major, :feeling "", :description "I've Earned My Liberty"}
+                                                  {:type :tie, :severity :minor, :feeling "Rush", :description "The wind as I run is the voice of my mother"}
+                                                  {:type :tie, :severity :minor, :feeling "Distaste", :description "The cheater's victory of the bane of my father"}]}}
+
    :chrons     {:name        "Chronicles"
                 :category    :chrons
                 :img         "https://i.imgur.com/f1vYAW7.jpg"
