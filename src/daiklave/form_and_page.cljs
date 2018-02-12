@@ -66,7 +66,7 @@
         viewmap-one-up (daistate/fetch-view-for (drop-last patho) app-data)
         screen-size (rum/react daistate/screen-size)
         vec-of-paths (vec-of-paths-for patho)
-        {:keys [modal-showing modal-arguments] :as modal-map} (:view (daistate/fetch-view-for [:modal]))
+        {:keys [modal-showing modal-arguments modal-title] :as modal-map} (:view (daistate/fetch-view-for [:modal]))
         showing-a-modal? (not (= :none modal-showing))]
     [:#app-frame
      {:class (str
@@ -78,7 +78,7 @@
      (println "vec of paths " vec-of-paths)
      (when showing-a-modal? [:.modal-blur])
      (when showing-a-modal?
-       [:.modal-window [:h3.modal-title "Select A Chron"]
+       [:.modal-window [:h3.modal-title modal-title]
         [:.interior
          (modal-for modal-showing modal-arguments)]])
      (page-menu-assembly patho minimized)

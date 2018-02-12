@@ -108,11 +108,23 @@
 (defn get-change-value [e] (.. e -target -value))
 
 (defn show-modal
-  [modal-type modal-arguments-map]
+  [modal-type modal-title modal-arguments-map]
   (change-element! [:modal]
                 {:modal-showing   modal-type
-                 :modal-arguments modal-arguments-map})
+                 :modal-arguments modal-arguments-map
+                 :modal-title modal-title})
   nil)
+
+(defn apply-modal-and-hide
+  [path change-val]
+  (println "\uD83D\uDD25 path is " path " with val " change-val)
+  ;Apply Modal
+  (change-element! path change-val)
+  ;Hide
+  (change-element!
+    [:modal]
+    {:modal-showing :none
+     :modal-arguments {}}))
 
 (defn viewmaps-for-children [patho]
   (let [{:keys [path view]

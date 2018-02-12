@@ -590,7 +590,7 @@
                                               :path        (conj path :chrons)
                                               :new-element "0"
                                               :sort-fn     compare
-                                              :on-add-fn   #(daistate/show-modal :chron-change-sheet {:change-path (conj path :chrons)})
+                                              :on-add-fn   #(daistate/show-modal :chron-change-sheet "Select a Chronicle" {:change-path (conj path :chrons)})
                                               :mini-forms
                                                            (map-indexed (fn [n a]
                                                                           (fp/mini-form-of (-> (daistate/fetch-view-for [:chrons a]) :view :name)
@@ -671,7 +671,7 @@
                           (fp/soft-table-for {:form-title  "Intimacies"
                                               :form-name   "intimacyinfo"
                                               :path        (conj path :intimacies)
-                                              :on-add-fn   #(daistate/show-modal :intimacy-add {:change-path (conj path :chrons)})
+                                              :on-add-fn   #(daistate/show-modal :intimacy-add "Add an Intimacy" {:change-path (conj path :intimacies)})
                                               :new-element {:type :tie
                                                             :severity :major
                                                             :feeling "Disgust"
@@ -776,15 +776,37 @@
 
 (defmethod fp/modal-for :intimacy-add
   [_ {:keys [change-path]}]
-  (let [{:keys [intensity feeling description]} (daistate/fetch-view-for [:modal])]
+  (let [{:keys [intensity feeling description] :as modmap} (:view (daistate/fetch-view-for [:modal]))]
+    (when (nil? intensity)
+      (daistate/change-element! [:modal :intensity] :defining))
+    (when (nil? feeling)
+      (daistate/change-element! [:modal :feeling] ""))
+    (when (nil? description)
+      (daistate/change-element! [:modal :description] ""))
     (fp/modal-interior-for
       [:.intimacy-add
+       [:p "For principles, please leave 'Feeling' text box blank."]
        (fp/in-section-form-of
          "Add Intimacy"
          [{:field-type :select-single, :label "Intensity"
            :options daihelp/intimacy-intensities, :value intensity,
-           :path [:modal :intensity]}])]
-      [[:button "Add Intimacy"]])))
+           :path [:modal :intensity]}
+          {:field-type :text, :label "Feeling"
+           :value feeling, :path [:modal :feeling]}
+          {:field-type :big-text, :label "Description",
+           :value description, :path [:modal :description]}])]
+      [[:button
+        {:on-click
+         #(daistate/apply-modal-and-hide change-path
+                                         (fn [a] (conj a {:severity intensity
+                                                          :type (case feeling
+                                                                  "" :principle
+                                                                  "Principle" :principle
+                                                                  "principle" :principle
+                                                                  :tie)
+                                                          :feeling feeling
+                                                          :description description})))}
+        "Add Intimacy"]])))
 
 (defmethod fp/modal-for :chron-change-sheet
   [_ {:keys [change-path]}]
@@ -807,20 +829,8 @@
                     [:.select-byline (:storyteller a)]
                     [:.select-contains (get-chron-contains a)]]))
                (:view (daistate/search-in [:chrons] query [:name :storyteller]))))]]
-
-
-
       [[:button
         {:on-click
-         (fn []
-           (println "---- change-path is " change-path)
-           (daistate/change-element!
-             change-path
-             (fn [a]
-               (conj a
-                 (:view (daistate/fetch-view-for [:modal :selected])))))
-           (daistate/change-element!
-             [:modal]
-             {:modal-showing :none
-              :modal-arguments {}}))}
+         #(daistate/apply-modal-and-hide change-path
+              (fn [a] (conj a (:view (daistate/fetch-view-for [:modal :selected])))))}
         "Add Selected Chronicle"]])))
