@@ -107,6 +107,13 @@
 
 (defn get-change-value [e] (.. e -target -value))
 
+(defn show-modal
+  [modal-type modal-arguments-map]
+  (change-element! [:modal]
+                {:modal-showing   modal-type
+                 :modal-arguments modal-arguments-map})
+  nil)
+
 (defn viewmaps-for-children [patho]
   (let [{:keys [path view]
          :as first-viewmap}

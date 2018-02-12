@@ -590,10 +590,7 @@
                                               :path        (conj path :chrons)
                                               :new-element "0"
                                               :sort-fn     compare
-                                              :on-add-fn   (fn [] (daistate/change-element! [:modal]
-                                                                                            {:modal-showing   :chron-change-sheet
-                                                                                             :modal-arguments {:change-path (conj path :chrons)}})
-                                                             nil)
+                                              :on-add-fn   #(daistate/show-modal :chron-change-sheet {:change-path (conj path :chrons)})
                                               :mini-forms
                                                            (map-indexed (fn [n a]
                                                                           (fp/mini-form-of (-> (daistate/fetch-view-for [:chrons a]) :view :name)
@@ -674,6 +671,7 @@
                           (fp/soft-table-for {:form-title  "Intimacies"
                                               :form-name   "intimacyinfo"
                                               :path        (conj path :intimacies)
+                                              :on-add-fn   #(daistate/show-modal :intimacy-add {:change-path (conj path :chrons)})
                                               :new-element {:type :tie
                                                             :severity :major
                                                             :feeling "Disgust"
@@ -687,7 +685,7 @@
                                                                                             :value (:severity a)
                                                                                             :label "Intensity"
                                                                                             :read-only true
-                                                                                            :options [:defining :major :minor]}
+                                                                                            :options daihelp/intimacy-intensities}
                                                                                            (when (= :tie (:type a))
                                                                                              {:field-type :text
                                                                                               :read-only true
@@ -775,6 +773,18 @@
       (map
         (fn [k] (when (k chron) (str/capitalize (name k))))
         [:charms :merits :evocations :spells :martial-arts-styles :mundane-weapons]))))
+
+(defmethod fp/modal-for :intimacy-add
+  [_ {:keys [change-path]}]
+  (let [{:keys [intensity feeling description]} (daistate/fetch-view-for [:modal])]
+    (fp/modal-interior-for
+      [:.intimacy-add
+       (fp/in-section-form-of
+         "Add Intimacy"
+         [{:field-type :select-single, :label "Intensity"
+           :options daihelp/intimacy-intensities, :value intensity,
+           :path [:modal :intensity]}])]
+      [[:button "Add Intimacy"]])))
 
 (defmethod fp/modal-for :chron-change-sheet
   [_ {:keys [change-path]}]
