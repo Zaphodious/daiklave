@@ -49,10 +49,12 @@
 (defn flatten-health-module [{:keys [levels bashing lethal aggravated]}]
   (map vec-of
        (into (list "Inc")
-             (reduce concat
-                     (map-indexed (fn [n a]
-                                    (take a (repeat (* -1 n))))
-                                  (nudge-insert-at levels 3 0))))
+             (reverse
+               (reduce
+                 concat
+                 (map-indexed (fn [n a]
+                                (take a (repeat (* -1 n))))
+                              (nudge-insert-at levels 3 0)))))
        (concat
          (take aggravated (repeat :aggravated))
          (take lethal (repeat :lethal))
