@@ -256,22 +256,34 @@
             :padding 0
             :box-shadow section-inner-shadow}
        [:li {;:font-size :1.5em
+             :position :relative
              :list-style :none
-             :height :100px
+             :height :120px
              :margin :10px
              :background-size :cover
              :background-position :right
              :box-shadow elementshadow}
         [:&.selected {:border :solid
-                       :border-color :white}]
-        [:.chron-title :.chron-byline :.chron-contains
-         {:background-color :black
-          :color :white
+                       :border-color :white
+                      :border-width :4px
+                      :border-radius :20px
+                      :height :128px}]
+
+        [:.select-title :.select-byline :.select-contains
+         {:background-color (gc/darken sun-gold 50)
+          :color (gc/lighten sun-gold 40)
           :display :block
-          :width :max-content}
+          :position :relative
+          :top :10px
+          :left :10px
+          :width :max-content
+          :padding :3px
+          :overflow :wrap}
          [:&:after {:display :block}]]
-        [:.chron-byline [:&:before {:content "\"By: \""}]]
-        [:.chron-contains [:&:before {:content "\"Contains: \""}]]]]]]
+        [:.select-byline [:&:before {:content "\"By: \""}]]
+        [:.select-contains
+         {:max-width (calchelper :100% - :25px)}
+         [:&:before {:content "\"Contains: \""}]]]]]]
 
     [:.menu-assembly {:position :absolute
                       :width    :100%}

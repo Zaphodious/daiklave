@@ -64,6 +64,33 @@
      {:path     sanifrag
       :view     the-view})))
 
+
+
+(defn- search-in-map-of-named [map-of-elements query fields]
+  (filter
+    (fn [[k v]]
+      (println k)
+      (reduce #(or %1 %2) (map (fn [nk] (str/includes? (str (get v nk)) query)) fields)))
+    map-of-elements))
+
+(defn- search-in-seq [seq-of-elements query fields]
+  (filter
+    (fn [v]
+      (reduce #(or %1 %2) (map (fn [nk] (str/includes? (str (get v nk)) query)) fields)))
+    seq-of-elements))
+
+(defn search-in
+      ([path query] (search-in path query [:name]))
+   ([path query fields]
+    (let [element-coll (:view (fetch-view-for path))]
+      {:path path
+       :view
+       (if (map? element-coll)
+         (map second (search-in-map-of-named element-coll query fields))
+         (search-in-seq element-coll query fields))})))
+
+
+
 (defn get-setting-for-key [setting-key]
   (:view (fetch-view-for [:settings setting-key])))
 

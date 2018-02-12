@@ -9,7 +9,9 @@
                 :category :home
                 :img      "img/app-symbol.png"}
    :modal      {:modal-showing   :none
-                :modal-arguments {}}
+                :modal-arguments {}
+                :selected "0"
+                :query ""}
    :settings   {:name               "Settings"
                 :category           :settings
                 :img                "https://i.imgur.com/ffipFnl.jpg"

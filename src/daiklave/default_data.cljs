@@ -8,6 +8,7 @@
    :category            :chron,
    :type                :solar,
    :subtype             :adventure
+   :storyteller "John Mørke"
    :key                 "0",
    :img                 "https://i.imgur.com/59mlT7v.jpg"
    :description         "Published by Onyx Path",

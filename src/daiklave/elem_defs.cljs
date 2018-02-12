@@ -741,23 +741,33 @@
 
  ;[path value options key name]
 
+(defn get-chron-contains [chron]
+  (map #(str % " ")
+    (filter #(not (nil? %))
+      (map
+        (fn [k] (when (k chron) (str/capitalize (name k))))
+        [:charms :merits :evocations :spells :martial-arts-styles :mundane-weapons]))))
 
 (defmethod fp/modal-for :chron-change-sheet
-  [_ {:keys [path]}]
-  (fp/modal-interior-for
-    [:.element-search
-     [:input {:type :text :value "Under Hea"}]
-     [:ul
-      [:li.selected {:style {:background-image "url(../img/app-symbol.png)"}}
-       [:.chron-title "Under Heaven's Eye"]
-       [:.chron-byline "Alex"]
-       [:.chron-contains "Charms, Merits"]]
-      [:li {:style {:background-image "url(../img/app-symbol.png)"}}
-       [:.chron-title "Under Heavenly Light"]
-       [:.chron-byline "Vexx0r"]
-       [:.chron-contains "Charms, Evocations"]]
-      [:li {:style {:background-image "url(../img/app-symbol.png)"}}
-       [:.chron-title "Under Heavy Burdens"]
-       [:.chron-byline "Deekorz"]
-       [:.chron-contains "Spells, Martial Arts"]]]]
-    [[:button "Add Selected Chronicle"]]))
+  [_ {:keys [change-path]}]
+  (let [{:keys [query selected]}
+        (:view (daistate/fetch-view-for [:modal]))]
+    (fp/modal-interior-for
+      [:.element-search
+       [:input {:type :text
+                :value query
+                :on-change (standard-on-change-for [:modal :query] false)}]
+       [:ul
+        (when (not (= "" query))
+          (map (fn [a] [:li {:style {:background-image (str "url(" (:img a) ")")}
+                             :class (when (= selected (:key a)) "selected")
+                             :on-click (fn []
+                                         (daistate/change-element! [:modal :selected] (:key a)))}
+                        [:.select-title (:name a)]
+                        [:.select-byline (:storyteller a)]
+                        [:.select-contains (get-chron-contains a)]])
+               (:view (daistate/search-in [:chrons] query [:name :storyteller]))))]]
+
+
+
+      [[:button "Add Selected Chronicle"]])))
