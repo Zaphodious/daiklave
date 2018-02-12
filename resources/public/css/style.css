@@ -183,7 +183,14 @@ body {
   border-color: white;
   border-width: 4px;
   border-radius: 20px;
-  height: 128px;
+  height: 112px;
+}
+
+#app-frame .modal-window .element-search ul li.selected .select-title, #app-frame .modal-window .element-search ul li.selected .select-byline, #app-frame .modal-window .element-search ul li.selected .select-contains {
+  left: 6px;
+  top: 6px;
+  color: #e7edfe;
+  background-color: #041648;
 }
 
 #app-frame .modal-window .element-search ul li .select-title, #app-frame .modal-window .element-search ul li .select-byline, #app-frame .modal-window .element-search ul li .select-contains {
@@ -192,9 +199,9 @@ body {
   padding: 3px;
   position: relative;
   overflow: wrap;
-  background-color: #302503;
+  background-color: #483704;
   display: block;
-  color: #ffffff;
+  color: #fef8e7;
   left: 10px;
 }
 

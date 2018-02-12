@@ -267,11 +267,16 @@
                        :border-color :white
                       :border-width :4px
                       :border-radius :20px
-                      :height :128px}]
+                      :height :112px}
+         [:.select-title :.select-byline :.select-contains
+          {:left :6px
+           :top :6px
+           :color (gc/lighten (gc/complement sun-gold) 35)
+           :background-color (gc/darken (gc/complement sun-gold) 45)}]]
 
         [:.select-title :.select-byline :.select-contains
-         {:background-color (gc/darken sun-gold 50)
-          :color (gc/lighten sun-gold 40)
+         {:background-color (gc/darken sun-gold 45)
+          :color (gc/lighten sun-gold 35)
           :display :block
           :position :relative
           :top :10px
