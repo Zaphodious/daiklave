@@ -24,8 +24,8 @@
                 :img         "https://i.imgur.com/Cbmme8c.jpg"
                 :description "The Heroes That Move The World"
                 "424242"     {:name                 "Rajmael",
-                              :description          "The Starfire Wing Scholar"
-                              :concept              "Sorcerer Philosopher King0"
+                              :description          "Sorcerer Philosopher King"
+                              :long-description     "The Starfire Wing Scholar"
                               :anima                "The Five Truths of Wu Du Xun"
                               :player               "Gavyn",
                               :key                  "424242",
@@ -72,8 +72,8 @@
                                                      {:type :tie, :severity :minor, :feeling "Profound Discomfort", :description "The Owl Screaming In Torment"}]}
 
                 "963963963"  {:name                 "Alkaia",
-                              :description          "Of the Lykopis"
-                              :concept              "Barbarian Adventuress"
+                              :long-description     "Of the Lykopis"
+                              :description          "Barbarian Adventuress"
                               :anima                "A huge bear"
                               :player               "Victoria Ham",
                               :key                  "963963963",
@@ -117,7 +117,7 @@
 
                 "789789789"  {:name              "Daesh",
                               :description       "The Greastest Olympian"
-                              :concept           "The Best Athlete in the world"
+                              :long-description  "The Best Athlete in the world"
                               :anima             "The Great Race"
                               :player            "Alex",
                               :key               "789789789",
