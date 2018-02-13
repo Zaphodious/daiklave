@@ -25,11 +25,14 @@
 
 (def
   app-state
-  (atom (into
+  (atom (->> samples/sample-state
           (sp/transform
             [:chrons]
-            (fn [a] (conj a {"0" daifault/chron}))
-            samples/sample-state))))
+            (fn [a] (conj a {"0" daifault/chron})))
+          (sp/transform
+            [:chrons]
+            (fn [a] (conj a {"1" daifault/miracles}))))))
+
 
 (defn get-screen-size []
   {:width  (-> js/document .-documentElement .-clientWidth)
