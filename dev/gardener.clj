@@ -378,7 +378,7 @@
                       ;:border-top-right-radius :30px
                       :position         :relative
                       :box-shadow       elementshadow}
-      [:&.page-header {:background-position :top-right
+      [:&.page-header {:background-position :top
                        :background-size :cover
                        :min-height :200px}
        [:p {:background-color (assoc (gc/as-rgb (gc/darken sun-gold 50)) :alpha 0.7)
@@ -639,6 +639,7 @@
                [:.page-header {:grid-area "head"}]
                [:.coreinfo {:grid-area "core"}
                 [:form {:column-count 2}]]
+               [:.chrons-used {:grid-area "chrn"}]
                [:.attributeinfo {:grid-area "attr"}
                 [:form {:column-count 3}]]
                [:.abilityinfo {:grid-area "abil"}]
@@ -665,8 +666,11 @@
               (gss/at-media {:min-width :700px}
                             [:.page-content {:grid-template-areas (grid-area-strings
                                                                     "head head head head head head head head head"
+                                                                    "chrn core core core core core core core core"
+                                                                    "chrn core core core core core core core core"
+                                                                    "chrn core core core core core core core core"
                                                                     ".... .... .... .... .... .... .... .... ...."
-                                                                    "core core core core core core core core core"
+                                                                    ".... .... .... .... .... .... .... .... ...."
                                                                     "attr attr attr attr attr attr attr attr attr"
                                                                     "abil abil abil abil abil favo favo favo favo"
                                                                     "abil abil abil abil abil favo favo favo favo"
@@ -681,12 +685,14 @@
                                                                     "inti inti inti inti inti inti inti inti inti"
                                                                     "inti inti inti inti inti inti inti inti inti")}
                              [:.attributeinfo
-                              [:form {:column-count 2}]]])
+                              [:form {:column-count 2}]]
+                             [:.coreinfo {:grid-area "core"}
+                              [:form {:column-count 1}]]])
               (gss/at-media {:min-width :900px}
                             [:.page-content {:grid-template-areas (grid-area-strings
                                                                     "head head head head head head head head head"
                                                                     ".... .... .... .... .... .... .... .... ...."
-                                                                    "core core core core core core core core core"
+                                                                    "chrn chrn chrn chrn core core core core core"
                                                                     "attr attr attr attr attr attr attr attr attr"
                                                                     "abil abil abil abil favo favo favo favo favo"
                                                                     "abil abil abil abil favo favo favo favo favo"
@@ -699,12 +705,16 @@
                                                                     "inti inti inti inti inti inti inti inti inti"
                                                                     "inti inti inti inti inti inti inti inti inti")}
                              [:.attributeinfo
-                              [:form {:column-count 2}]]])
+                              [:form {:column-count 2}]]
+                             [:.coreinfo {:grid-area "core"}
+                              [:form {:column-count 1}]]])
               (gss/at-media {:min-width :1100px}
                             [:.page-content {:grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
                                              :grid-template-areas   (grid-area-strings
-                                                                      "head head core core core core core core core"
-                                                                      "head head .... .... .... .... .... .... ...."
+                                                                      "head head head head head head head head head"
+                                                                      "chrn chrn chrn core core core core core core"
+                                                                      ".... .... .... .... .... .... .... .... ...."
+                                                                      ".... .... .... .... .... .... .... .... ...."
                                                                       "attr attr attr attr attr attr attr attr attr"
                                                                       "abil abil abil essi essi essi favo favo favo"
                                                                       "abil abil abil essi essi essi favo favo favo"
@@ -718,7 +728,9 @@
                                                                       "spec spec spec spec inti inti inti inti inti"
                                                                       ".... .... .... .... inti inti inti inti inti")}
                              [:.attributeinfo
-                              [:form {:column-count 3}]]])]]))
+                              [:form {:column-count 3}]]
+                             [:.coreinfo
+                              [:form {:column-count 2}]]])]]))
 
 
 

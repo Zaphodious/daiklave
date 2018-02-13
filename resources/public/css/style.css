@@ -322,7 +322,7 @@ body {
 }
 
 .page .page-content .page-section.page-header {
-  background-position: top-right;
+  background-position: top;
   background-size: cover;
   min-height: 200px;
 }
@@ -743,6 +743,10 @@ button.aggravated {
   column-count: 2;
 }
 
+.desktop .character-page .page-content .chrons-used {
+  grid-area: chrn;
+}
+
 .desktop .character-page .page-content .attributeinfo {
   grid-area: attr;
 }
@@ -818,8 +822,11 @@ button.aggravated {
   .desktop .character-page .page-content {
     grid-template-areas: 
 "head head head head head head head head head"
+"chrn core core core core core core core core"
+"chrn core core core core core core core core"
+"chrn core core core core core core core core"
 ".... .... .... .... .... .... .... .... ...."
-"core core core core core core core core core"
+".... .... .... .... .... .... .... .... ...."
 "attr attr attr attr attr attr attr attr attr"
 "abil abil abil abil abil favo favo favo favo"
 "abil abil abil abil abil favo favo favo favo"
@@ -840,6 +847,14 @@ button.aggravated {
   .desktop .character-page .page-content .attributeinfo form {
     column-count: 2;
   }
+  
+  .desktop .character-page .page-content .coreinfo {
+    grid-area: core;
+  }
+  
+  .desktop .character-page .page-content .coreinfo form {
+    column-count: 1;
+  }
 
 }
 
@@ -849,7 +864,7 @@ button.aggravated {
     grid-template-areas: 
 "head head head head head head head head head"
 ".... .... .... .... .... .... .... .... ...."
-"core core core core core core core core core"
+"chrn chrn chrn chrn core core core core core"
 "attr attr attr attr attr attr attr attr attr"
 "abil abil abil abil favo favo favo favo favo"
 "abil abil abil abil favo favo favo favo favo"
@@ -868,6 +883,14 @@ button.aggravated {
   .desktop .character-page .page-content .attributeinfo form {
     column-count: 2;
   }
+  
+  .desktop .character-page .page-content .coreinfo {
+    grid-area: core;
+  }
+  
+  .desktop .character-page .page-content .coreinfo form {
+    column-count: 1;
+  }
 
 }
 
@@ -876,8 +899,10 @@ button.aggravated {
   .desktop .character-page .page-content {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-areas: 
-"head head core core core core core core core"
-"head head .... .... .... .... .... .... ...."
+"head head head head head head head head head"
+"chrn chrn chrn core core core core core core"
+".... .... .... .... .... .... .... .... ...."
+".... .... .... .... .... .... .... .... ...."
 "attr attr attr attr attr attr attr attr attr"
 "abil abil abil essi essi essi favo favo favo"
 "abil abil abil essi essi essi favo favo favo"
@@ -896,6 +921,12 @@ button.aggravated {
   
   .desktop .character-page .page-content .attributeinfo form {
     column-count: 3;
+  }
+  
+  
+  
+  .desktop .character-page .page-content .coreinfo form {
+    column-count: 2;
   }
 
 }}
