@@ -54,12 +54,12 @@
 (def vectorify-keywords (fn [{:keys [keywords] :as thingy}]
                           (assoc thingy :keywords keywords
                                         #_(->> ", "
-                                                       (str/split keywords)
-                                                       (map #(str/replace % " " "-"))
-                                                       (map str/lower-case)
-                                                       (map keyword)
-                                                       (remove #(= % :none))
-                                                       (into [])))))
+                                               (str/split keywords)
+                                               (map #(str/replace % " " "-"))
+                                               (map str/lower-case)
+                                               (map keyword)
+                                               (remove #(= % :none))
+                                               (into [])))))
 (def split-up-prereqs (fn [{:keys [prereq-charms] :as thingy}]
                         (assoc thingy :prereq-charms
                                       (into #{} (str/split prereq-charms ", ")))))
@@ -75,8 +75,8 @@
 (defn change-prereq-field [thing]
   (let [n (:prerequisite-charms thing)]
     (-> thing
-      (dissoc :prerequisite-charms)
-      (assoc :prereq-charms n))))
+        (dissoc :prerequisite-charms)
+        (assoc :prereq-charms n))))
 
 (defn fix-prereq-charms [thingy]
   (if (= #{"None"} (:prereq-charms thingy))
@@ -95,7 +95,7 @@
          (add-blank-tags)
          (add-page-field)
          (change-prereq-field))))
-         ;(fix-prereq-charms))))
+;(fix-prereq-charms))))
 
 (defn bulk-charm-to-data [bcb]
   (->> (-> bcb (str/split "\n\n"))

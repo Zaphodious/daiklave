@@ -52,9 +52,9 @@
                 fetches)
         elem-name (reduce #(str %1 "-" %2) names)
         fetch-elem (daistate/fetch-view-for path)]
-       {:href (str "data:text/plain;charset=utf-8,"
-                   (url/url-encode (prn-str fetch-elem)))
-        :download (str elem-name ".edn")}))
+    {:href     (str "data:text/plain;charset=utf-8,"
+                    (url/url-encode (prn-str fetch-elem)))
+     :download (str elem-name ".edn")}))
 
 (declare page-menu-assembly)
 
@@ -123,8 +123,8 @@
 
 
 (rum/defc page-of < rum/static
-  [ {:keys [title subtitle img class sections path]}]
-  [:.page {:class (str  " " class)}
+  [{:keys [title subtitle img class sections path]}]
+  [:.page {:class (str " " class)}
    [:h1.page-title title]
 
    [:.page-content
@@ -138,7 +138,7 @@
   [:form
    (map-indexed (fn [n a]
                   [:p {:class (:class a)
-                       :key (str (pr-str (:path a)) "-" n "- p")}
+                       :key   (str (pr-str (:path a)) "-" n "- p")}
                    [:label {:for (pr-str (:path a))}
                     (:label a)]
                    (form-field-for a)])
@@ -189,35 +189,35 @@
 
         sort-button-fn (fn [] (daistate/change-element! path #(into [] (sort sort-fn %))))]
     ;(println "now-state " (pr-str now-state))
-    (page-of {:title page-title
+    (page-of {:title    page-title
               :subtitle page-subtitle
-              :img page-img
-              :class class
-              :path path
-                :sections [(when selector-widget
-                            [:.page-section
-                             [:h3 selector-title]
-                             selector-widget])
-                           [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
-                           (map-indexed (fn [n a]
-                                          (list
-                                            [:.element-button-bar
-                                             [:button.subtract-button
-                                              {:on-click (neg-fn-make n)
-                                               :key      (pr-str path)}
-                                              "remove"]]
-                                            (form-fn a (conj path n))))
+              :img      page-img
+              :class    class
+              :path     path
+              :sections [(when selector-widget
+                           [:.page-section
+                            [:h3 selector-title]
+                            selector-widget])
+                         [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
+                         (map-indexed (fn [n a]
+                                        (list
+                                          [:.element-button-bar
+                                           [:button.subtract-button
+                                            {:on-click (neg-fn-make n)
+                                             :key      (pr-str path)}
+                                            "remove"]]
+                                          (form-fn a (conj path n))))
 
-                                        now-state)
-                           [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
-                           (when text-to-element-fn
-                             [:.page-section
-                              [:h3 "New By Paste"]
-                              [:p "If a properly formatted element is in the text field below, it will be used as the new element when the '+' button is clicked."]
-                              [:textarea.paste-entry-field
-                               {:on-change (fn [e]
-                                             (println paste-entry)
-                                             (reset! paste-entry (daistate/get-change-value e)))}]])]})))
+                                      now-state)
+                         [:.button-bar.page-section [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
+                         (when text-to-element-fn
+                           [:.page-section
+                            [:h3 "New By Paste"]
+                            [:p "If a properly formatted element is in the text field below, it will be used as the new element when the '+' button is clicked."]
+                            [:textarea.paste-entry-field
+                             {:on-change (fn [e]
+                                           (println paste-entry)
+                                           (reset! paste-entry (daistate/get-change-value e)))}]])]})))
 
 (rum/defc mini-form-of < rum/static
   [form-name form-field-dec-vec]

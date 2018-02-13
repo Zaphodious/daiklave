@@ -10,8 +10,8 @@
                 :img      "img/app-symbol.png"}
    :modal      {:modal-showing   :none
                 :modal-arguments {}
-                :selected "0"
-                :query ""}
+                :selected        "0"
+                :query           ""}
    :settings   {:name               "Settings"
                 :category           :settings
                 :img                "https://i.imgur.com/ffipFnl.jpg"
@@ -185,23 +185,23 @@
                               :img           "https://i.imgur.com/yzGVjcX.jpg"
                               :description   "When the sidereals take notice, the world bends...",
                               :last-accessed 1438418}
-                "852852852"     {:name          "Under Heavenly Light",
-                                 :category      :chron,
-                                 :type          :active,
-                                 :subtype       :adventure
-                                 :storyteller   "Vexx0r"
-                                 :key           "852852852",
-                                 :img           "https://i.imgur.com/yzGVjcX.jpg"
-                                 :description   "When the sidereals take notice, the world bends...",
-                                 :last-accessed 1438418}
-                "01010101"     {:name          "Under Heavy Burdens",
-                                :category      :chron,
-                                :type          :active,
-                                :subtype       :adventure
-                                :storyteller   "Deekorz"
-                                :key           "01010101",
-                                :img           "https://i.imgur.com/yzGVjcX.jpg"
-                                :description   "When the sidereals take notice, the world bends...",
-                                :last-accessed 1438418}}})
+                "852852852"  {:name          "Under Heavenly Light",
+                              :category      :chron,
+                              :type          :active,
+                              :subtype       :adventure
+                              :storyteller   "Vexx0r"
+                              :key           "852852852",
+                              :img           "https://i.imgur.com/yzGVjcX.jpg"
+                              :description   "When the sidereals take notice, the world bends...",
+                              :last-accessed 1438418}
+                "01010101"   {:name          "Under Heavy Burdens",
+                              :category      :chron,
+                              :type          :active,
+                              :subtype       :adventure
+                              :storyteller   "Deekorz"
+                              :key           "01010101",
+                              :img           "https://i.imgur.com/yzGVjcX.jpg"
+                              :description   "When the sidereals take notice, the world bends...",
+                              :last-accessed 1438418}}})
 
 

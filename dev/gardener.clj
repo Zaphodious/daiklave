@@ -215,75 +215,75 @@
                    :right            0
                    :background-color (gc/rgba 150 90 70 0.4)
                    :z-index          99}]
-    [:.modal-window {:position         :fixed
+    [:.modal-window {:position            :fixed
                      ;:height           :25%
-                     :top              :5%
-                     :bottom           :5%
-                     :left             :10%
-                     :right            :10%
-                     :z-index          100
-                     :background-color :white
-                     :background-image [(url "../img/brushed_metal.png")
-                                        (url "../img/koi_modal_back.jpg")]
-                     :background-size :cover
+                     :top                 :5%
+                     :bottom              :5%
+                     :left                :10%
+                     :right               :10%
+                     :z-index             100
+                     :background-color    :white
+                     :background-image    [(url "../img/brushed_metal.png")
+                                           (url "../img/koi_modal_back.jpg")]
+                     :background-size     :cover
                      :background-position :right
-                     :border-radius :20px
-                     :box-shadow elementshadow}
+                     :border-radius       :20px
+                     :box-shadow          elementshadow}
      [:h3.modal-title {:background-image title-background-image
-                       :padding :10px
-                       :border-radius "20px 20px 0 0"}]
-     [:.button-bar {:float :right
+                       :padding          :10px
+                       :border-radius    "20px 20px 0 0"}]
+     [:.button-bar {:float    :right
                     :position :absolute
-                    :bottom 0
-                    :right 0
-                    :padding :15px}]
+                    :bottom   0
+                    :right    0
+                    :padding  :15px}]
      [:.element-search
-      [:input {:width (calchelper :100% - :50px)
-               :margin-left :15px
-               :margin-top :3px
-               :height :50px
-               :font-size :20px
-               :padding-left :10px
+      [:input {:width         (calchelper :100% - :50px)
+               :margin-left   :15px
+               :margin-top    :3px
+               :height        :50px
+               :font-size     :20px
+               :padding-left  :10px
                :padding-right :10px}]
-      [:ul {:overflow :scroll
+      [:ul {:overflow   :scroll
             ;:border :solid
-            :display :block
-            :position :absolute
-            :right 0
-            :left 0
-            :bottom :50px
-            :top :110px
-            :padding 0
+            :display    :block
+            :position   :absolute
+            :right      0
+            :left       0
+            :bottom     :50px
+            :top        :110px
+            :padding    0
             :box-shadow section-inner-shadow}
        [:li {;:font-size :1.5em
-             :position :relative
-             :list-style :none
-             :height :120px
-             :margin :10px
-             :background-size :cover
+             :position            :relative
+             :list-style          :none
+             :height              :120px
+             :margin              :10px
+             :background-size     :cover
              :background-position :right
-             :box-shadow elementshadow}
-        [:&.selected {:border :solid
-                       :border-color :white
-                      :border-width :4px
+             :box-shadow          elementshadow}
+        [:&.selected {:border        :solid
+                      :border-color  :white
+                      :border-width  :4px
                       :border-radius :20px
-                      :height :112px}
+                      :height        :112px}
          [:.select-title :.select-byline :.select-contains
-          {:left :6px
-           :top :6px
-           :color (gc/lighten (gc/complement sun-gold) 35)
+          {:left             :6px
+           :top              :6px
+           :color            (gc/lighten (gc/complement sun-gold) 35)
            :background-color (gc/darken (gc/complement sun-gold) 45)}]]
 
         [:.select-title :.select-byline :.select-contains
          {:background-color (gc/darken sun-gold 45)
-          :color (gc/lighten sun-gold 35)
-          :display :block
-          :position :relative
-          :top :10px
-          :left :10px
-          :width :max-content
-          :padding :3px
-          :overflow :wrap}
+          :color            (gc/lighten sun-gold 35)
+          :display          :block
+          :position         :relative
+          :top              :10px
+          :left             :10px
+          :width            :max-content
+          :padding          :3px
+          :overflow         :wrap}
          [:&:after {:display :block}]]
         [:.select-byline [:&:before {:content "\"By: \""}]]
         [:.select-contains
@@ -375,8 +375,8 @@
                       :position         :relative
                       :box-shadow       elementshadow}
 
-                     [:img {:max-width :100%
-                            :overflow  :hidden}]
+      [:img {:max-width :100%
+             :overflow  :hidden}]
       ;:border-top-right-radius :30px
       ;:border-bottom-left-radius :30px}]
       [:img.banner-image {:display    :block
@@ -568,17 +568,17 @@
    [:button.aggravated {:border-color :green}]
    [:.paste-entry-field {:width (calchelper :100% - :10px)}]
    [:.soft-table-row {;:background-color :blue
-                      :position :relative
-                      :top 0
+                      :position     :relative
+                      :top          0
                       :padding-left :30px}
     [:button {:position :absolute
-              :top :5px
-              :left :5px}]]
+              :top      :5px
+              :left     :5px}]]
    [:.intimacyinfo
     [:.soft-table-row]
-     ;[:button {:top :-20px}]]
+    ;[:button {:top :-20px}]]
 
-    [:.soft-table-row {}];:border :solid}]
+    [:.soft-table-row {}]                                   ;:border :solid}]
     [:select {:width :100%}]
     [:input {
              :width (calchelper :100% - :20px)}]]])

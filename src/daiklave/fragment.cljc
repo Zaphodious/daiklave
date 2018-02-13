@@ -1,8 +1,9 @@
 (ns daiklave.fragment
   (:require [cemerick.url :as u]
-            #?(:cljs [cljs.tools.reader :as r]
-               :clj [clojure.tools.reader :as r])
-            [com.rpl.specter :as s]))
+    #?(:cljs [cljs.tools.reader :as r]
+       :clj
+            [clojure.tools.reader :as r]
+            [com.rpl.specter :as s])))
 
 
 (defn make-fragment [thingy]
@@ -21,14 +22,14 @@
   (u/url-encode
     (pr-str
       (into []
-        path-elements))))
+            path-elements))))
 
 (defn path-frag
-   [& path-elements]
-   (str "#" (pre-hash-path-frag
-              (if (vector? (first path-elements))
-                (first path-elements)
-                path-elements))))
+  [& path-elements]
+  (str "#" (pre-hash-path-frag
+             (if (vector? (first path-elements))
+               (first path-elements)
+               path-elements))))
 
 (defn parse-fragment [frag]
   (r/read-string (u/url-decode frag)))

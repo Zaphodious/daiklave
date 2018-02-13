@@ -36,7 +36,7 @@
                  :key       (pr-str path)
                  :class     (str class " " (if read-only "read-only" ""))
                  :on-change (if special-change-fn special-change-fn
-                              (standard-on-change-for path read-only))
+                                                  (standard-on-change-for path read-only))
                  :readOnly  read-only}])
 
 (rum/defc text-area < rum/static
@@ -74,22 +74,22 @@
       {:type      :number
        :value     value :id (pr-str path) :key (pr-str path)
        :min       min :max max
-       :readOnly read-only
+       :readOnly  read-only
        :on-change (standard-on-change-for path read-only)}]]))
 
 (rum/defc balanced-number-field < rum/static
   [{:keys [path-a path-b value-a value-b read-only min-a min-b max-a max-b label-a label-b] :as fieldmap}]
   (let [button-fn-for (fn [up?]
                         (fn [] (daistate/change-element! path-a (if up? inc dec))
-                               (daistate/change-element! path-b (if up? dec inc))))]
+                          (daistate/change-element! path-b (if up? dec inc))))]
     [:.field.balanced-number-field
      [:label.text-a {:for (pr-str path-a)} label-a]
-     [:input.side-a {:value value-a :id (pr-str path-a) :key (pr-str path-a) :min min-a :max max-a
+     [:input.side-a {:value     value-a :id (pr-str path-a) :key (pr-str path-a) :min min-a :max max-a
                      :on-change (fn [a]) :readOnly true}]
      [:button {:on-click (button-fn-for true)} "⇐"]
      "+"
      [:button {:on-click (button-fn-for false)} "⇒"]
-     [:input.side-b {:value value-b :id (pr-str path-b) :key (pr-str path-b) :min min-b :max max-b
+     [:input.side-b {:value     value-b :id (pr-str path-b) :key (pr-str path-b) :min min-b :max max-b
                      :on-change (standard-on-change-for path-b read-only) :readOnly read-only}]
      [:label.text-b {:for (pr-str path-b)} label-b]]))
 
@@ -113,25 +113,25 @@
          (range 1 (inc max)))]])
 
 (defn- make-merit-ranks-field-data
-       [{:keys [path value readonly] :as fieldmap}]
-       [:.field
-        (map
-            (fn [n]
-               [:span.rank-selection
-                [:label.rank-label {:for   (pr-str (conj path n))
-                                    :class (if (value n) "checked" "unchecked")}
-                 n]
-                [:input {:type      :checkbox
-                         :key       (pr-str (conj path n))
-                         :id        (pr-str (conj path n))
-                         :checked   (value n)
-                         :on-change (fn [e]
-                                      (daistate/change-element! path (if (value n)
-                                                                       (set (remove #{n} value))
-                                                                       (conj value n))))}]
-                [:span.select-helper]])
+  [{:keys [path value readonly] :as fieldmap}]
+  [:.field
+   (map
+     (fn [n]
+       [:span.rank-selection
+        [:label.rank-label {:for   (pr-str (conj path n))
+                            :class (if (value n) "checked" "unchecked")}
+         n]
+        [:input {:type      :checkbox
+                 :key       (pr-str (conj path n))
+                 :id        (pr-str (conj path n))
+                 :checked   (value n)
+                 :on-change (fn [e]
+                              (daistate/change-element! path (if (value n)
+                                                               (set (remove #{n} value))
+                                                               (conj value n))))}]
+        [:span.select-helper]])
 
-            (range 0 6))])
+     (range 0 6))])
 (rum/defc merit-possible-ranks-field < rum/static
   [{:keys [path value readonly] :as fieldmap}]
   (make-merit-ranks-field-data fieldmap))
@@ -258,16 +258,16 @@
     [:.health-module
      [:.button-bar (add-remove-drop :damage-add)
       [:button.bashing {:on-click (add-remove-fn {:modifier :damage-add, :path (conj path :bashing)})} "Bashing"]
-      [:button.lethal {:on-click (add-remove-fn {:modifier :damage-add, :path (conj path :lethal),} )} "Lethal"]
+      [:button.lethal {:on-click (add-remove-fn {:modifier :damage-add, :path (conj path :lethal),})} "Lethal"]
       [:button.aggravated {:on-click (add-remove-fn {:modifier :damage-add, :path (conj path :aggravated),})} "Aggravated"]]
      [:.button-bar (add-remove-drop :level-add)
-      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 0])} )}"0"]
-      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 1])} )} "-1"]
-      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 2])} )} "-2"]
-      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 3])} )} "-4"]]
+      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 0])})} "0"]
+      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 1])})} "-1"]
+      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 2])})} "-2"]
+      [:button {:on-click (add-remove-fn {:modifier :level-add, :path (into path [:levels 3])})} "-4"]]
      [:ul.health-track
       (map (fn [[level damage]]
-             [:li.health-box {:class (str level"-level" " " (name damage)"-damage")} (str level)])
+             [:li.health-box {:class (str level "-level" " " (name damage) "-damage")} (str level)])
            (daihelp/flatten-health-module view))]]))
 
 (rum/defc solar-essence-section < rum/static
@@ -278,11 +278,11 @@
 
 (defmethod fp/page-for-viewmap :home
   [{:keys [path view] :as viewmap}]
-  (fp/page-of {:title "Anathema Home"
+  (fp/page-of {:title    "Anathema Home"
                :subtitle "Exalted 3rd Ed"
-               :img (:img view)
-               :class "home-page"
-               :path path
+               :img      (:img view)
+               :class    "home-page"
+               :path     path
                :sections [(section-link-of
                             "Characters"
                             "character-link"
@@ -310,19 +310,19 @@
                :sections [(fp/form-of "Show/Hide Elements"
                                       "showhide"
                                       [{:field-type :boolean, :label "Show Accessability Elements",
-                                        :path (conj path :show-accessibility ), :value (:show-accessibility view)}
+                                        :path       (conj path :show-accessibility), :value (:show-accessibility view)}
                                        {:field-type :boolean, :label "Show Unused Elements",
-                                        :path (conj path :show-unused), :value (:show-unused view)}])]}))
+                                        :path       (conj path :show-unused), :value (:show-unused view)}])]}))
 
 
 (defn print-pass [n] (println n) n)
 (defmethod fp/page-for-viewmap :characters
   [{:keys [path view] :as viewmap}]
-  (fp/page-of {:title (:name view)
+  (fp/page-of {:title    (:name view)
                :subtitle (:description view)
-               :img (:img view)
-               :path path
-               :class "character-select-page"
+               :img      (:img view)
+               :path     path
+               :class    "character-select-page"
                :sections (->> [:characters]
                               (daistate/viewmaps-for-children)
                               (filter (fn [a] (map? (:view a))))
@@ -335,11 +335,11 @@
 ;[title subtitle img class sections]
 (defmethod fp/page-for-viewmap :chrons
   [{:keys [path view] :as viewmap}]
-  (fp/page-of {:title (:name view)
+  (fp/page-of {:title    (:name view)
                :subtitle (:description view)
-               :img (:img view)
-               :class "chron-select-page"
-               :path path
+               :img      (:img view)
+               :class    "chron-select-page"
+               :path     path
                :sections (->> [:chrons]
                               (daistate/viewmaps-for-children)
                               (filter (fn [a] (map? (:view a))))
@@ -354,11 +354,11 @@
 
 (defmethod fp/page-for-viewmap :chron
   [{:keys [path view] :as viewmap}]
-  (fp/page-of {:title (:name view)
+  (fp/page-of {:title    (:name view)
                :subtitle (:description view)
-               :img (:img view)
-               :class "chron-page"
-               :path path
+               :img      (:img view)
+               :class    "chron-page"
+               :path     path
                :sections (into
                            [(fp/form-of
                               "Core Info"
@@ -440,7 +440,7 @@
      :page-subtitle (:description view)
      :page-img      (:img view)
      :path          (conj path :weapons-vec)
-     :class "mundane-weapons-page"
+     :class         "mundane-weapons-page"
      :elements      (:weapons-vec view)
      :new-element   {:name        "Wind and Fire Wheel"
                      :description "An elegant weapon, from a more... civilized age."
@@ -470,11 +470,11 @@
     (println "base-patho is " base-path)
     (println "base-view is " base-view)
     (if (= :charms (last path))
-      (fp/page-of {:title "Charms"
+      (fp/page-of {:title    "Charms"
                    :subtitle "Dingys what shini bois do"
-                   :img (:img base-view)
-                   :class "charm-ability-page"
-                   :path path
+                   :img      (:img base-view)
+                   :class    "charm-ability-page"
+                   :path     path
                    :sections (map
                                (fn [k] (section-link-of (make-pretty k)
                                                         (str "section-link-for" k)
@@ -482,44 +482,44 @@
                                                         {}))
                                (conj daihelp/ability-keys :craft))})
       (fp/page-table-for
-        {:page-title      (make-pretty charm-focus)
-         :page-subtitle   (:description base-view)
-         :page-img        (:img base-view)
-         :path            path
-         :class "charms-list-page"
-         :elements        (get base-view (last path))
-        ; :selector-title  "Which Ability"
+        {:page-title         (make-pretty charm-focus)
+         :page-subtitle      (:description base-view)
+         :page-img           (:img base-view)
+         :path               path
+         :class              "charms-list-page"
+         :elements           (get base-view (last path))
+         ; :selector-title  "Which Ability"
          ;:selector-widget (charm-selector path)
          :text-to-element-fn ttd/charm-to-data
-         :new-element     {:name          "Wise Arrow"
-                           :cost          "1m"
-                           :min-essence   1
-                           :min-ability   2
-                           :category      :charm
-                           :ability       charm-focus
-                           :page          255
-                           :keywords      ""
-                           :type          :supplemental
-                           :duration      "Instant"
-                           :prereq-charms "None"
-                           :description   "Fire an arrow which knows which way is up"}
-         :sort-fn         (daihelp/map-compare-fn-for {:page 5, :min-essence 3, :min-ability 1})
-         :form-fn         (fn [a p]
-                            (fp/form-of
-                              (:name a)
-                              (str (:name a) "-form")
-                              [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
-                               {:field-type :text, :label "Cost", :value (:cost a), :path (conj p :cost)},
-                               {:field-type :select-single, :label "Ability", :value (:ability a), :path (conj p :ability), :options daihelp/ability-all-keys, :read-only true},
-                               {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
-                               {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a), :path (conj p :min-ability), :min 1, :max 5,}
-                               {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)},
-                               {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
-                               {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
-                               {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywords)}
-                               {:field-type :text, :label "Duration", :value (:duration a), :path (conj p :duration)}
-                               {:field-type :text, :label "Prereq Charms", :value (:prereq-charms a), :path (conj p :prereq-charms)}
-                               {:field-type :text, :label "Character-Tags Added", :value (daihelp/keyword-vec-to-string (:character-tags a)), :path (conj p :character-tags), :special-change-fn (fn [x] (daistate/change-element! (conj p :character-tags) (daihelp/string-to-keyword-vec (daistate/get-change-value x))))}]))}))))
+         :new-element        {:name          "Wise Arrow"
+                              :cost          "1m"
+                              :min-essence   1
+                              :min-ability   2
+                              :category      :charm
+                              :ability       charm-focus
+                              :page          255
+                              :keywords      ""
+                              :type          :supplemental
+                              :duration      "Instant"
+                              :prereq-charms "None"
+                              :description   "Fire an arrow which knows which way is up"}
+         :sort-fn            (daihelp/map-compare-fn-for {:page 5, :min-essence 3, :min-ability 1})
+         :form-fn            (fn [a p]
+                               (fp/form-of
+                                 (:name a)
+                                 (str (:name a) "-form")
+                                 [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
+                                  {:field-type :text, :label "Cost", :value (:cost a), :path (conj p :cost)},
+                                  {:field-type :select-single, :label "Ability", :value (:ability a), :path (conj p :ability), :options daihelp/ability-all-keys, :read-only true},
+                                  {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
+                                  {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a), :path (conj p :min-ability), :min 1, :max 5,}
+                                  {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)},
+                                  {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
+                                  {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
+                                  {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywords)}
+                                  {:field-type :text, :label "Duration", :value (:duration a), :path (conj p :duration)}
+                                  {:field-type :text, :label "Prereq Charms", :value (:prereq-charms a), :path (conj p :prereq-charms)}
+                                  {:field-type :text, :label "Character-Tags Added", :value (daihelp/keyword-vec-to-string (:character-tags a)), :path (conj p :character-tags), :special-change-fn (fn [x] (daistate/change-element! (conj p :character-tags) (daihelp/string-to-keyword-vec (daistate/get-change-value x))))}]))}))))
 
 (defmethod fp/page-for-viewmap :charms
   [viewmap]
@@ -532,7 +532,7 @@
      :page-subtitle (:description view)
      :page-img      (:img view)
      :path          (conj path :martial-arts-vec)
-     :class "martial-arts-styles-page"
+     :class         "martial-arts-styles-page"
      :elements      (:martial-arts-vec view)
      :new-element   [{:name        "Black Claw Style"
                       :category    :martial-arts-style
@@ -672,55 +672,55 @@
                                               :form-name   "intimacyinfo"
                                               :path        (conj path :intimacies)
                                               :on-add-fn   #(daistate/show-modal :intimacy-add "Add an Intimacy" {:change-path (conj path :intimacies)})
-                                              :new-element {:type :tie
-                                                            :severity :major
-                                                            :feeling "Disgust"
+                                              :new-element {:type        :tie
+                                                            :severity    :major
+                                                            :feeling     "Disgust"
                                                             :description "Fighting without honor"}
                                               :sort-fn     (daiklave.data-help/map-compare-fn-for
-                                                             {:severity 100
+                                                             {:severity    100
                                                               :description 10})
-                                              :mini-forms (map-indexed (fn [n a]
-                                                                         (fp/mini-form-of (:description a)
-                                                                                          [{:field-type :select-single
-                                                                                            :value (:severity a)
-                                                                                            :label "Intensity"
-                                                                                            :read-only true
-                                                                                            :options daihelp/intimacy-intensities}
-                                                                                           (when (= :tie (:type a))
-                                                                                             {:field-type :text
-                                                                                              :read-only true
-                                                                                              :value (:feeling a)
-                                                                                              :label "Feeling"})
-                                                                                           {:field-type :text
-                                                                                            :read-only true
-                                                                                            :value (:description a)
-                                                                                            :label "Description"}]))
+                                              :mini-forms  (map-indexed (fn [n a]
+                                                                          (fp/mini-form-of (:description a)
+                                                                                           [{:field-type :select-single
+                                                                                             :value      (:severity a)
+                                                                                             :label      "Intensity"
+                                                                                             :read-only  true
+                                                                                             :options    daihelp/intimacy-intensities}
+                                                                                            (when (= :tie (:type a))
+                                                                                              {:field-type :text
+                                                                                               :read-only  true
+                                                                                               :value      (:feeling a)
+                                                                                               :label      "Feeling"})
+                                                                                            {:field-type :text
+                                                                                             :read-only  true
+                                                                                             :value      (:description a)
+                                                                                             :label      "Description"}]))
 
-                                                                       (:intimacies view))
-                                                        #_(map-indexed (fn [n a]
-                                                                           (fp/mini-form-of
-                                                                             (:description a)
-                                                                             [{:field-type :text,
-                                                                               :label      "Intensity"
-                                                                               :value      (:severity a)
-                                                                               :path       (into path [:intimacies n :severity])
-                                                                               :options    [:defining, :major, :minor]
-                                                                               :class      "first-of-three"
-                                                                               :read-only true}
-                                                                              (when (= :principle (:type a))
-                                                                                {:field-type :text,
-                                                                                 :value      (:type a)
-                                                                                 :label      "Type"
-                                                                                 :path       (into path [:intimacies n :type])
-                                                                                 :class      "second-of-three"
-                                                                                 :read-only true})
-                                                                              {:field-type :text,
-                                                                               :value      (:description a)
-                                                                               :label      "Description"
-                                                                               :path       (into path [:intimacies n :description])
-                                                                               :class      "third-of-three"
-                                                                               :read-only true}])
-                                                                         (:intimacies view)))})
+                                                                        (:intimacies view))
+                                              #_(map-indexed (fn [n a]
+                                                               (fp/mini-form-of
+                                                                 (:description a)
+                                                                 [{:field-type :text,
+                                                                   :label      "Intensity"
+                                                                   :value      (:severity a)
+                                                                   :path       (into path [:intimacies n :severity])
+                                                                   :options    [:defining, :major, :minor]
+                                                                   :class      "first-of-three"
+                                                                   :read-only  true}
+                                                                  (when (= :principle (:type a))
+                                                                    {:field-type :text,
+                                                                     :value      (:type a)
+                                                                     :label      "Type"
+                                                                     :path       (into path [:intimacies n :type])
+                                                                     :class      "second-of-three"
+                                                                     :read-only  true})
+                                                                  {:field-type :text,
+                                                                   :value      (:description a)
+                                                                   :label      "Description"
+                                                                   :path       (into path [:intimacies n :description])
+                                                                   :class      "third-of-three"
+                                                                   :read-only  true}])
+                                                               (:intimacies view)))})
                           (fp/form-of "Experience"
                                       "experience-module"
                                       [{:field-type :balanced-number, :label "Regular"
@@ -765,14 +765,14 @@
                                          "health-track-module"
                                          (health-track {:path (conj path :health-module) :view (:health-module view)}))]}))
 
- ;[path value options key name]
+;[path value options key name]
 
 (defn get-chron-contains [chron]
   (map #(str % " ")
-    (filter #(not (nil? %))
-      (map
-        (fn [k] (when (k chron) (str/capitalize (name k))))
-        [:charms :merits :evocations :spells :martial-arts-styles :mundane-weapons]))))
+       (filter #(not (nil? %))
+               (map
+                 (fn [k] (when (k chron) (str/capitalize (name k))))
+                 [:charms :merits :evocations :spells :martial-arts-styles :mundane-weapons]))))
 
 (defmethod fp/modal-for :intimacy-add
   [_ {:keys [change-path]}]
@@ -789,22 +789,22 @@
        (fp/in-section-form-of
          "Add Intimacy"
          [{:field-type :select-single, :label "Intensity"
-           :options daihelp/intimacy-intensities, :value intensity,
-           :path [:modal :intensity]}
+           :options    daihelp/intimacy-intensities, :value intensity,
+           :path       [:modal :intensity]}
           {:field-type :text, :label "Feeling"
-           :value feeling, :path [:modal :feeling]}
+           :value      feeling, :path [:modal :feeling]}
           {:field-type :big-text, :label "Description",
-           :value description, :path [:modal :description]}])]
+           :value      description, :path [:modal :description]}])]
       [[:button
         {:on-click
          #(daistate/apply-modal-and-hide change-path
-                                         (fn [a] (conj a {:severity intensity
-                                                          :type (case feeling
-                                                                  "" :principle
-                                                                  "Principle" :principle
-                                                                  "principle" :principle
-                                                                  :tie)
-                                                          :feeling feeling
+                                         (fn [a] (conj a {:severity    intensity
+                                                          :type        (case feeling
+                                                                         "" :principle
+                                                                         "Principle" :principle
+                                                                         "principle" :principle
+                                                                         :tie)
+                                                          :feeling     feeling
                                                           :description description})))}
         "Add Intimacy"]])))
 
@@ -814,15 +814,15 @@
         existant-chrons (daistate/fetch-view-for change-path)]
     (fp/modal-interior-for
       [:.element-search
-       [:input {:type :text
-                :value query
+       [:input {:type      :text
+                :value     query
                 :on-change (standard-on-change-for [:modal :query] false)}]
        [:ul
         (when (not (= "" query))
           (map (fn [a]
                  (when (not ((set existant-chrons) (:key a)))
-                   [:li {:style {:background-image (str "url(" (:img a) ")")}
-                         :class (when (= selected (:key a)) "selected")
+                   [:li {:style    {:background-image (str "url(" (:img a) ")")}
+                         :class    (when (= selected (:key a)) "selected")
                          :on-click (fn []
                                      (daistate/change-element! [:modal :selected] (:key a)))}
                     [:.select-title (:name a)]
@@ -832,5 +832,5 @@
       [[:button
         {:on-click
          #(daistate/apply-modal-and-hide change-path
-              (fn [a] (conj a (:view (daistate/fetch-view-for [:modal :selected])))))}
+                                         (fn [a] (conj a (:view (daistate/fetch-view-for [:modal :selected])))))}
         "Add Selected Chronicle"]])))

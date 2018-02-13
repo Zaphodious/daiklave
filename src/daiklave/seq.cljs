@@ -7,7 +7,7 @@
 
 (defn second-to-last
   [indexed-thing]
-  (nth indexed-thing (- (count indexed-thing ) 2)))
+  (nth indexed-thing (- (count indexed-thing) 2)))
 
 (defn clear-nil [s]
   (filter #(not (nil? %)) s))

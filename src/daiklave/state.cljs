@@ -61,8 +61,8 @@
                     path)
          pathvec (apply sp/keypath sanifrag)
          the-view (unwrap-if-singular (sp/select pathvec state))]
-     {:path     sanifrag
-      :view     the-view})))
+     {:path sanifrag
+      :view the-view})))
 
 
 
@@ -80,14 +80,14 @@
     seq-of-elements))
 
 (defn search-in
-      ([path query] (search-in path query [:name]))
-   ([path query fields]
-    (let [element-coll (:view (fetch-view-for path))]
-      {:path path
-       :view
-       (if (map? element-coll)
-         (map second (search-in-map-of-named element-coll query fields))
-         (search-in-seq element-coll query fields))})))
+  ([path query] (search-in path query [:name]))
+  ([path query fields]
+   (let [element-coll (:view (fetch-view-for path))]
+     {:path path
+      :view
+            (if (map? element-coll)
+              (map second (search-in-map-of-named element-coll query fields))
+              (search-in-seq element-coll query fields))})))
 
 
 
@@ -110,9 +110,9 @@
 (defn show-modal
   [modal-type modal-title modal-arguments-map]
   (change-element! [:modal]
-                {:modal-showing   modal-type
-                 :modal-arguments modal-arguments-map
-                 :modal-title modal-title})
+                   {:modal-showing   modal-type
+                    :modal-arguments modal-arguments-map
+                    :modal-title     modal-title})
   nil)
 
 (defn apply-modal-and-hide
@@ -123,12 +123,12 @@
   ;Hide
   (change-element!
     [:modal]
-    {:modal-showing :none
+    {:modal-showing   :none
      :modal-arguments {}}))
 
 (defn viewmaps-for-children [patho]
   (let [{:keys [path view]
-         :as first-viewmap}
+         :as   first-viewmap}
         (fetch-view-for patho)]
     (->> view
          (map
