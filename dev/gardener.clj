@@ -354,6 +354,10 @@
                             :margin-bottom    (-px (- (* -1 page-content-margin-scalar 6.6) 1))
                             ;:box-shadow       elementshadow
                             :text-align       :right
+                            :z-index 150
+                            :position :relative
+                            :top :5px
+                            :right :5px
                             :padding          (-px 7)}]
 
      [:.page-section {;:background-color (:element-darker brown)

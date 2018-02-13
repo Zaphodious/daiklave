@@ -298,11 +298,15 @@ body {
 }
 
 .page .page-content .element-button-bar {
-  background-color: transparent;
+  right: 5px;
+  top: 5px;
   margin: 14.0px;
-  margin-bottom: -47.199999999999996px;
-  text-align: right;
   padding: 7.0px;
+  text-align: right;
+  position: relative;
+  z-index: 150;
+  margin-bottom: -47.199999999999996px;
+  background-color: transparent;
 }
 
 .page .page-content .page-section {
