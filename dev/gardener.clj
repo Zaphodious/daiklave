@@ -78,6 +78,7 @@
             :background-darker  "#33241F"})
 
 (def sun-gold (gc/hex->rgb "#f4c53e"))
+(def moon-blue (gc/complement sun-gold))
 (def section-title-gradient (linear-gradient
                               (gc/darken sun-gold 20)
                               (gc/darken sun-gold 30)
@@ -103,7 +104,12 @@
            (assoc (gc/darken sun-gold 20) :alpha 0.5))]
         title-background-image))
 
-
+(def input-background [(url "../img/brushed_metal.png")
+                       (linear-gradient
+                         (assoc (gc/darken moon-blue 30) :alpha 0.1)
+                         (assoc (gc/lighten sun-gold 20) :alpha 0.4)
+                         (assoc (gc/lighten sun-gold 20) :alpha 0.5)
+                         (assoc (gc/lighten moon-blue 50) :alpha 0.7))])
 
 
 (def title-color (gc/lighten sun-gold 10))
@@ -117,10 +123,11 @@
 
 (def title-bar-height "3em")
 (def navshadow "0 0 15px black")
-(def elementshadow (str "0 0 10px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
-(def buttonshadow (str "0 1px 2px" (gc/as-hex color-p-dark)))
-(def focusshadow (str "0 3px 10px" (gc/as-hex color-p-dark)))
-(def focusshadowtext (str "0 5px 10px" (gc/as-hex color-p-dark)))
+(def elementshadow (str "0 -3px 10px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
+(def inputshadow (str "0 -2px 5px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
+(def buttonshadow (str "0 -2px 10px" (gc/as-hex color-p-dark)))
+(def focusshadow (str "0 -3px 5px" (gc/as-hex color-p-dark)))
+(def focusshadowtext (str "0 -5px 10px" (gc/as-hex color-p-dark)))
 (def section-inner-shadow (str "inset " navshadow))
 
 (def title-text-shadow (str "0 0 10px " (gc/as-hex (gc/darken sun-gold 10))))
@@ -164,8 +171,10 @@
              :margin-left      :2px}]
 
    ;:border-radius (-px 5)}]
-   [:input :select :textarea {:background-color (gc/rgba 255 255 255 0.3)
-                              :background-image (url "../img/canvas_transparent_input.png")
+   [:input :select :textarea {:background-color :transparent ;(gc/rgba 255 255 255 0.0)
+                              :background-image input-background
+                              ;:border-radius :10px
+                              :box-shadow inputshadow
                               :border-bottom    :solid
                               :border-width     :1px
                               :border-color     :grey
@@ -359,15 +368,16 @@
                             :top :5px
                             :right :5px
                             :padding          (-px 7)}]
+     [:a {:height :auto}]
 
      [:.page-section {;:background-color (:element-darker brown)
                       ;:background-color (gc/rgba 255 255 255 0.4)
                       :background-image (url "../img/canvas_paper.png")
-                      :margin           (-px (* page-content-margin-scalar 2))
+                      :margin           (-px (* page-content-margin-scalar 1))
                       ;:box-shadow       elementshadow
-                      :padding          :10px
+                      :padding          :5px
                       :padding-top      0
-                      :margin-bottom    :30px
+                      :margin-bottom    :10px
                       ;:border :solid
                       :border-width     :1px
                       :border-color     sun-gold
@@ -378,6 +388,10 @@
                       ;:border-top-right-radius :30px
                       :position         :relative
                       :box-shadow       elementshadow}
+      [:&.button-bar {:padding :10px}]
+      [:& {:padding-bottom 0}]
+      [:&.chrons-used
+       [:input {:width :100%}]]
       [:&.page-header {:background-position :top
                        :background-size :cover
                        :min-height :200px}
@@ -419,29 +433,25 @@
 
                         :background-image title-background-image
                         ;(assoc (gc/as-rgb (gc/from-name "white")) :alpha 0.7))]
-
-
                         :border-width     :1px
                         :padding          :4px
                         :padding-left     :15px
                         :padding-top      :7px
                         :margin-top       :0px
-                        :margin-left      :-10px
-                        :margin-right     :-10px
+                        :margin-left      :-5px
+                        :margin-right     :-5px
                         ;:background    section-title-gradient
                         ;:color            (gc/lighten sun-gold 10)
                         :text-shadow      title-text-shadow}]
       ;:box-shadow    elementshadow}]
-      [:.button-bar {:padding :5px}
+      [:.button-bar {:padding :10px}
        [:button {:margin :4px}]]
       [:.navlist-container
        [:.navlist-selected {:tab-index 1}]
        [:ul.field.navlist.hidden {:display :none}]
-       [:ul.field.navlist.shown {:display :block}]]]
-     [:.page-header {:background-color :transparent
-                     :background-image :none
-                     :border           :none
-                     :box-shadow       :none}]]]
+       [:ul.field.navlist.shown {:display :block}]]]]]
+
+                     ;:box-shadow       :none}]]]
 
 
    ;:height (calchelper :100% - :40px)}
@@ -481,8 +491,8 @@
      [:.number-field
       [:input {:width (calchelper :100% - :80px)}]
       [:button {:width :20px}]]
-     [:.read-only {:border           0,
-                   :background-color color-brightest}]
+     [:.read-only {:border           0,}]
+                   ;:background-color color-brightest}]
      [:textarea {:height :3.2em}]]
     [:.mini-label {:display :none}]
 
@@ -616,7 +626,7 @@
                                :left  :30%}]
 
 
-     [:.page-content {:display    :grid
+     [:.page-content {;:display    :grid
                       :overflow-y :scroll
                       :width      :100%}]]]])
 
@@ -633,6 +643,7 @@
 (def character-page-desktop-style
   (supports "grid-template-areas: \"...\""
             [:.desktop
+
              [:.character-page
               [:.page-content {:display               :grid
                                :grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}

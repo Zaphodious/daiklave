@@ -7,7 +7,7 @@
   outline-color: hsla(15, 22.988506%, 65.882355%, 0.5);
   outline-offset: 0px;
   outline-radius: 5px;
-  box-shadow: 0 3px 10px#4b2c20;
+  box-shadow: 0 -3px 5px#4b2c20;
   z-index: 100;
 }
 
@@ -35,7 +35,7 @@ button {
   border-color: none;
   margin-right: 2px;
   border-style: solid;
-  box-shadow: 0 1px 2px#4b2c20;
+  box-shadow: 0 -2px 10px#4b2c20;
   margin-left: 2px;
   background-color: #ffffff;
   border-radius: 2.0px;
@@ -53,10 +53,11 @@ input, select, textarea {
   border-right: none;
   border-top: none;
   margin-bottom: 3.0px;
+  box-shadow: 0 -2px 5px #666666;
   margin-left: 5.0px;
-  background-color: hsla(0, 0%, 100%, 0.3);
+  background-color: transparent;
   padding-right: 0;
-  background-image: url(../img/canvas_transparent_input.png);
+  background-image: url(../img/brushed_metal.png), linear-gradient(hsla(224.5055, 89.21568%, 30%, 0.1), hsla(44.505493, 89.21568%, 80%, 0.4), hsla(44.505493, 89.21568%, 80%, 0.5), hsla(224.5055, 89.21568%, 100%, 0.7));
 }
 
 input:focus, select:focus, textarea:focus {
@@ -124,7 +125,7 @@ body {
   position: fixed;
   z-index: 100;
   background-size: cover;
-  box-shadow: 0 0 10px #666666;
+  box-shadow: 0 -3px 10px #666666;
   background-color: white;
   border-radius: 20px;
   bottom: 5%;
@@ -175,7 +176,7 @@ body {
   margin: 10px;
   background-size: cover;
   background-position: right;
-  box-shadow: 0 0 10px #666666;
+  box-shadow: 0 -3px 10px #666666;
 }
 
 #app-frame .modal-window .element-search ul li.selected {
@@ -285,7 +286,7 @@ body {
   background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 25%, 0.7), hsla(44.505493, 89.21568%, 30%, 0.7), hsla(44.505493, 89.21568%, 35%, 0.7), hsla(44.505493, 89.21568%, 40%, 0.7), hsla(44.505493, 89.21568%, 45%, 0.7), hsla(44.505493, 89.21568%, 65%, 0.7), hsla(44.505493, 89.21568%, 90%, 0.7));
   text-align: center;
   font-weight: bolder;
-  box-shadow: 0 0 10px #666666;
+  box-shadow: 0 -3px 10px #666666;
   text-shadow: 0 0 10px #f1b70e;
   position: relative;
   z-index: 10;
@@ -309,16 +310,32 @@ body {
   background-color: transparent;
 }
 
+.page .page-content a {
+  height: auto;
+}
+
 .page .page-content .page-section {
   border-width: 1px;
   border-color: #f4c53e;
-  margin: 14.0px;
-  padding: 10px;
+  margin: 7.0px;
+  padding: 5px;
   position: relative;
-  margin-bottom: 30px;
-  box-shadow: 0 0 10px #666666;
+  margin-bottom: 10px;
+  box-shadow: 0 -3px 10px #666666;
   background-image: url(../img/canvas_paper.png);
   padding-top: 0;
+}
+
+.page .page-content .page-section.button-bar {
+  padding: 10px;
+}
+
+.page .page-content .page-section {
+  padding-bottom: 0;
+}
+
+.page .page-content .page-section.chrons-used input {
+  width: 100%;
 }
 
 .page .page-content .page-section.page-header {
@@ -377,11 +394,11 @@ body {
   border-bottom: solid;
   border-width: 1px;
   border-color: #6f98a9;
-  margin-right: -10px;
+  margin-right: -5px;
   padding: 4px;
   text-align: justify;
   margin-top: 0px;
-  margin-left: -10px;
+  margin-left: -5px;
   background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 25%, 0.7), hsla(44.505493, 89.21568%, 30%, 0.7), hsla(44.505493, 89.21568%, 35%, 0.7), hsla(44.505493, 89.21568%, 40%, 0.7), hsla(44.505493, 89.21568%, 45%, 0.7), hsla(44.505493, 89.21568%, 65%, 0.7), hsla(44.505493, 89.21568%, 90%, 0.7));
   text-shadow: 0 0 10px #f1b70e;
   padding-left: 15px;
@@ -389,7 +406,7 @@ body {
 }
 
 .page .page-content .page-section .button-bar {
-  padding: 5px;
+  padding: 10px;
 }
 
 .page .page-content .page-section .button-bar button {
@@ -406,13 +423,6 @@ body {
 
 .page .page-content .page-section .navlist-container ul.field.navlist.shown {
   display: block;
-}
-
-.page .page-content .page-header {
-  background-color: transparent;
-  background-image: none;
-  border: none;
-  box-shadow: none;
 }
 
 form * {
@@ -497,7 +507,6 @@ form p .number-field button {
 
 form p .read-only {
   border: 0;
-  background-color: #ffffff;
 }
 
 form p textarea {
@@ -628,7 +637,7 @@ ul.health-track li.health-box {
   padding: 0;
   min-height: 28px;
   background-size: 70%;
-  box-shadow: 0 0 10px #666666;
+  box-shadow: 0 -3px 10px #666666;
   background-color: white;
   border-radius: 10px;
   display: inline-block;
@@ -719,7 +728,6 @@ button.aggravated {
 }
 
 .desktop .pages .page-content {
-  display: grid;
   overflow-y: scroll;
   width: 100%;
 }
