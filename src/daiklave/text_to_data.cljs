@@ -88,7 +88,7 @@
          (charm-fix-text-errors)
          (split-text-into-keyword-string-pairs)
          (replace-mins)
-         (drop-duration)
+         ;(drop-duration)
          (keywordify-type)
          (vectorify-keywords)
          ;(split-up-prereqs)
