@@ -374,8 +374,19 @@
                       ;:border-top-right-radius :30px
                       :position         :relative
                       :box-shadow       elementshadow}
-
-      [:img {:max-width :100%
+      [:&.page-header {:background-position :top-right
+                       :background-size :cover
+                       :min-height :200px}
+       [:p {:background-color (assoc (gc/as-rgb (gc/darken sun-gold 50)) :alpha 0.7)
+            :color (gc/lighten sun-gold 20)
+            :display :block
+            :position :relative
+            :top :10px
+            :margin-bottom :20px
+            :padding :2px
+            :font-size :1.25em}]]
+      [:img {:max-width :50%
+             :max-height :500px
              :overflow  :hidden}]
       ;:border-top-right-radius :30px
       ;:border-bottom-left-radius :30px}]

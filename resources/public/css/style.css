@@ -317,8 +317,26 @@ body {
   padding-top: 0;
 }
 
+.page .page-content .page-section.page-header {
+  background-position: top-right;
+  background-size: cover;
+  min-height: 200px;
+}
+
+.page .page-content .page-section.page-header p {
+  background-color: hsla(45.333332, 88.23529%, 10%, 0.7);
+  color: #fae29f;
+  display: block;
+  position: relative;
+  top: 10px;
+  margin-bottom: 20px;
+  padding: 2px;
+  font-size: 1.25em;
+}
+
 .page .page-content .page-section img {
-  max-width: 100%;
+  max-width: 50%;
+  max-height: 500px;
   overflow: hidden;
 }
 

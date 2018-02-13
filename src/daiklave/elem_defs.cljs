@@ -566,6 +566,10 @@
   [{:keys [path view] :as viewmap}]
   (fp/page-of {:title    (:name view)
                :subtitle (:description view)
+               :header-content [:.info-header
+                                [:p (str (make-pretty (:type view)) " Exalted")]
+                                [:p (str (make-pretty (:supernal view)) " Supernal " (make-pretty (:subtype view)))]
+                                [:p (:long-description view)]]
                :img      (:img view)
                :class    "character-page"
                :path     path
@@ -574,8 +578,8 @@
                             "Information"
                             "coreinfo"
                             [{:field-type :text, :label "Name", :value (:name view), :path (conj path :name)}
-                             {:field-type :text, :label "Concept", :value (:description view), :path (conj path :concept)}
-                             {:field-type :big-text, :label "Description", :value (:long-description view), :path (conj path :description)}
+                             {:field-type :text, :label "Concept", :value (:description view), :path (conj path :description)}
+                             {:field-type :big-text, :label "Description", :value (:long-description view), :path (conj path :long-description)}
                              {:field-type :text, :label "Player", :value (:player view), :path (conj path :player)}
                              {:field-type :select-single, :label "Type", :value (:type view), :path (conj path :type), :options [:solar, :mortal], :read-only (not (= :mortal (:type view)))}
                              {:field-type :text, :label "Image", :value (:img view), :path (conj path :img)}

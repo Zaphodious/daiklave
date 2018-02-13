@@ -123,14 +123,15 @@
 
 
 (rum/defc page-of < rum/static
-  [{:keys [title subtitle img class sections path]}]
+  [{:keys [title subtitle header-content img class sections path]}]
   [:.page {:class (str " " class)}
    [:h1.page-title title]
 
    [:.page-content
     [:.page-section.page-header
-     ;[:h3.page-subtitle subtitle]
-     [:img.banner-image {:src img}]]
+     {:style {:background-image (str "url("  img ")")}}
+     [:h3.page-subtitle subtitle]
+     header-content]
     sections]])
 
 (rum/defc in-section-form-of < rum/static
