@@ -130,7 +130,7 @@
    [:.page-content
     [:.page-section.page-header
      {:style {:background-image (str "url("  img ")")}}
-     [:h3.page-subtitle subtitle]
+     (when (not (str/blank? subtitle)) [:h3.page-subtitle subtitle])
      header-content]
     sections]])
 
