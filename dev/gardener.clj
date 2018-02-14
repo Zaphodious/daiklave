@@ -390,7 +390,7 @@
                       :box-shadow       elementshadow}
       [:&.button-bar {:padding :10px}]
       [:& {:padding-bottom 0}]
-      [:&.chrons-used
+      [:&.rulebooks-used
        [:input {:width :100%}]]
       [:&.page-header {:background-position :top
                        :background-size :cover
@@ -650,7 +650,7 @@
                [:.page-header {:grid-area "head"}]
                [:.coreinfo {:grid-area "core"}
                 [:form {:column-count 2}]]
-               [:.chrons-used {:grid-area "chrn"}]
+               [:.rulebooks-used {:grid-area "chrn"}]
                [:.attributeinfo {:grid-area "attr"}
                 [:form {:column-count 3}]]
                [:.abilityinfo {:grid-area "abil"}]

@@ -334,7 +334,7 @@ body {
   padding-bottom: 0;
 }
 
-.page .page-content .page-section.chrons-used input {
+.page .page-content .page-section.rulebooks-used input {
   width: 100%;
 }
 
@@ -751,7 +751,7 @@ button.aggravated {
   column-count: 2;
 }
 
-.desktop .character-page .page-content .chrons-used {
+.desktop .character-page .page-content .rulebooks-used {
   grid-area: chrn;
 }
 

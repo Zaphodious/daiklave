@@ -27,10 +27,10 @@
   app-state
   (atom (->> samples/sample-state
           (sp/transform
-            [:chrons]
-            (fn [a] (conj a {"0" daifault/chron})))
+            [:rulebooks]
+            (fn [a] (conj a {"0" daifault/core-book})))
           (sp/transform
-            [:chrons]
+            [:rulebooks]
             (fn [a] (conj a {"1" daifault/miracles}))))))
 
 

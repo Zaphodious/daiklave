@@ -32,7 +32,7 @@
                               :img                  "https://i.imgur.com/cFE1bow.jpg"
                               :category             :character,
                               :type                 :solar,
-                              :chrons               ["0", "242424"],
+                              :rulebooks            ["0", "242424"],
                               :limit                {:trigger "When something I've done is proven wrong"
                                                      :accrued 3}
                               :health-module        {:levels     [4 1 4 5]
@@ -80,7 +80,7 @@
                               :img                  "https://i.imgur.com/no8PesX.jpg"
                               :category             :character,
                               :type                 :solar,
-                              :chrons               ["0", "242424"],
+                              :rulebooks            ["0", "242424"],
                               :limit                {:trigger "To be made utterly helpless"
                                                      :accrued 1}
                               :health-module        {:levels     [3 1 4 5]
@@ -124,7 +124,7 @@
                               :category          :character,
                               :img               "https://i.imgur.com/wYnw5RQ.jpg"
                               :type              :solar,
-                              :chrons            ["0", "452452452"],
+                              :rulebooks         ["0", "452452452"],
                               :limit             {:trigger "Being delt with in bad faith"
                                                   :accrued 7}
                               :subtype           :zenith,
@@ -161,13 +161,13 @@
                                                   {:type :tie, :severity :minor, :feeling "Rush", :description "The wind as I run is the voice of my mother"}
                                                   {:type :tie, :severity :minor, :feeling "Distaste", :description "The cheater's victory of the bane of my father"}]}}
 
-   :chrons     {:name        "Chronicles"
-                :category    :chrons
+   :rulebooks  {:name        "Rulebooks"
+                :category    :rulebooks
                 :img         "https://i.imgur.com/f1vYAW7.jpg"
                 :description "The Stories That Shape Creation"
 
                 "452452452"  {:name          "Seas of Doom",
-                              :category      :chron,
+                              :category      :rulebook,
                               :type          :solar,
                               :subtype       :adventure
                               :storyteller   "Gavyn"
@@ -177,7 +177,7 @@
                               :last-accessed 1865961}
 
                 "242424"     {:name          "Under Heaven's Eye",
-                              :category      :chron,
+                              :category      :rulebook,
                               :type          :active,
                               :subtype       :adventure
                               :storyteller   "Alex"
@@ -186,7 +186,7 @@
                               :description   "When the sidereals take notice, the world bends...",
                               :last-accessed 1438418}
                 "852852852"  {:name          "Under Heavenly Light",
-                              :category      :chron,
+                              :category      :rulebook,
                               :type          :active,
                               :subtype       :adventure
                               :storyteller   "Vexx0r"
@@ -195,7 +195,7 @@
                               :description   "When the sidereals take notice, the world bends...",
                               :last-accessed 1438418}
                 "01010101"   {:name          "Under Heavy Burdens",
-                              :category      :chron,
+                              :category      :rulebook,
                               :type          :active,
                               :subtype       :adventure
                               :storyteller   "Deekorz"

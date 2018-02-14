@@ -1,11 +1,11 @@
 (ns daiklave.default-data
-  (:require [daiklave.corechron.charms :as charms]
-            [daiklave.corechron.merits :refer [merit-vec]]))
+  (:require [daiklave.corebooks.charms :as charms]
+            [daiklave.corebooks.merits :refer [merit-vec]]))
 
 
-(def chron
+(def core-book
   {:name                "Exalted Core",
-   :category            :chron,
+   :category            :rulebook,
    :type                :solar,
    :subtype             :adventure
    :storyteller         "John Mørke"
@@ -99,15 +99,15 @@
 
 
 (def miracles
-  {:name                "Miracles of the Solar Exalted",
-   :category            :chron,
-   :type                :solar,
-   :subtype             :adventure
-   :storyteller         "John Mørke"
-   :key                 "1",
-   :img                 "https://imgur.com/4EqEWzB.jpg"
-   :description         "Published by Onyx Path",
-   :charms              {:name          "Charms"
+  {:name        "Miracles of the Solar Exalted",
+   :category    :rulebook,
+   :type        :solar,
+   :subtype     :adventure
+   :storyteller "John Mørke"
+   :key         "1",
+   :img         "https://imgur.com/4EqEWzB.jpg"
+   :description "Published by Onyx Path",
+   :charms      {:name          "Charms"
                          :category      :charms
                          :type          :solar
                          :subtype       :charmlist

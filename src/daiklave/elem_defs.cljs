@@ -289,9 +289,9 @@
                             [:characters]
                             {})
                           (section-link-of
-                            "Chronicles"
-                            "chron-link"
-                            [:chrons]
+                            "Rulebooks"
+                            "rulebook-link"
+                            [:rulebooks]
                             {})
                           (section-link-of
                             "Settings"
@@ -333,31 +333,31 @@
                                              a)))
                               (into []))}))
 ;[title subtitle img class sections]
-(defmethod fp/page-for-viewmap :chrons
+(defmethod fp/page-for-viewmap :rulebooks
   [{:keys [path view] :as viewmap}]
   (fp/page-of {:title    (:name view)
                :subtitle (:description view)
                :img      (:img view)
-               :class    "chron-select-page"
+               :class    "rulebook-select-page"
                :path     path
-               :sections (->> [:chrons]
+               :sections (->> [:rulebooks]
                               (daistate/viewmaps-for-children)
                               (filter (fn [a] (map? (:view a))))
                               (map content-link-section)
                               (map (fn [a] (fp/section-of
-                                             "Chronicles"
-                                             (str "chron" (:name (:view a)))
+                                             "Rulebooks"
+                                             (str "rulebook" (:name (:view a)))
                                              a)))
                               (into []))}))
 
 
 
-(defmethod fp/page-for-viewmap :chron
+(defmethod fp/page-for-viewmap :rulebook
   [{:keys [path view] :as viewmap}]
   (fp/page-of {:title    (:name view)
                :subtitle (:description view)
                :img      (:img view)
-               :class    "chron-page"
+               :class    "rulebook-page"
                :path     path
                :sections (into
                            [(fp/form-of
@@ -589,24 +589,24 @@
 
 
                           ;[form-title form-name path new-element sort-fn mini-forms]
-                          (fp/soft-table-for {:form-title  "Chronicles Used"
-                                              :form-name   "chrons-used"
-                                              :path        (conj path :chrons)
+                          (fp/soft-table-for {:form-title  "Rulebooks Used"
+                                              :form-name   "rulebooks-used"
+                                              :path        (conj path :rulebooks)
                                               :new-element "0"
                                               :sort-fn     compare
-                                              :on-add-fn   #(daistate/show-modal :chron-change-sheet "Select a Chronicle" {:change-path (conj path :chrons)})
+                                              :on-add-fn   #(daistate/show-modal :rulebook-change-sheet "Select a Rulebook" {:change-path (conj path :rulebooks)})
                                               :mini-forms
                                                            (map-indexed (fn [n a]
-                                                                          (fp/mini-form-of (-> (daistate/fetch-view-for [:chrons a]) :view :name)
+                                                                          (fp/mini-form-of (-> (daistate/fetch-view-for [:rulebooks a]) :view :name)
                                                                                            [{:field-type :text
                                                                                              :read-only  true
-                                                                                             :label      "Chronicle Used"
-                                                                                             :value      (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str)
-                                                                                             :path       (conj path :chrons n)
+                                                                                             :label      "Rulebook Used"
+                                                                                             :value      (->> a (conj [:rulebooks]) daistate/fetch-view-for :view :name str)
+                                                                                             :path       (conj path :rulebooks n)
                                                                                              :class      "single-selector"}]))
-                                                                        ;:display-fn (fn [a] (->> a (conj [:chrons]) daistate/fetch-view-for :view :name str))}]))
-                                                                        ;:options    (->> [:chrons] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
-                                                                        (:chrons view))})
+                                                                        ;:display-fn (fn [a] (->> a (conj [:rulebooks]) daistate/fetch-view-for :view :name str))}]))
+                                                                        ;:options    (->> [:rulebooks] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
+                                                                        (:rulebooks view))})
                           (fp/form-of "Attributes"
                                       "attributeinfo"
                                       (map (fn [[k v]]
@@ -771,11 +771,11 @@
 
 ;[path value options key name]
 
-(defn get-chron-contains [chron]
+(defn get-rulebook-contains [rulebook]
   (map #(str % " ")
        (filter #(not (nil? %))
                (map
-                 (fn [k] (when (k chron) (str/capitalize (name k))))
+                 (fn [k] (when (k rulebook) (str/capitalize (name k))))
                  [:charms :merits :evocations :spells :martial-arts-styles :mundane-weapons]))))
 
 (defmethod fp/modal-for :intimacy-add
@@ -812,10 +812,10 @@
                                                           :description description})))}
         "Add Intimacy"]])))
 
-(defmethod fp/modal-for :chron-change-sheet
+(defmethod fp/modal-for :rulebook-change-sheet
   [_ {:keys [change-path]}]
   (let [{:keys [query selected]} (:view (daistate/fetch-view-for [:modal]))
-        existant-chrons (daistate/fetch-view-for change-path)]
+        existant-rulebooks (daistate/fetch-view-for change-path)]
     (fp/modal-interior-for
       [:.element-search
        [:input {:type      :text
@@ -824,17 +824,17 @@
        [:ul
         (when (not (= "" query))
           (map (fn [a]
-                 (when (not ((set existant-chrons) (:key a)))
+                 (when (not ((set existant-rulebooks) (:key a)))
                    [:li {:style    {:background-image (str "url(" (:img a) ")")}
                          :class    (when (= selected (:key a)) "selected")
                          :on-click (fn []
                                      (daistate/change-element! [:modal :selected] (:key a)))}
                     [:.select-title (:name a)]
                     [:.select-byline (:storyteller a)]
-                    [:.select-contains (get-chron-contains a)]]))
-               (:view (daistate/search-in [:chrons] query [:name :storyteller]))))]]
+                    [:.select-contains (get-rulebook-contains a)]]))
+               (:view (daistate/search-in [:rulebooks] query [:name :storyteller]))))]]
       [[:button
         {:on-click
          #(daistate/apply-modal-and-hide change-path
                                          (fn [a] (conj a (:view (daistate/fetch-view-for [:modal :selected])))))}
-        "Add Selected Chronicle"]])))
+        "Add Selected Rulebook"]])))
