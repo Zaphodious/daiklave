@@ -7,7 +7,8 @@
             [daiklave.fragment :as dfrag]
             [com.rpl.specter :as sp]
             [com.rpl.specter.navs :as spn]
-            [clojure.browser.dom :as dom]))
+            [clojure.browser.dom :as dom]
+            [daiklave.data-help :as daihelp]))
 
 (defn get-current-url-frag []
   (dfrag/parse-fragment (:anchor (url (.-href js/location)))))
@@ -92,6 +93,11 @@
               (map second (search-in-map-of-named element-coll query fields))
               (search-in-seq element-coll query fields))})))
 
+(defn get-named-thing-in-rulebooks [thing-name rulebook-name-vec]
+  (->> rulebook-name-vec
+       (map #(:view (fetch-view-for [:rulebooks %])))
+       (sp/select (sp/walker #(= (str (:name %)) thing-name)))
+       first))
 
 
 (defn get-setting-for-key [setting-key]

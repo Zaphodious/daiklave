@@ -1,6 +1,7 @@
 (ns daiklave.data-help
   [:require [daiklave.seq :as daiseq :refer [vec-of nudge-insert-at]]
-            [clojure.string :as str]])
+            [clojure.string :as str]
+            [com.rpl.specter :as sp]])
 
 (def attribute-keys [:strength :dexterity :stamina :charisma :manipulation :appearance :perception :intelligence :wits])
 
@@ -88,3 +89,15 @@
            :essence-max-peripheral       essence-max-peripheral
            :essence-personal-remaining   (- essence-max-personal motes-spent-personal)
            :essence-peripheral-remaining (- essence-max-peripheral motes-spent-peripheral)})))
+
+(defn get-these-rulebooks [rulebook-key-vec rulebooks]
+  (map
+    (fn [sk] (get rulebooks sk))
+    rulebook-key-vec))
+
+(defn get-thing-in-rulebooks [thing-name rulebook-vec]
+  (map
+    (fn [a] (sp/select
+              (sp/walker #(= (str (:name %)) "Mutant"))
+              rulebook-vec))
+    rulebook-vec))
