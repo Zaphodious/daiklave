@@ -32,50 +32,62 @@
 
 (rum/defc text-field < rum/static
   [{:keys [path value options read-only class special-change-fn]}]
-  [:input.field {:type      :text, :value value, :id (pr-str path)
-                 :key       (pr-str path)
-                 :class     (str class " " (if read-only "read-only" ""))
-                 :on-change (if special-change-fn special-change-fn
-                                                  (standard-on-change-for path read-only))
-                 :readOnly  read-only}])
+  (if read-only
+    [:span.input-readonly value]
+    [:input.field {:type      :text, :value value, :id (pr-str path)
+                   :key       (pr-str path)
+                   :class     (str class " " (if read-only "read-only" ""))
+                   :on-change (if special-change-fn special-change-fn
+                                                    (standard-on-change-for path read-only))
+                   :readOnly  read-only}]))
 
 (rum/defc text-area < rum/static
   [{:keys [path value options read-only]}]
-  [:textarea.field {:id        (pr-str path)
-                    :key       (pr-str path)
-                    :value     value
-                    :class     (if read-only "read-only" "")
-                    :readOnly  read-only
-                    :on-change (standard-on-change-for path read-only)}])
+  (if read-only
+    [:span.input-readonly value]
+    [:textarea.field {:id        (pr-str path)
+                      :key       (pr-str path)
+                      :value     value
+                      :class     (if read-only "read-only" "")
+                      :readOnly  read-only}
+                    :on-change (standard-on-change-for path read-only)]))
 
 (rum/defc single-dropdown < rum/static
   [{:keys [path value options read-only special-change-fn display-fn] :as fieldmap}]
-  [:select.field
-   {:on-change (if special-change-fn
-                 special-change-fn
-                 (standard-read-on-change-for path read-only))
-    :id        (pr-str path)
-    :class     (if read-only "read-only" "")
-    :disabled  read-only
-    :value     value}
-   (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str (pr-str path) "-select-" n)}
-                           (if display-fn
-                             (display-fn a)
-                             (make-pretty a))])
-                options)])
+  (if read-only
+    [:span.input-readonly
+     (if display-fn
+       (display-fn value)
+       (make-pretty value))]
+    [:select.field
+     {:on-change (if special-change-fn
+                   special-change-fn
+                   (standard-read-on-change-for path read-only))
+      :id        (pr-str path)
+      :class     (if read-only "read-only" "")
+      :disabled  read-only
+      :value     value}
+     (map-indexed (fn [n a] [:option {:value (pr-str a), :key (str (pr-str path) "-select-" n)}
+                             (if display-fn
+                               (display-fn a)
+                               (make-pretty a))])
+                  options)]))
 
 (rum/defc number-field < rum/static
   [{:keys [path value options read-only min max] :as fieldmap}]
-  (let [button-fn (partial daistate/change-element! path)]
-    [:.field.number-field
-     [:button {:type :button, :on-click #(button-fn inc)} "+"]
-     [:button {:type :button, :on-click #(button-fn dec)} "-"]
-     [:input
-      {:type      :number
-       :value     value :id (pr-str path) :key (pr-str path)
-       :min       min :max max
-       :readOnly  read-only
-       :on-change (standard-on-change-for path read-only)}]]))
+  (if read-only
+    [:span.input-readonly
+     (str value)]
+    (let [button-fn (partial daistate/change-element! path)]
+      [:.field.number-field
+       [:button {:type :button, :on-click #(button-fn inc)} "+"]
+       [:button {:type :button, :on-click #(button-fn dec)} "-"]
+       [:input
+        {:type      :number
+         :value     value :id (pr-str path) :key (pr-str path)
+         :min       min :max max
+         :readOnly  read-only
+         :on-change (standard-on-change-for path read-only)}]])))
 
 (rum/defc balanced-number-field < rum/static
   [{:keys [path-a path-b value-a value-b read-only min-a min-b max-a max-b label-a label-b] :as fieldmap}]
@@ -700,31 +712,39 @@
                                                                                              :value      (:description a)
                                                                                              :label      "Description"}]))
 
-                                                                        (:intimacies view))
-                                              #_(map-indexed (fn [n a]
-                                                               (fp/mini-form-of
-                                                                 (:description a)
-                                                                 [{:field-type :text,
-                                                                   :label      "Intensity"
-                                                                   :value      (:severity a)
-                                                                   :path       (into path [:intimacies n :severity])
-                                                                   :options    [:defining, :major, :minor]
-                                                                   :class      "first-of-three"
-                                                                   :read-only  true}
-                                                                  (when (= :principle (:type a))
-                                                                    {:field-type :text,
-                                                                     :value      (:type a)
-                                                                     :label      "Type"
-                                                                     :path       (into path [:intimacies n :type])
-                                                                     :class      "second-of-three"
-                                                                     :read-only  true})
-                                                                  {:field-type :text,
-                                                                   :value      (:description a)
-                                                                   :label      "Description"
-                                                                   :path       (into path [:intimacies n :description])
-                                                                   :class      "third-of-three"
-                                                                   :read-only  true}])
-                                                               (:intimacies view)))})
+                                                                        (:intimacies view))})
+                          (fp/soft-table-for {:form-title  "Merits"
+                                              :form-name   "meritinfo"
+                                              :path        (conj path :merits)
+                                              ;:on-add-fn   #(daistate/show-modal :intimacy-add "Add an Intimacy" {:change-path (conj path :intimacies)})
+                                              :new-element {:name "Amputee"
+                                                            :rank 0
+                                                            :note "Head above the neck."}
+                                              :sort-fn     (daiklave.data-help/map-compare-fn-for
+                                                             {:name 100
+                                                              :rank 10
+                                                              :note 1})
+                                              :mini-forms  (map-indexed (fn [n a]
+                                                                          (fp/mini-form-of (:name a)
+                                                                                           [{:field-type :text
+                                                                                             :read-only  true
+                                                                                             :value      (:name a)
+                                                                                             :label      "Name"
+                                                                                             :path (conj path :merits n :name)}
+                                                                                            {:field-type :number
+                                                                                             :value (:rank a)
+                                                                                             :label "Rank"
+                                                                                             :min 0
+                                                                                             :max 5
+                                                                                             :read-only true
+                                                                                             :path (conj path :merits n :rank)}
+                                                                                            {:field-type :text
+                                                                                             :value (:note a)
+                                                                                             :label "Note"
+                                                                                             :path (conj path :merits n :note)
+                                                                                             :read-only true}]))
+                                                                        (:merits view))})
+
                           (fp/form-of "Experience"
                                       "experience-module"
                                       [{:field-type :balanced-number, :label "Regular"
