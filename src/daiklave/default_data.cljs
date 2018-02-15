@@ -26,7 +26,7 @@
                          :archery       charms/archery-charms,
                          :athletics     charms/athletics-charms,
                          :awareness     charms/awareness-charms,
-                         :brawl         [],
+                         :brawl         charms/brawl-charms,
                          :bureaucracy   [],
                          :craft         [],
                          :dodge         [],
