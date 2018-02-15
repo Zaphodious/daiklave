@@ -25,7 +25,7 @@
                          :img           "https://i.imgur.com/Xo9GgHm.png"
                          :archery       charms/archery-charms,
                          :athletics     charms/athletics-charms,
-                         :awareness     [],
+                         :awareness     charms/awareness-charms,
                          :brawl         [],
                          :bureaucracy   [],
                          :craft         [],
