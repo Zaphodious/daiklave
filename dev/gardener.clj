@@ -462,9 +462,11 @@
 
    ;:height (calchelper :100% - :40px)}
 
-
    [:form
     [:* {:padding :.5em}]
+    [:&.mini-form {:padding :0px
+                   :margin :5px
+                   :display :block}]
     [:p
      [:label {:width      (calchelper :20% - :10px)
               :height     (-% 100)
@@ -613,6 +615,7 @@
     [:select {:width :100%}]
     [:input {
              :width (calchelper :100% - :20px)}]]])
+
 
 (gs/defselector page ".page")
 (def desktop-style

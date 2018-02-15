@@ -430,6 +430,12 @@ form * {
   padding: .5em;
 }
 
+form.mini-form {
+  padding: 0px;
+  margin: 5px;
+  display: block;
+}
+
 form p label {
   width: calc(20%  -  10px);
   height: 100.0%;

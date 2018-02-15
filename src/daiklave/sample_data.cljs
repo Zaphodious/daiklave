@@ -67,7 +67,7 @@
                                                      [:lore "Demonology"]]
                               :merits               [{:name "Ambidexterous" :rank 2 :note ""}
                                                      {:name "Claws/Fangs/Hooves/Horns" :rank 4 :note "Claws"}
-                                                     {:nme "Iron Stomach" :rank 1 :note "Once ate a boat"}
+                                                     {:name "Iron Stomach" :rank 1 :note "Once ate a boat"}
                                                      {:name "Language" :rank 1 :note "Riverspeak"}
                                                      {:name "Language" :rank 1 :note "High Realm"}]
                               :intimacies           [{:type :principle, :severity :defining, :feeling "", :description "The Five Truths"}
