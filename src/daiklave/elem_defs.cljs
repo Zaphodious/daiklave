@@ -514,7 +514,7 @@
                                   {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
                                   {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a), :path (conj p :min-ability), :min 1, :max 5,}
                                   {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)},
-                                  {:field-type :number, :label "Page", :value (:page a), :path (conj p :page)}
+                                  {:field-type :text, :label "Page", :value (:page a), :path (conj p :page)}
                                   {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
                                   {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywords)}
                                   {:field-type :text, :label "Duration", :value (:duration a), :path (conj p :duration)}
