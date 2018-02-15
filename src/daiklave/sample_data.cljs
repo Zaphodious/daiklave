@@ -65,6 +65,11 @@
                                                      [:awareness "Indiscretions"]
                                                      [:lore "Desert Legends"]
                                                      [:lore "Demonology"]]
+                              :merits               [{:name "Ambidexterous" :rank 2 :note ""}
+                                                     {:name "Claws/Fangs/Hooves/Horns" :rank 4 :note "Claws"}
+                                                     {:nme "Iron Stomach" :rank 1 :note "Once ate a boat"}
+                                                     {:name "Language" :rank 1 :note "Riverspeak"}
+                                                     {:name "Language" :rank 1 :note "High Realm"}]
                               :intimacies           [{:type :principle, :severity :defining, :feeling "", :description "The Five Truths"}
                                                      {:type :principle, :severity :major, :feeling "", :description "There is no pleasure like a bright pupil"}
                                                      {:type :tie, :severity :major, :feeling "Respect and Fear", :description "The Scarlet Empress"}
@@ -110,6 +115,7 @@
                                                      [:melee "Swords"]
                                                      [:survival "Tracking"]
                                                      [:larceny "Lockpicking"]]
+                              :merits               []
                               :intimacies           [{:type :principle, :severity :defining, :feeling "", :description "I am the strongest"}
                                                      {:type :tie, :severity :major, :feeling "Thrill", :description "The wind at my sails"}
                                                      {:type :tie, :severity :minor, :feeling "Disgust", :description "City folk"}
@@ -155,6 +161,7 @@
                                                   [:performance "Oratory"]
                                                   [:linguistics "Holy Solar Texts"]
                                                   [:awareness "Suprise Attacks"]]
+                              :merits            []
                               :intimacies        [{:type :principle, :severity :defining, :feeling "", :description "He who can, should."}
                                                   {:type :principle, :severity :major, :feeling "", :description "The starting line is straight"}
                                                   {:type :principle, :severity :major, :feeling "", :description "I've Earned My Liberty"}

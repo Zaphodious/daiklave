@@ -93,15 +93,21 @@
               (map second (search-in-map-of-named element-coll query fields))
               (search-in-seq element-coll query fields))})))
 
-(defn get-named-elements [{:keys [thing-name path-before-id id-vec path-after-id relevant-fields]}]
+(defn get-named-elements
+  "Returns a lazy seq of vectors [rulebook-id, any number of matching elements]"
+  [{:keys [thing-name path-before-id id-vec path-after-id exact-match?]}]
   (if (and thing-name path-before-id id-vec)
     (->> id-vec
          (map #(:view (fetch-view-for (vec (concat path-before-id [%] path-after-id)))))
          (map (fn [a] (sp/select
-                        (sp/walker #(str/includes? (str/lower-case (str (:name %))) thing-name))
+                        (sp/walker #(if exact-match?
+                                      (= thing-name (str (:name %)))
+                                      (str/includes? (str/lower-case (str (:name %))) thing-name)))
                         a)))
          (map #(conj %2 %1) id-vec)
-         (map reverse))))
+         (filter second)
+         (map reverse)
+         (map vec))))
 
 
 (defn get-setting-for-key [setting-key]
