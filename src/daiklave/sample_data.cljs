@@ -65,6 +65,7 @@
                                                      [:awareness "Indiscretions"]
                                                      [:lore "Desert Legends"]
                                                      [:lore "Demonology"]]
+                              :merits               [{:name ""}]
                               :intimacies           [{:type :principle, :severity :defining, :feeling "", :description "The Five Truths"}
                                                      {:type :principle, :severity :major, :feeling "", :description "There is no pleasure like a bright pupil"}
                                                      {:type :tie, :severity :major, :feeling "Respect and Fear", :description "The Scarlet Empress"}
