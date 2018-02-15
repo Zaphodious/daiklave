@@ -106,10 +106,13 @@
 
 (def input-background [(url "../img/brushed_metal.png")
                        (linear-gradient
-                         (assoc (gc/darken moon-blue 30) :alpha 0.1)
                          (assoc (gc/lighten sun-gold 20) :alpha 0.4)
                          (assoc (gc/lighten sun-gold 20) :alpha 0.5)
-                         (assoc (gc/lighten moon-blue 50) :alpha 0.7))])
+                         (assoc (gc/lighten sun-gold 30) :alpha 0.5)
+                         (assoc (gc/lighten sun-gold 40) :alpha 0.4))])
+
+
+
 
 
 (def title-color (gc/lighten sun-gold 10))
@@ -124,7 +127,7 @@
 (def title-bar-height "3em")
 (def navshadow "0 0 15px black")
 (def elementshadow (str "0 -3px 10px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
-(def inputshadow (str "0 -2px 5px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
+(def inputshadow (str "inset 0 0px 3px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
 (def buttonshadow (str "0 -2px 10px" (gc/as-hex color-p-dark)))
 (def focusshadow (str "0 -3px 5px" (gc/as-hex color-p-dark)))
 (def focusshadowtext (str "0 -5px 10px" (gc/as-hex color-p-dark)))
@@ -173,9 +176,11 @@
    ;:border-radius (-px 5)}]
    [:input :select :textarea {:background-color :transparent ;(gc/rgba 255 255 255 0.0)
                               :background-image input-background
-                              ;:border-radius :10px
+                              ;:border-radius :9px
                               :box-shadow inputshadow
-                              :border-bottom    :solid
+                              ;:border-bottom    :solid
+                              ;:border-style :double
+                              :border :none
                               :border-width     :1px
                               :border-color     :grey
                               :border-left      :none
@@ -184,11 +189,12 @@
                               :height           (-% 75)
                               :margin-bottom    (-px 3)
                               :margin-left      (-px 5)
+                              :padding :5px
                               :padding-right    0
                               :vertical-align   :bottom}
     ;:margin-left (-px 3)}
     [:&:focus {:outline          :none
-               :box-shadow       :none
+               :box-shadow       elementshadow
                :border-width     :3px
                :border-bottom    :double
                :margin-bottom    (-px 1)
