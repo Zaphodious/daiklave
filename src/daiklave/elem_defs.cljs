@@ -49,8 +49,8 @@
                       :key       (pr-str path)
                       :value     value
                       :class     (if read-only "read-only" "")
-                      :readOnly  read-only}
-                    :on-change (standard-on-change-for path read-only)]))
+                      :readOnly  read-only
+                      :on-change (standard-on-change-for path read-only)}]))
 
 (rum/defc single-dropdown < rum/static
   [{:keys [path value options read-only special-change-fn display-fn] :as fieldmap}]
@@ -525,7 +525,7 @@
                                   {:field-type :select-single, :label "Ability", :value (:ability a), :path (conj p :ability), :options daihelp/ability-all-keys, :read-only true},
                                   {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
                                   {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a), :path (conj p :min-ability), :min 1, :max 5,}
-                                  {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)},
+                                  {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description), :read-only false},
                                   {:field-type :text, :label "Page", :value (:page a), :path (conj p :page)}
                                   {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
                                   {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywords)}
