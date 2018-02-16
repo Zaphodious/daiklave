@@ -1,7 +1,13 @@
 (ns daiklave.default-data
   (:require [daiklave.corebooks.charms :as charms]
-            [daiklave.corebooks.merits :refer [merit-vec]]))
+            [daiklave.corebooks.merits :refer [merit-vec]]
+            [clojure.string :as str]))
 
+(defn- charm-sec [ability img charms]
+  {:name (str/capitalize (name ability))
+   :image img
+   :category :charms
+   :charms charms})
 
 (def core-book
   {:name                "Exalted Core",
