@@ -23,8 +23,8 @@
 ; request map {:element n :fieldtype m :path p}
 (defmethod form-field-for nil [_] nil)
 
-(defmulti modal-for (fn [modal-type modal-args] modal-type))
-(defmethod modal-for nil [_ _] nil)
+(defmulti modal-for :modal-showing)
+(defmethod modal-for nil [_] nil)
 
 (rum/defc page-from-path < rum/reactive
   [viewmap]
@@ -81,7 +81,7 @@
      (when showing-a-modal?
        [:.modal-window [:h3.modal-title modal-title]
         [:.interior
-         (modal-for modal-showing modal-arguments)]])
+         (modal-for modal-map)]])
      (page-menu-assembly patho minimized)
      (if (< 700 (:width (daistate/get-screen-size)))
        [:.pages
@@ -89,9 +89,10 @@
         (page-for-viewmap viewmap)]
        (page-for-viewmap viewmap))]))
 
-(defn modal-interior-for
-  [modal-component buttons]
-  [modal-component
+(rum/defc modal-interior-for < rum/static
+  [{:keys [modal-component buttons] :as modal-args}]
+  [:span
+   modal-component
    [:.button-bar buttons [:button
                           {:on-click #(daistate/change-element! [:modal :modal-showing] :none)}
                           "Cancel"]]])

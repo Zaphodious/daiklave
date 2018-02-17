@@ -813,8 +813,8 @@
                  [:charms :merits :evocations :spells :martial-arts-styles :mundane-weapons]))))
 
 (defmethod fp/modal-for :intimacy-add
-  [_ {:keys [change-path]}]
-  (let [{:keys [intensity feeling description] :as modmap} (:view (daistate/fetch-view-for [:modal]))]
+  [{:keys [change-path intensity feeling description]}]
+  (let []
     (when (nil? intensity)
       (daistate/change-element! [:modal :intensity] :defining))
     (when (nil? feeling)
@@ -822,53 +822,52 @@
     (when (nil? description)
       (daistate/change-element! [:modal :description] ""))
     (fp/modal-interior-for
-      [:.intimacy-add
-       [:p "For principles, please leave 'Feeling' text box blank."]
-       (fp/in-section-form-of
-         "Add Intimacy"
-         [{:field-type :select-single, :label "Intensity"
-           :options    daihelp/intimacy-intensities, :value intensity,
-           :path       [:modal :intensity]}
-          {:field-type :text, :label "Feeling"
-           :value      feeling, :path [:modal :feeling]}
-          {:field-type :big-text, :label "Description",
-           :value      description, :path [:modal :description]}])]
-      [[:button
-        {:on-click
-         #(daistate/apply-modal-and-hide change-path
-                                         (fn [a] (conj a {:severity    intensity
-                                                          :type        (case feeling
-                                                                         "" :principle
-                                                                         "Principle" :principle
-                                                                         "principle" :principle
-                                                                         :tie)
-                                                          :feeling     feeling
-                                                          :description description})))}
-        "Add Intimacy"]])))
+      {:modal-component
+       [:.intimacy-add [:p "For principles, please leave 'Feeling' text box blank."
+                        (fp/in-section-form-of
+                          "Add Intimacy"
+                          [{:field-type :select-single, :label "Intensity"
+                            :options    daihelp/intimacy-intensities, :value intensity,
+                            :path       [:modal :intensity]}
+                           {:field-type :text, :label "Feeling"
+                            :value      feeling, :path [:modal :feeling]}
+                           {:field-type :big-text, :label "Description",
+                            :value      description, :path [:modal :description]}])]]
+       :buttons [[:button
+                  {:on-click
+                   #(daistate/apply-modal-and-hide change-path
+                                                   (fn [a] (conj a {:severity    intensity
+                                                                    :type        (case feeling
+                                                                                   "" :principle
+                                                                                   "Principle" :principle
+                                                                                   "principle" :principle
+                                                                                   :tie)
+                                                                    :feeling     feeling
+                                                                    :description description})))}
+                  "Add Intimacy"]]})))
 
 (defmethod fp/modal-for :rulebook-change-sheet
-  [_ {:keys [change-path]}]
-  (let [{:keys [query selected]} (:view (daistate/fetch-view-for [:modal]))
-        existant-rulebooks (daistate/fetch-view-for change-path)]
+  [{:keys [change-path query selected]}]
+  (let [existant-rulebooks (daistate/fetch-view-for change-path)]
     (fp/modal-interior-for
-      [:.element-search
-       [:input {:type      :text
-                :value     query
-                :on-change (standard-on-change-for [:modal :query] false)}]
-       [:ul
-        (when (not (= "" query))
-          (map (fn [a]
-                 (when (not ((set existant-rulebooks) (:key a)))
-                   [:li {:style    {:background-image (str "url(" (daihelp/thumbnail-for (:img a)) ")")}
-                         :class    (when (= selected (:key a)) "selected")
-                         :on-click (fn []
-                                     (daistate/change-element! [:modal :selected] (:key a)))}
-                    [:.select-title (:name a)]
-                    [:.select-byline (:storyteller a)]
-                    [:.select-contains (get-rulebook-contains a)]]))
-               (:view (daistate/search-in [:rulebooks] query [:name :storyteller]))))]]
-      [[:button
-        {:on-click
-         #(daistate/apply-modal-and-hide change-path
-                                         (fn [a] (conj a (:view (daistate/fetch-view-for [:modal :selected])))))}
-        "Add Selected Rulebook"]])))
+      {:modal-component [:.element-search
+                          [:input {:type      :text
+                                   :value     query
+                                   :on-change (standard-on-change-for [:modal :query] false)}]
+                          [:ul
+                           (when (not (= "" query))
+                             (map (fn [a]
+                                    (when (not ((set existant-rulebooks) (:key a)))
+                                      [:li {:style    {:background-image (str "url(" (daihelp/thumbnail-for (:img a)) ")")}
+                                            :class    (when (= selected (:key a)) "selected")
+                                            :on-click (fn []
+                                                        (daistate/change-element! [:modal :selected] (:key a)))}
+                                       [:.select-title (:name a)]
+                                       [:.select-byline (:storyteller a)]
+                                       [:.select-contains (get-rulebook-contains a)]]))
+                                  (:view (daistate/search-in [:rulebooks] query [:name :storyteller]))))]]
+       :buttons [[:button
+                   {:on-click
+                    #(daistate/apply-modal-and-hide change-path
+                                                    (fn [a] (conj a (:view (daistate/fetch-view-for [:modal :selected])))))}
+                   "Add Selected Rulebook"]]})))

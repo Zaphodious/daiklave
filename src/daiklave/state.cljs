@@ -129,9 +129,10 @@
 (defn show-modal
   [modal-type modal-title modal-arguments-map]
   (change-element! [:modal]
-                   {:modal-showing   modal-type
-                    :modal-arguments modal-arguments-map
-                    :modal-title     modal-title})
+                   (conj
+                     {:modal-showing   modal-type
+                      :modal-title     modal-title}
+                     modal-arguments-map))
   nil)
 
 (defn apply-modal-and-hide
@@ -142,8 +143,8 @@
   ;Hide
   (change-element!
     [:modal]
-    {:modal-showing   :none
-     :modal-arguments {}}))
+    {:modal-showing   :none}))
+
 
 (defn viewmaps-for-children [patho]
   (let [{:keys [path view]
