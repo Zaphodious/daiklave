@@ -187,7 +187,7 @@
     [:p (str (make-pretty (:type view))
              " - "
              (make-pretty (:subtype view)))]]
-   [:img.profile-image {:src (:img view)}]])
+   [:img.profile-image {:src (daihelp/thumbnail-for (:img view))}]])
 
 (rum/defc fixed-seq-selectors < rum/static
   [set-path the-seq options]
@@ -845,7 +845,7 @@
         (when (not (= "" query))
           (map (fn [a]
                  (when (not ((set existant-rulebooks) (:key a)))
-                   [:li {:style    {:background-image (str "url(" (:img a) ")")}
+                   [:li {:style    {:background-image (str "url(" (daihelp/thumbnail-for (:img a)) ")")}
                          :class    (when (= selected (:key a)) "selected")
                          :on-click (fn []
                                      (daistate/change-element! [:modal :selected] (:key a)))}

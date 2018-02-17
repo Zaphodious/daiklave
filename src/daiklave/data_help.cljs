@@ -101,3 +101,17 @@
               (sp/walker #(= (str (:name %)) "Mutant"))
               rulebook-vec))
     rulebook-vec))
+
+(defn get-imgur-img-id [imgur-src]
+  (if (str/includes? imgur-src "imgur")
+    (-> imgur-src
+        (str/split "imgur.com/")
+        last
+        (str/split ".")
+        first)))
+
+(defn thumbnail-for [img-src]
+  (let [imgur-id (get-imgur-img-id img-src)]
+    (if imgur-id
+      (str "http://i.imgur.com/" imgur-id "l.png")
+      img-src)))

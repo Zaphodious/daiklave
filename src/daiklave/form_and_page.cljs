@@ -3,6 +3,7 @@
             [daiklave.state :as daistate]
             [cemerick.url :as url]
             [daiklave.seq :as daiseq]
+            [daiklave.data-help :as daihelp]
             [daiklave.text-to-data :as daitext]
             [daiklave.fragment :as daifrag]
             [clojure.browser.dom :as dom]
@@ -129,7 +130,7 @@
 
    [:.page-content
     [:.page-section.page-header
-     {:style {:background-image (str "url("  img ")")}}
+     {:style {:background-image (str "url("  (daihelp/thumbnail-for img) ")")}}
      (when (not (str/blank? subtitle)) [:h3.page-subtitle subtitle])
      header-content]
     sections]])
