@@ -469,6 +469,48 @@
                          {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:light :medium :heavy]}
                          {:field-type :dots, :label "Cost", :value (:cost a), :path (conj p :cost), :min 0, :max 5,}]))}))
 
+(rum/defc charms-for-ability-page < rum/static
+  [{:keys [path view] :as viewmap}]
+  (let [charm-focus (:type view)]
+    (fp/page-table-for
+      {:page-title         (:name view)
+       :page-subtitle      (:description view)
+       :page-img           (:img view)
+       :path               (conj path :charms)
+       :class              "charms-list-page"
+       :elements          (:charms view)
+       ; :selector-title  "Which Ability"
+       ;:selector-widget (charm-selector path)
+       :text-to-element-fn ttd/charm-to-data
+       :new-element        {:name          "Wise Arrow"
+                            :cost          "1m"
+                            :min-essence   1
+                            :min-ability   2
+                            :category      :charm
+                            :ability       charm-focus
+                            :page          255
+                            :keywords      ""
+                            :type          :supplemental
+                            :duration      "Instant"
+                            :prereq-charms "None"
+                            :description   "Fire an arrow which knows which way is up"}
+       :sort-fn            (daihelp/map-compare-fn-for {:page 5, :min-essence 3, :min-ability 1})
+       :form-fn            (fn [a p]
+                             (fp/form-of
+                               (:name a)
+                               (str (:name a) "-form")
+                               [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
+                                {:field-type :text, :label "Cost", :value (:cost a), :path (conj p :cost)},
+                                {:field-type :select-single, :label "Ability", :value (:ability a), :path (conj p :ability), :options daihelp/ability-all-keys, :read-only true},
+                                {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
+                                {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a), :path (conj p :min-ability), :min 1, :max 5,}
+                                {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description), :read-only false},
+                                {:field-type :text, :label "Page", :value (:page a), :path (conj p :page)}
+                                {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
+                                {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywords)}
+                                {:field-type :text, :label "Duration", :value (:duration a), :path (conj p :duration)}
+                                {:field-type :text, :label "Prereq Charms", :value (:prereq-charms a), :path (conj p :prereq-charms)}
+                                {:field-type :text, :label "Character-Tags Added", :value (daihelp/keyword-vec-to-string (:character-tags a)), :path (conj p :character-tags), :special-change-fn (fn [x] (daistate/change-element! (conj p :character-tags) (daihelp/string-to-keyword-vec (daistate/get-change-value x))))}]))})))
 
 (rum/defc charm-page < rum/static
   [{:keys [path view] :as viewmap}]
@@ -481,61 +523,29 @@
         base-view (:view (daistate/fetch-view-for base-path))]
     (println "base-patho is " base-path)
     (println "base-view is " base-view)
-    (if (= :charms (last path))
-      (fp/page-of {:title    "Charms"
-                   :subtitle "Dingys what shini bois do"
-                   :img      (:img base-view)
-                   :class    "charm-ability-page"
-                   :path     path
-                   :sections (map
-                               (fn [k] (section-link-of (make-pretty k)
-                                                        (str "section-link-for" k)
-                                                        (conj path k)
-                                                        {}))
-                               (conj daihelp/ability-keys :craft))})
-      (fp/page-table-for
-        {:page-title         (make-pretty charm-focus)
-         :page-subtitle      (:description base-view)
-         :page-img           (:img base-view)
-         :path               path
-         :class              "charms-list-page"
-         :elements           (get base-view (last path))
-         ; :selector-title  "Which Ability"
-         ;:selector-widget (charm-selector path)
-         :text-to-element-fn ttd/charm-to-data
-         :new-element        {:name          "Wise Arrow"
-                              :cost          "1m"
-                              :min-essence   1
-                              :min-ability   2
-                              :category      :charm
-                              :ability       charm-focus
-                              :page          255
-                              :keywords      ""
-                              :type          :supplemental
-                              :duration      "Instant"
-                              :prereq-charms "None"
-                              :description   "Fire an arrow which knows which way is up"}
-         :sort-fn            (daihelp/map-compare-fn-for {:page 5, :min-essence 3, :min-ability 1})
-         :form-fn            (fn [a p]
-                               (fp/form-of
-                                 (:name a)
-                                 (str (:name a) "-form")
-                                 [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
-                                  {:field-type :text, :label "Cost", :value (:cost a), :path (conj p :cost)},
-                                  {:field-type :select-single, :label "Ability", :value (:ability a), :path (conj p :ability), :options daihelp/ability-all-keys, :read-only true},
-                                  {:field-type :dots, :label "Min Essence", :value (:min-essence a), :path (conj p :min-essence), :min 1, :max 5,}
-                                  {:field-type :dots, :label (str "Min " (make-pretty (:ability a))), :value (:min-ability a), :path (conj p :min-ability), :min 1, :max 5,}
-                                  {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description), :read-only false},
-                                  {:field-type :text, :label "Page", :value (:page a), :path (conj p :page)}
-                                  {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:simple :supplemental :reflexive :permanent]}
-                                  {:field-type :text, :label "Keywords", :value (:keywords a), :path (conj p :keywords)}
-                                  {:field-type :text, :label "Duration", :value (:duration a), :path (conj p :duration)}
-                                  {:field-type :text, :label "Prereq Charms", :value (:prereq-charms a), :path (conj p :prereq-charms)}
-                                  {:field-type :text, :label "Character-Tags Added", :value (daihelp/keyword-vec-to-string (:character-tags a)), :path (conj p :character-tags), :special-change-fn (fn [x] (daistate/change-element! (conj p :character-tags) (daihelp/string-to-keyword-vec (daistate/get-change-value x))))}]))}))))
+    (fp/page-of {:title    "Charms"
+                 :subtitle "Dingys what shini bois do"
+                 :img      (:img base-view)
+                 :class    "charm-ability-page"
+                 :path     path
+                 :sections (map
+                             (fn [k] (section-link-of (make-pretty k)
+                                                      (str "section-link-for" k)
+                                                      (conj path k)
+                                                      {}))
+                             (conj daihelp/ability-keys :craft))})))
 
 (defmethod fp/page-for-viewmap :charms
   [viewmap]
   (charm-page viewmap))
+
+(defmethod fp/page-for-viewmap :charms-for-ability
+  [viewmap]
+  (charms-for-ability-page viewmap))
+(defmethod fp/page-for-viewmap :charm
+  [viewmap]
+  (charms-for-ability-page viewmap))
+
 
 (defmethod fp/page-for-viewmap :martial-arts-styles
   [{:keys [path view] :as viewmap}]

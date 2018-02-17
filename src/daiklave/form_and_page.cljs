@@ -183,7 +183,7 @@
                                    new-element
                                    (do
                                      (let [stringer @paste-entry
-                                           elem (daitext/charm-to-data stringer)]
+                                           elem (text-to-element-fn stringer)]
                                        (println "to-add-is " stringer)
                                        (println "charmer is " elem)
                                        (reset! paste-entry "")

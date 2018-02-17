@@ -103,7 +103,9 @@
     rulebook-vec))
 
 (defn get-imgur-img-id [imgur-src]
-  (if (str/includes? imgur-src "imgur")
+  (when
+    (and imgur-src
+           (str/includes? imgur-src "imgur"))
     (-> imgur-src
         (str/split "imgur.com/")
         last
