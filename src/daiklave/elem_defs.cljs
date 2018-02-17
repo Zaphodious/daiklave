@@ -531,7 +531,7 @@
                  :sections (map
                              (fn [k] (section-link-of (make-pretty k)
                                                       (str "section-link-for" k)
-                                                      (conj path k)
+                                                      (conj (vec path) k)
                                                       {}))
                              (conj daihelp/ability-keys :craft))})))
 
