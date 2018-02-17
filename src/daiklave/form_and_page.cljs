@@ -163,13 +163,14 @@
     [:.page-section {:class form-name}
      [:h3 form-title]
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
-     (map-indexed (fn [n a]
-                    [:.soft-table-row
-                     [:button.subtract-button
-                      {:on-click (neg-fn-make n)}
-                      "-"]
-                     a])
-                  mini-forms)
+     [:span.row-container
+      (map-indexed (fn [n a]
+                     [:.soft-table-row
+                      [:button.subtract-button
+                       {:on-click (neg-fn-make n)}
+                       "-"]
+                      a])
+                   mini-forms)]
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]))
 ;[page-title page-subtitle page-img page-section-seq]
 

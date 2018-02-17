@@ -763,7 +763,12 @@ button.aggravated {
 
 
 @Supports (grid-template-areas: "...") {
-     .desktop .character-page .page-content {
+     .desktop span.row-container {
+  display: inline-block;
+  width: 100%;
+}
+
+.desktop .character-page .page-content {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
@@ -834,6 +839,10 @@ button.aggravated {
   grid-area: inti;
 }
 
+.desktop .character-page .page-content .meritinfo {
+  grid-area: meri;
+}
+
 .desktop .character-page .page-content .essence-module {
   grid-area: essi;
 }
@@ -859,22 +868,25 @@ button.aggravated {
   .desktop .character-page .page-content {
     grid-template-areas: 
 "head head head head head head head head head"
-"chrn core core core core core core core core"
-"chrn core core core core core core core core"
-"chrn core core core core core core core core"
 ".... .... .... .... .... .... .... .... ...."
+"core core core core core core core core core"
+"core core core core core core core core core"
+"core core core core core core core core core"
+"chrn chrn chrn chrn chrn chrn chrn chrn chrn"
 ".... .... .... .... .... .... .... .... ...."
 "attr attr attr attr attr attr attr attr attr"
-"abil abil abil abil abil favo favo favo favo"
-"abil abil abil abil abil favo favo favo favo"
-"abil abil abil abil abil .... .... .... ...."
-"xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp"
+"abil abil abil abil spec spec spec spec spec"
+"abil abil abil abil spec spec spec spec spec"
+"abil abil abil abil .... .... .... .... ...."
+"abil abil abil abil .... .... .... .... ...."
+"meri meri meri meri meri meri meri meri meri"
+".... .... .... .... .... .... .... .... ...."
 "essi essi essi essi essi essi essi essi essi"
+"xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp"
 "will will will will will will will will will"
 "limt limt limt limt limt limt limt limt limt"
 "heal heal heal heal heal heal heal heal heal"
 ".... .... .... .... .... .... .... .... ...."
-"spec spec spec spec spec spec spec spec spec"
 "inti inti inti inti inti inti inti inti inti"
 "inti inti inti inti inti inti inti inti inti";
   }
@@ -885,6 +897,14 @@ button.aggravated {
     column-count: 2;
   }
   
+  
+  
+  .desktop .character-page .page-content .rulebooks-used span.row-container {
+    display: inline-block;
+    width: 100%;
+    column-count: 3;
+  }
+  
   .desktop .character-page .page-content .coreinfo {
     grid-area: core;
   }
@@ -892,41 +912,22 @@ button.aggravated {
   .desktop .character-page .page-content .coreinfo form {
     column-count: 1;
   }
-
-}
-
-@media (min-width: 900px) {
-
-  .desktop .character-page .page-content {
-    grid-template-areas: 
-"head head head head head head head head head"
-".... .... .... .... .... .... .... .... ...."
-"chrn chrn chrn chrn core core core core core"
-"attr attr attr attr attr attr attr attr attr"
-"abil abil abil abil favo favo favo favo favo"
-"abil abil abil abil favo favo favo favo favo"
-"abil abil abil abil .... .... .... .... ...."
-"xpxp xpxp xpxp xpxp essi essi essi essi essi"
-"will will will will limt limt limt limt limt"
-"heal heal heal heal heal heal heal heal heal"
-".... .... .... .... .... .... .... .... ...."
-"spec spec spec spec spec spec spec spec spec"
-"inti inti inti inti inti inti inti inti inti"
-"inti inti inti inti inti inti inti inti inti";
+  
+  
+  
+  .desktop .character-page .page-content .specialtyinfo input {
+    width: 100%;
+  }
+  
+  .desktop .character-page .page-content .specialtyinfo select {
+    width: 100%;
   }
   
   
   
-  .desktop .character-page .page-content .attributeinfo form {
+  .desktop .character-page .page-content .meritinfo span.row-container {
+    display: inline-block;
     column-count: 2;
-  }
-  
-  .desktop .character-page .page-content .coreinfo {
-    grid-area: core;
-  }
-  
-  .desktop .character-page .page-content .coreinfo form {
-    column-count: 1;
   }
 
 }
@@ -936,28 +937,56 @@ button.aggravated {
   .desktop .character-page .page-content {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-areas: 
-"head head head head head head head head head"
-"chrn chrn chrn core core core core core core"
+"head head head core core core core core core"
 ".... .... .... .... .... .... .... .... ...."
 ".... .... .... .... .... .... .... .... ...."
 "attr attr attr attr attr attr attr attr attr"
-"abil abil abil essi essi essi favo favo favo"
-"abil abil abil essi essi essi favo favo favo"
-"abil abil abil .... .... .... xpxp xpxp xpxp"
+"abil abil abil spec spec spec meri meri meri"
+"abil abil abil spec spec spec meri meri meri"
+"abil abil abil spec spec spec meri meri meri"
+"abil abil abil spec spec spec chrn chrn chrn"
+"abil abil abil spec spec spec chrn chrn chrn"
+"abil abil abil spec spec spec chrn chrn chrn"
+"abil abil abil .... .... .... chrn chrn chrn"
 "abil abil abil .... .... .... .... .... ...."
-"abil abil abil .... .... .... .... .... ...."
+"essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
+".... .... .... .... xpxp xpxp xpxp xpxp xpxp"
 "will will will will limt limt limt limt limt"
 "heal heal heal heal heal heal heal heal heal"
 ".... .... .... .... .... .... .... .... ...."
-"spec spec spec spec inti inti inti inti inti"
-"spec spec spec spec inti inti inti inti inti"
-".... .... .... .... inti inti inti inti inti";
+"inti inti inti inti inti inti inti inti inti"
+"inti inti inti inti inti inti inti inti inti"
+"inti inti inti inti inti inti inti inti inti";
   }
   
   
   
   .desktop .character-page .page-content .attributeinfo form {
     column-count: 3;
+  }
+  
+  
+  
+  .desktop .character-page .page-content .rulebooks-used span.row-container {
+    column-count: 1;
+  }
+  
+  
+  
+  .desktop .character-page .page-content .meritinfo span.row-container {
+    column-count: 1;
+  }
+  
+  
+  
+  .desktop .character-page .page-content .intimacyinfo span.row-container {
+    column-count: 2;
+  }
+  
+  
+  
+  .desktop .character-page .page-content .specialtyinfo span.row-container {
+    column-count: 1;
   }
   
   

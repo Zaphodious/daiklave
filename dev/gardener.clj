@@ -177,10 +177,10 @@
    [:input :select :textarea {:background-color :transparent ;(gc/rgba 255 255 255 0.0)
                               :background-image input-background
                               ;:border-radius :9px
-                              :box-shadow inputshadow
+                              :box-shadow       inputshadow
                               ;:border-bottom    :solid
                               ;:border-style :double
-                              :border :none
+                              :border           :none
                               :border-width     :1px
                               :border-color     :grey
                               :border-left      :none
@@ -189,7 +189,7 @@
                               :height           (-% 75)
                               :margin-bottom    (-px 3)
                               :margin-left      (-px 5)
-                              :padding :5px
+                              :padding          :5px
                               :padding-right    0
                               :vertical-align   :bottom}
     ;:margin-left (-px 3)}
@@ -369,10 +369,10 @@
                             :margin-bottom    (-px (- (* -1 page-content-margin-scalar 6.6) 1))
                             ;:box-shadow       elementshadow
                             :text-align       :right
-                            :z-index 150
-                            :position :relative
-                            :top :5px
-                            :right :5px
+                            :z-index          150
+                            :position         :relative
+                            :top              :5px
+                            :right            :5px
                             :padding          (-px 7)}]
      [:a {:height :auto}]
 
@@ -399,19 +399,19 @@
       [:&.rulebooks-used
        [:input {:width :100%}]]
       [:&.page-header {:background-position :top
-                       :background-size :cover
-                       :min-height :200px}
+                       :background-size     :cover
+                       :min-height          :200px}
        [:p {:background-color (assoc (gc/as-rgb (gc/darken sun-gold 50)) :alpha 0.7)
-            :color (gc/lighten sun-gold 20)
-            :display :block
-            :position :relative
-            :top :10px
-            :margin-bottom :20px
-            :padding :2px
-            :font-size :1.25em}]]
-      [:img {:max-width :50%
+            :color            (gc/lighten sun-gold 20)
+            :display          :block
+            :position         :relative
+            :top              :10px
+            :margin-bottom    :20px
+            :padding          :2px
+            :font-size        :1.25em}]]
+      [:img {:max-width  :50%
              :max-height :500px
-             :overflow  :hidden}]
+             :overflow   :hidden}]
       ;:border-top-right-radius :30px
       ;:border-bottom-left-radius :30px}]
       [:img.banner-image {:display    :block
@@ -457,7 +457,7 @@
        [:ul.field.navlist.hidden {:display :none}]
        [:ul.field.navlist.shown {:display :block}]]]]]
 
-                     ;:box-shadow       :none}]]]
+   ;:box-shadow       :none}]]]
 
 
    ;:height (calchelper :100% - :40px)}
@@ -465,7 +465,7 @@
    [:form
     [:* {:padding :.5em}]
     [:&.mini-form {:padding :0px
-                   :margin :5px
+                   :margin  :5px
                    :display :block}]
     [:p
      [:label {:width      (calchelper :20% - :10px)
@@ -499,8 +499,8 @@
      [:.number-field
       [:input {:width (calchelper :100% - :80px)}]
       [:button {:width :20px}]]
-     [:.read-only {:border           0,}]
-                   ;:background-color color-brightest}]
+     [:.read-only {:border 0,}]
+     ;:background-color color-brightest}]
      [:textarea {:height :3.2em}]]
     [:.mini-label {:display :none}]
 
@@ -612,12 +612,12 @@
      [:label {:margin 0, :padding 0}]
      [:.rank {:width :2em}]
      [:.note {:padding-left 0
-              :margin-left 0}
+              :margin-left  0}
       [:&:before {:content "\"| \""}]]
      [:.name {:width :45%}]]]
 
-              ;:word-wrap :break-word
-              ;:display :inline-block}]]]   ;{:background-color :blue}]]
+   ;:word-wrap :break-word
+   ;:display :inline-block}]]]   ;{:background-color :blue}]]
    [:.intimacyinfo
     [:.soft-table-row]
     ;[:button {:top :-20px}]]
@@ -663,7 +663,8 @@
 (def character-page-desktop-style
   (supports "grid-template-areas: \"...\""
             [:.desktop
-
+             [:span.row-container {:display :inline-block
+                                   :width :100%}]
              [:.character-page
               [:.page-content {:display               :grid
                                :grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}
@@ -689,6 +690,7 @@
                [:.health-track-module {:grid-area "heal"}
                 [:.button-bar {:display :inline-block}]]
                [:.intimacyinfo {:grid-area "inti"}]
+               [:.meritinfo {:grid-area "meri"}]
                [:.essence-module {:grid-area "essi"}
                 [:form {:column-count 1}]]
                [:.willpower-module {:grid-area "will"}]
@@ -697,36 +699,53 @@
               (gss/at-media {:min-width :700px}
                             [:.page-content {:grid-template-areas (grid-area-strings
                                                                     "head head head head head head head head head"
-                                                                    "chrn core core core core core core core core"
-                                                                    "chrn core core core core core core core core"
-                                                                    "chrn core core core core core core core core"
                                                                     ".... .... .... .... .... .... .... .... ...."
+                                                                    "core core core core core core core core core"
+                                                                    "core core core core core core core core core"
+                                                                    "core core core core core core core core core"
+                                                                    "chrn chrn chrn chrn chrn chrn chrn chrn chrn"
                                                                     ".... .... .... .... .... .... .... .... ...."
                                                                     "attr attr attr attr attr attr attr attr attr"
-                                                                    "abil abil abil abil abil favo favo favo favo"
-                                                                    "abil abil abil abil abil favo favo favo favo"
-                                                                    "abil abil abil abil abil .... .... .... ...."
-                                                                    "xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp"
+                                                                    "abil abil abil abil spec spec spec spec spec"
+                                                                    "abil abil abil abil spec spec spec spec spec"
+                                                                    "abil abil abil abil .... .... .... .... ...."
+                                                                    "abil abil abil abil .... .... .... .... ...."
+                                                                    "meri meri meri meri meri meri meri meri meri"
+                                                                    ".... .... .... .... .... .... .... .... ...."
                                                                     "essi essi essi essi essi essi essi essi essi"
+                                                                    "xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp"
                                                                     "will will will will will will will will will"
                                                                     "limt limt limt limt limt limt limt limt limt"
                                                                     "heal heal heal heal heal heal heal heal heal"
                                                                     ".... .... .... .... .... .... .... .... ...."
-                                                                    "spec spec spec spec spec spec spec spec spec"
                                                                     "inti inti inti inti inti inti inti inti inti"
                                                                     "inti inti inti inti inti inti inti inti inti")}
                              [:.attributeinfo
                               [:form {:column-count 2}]]
+                             [:.rulebooks-used
+                              [:span.row-container {:display :inline-block
+                                                    :width :100%
+                                                    :column-count 3}]]
                              [:.coreinfo {:grid-area "core"}
-                              [:form {:column-count 1}]]])
-              (gss/at-media {:min-width :900px}
+                              [:form {:column-count 1}]]
+                             [:.specialtyinfo
+                              [:input {:width :100%}]
+                              [:select {:width :100%}]]
+                             [:.meritinfo
+                              [:span.row-container
+                               {:display :inline-block
+                                :column-count 2}]]])
+              #_(gss/at-media {:min-width :900px}
                             [:.page-content {:grid-template-areas (grid-area-strings
-                                                                    "head head head head head head head head head"
-                                                                    ".... .... .... .... .... .... .... .... ...."
-                                                                    "chrn chrn chrn chrn core core core core core"
+                                                                    "head head head head head chrn chrn chrn chrn"
+                                                                    ".... .... .... .... .... chrn chrn chrn chrn"
+                                                                    "core core core core core core core core core"
                                                                     "attr attr attr attr attr attr attr attr attr"
                                                                     "abil abil abil abil favo favo favo favo favo"
                                                                     "abil abil abil abil favo favo favo favo favo"
+                                                                    "abil abil abil abil meri meri meri meri meri"
+                                                                    "abil abil abil abil chrn chrn chrn chrn chrn"
+                                                                    "abil abil abil abil chrn chrn chrn chrn chrn"
                                                                     "abil abil abil abil .... .... .... .... ...."
                                                                     "xpxp xpxp xpxp xpxp essi essi essi essi essi"
                                                                     "will will will will limt limt limt limt limt"
@@ -742,24 +761,36 @@
               (gss/at-media {:min-width :1100px}
                             [:.page-content {:grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
                                              :grid-template-areas   (grid-area-strings
-                                                                      "head head head head head head head head head"
-                                                                      "chrn chrn chrn core core core core core core"
+                                                                      "head head head core core core core core core"
                                                                       ".... .... .... .... .... .... .... .... ...."
                                                                       ".... .... .... .... .... .... .... .... ...."
                                                                       "attr attr attr attr attr attr attr attr attr"
-                                                                      "abil abil abil essi essi essi favo favo favo"
-                                                                      "abil abil abil essi essi essi favo favo favo"
-                                                                      "abil abil abil .... .... .... xpxp xpxp xpxp"
+                                                                      "abil abil abil spec spec spec meri meri meri"
+                                                                      "abil abil abil spec spec spec meri meri meri"
+                                                                      "abil abil abil spec spec spec meri meri meri"
+                                                                      "abil abil abil spec spec spec chrn chrn chrn"
+                                                                      "abil abil abil spec spec spec chrn chrn chrn"
+                                                                      "abil abil abil spec spec spec chrn chrn chrn"
+                                                                      "abil abil abil .... .... .... chrn chrn chrn"
                                                                       "abil abil abil .... .... .... .... .... ...."
-                                                                      "abil abil abil .... .... .... .... .... ...."
+                                                                      "essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
+                                                                      ".... .... .... .... xpxp xpxp xpxp xpxp xpxp"
                                                                       "will will will will limt limt limt limt limt"
                                                                       "heal heal heal heal heal heal heal heal heal"
                                                                       ".... .... .... .... .... .... .... .... ...."
-                                                                      "spec spec spec spec inti inti inti inti inti"
-                                                                      "spec spec spec spec inti inti inti inti inti"
-                                                                      ".... .... .... .... inti inti inti inti inti")}
+                                                                      "inti inti inti inti inti inti inti inti inti"
+                                                                      "inti inti inti inti inti inti inti inti inti"
+                                                                      "inti inti inti inti inti inti inti inti inti")}
                              [:.attributeinfo
                               [:form {:column-count 3}]]
+                             [:.rulebooks-used
+                              [:span.row-container {:column-count 1}]]
+                             [:.meritinfo
+                              [:span.row-container {:column-count 1}]]
+                             [:.intimacyinfo
+                              [:span.row-container {:column-count 2}]]
+                             [:.specialtyinfo
+                              [:span.row-container {:column-count 1}]]
                              [:.coreinfo
                               [:form {:column-count 2}]]])]]))
 

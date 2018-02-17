@@ -656,7 +656,7 @@
                                                                 [:span.favored.not-selected])})))
 
                                            (sort daihelp/ability-keys)))
-                          (fp/section-of "Favored Abilities"
+                          #_(fp/section-of "Favored Abilities"
                                          "favoredabilities"
                                          ;[set-path the-set element-count options beauty-fn]
                                          (fixed-seq-selectors
