@@ -117,3 +117,30 @@
     (if imgur-id
       (str "http://i.imgur.com/" imgur-id "l.png")
       img-src)))
+
+(def ability-descriptions
+  {:lore "Araaaaabian kniiiiiiiiiiiiiiiights...",
+   :melee "Live by the sword... and kick ass? Sorry, the book is smudged.",
+   :investigation "Elementary, my dear watson",
+   :dodge "Nah nah nah nah, can't hit me",
+   :presence "Excuse me?",
+   :performance "TAAA DAAAAA",
+   :linguistics "I speak five languages, and none have a word for how ugly you are.",
+   :war "What is it good for?",
+   :socialize "Schmoozing and Boozing",
+   :survival "You're the first people I've seen in eons. Want some soup?",
+   :bureaucracy "Three hours later, he had haggled the man down from his pants to his entire house.",
+   :craft "Make it, work it, do it, build it, craft it, nail it, shim, unscrew it",
+   :occult "Spooky spooky skeletons",
+   :resistance "Is that all you got?",
+   :brawl "POW! WHAM! Shing? Nope. No weapons here.",
+   :ride "Hi ho silver. AWAAAAAAAY!",
+   :athletics "We pick the things up and then put them down.",
+   :thrown "I'd come to greet you in person, but having my spear do it is sooooooo much easier.",
+   :archery "Shooti bois make da arrows fly.",
+   :integrity "You knoooooooooow that, my heaaaart will, goooooooooo oooooooooooon",
+   :awareness "Huh?",
+   :larceny "Robin Hood would be proud",
+   :sail "Yo ho ho and a bottle of sake",
+   :medicine "In a world without penicillin...",
+   :stealth "This section does not exist. Shhhhhh"})

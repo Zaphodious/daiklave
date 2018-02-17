@@ -1,15 +1,15 @@
 (ns daiklave.default-data
   (:require [daiklave.corebooks.charms :as charms]
             [daiklave.corebooks.merits :refer [merit-vec]]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [daiklave.data-help :as daihelp]))
 
-(defn- charm-sec [ability description charms]
-  {:name (str/capitalize (name ability))
-   :img (str "img/abilities/" (name ability) ".jpg")
-   :description description
-   :category :charms-for-ability
-   :type ability
-   :charms charms})
+(defn- charm-sec [ability charms]
+  {:name        (str/capitalize (name ability))
+   :img         (str "img/abilities/" (name ability) ".jpg")
+   :category    :charms-for-ability
+   :type        ability
+   :charms      charms})
 
 (def core-book
   {:name                "Exalted Core",
@@ -31,106 +31,31 @@
                          :type          :solar
                          :subtype       :charmlist
                          :img           "https://i.imgur.com/Xo9GgHm.png"
-                         :archery       (charm-sec
-                                          :archery
-                                          "Shooti bois make da arrows fly."
-                                          charms/archery-charms,)
-                         :athletics     (charm-sec
-                                          :athletics
-                                          "We pick the things up and then put them down."
-                                          charms/athletics-charms)
-                         :awareness     (charm-sec
-                                          :awareness
-                                          "Huh?"
-                                          charms/awareness-charms)
-                         :brawl         (charm-sec
-                                          :brawl
-                                          "POW! WHAM! Shing? Nope. No weapons here."
-                                          charms/brawl-charms)
-                         :bureaucracy   (charm-sec
-                                          :bureaucracy
-                                          "Three hours later, he had haggled the man down from his pants to his entire house."
-                                          charms/bureaucracy-charms)
-                         :craft         (charm-sec
-                                          :craft
-                                          "Make it, work it, do it, build it, craft it, nail it, shim, unscrew it"
-                                          [])
-                         :dodge         (charm-sec
-                                          :dodge
-                                          "Nah nah nah nah, can't hit me"
-                                          [])
-                         :integrity     (charm-sec
-                                          :integrity
-                                          "You knoooooooooow that, my heaaaart will, goooooooooo oooooooooooon"
-                                          [])
-                         :investigation (charm-sec
-                                          :investigation
-                                          "Elementary, my dear watson"
-                                          [])
-                         :larceny       (charm-sec
-                                          :larceny
-                                          "Robin Hood would be proud"
-                                          [])
-                         :linguistics   (charm-sec
-                                          :linguistics
-                                          "I speak five languages, and none have a word for how ugly you are."
-                                          [])
-                         :lore          (charm-sec
-                                          :lore
-                                          "Araaaaabian kniiiiiiiiiiiiiiiights..."
-                                          [])
-                         :medicine      (charm-sec
-                                          :medicine
-                                          "In a world without penicillin..."
-                                          [])
-                         :melee         (charm-sec
-                                          :melee
-                                          "Live by the sword... and kick ass? Sorry, the book is smudged."
-                                          [])
-                         :occult        (charm-sec
-                                          :occult
-                                          "Spooky spooky skeletons"
-                                          [])
-                         :performance   (charm-sec
-                                          :performance
-                                          "TAAA DAAAAA"
-                                          [])
-                         :presence      (charm-sec
-                                          :presence
-                                          "Excuse me?"
-                                          [])
-                         :resistance    (charm-sec
-                                          :resistance
-                                          "Is that all you got?"
-                                          [])
-                         :ride          (charm-sec
-                                          :ride
-                                          "Hi ho silver. AWAAAAAAAY!"
-                                          [])
-                         :sail          (charm-sec
-                                          :sail
-                                          "Yo ho ho and a bottle of sake"
-                                          [])
-                         :socialize     (charm-sec
-                                          :socialize
-                                          "Schmoozing and Boozing"
-                                          [])
-                         :stealth       (charm-sec
-                                          :stealth
-                                          "This section does not exist. Shhhhhh"
-                                          [])
-                         :survival      (charm-sec
-                                          :survival
-                                          "You're the first people I've seen in eons. Want some soup?"
-                                          [])
-                         :thrown        (charm-sec
-                                          :thrown
-                                          "I'd come to greet you in person, but having my spear do it is sooooooo much easier."
-                                          [])
-                         :war           (charm-sec
-                                          :war
-                                          "What is it good for?"
-                                          [])}
+                         :archery       (charm-sec :archery charms/archery-charms,)
+                         :athletics     (charm-sec :athletics charms/athletics-charms)
+                         :awareness     (charm-sec :awareness charms/awareness-charms)
+                         :brawl         (charm-sec :brawl charms/brawl-charms)
+                         :bureaucracy   (charm-sec :bureaucracy charms/bureaucracy-charms)
+                         :craft         (charm-sec :craft [])
+                         :dodge         (charm-sec :dodge [])
+                         :integrity     (charm-sec :integrity [])
+                         :investigation (charm-sec :investigation [])
+                         :larceny       (charm-sec :larceny [])
+                         :linguistics   (charm-sec :linguistics [])
+                         :lore          (charm-sec :lore [])
+                         :medicine      (charm-sec :medicine [])
+                         :melee         (charm-sec :melee [])
+                         :occult        (charm-sec :occult [])
+                         :performance   (charm-sec :performance [])
+                         :presence      (charm-sec :presence [])
+                         :resistance    (charm-sec :resistance [])
+                         :ride          (charm-sec :ride [])
+                         :sail          (charm-sec :sail [])
+                         :socialize     (charm-sec :socialize [])
+                         :stealth       (charm-sec :stealth [])
+                         :survival      (charm-sec :survival [])
+                         :thrown        (charm-sec :thrown [])
+                         :war           (charm-sec :war [])}
    :mundane-weapons     {:name        "Mundane Weapons"
                          :description "Weapons what the normies use"
                          :category    :mundane-weapons
@@ -190,33 +115,32 @@
    :img         "https://imgur.com/4EqEWzB.jpg"
    :description "Published by Onyx Path",
    :charms      {:name          "Charms"
-                         :category      :charms
-                         :type          :solar
-                         :subtype       :charmlist
-                         :img           "https://i.imgur.com/Xo9GgHm.png"
-                         :archery       []
-                         :athletics     charms/athletics-miracles,
-                         :awareness     [],
-                         :brawl         [],
-                         :bureaucracy   [],
-                         :craft         [],
-                         :dodge         [],
-                         :integrity     [],
-                         :investigation [],
-                         :larceny       [],
-                         :linguistics   [],
-                         :lore          [],
-                         :martial-arts  [],
-                         :medicine      [],
-                         :melee         [],
-                         :occult        [],
-                         :performance   [],
-                         :presence      [],
-                         :resistance    [],
-                         :ride          [],
-                         :sail          [],
-                         :socialize     [],
-                         :stealth       [],
-                         :survival      [],
-                         :thrown        [],
-                         :war           []}})
+                 :category      :charms
+                 :type          :solar
+                 :subtype       :charmlist
+                 :img           "https://i.imgur.com/Xo9GgHm.png"
+                 :archery       (charm-sec :archery [])
+                 :athletics     (charm-sec :athletics charms/athletics-miracles)
+                 :awareness     (charm-sec :awareness [])
+                 :brawl         (charm-sec :brawl [])
+                 :bureaucracy   (charm-sec :bureaucracy [])
+                 :craft         (charm-sec :craft [])
+                 :dodge         (charm-sec :dodge [])
+                 :integrity     (charm-sec :integrity [])
+                 :investigation (charm-sec :investigation [])
+                 :larceny       (charm-sec :larceny [])
+                 :linguistics   (charm-sec :linguistics [])
+                 :lore          (charm-sec :lore [])
+                 :medicine      (charm-sec :medicine [])
+                 :melee         (charm-sec :melee [])
+                 :occult        (charm-sec :occult [])
+                 :performance   (charm-sec :performance [])
+                 :presence      (charm-sec :presence [])
+                 :resistance    (charm-sec :resistance [])
+                 :ride          (charm-sec :ride [])
+                 :sail          (charm-sec :sail [])
+                 :socialize     (charm-sec :socialize [])
+                 :stealth       (charm-sec :stealth [])
+                 :survival      (charm-sec :survival [])
+                 :thrown        (charm-sec :thrown [])
+                 :war           (charm-sec :war [])}})

@@ -474,11 +474,11 @@
   (let [charm-focus (:type view)]
     (fp/page-table-for
       {:page-title         (:name view)
-       :page-subtitle      (:description view)
+       :page-subtitle      (get daihelp/ability-descriptions (:type view))
        :page-img           (:img view)
        :path               (conj path :charms)
        :class              "charms-list-page"
-       :elements          (:charms view)
+       :elements           (:charms view)
        ; :selector-title  "Which Ability"
        ;:selector-widget (charm-selector path)
        :text-to-element-fn ttd/charm-to-data
@@ -488,7 +488,7 @@
                             :min-ability   2
                             :category      :charm
                             :ability       charm-focus
-                            :page          255
+                            :page          "255"
                             :keywords      ""
                             :type          :supplemental
                             :duration      "Instant"
