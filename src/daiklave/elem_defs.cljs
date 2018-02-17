@@ -33,7 +33,7 @@
 (rum/defc text-field < rum/static
   [{:keys [path value options read-only class special-change-fn]}]
   (if read-only
-    [:span.input-readonly value]
+    [:span.input-readonly {:class class} value]
     [:input.field {:type      :text, :value value, :id (pr-str path)
                    :key       (pr-str path)
                    :class     (str class " " (if read-only "read-only" ""))
@@ -74,9 +74,10 @@
                   options)]))
 
 (rum/defc number-field < rum/static
-  [{:keys [path value options read-only min max] :as fieldmap}]
+  [{:keys [path value options read-only min max class] :as fieldmap}]
   (if read-only
     [:span.input-readonly
+     {:class class}
      (str value)]
     (let [button-fn (partial daistate/change-element! path)]
       [:.field.number-field
@@ -736,21 +737,24 @@
                                                               :note 1})
                                               :mini-forms  (map-indexed (fn [n a]
                                                                           (fp/mini-form-of (:name a)
-                                                                                           [{:field-type :text
-                                                                                             :read-only  true
-                                                                                             :value      (:name a)
-                                                                                             :label      "Name"
-                                                                                             :path (conj path :merits n :name)}
-                                                                                            {:field-type :number
+                                                                                           [{:field-type :number
                                                                                              :value (:rank a)
                                                                                              :label "Rank"
+                                                                                             :class "rank"
                                                                                              :min 0
                                                                                              :max 5
                                                                                              :read-only true
                                                                                              :path (conj path :merits n :rank)}
                                                                                             {:field-type :text
+                                                                                             :read-only  true
+                                                                                             :value      (:name a)
+                                                                                             :label      "Name"
+                                                                                             :class "name"
+                                                                                             :path (conj path :merits n :name)}
+                                                                                            {:field-type :text
                                                                                              :value (:note a)
                                                                                              :label "Note"
+                                                                                             :class "note"
                                                                                              :path (conj path :merits n :note)
                                                                                              :read-only true}]))
                                                                         (:merits view))})

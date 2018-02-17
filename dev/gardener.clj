@@ -607,6 +607,17 @@
     [:button {:position :absolute
               :top      :5px
               :left     :5px}]]
+   [:.meritinfo
+    [:.soft-table-row
+     [:label {:margin 0, :padding 0}]
+     [:.rank {:width :2em}]
+     [:.note {:padding-left 0
+              :margin-left 0}
+      [:&:before {:content "\"| \""}]]
+     [:.name {:width :45%}]]]
+
+              ;:word-wrap :break-word
+              ;:display :inline-block}]]]   ;{:background-color :blue}]]
    [:.intimacyinfo
     [:.soft-table-row]
     ;[:button {:top :-20px}]]

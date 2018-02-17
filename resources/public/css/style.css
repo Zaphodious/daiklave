@@ -694,6 +694,28 @@ button.aggravated {
   left: 5px;
 }
 
+.meritinfo .soft-table-row label {
+  margin: 0;
+  padding: 0;
+}
+
+.meritinfo .soft-table-row .rank {
+  width: 2em;
+}
+
+.meritinfo .soft-table-row .note {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.meritinfo .soft-table-row .note:before {
+  content: "| ";
+}
+
+.meritinfo .soft-table-row .name {
+  width: 45%;
+}
+
 .intimacyinfo .soft-table-row {
 
 }
