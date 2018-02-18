@@ -211,16 +211,18 @@ body {
   display: block;
 }
 
-#app-frame .modal-window .element-search ul li .select-byline:before {
-  content: "By: ";
-}
-
 #app-frame .modal-window .element-search ul li .select-contains {
   max-width: calc(100%  -  25px);
 }
 
-#app-frame .modal-window .element-search ul li .select-contains:before {
-  content: "Contains: ";
+#app-frame .modal-window .merit-modal-interior ul {
+  bottom: 170px;
+}
+
+#app-frame .modal-window .merit-modal-interior form {
+  position: absolute;
+  bottom: 45px;
+  width: 100%;
 }
 
 #app-frame .menu-assembly {

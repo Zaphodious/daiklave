@@ -109,6 +109,20 @@
          (map reverse)
          (map vec))))
 
+(defn put-id-into-named-elements
+  [[id & elems]]
+  (map #(assoc % :parent-id id) elems))
+
+(defn remove-later-duplicates
+  [unique-field-key element-seq]
+  (let [unique-atom (atom #{})]
+    (filter
+      (fn [a]
+        (let [unique-field (get a unique-field-key)]
+          (when (not (@unique-atom unique-field))
+            (do (swap! unique-atom #(conj % unique-field))
+                true))))
+      element-seq)))
 
 (defn get-setting-for-key [setting-key]
   (:view (fetch-view-for [:settings setting-key])))

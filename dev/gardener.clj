@@ -300,10 +300,15 @@
           :padding          :3px
           :overflow         :wrap}
          [:&:after {:display :block}]]
-        [:.select-byline [:&:before {:content "\"By: \""}]]
+        ;[:.select-byline [:&:before {:content "\"By: \""}]]
         [:.select-contains
-         {:max-width (calchelper :100% - :25px)}
-         [:&:before {:content "\"Contains: \""}]]]]]]
+         {:max-width (calchelper :100% - :25px)}]]]]
+         ;[:&:before {:content "\"Contains: \""}]]]]]
+     [:.merit-modal-interior
+      [:ul {:bottom :170px}]
+      [:form {:position :absolute
+              :bottom :45px
+              :width :100%}]]]
 
     [:.menu-assembly {:position :absolute
                       :width    :100%}

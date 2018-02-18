@@ -108,21 +108,26 @@
 
 
 (rum/defc dot-field < rum/static
-  [{:keys [path value options read-only min max aux-widget] :as fieldmap}]
+  [{:keys [path value options read-only min max aux-widget on-change] :as fieldmap}]
   [:.field
    (when (daistate/get-setting-for-key :show-accessibility)
      [:input.dot-entry
       {:type      :number
        :value     value :id (pr-str path) :key (pr-str path)
        :min       min :max max
-       :on-change (standard-on-change-for path read-only)}])
+       :on-change (if on-change on-change
+                    (standard-on-change-for path read-only))}])
    (when aux-widget aux-widget)
    [:p.dot-bar
     (map (fn [a] (if (or (< (dec a) value) (= value 0))
                    [:span.active-dot {:key      (str "dot-active " a)
-                                      :on-click #(daistate/change-element! path a)}]
+                                      :on-click #(if on-change
+                                                   (on-change a)
+                                                   (daistate/change-element! path a))}]
                    [:span.inactive-dot {:key      (str "dot-inactive " a)
-                                        :on-click #(daistate/change-element! path a)}]))
+                                        :on-click #(if on-change
+                                                     (on-change a)
+                                                     (daistate/change-element! path a))}]))
          (range 1 (inc max)))]])
 
 (defn- make-merit-ranks-field-data
@@ -727,7 +732,14 @@
                           (fp/soft-table-for {:form-title  "Merits"
                                               :form-name   "meritinfo"
                                               :path        (conj path :merits)
-                                              ;:on-add-fn   #(daistate/show-modal :intimacy-add "Add an Intimacy" {:change-path (conj path :intimacies)})
+                                              :on-add-fn   #(daistate/show-modal
+                                                              :merit-add
+                                                              "Add a Merit"
+                                                              {:change-path (conj path :merits)
+                                                               :rulebook-ids (:rulebooks view)
+                                                               :query ""
+                                                               :dots 1
+                                                               :note ""})
                                               :new-element {:name "Amputee"
                                                             :rank 0
                                                             :note "Head above the neck."}
@@ -857,8 +869,8 @@
                                  (map (fn [a]
                                         {:title (:name a)
                                          :img (:img a)
-                                         :byline (:storyteller a)
-                                         :detail (get-rulebook-contains a)
+                                         :byline (str "By: " (:storyteller a))
+                                         :detail (str "Contains: "(get-rulebook-contains a))
                                          :key (:key a)})
                                    (:view (daistate/search-in [:rulebooks] query [:name :storyteller])))}))
        :buttons [[:button
@@ -866,3 +878,70 @@
                     #(daistate/apply-modal-and-hide change-path
                                                     (fn [a] (conj a (:view (daistate/fetch-view-for [:modal :selected])))))}
                    "Add Selected Rulebook"]]})))
+
+;[thing-name path-before-id id-vec path-after-id exact-match?]
+(defmethod fp/modal-for :merit-add
+  [{:keys [change-path query selected rulebook-ids dots note selected-full] :as modal-map}]
+  (fp/modal-interior-for
+    {:modal-component
+     [:.merit-modal-interior
+      (fp/modal-search-component
+                        (into modal-map
+                              {:on-query-change (standard-on-change-for [:modal :query] false)
+                               :element-data
+                               (when (not (= "" query))
+                                (map (fn [{:keys [name parent-id description] :as a}]
+                                       (let [{:keys [img storyteller] :as rulebook rulebook-name :name}
+                                             (:view (daistate/fetch-view-for [:rulebooks parent-id]))]
+                                         {:title name
+                                          :img img
+                                          :byline (str "By: " storyteller)
+                                          :detail (reduce #(str %1 " " %2) (take 9 (str/split description #" ")))
+                                          :key name
+                                          :element-full a}))
+                                     (->>  {:thing-name query
+                                            :path-before-id [:rulebooks]
+                                            :path-after-id [:merits :merit-vec]
+                                            :id-vec rulebook-ids
+                                            :exact-match? false}
+                                       (daistate/get-named-elements)
+                                       (map daistate/put-id-into-named-elements)
+                                       (reduce conj))))}))
+      (fp/in-section-form-of "Merit Details To Add"
+                             [{:field-type :dots
+                               :label "Rank"
+                               :value dots
+                               :min 0
+                               :max 5
+                               :path [:modal :dots]
+                               :on-change (fn [a]
+                                            (println "\uD83C\uDF88\n\n\n dots are now going to be...")
+                                            (daistate/change-element! [:modal :dots]
+                                                                      (if ((:ranks selected-full) a)
+                                                                        a
+                                                                        (first (sort (vec (:ranks selected-full)))))))}
+                              {:field-type :big-text
+                               :value (str note)
+                               :label "Note"
+                               :path [:modal :note]
+                               :on-change (standard-on-change-for [:modal :note] false)}])]
+     :buttons [[:button
+                {:on-click
+                 #(daistate/apply-modal-and-hide change-path
+                                                 (fn [a]
+                                                   (conj a
+                                                         (let [{:keys [selected dots note]} (:view (daistate/fetch-view-for [:modal]))]
+                                                              {:name selected
+                                                               :rank dots
+                                                               :note note}))))}
+                "Add This Merit"]]}))
+
+[:description
+ :confers-merits
+ :name
+ :upgrading
+ :type
+ :page
+ :repurchasable
+ :character-tags
+ :ranks]
