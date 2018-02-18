@@ -240,3 +240,21 @@
   [:.page-section {:class section-name}
    [:h3 section-title]
    section-comp])
+
+(rum/defc modal-search-component
+  [{:keys [change-path query on-query-change selected element-data] :as modal-map}]
+  [:.element-search
+   [:input {:type      :text
+            :value     query
+            :on-change on-query-change}]
+   [:ul
+    (when (not (= "" query))
+      (map (fn [{:keys [title img byline detail key]}]
+             [:li {:style    {:background-image (str "url(" (daihelp/thumbnail-for img) ")")}
+                   :class    (when (and selected key (= selected key)) "selected")
+                   :on-click (fn []
+                               (daistate/change-element! [:modal :selected] key))}
+              [:.select-title title]
+              [:.select-byline byline]
+              [:.select-contains detail]])
+           element-data))]])

@@ -847,25 +847,20 @@
                   "Add Intimacy"]]})))
 
 (defmethod fp/modal-for :rulebook-change-sheet
-  [{:keys [change-path query selected]}]
+  [{:keys [change-path query selected] :as modal-map}]
   (let [existant-rulebooks (daistate/fetch-view-for change-path)]
     (fp/modal-interior-for
-      {:modal-component [:.element-search
-                          [:input {:type      :text
-                                   :value     query
-                                   :on-change (standard-on-change-for [:modal :query] false)}]
-                          [:ul
-                           (when (not (= "" query))
-                             (map (fn [a]
-                                    (when (not ((set existant-rulebooks) (:key a)))
-                                      [:li {:style    {:background-image (str "url(" (daihelp/thumbnail-for (:img a)) ")")}
-                                            :class    (when (= selected (:key a)) "selected")
-                                            :on-click (fn []
-                                                        (daistate/change-element! [:modal :selected] (:key a)))}
-                                       [:.select-title (:name a)]
-                                       [:.select-byline (:storyteller a)]
-                                       [:.select-contains (get-rulebook-contains a)]]))
-                                  (:view (daistate/search-in [:rulebooks] query [:name :storyteller]))))]]
+      {:modal-component (fp/modal-search-component
+                          (into modal-map
+                                {:on-query-change (standard-on-change-for [:modal :query] false)
+                                 :element-data
+                                 (map (fn [a]
+                                        {:title (:name a)
+                                         :img (:img a)
+                                         :byline (:storyteller a)
+                                         :detail (get-rulebook-contains a)
+                                         :key (:key a)})
+                                   (:view (daistate/search-in [:rulebooks] query [:name :storyteller])))}))
        :buttons [[:button
                    {:on-click
                     #(daistate/apply-modal-and-hide change-path
