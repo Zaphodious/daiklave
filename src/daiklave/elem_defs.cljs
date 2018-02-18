@@ -119,7 +119,7 @@
                     (standard-on-change-for path read-only))}])
    (when aux-widget aux-widget)
    [:p.dot-bar
-    (map (fn [a] (if (or (< (dec a) value) (= value 0))
+    (map (fn [a] (if (and (< (dec a) value) (not (= a 0)))
                    [:span.active-dot {:key      (str "dot-active " a)
                                       :on-click #(if on-change
                                                    (on-change a)
@@ -128,7 +128,9 @@
                                         :on-click #(if on-change
                                                      (on-change a)
                                                      (daistate/change-element! path a))}]))
-         (range 1 (inc max)))]])
+         (range
+           min
+           (inc max)))]])
 
 (defn- make-merit-ranks-field-data
   [{:keys [path value readonly] :as fieldmap}]
@@ -890,13 +892,13 @@
                               {:on-query-change (standard-on-change-for [:modal :query] false)
                                :element-data
                                (when (not (= "" query))
-                                (map (fn [{:keys [name parent-id description] :as a}]
+                                (map (fn [{:keys [name parent-id description ranks] :as a}]
                                        (let [{:keys [img storyteller] :as rulebook rulebook-name :name}
                                              (:view (daistate/fetch-view-for [:rulebooks parent-id]))]
                                          {:title name
                                           :img img
-                                          :byline (str "By: " storyteller)
-                                          :detail (reduce #(str %1 " " %2) (take 9 (str/split description #" ")))
+                                          :byline (str "Possible Ranks: " ranks)
+                                          :detail (str "Description: "(reduce #(str %1 " " %2) (take 9 (str/split description #" "))))
                                           :key name
                                           :element-full a}))
                                      (->>  {:thing-name query
