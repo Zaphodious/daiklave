@@ -901,7 +901,7 @@
                                           :detail (str "Description: "(reduce #(str %1 " " %2) (take 9 (str/split description #" "))))
                                           :key name
                                           :element-full a}))
-                                     (->>  {:thing-name query
+                                     (->>  {:thing-name (str/lower-case query)
                                             :path-before-id [:rulebooks]
                                             :path-after-id [:merits :merit-vec]
                                             :id-vec rulebook-ids
