@@ -74,7 +74,12 @@
                                                      {:type :principle, :severity :major, :feeling "", :description "There is no pleasure like a bright pupil"}
                                                      {:type :tie, :severity :major, :feeling "Respect and Fear", :description "The Scarlet Empress"}
                                                      {:type :tie, :severity :minor, :feeling "Gratitude", :description "Amon the Demon's Head"}
-                                                     {:type :tie, :severity :minor, :feeling "Profound Discomfort", :description "The Owl Screaming In Torment"}]}
+                                                     {:type :tie, :severity :minor, :feeling "Profound Discomfort", :description "The Owl Screaming In Torment"}]
+                              :charms               ["Graceful Crane Stance"
+                                                     "Monkey Leap Technique"
+                                                     "Sensory Acuity Prana"
+                                                     "Keen Sight Technique"
+                                                     "Frugal Merchant Method"]}
 
                 "963963963"  {:name                 "Alkaia",
                               :long-description     "Of the Lykopis"
@@ -119,7 +124,12 @@
                               :intimacies           [{:type :principle, :severity :defining, :feeling "", :description "I am the strongest"}
                                                      {:type :tie, :severity :major, :feeling "Thrill", :description "The wind at my sails"}
                                                      {:type :tie, :severity :minor, :feeling "Disgust", :description "City folk"}
-                                                     {:type :tie, :severity :minor, :feeling "Distrust", :description "Rajmael"}]}
+                                                     {:type :tie, :severity :minor, :feeling "Distrust", :description "Rajmael"}]
+                              :charms               ["Wise Arrow"
+                                                     "Increasing Strength Exercise"
+                                                     "Fists of Iron Technique"
+                                                     "Ferocious Jab"
+                                                     "Heaven Thunder Hammer"]}
 
                 "789789789"  {:name              "Daesh",
                               :description       "The Greastest Olympian"
@@ -166,7 +176,16 @@
                                                   {:type :principle, :severity :major, :feeling "", :description "The starting line is straight"}
                                                   {:type :principle, :severity :major, :feeling "", :description "I've Earned My Liberty"}
                                                   {:type :tie, :severity :minor, :feeling "Rush", :description "The wind as I run is the voice of my mother"}
-                                                  {:type :tie, :severity :minor, :feeling "Distaste", :description "The cheater's victory of the bane of my father"}]}}
+                                                  {:type :tie, :severity :minor, :feeling "Distaste", :description "The cheater's victory of the bane of my father"}]
+                              :charms               ["Ferocious Jab"
+                                                     "Heaven Thunder Hammer"
+                                                     "Lightning Speed"
+                                                     "Racing Hare Method"
+                                                     "Winning Stride Discipline"
+                                                     "Arete-Driven Marathod Stride"
+                                                     "One Extra Step"
+                                                     "Whirlwind Approach"
+                                                     "Hurricane Spirit Speed"]}}
 
    :rulebooks  {:name        "Rulebooks"
                 :category    :rulebooks
