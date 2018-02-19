@@ -102,7 +102,7 @@
          (map (fn [a] (sp/select
                         (sp/walker #(if exact-match?
                                       (= thing-name (str (:name %)))
-                                      (str/includes? (str/lower-case (str (:name %))) thing-name)))
+                                      (str/includes? (str/lower-case (str (:name %))) (str/lower-case thing-name))))
                         a)))
          (map #(conj %2 %1) id-vec)
          (filter second)
