@@ -815,17 +815,60 @@
                                 (fp/soft-table-for {:form-title  "Charms"
                                                     :form-name   "charminfo"
                                                     :path        (conj path :charms)
-                                                    :new-element "Ox Body"
-                                                    :mini-forms (map-indexed (fn [n a]
-                                                                               (fp/mini-form-of
-                                                                                 a
-                                                                                 [{:field-type :text
-                                                                                   :read-only true
-                                                                                   :value a
-                                                                                   :path (conj path :charms n)}]))
+                                                    :new-element "Wise Arrow"
+                                                    :sort-fn compare
+                                                    :mini-forms  (map-indexed (fn [n a]
+                                                                                (let [[book-id charm]
+                                                                                      (->> {:thing-name     a
+                                                                                            :path-before-id [:rulebooks]
+                                                                                            :id-vec         (:rulebooks view)
+                                                                                            :path-after-id  [:charms]
+                                                                                            :exact-match?   true}
+                                                                                           (daistate/get-named-elements)
+                                                                                           first)]
+                                                                                  (println "Charm is " charm)
+                                                                                  (fp/mini-form-of
+                                                                                    a
+                                                                                    [{:field-type :text
+                                                                                      :read-only  true
+                                                                                      :label      "Ability"
+                                                                                      :value      (make-pretty (:ability charm))}
+                                                                                     {:field-type :text
+                                                                                      :read-only  true
+                                                                                      :value      a
+                                                                                      :label      "Charm Name"
+                                                                                      :path       (conj path :charms n)}
+                                                                                     {:field-type :text
+                                                                                      :read-only  true
+                                                                                      :label      "Type"
+                                                                                      :value      (make-pretty (:type charm))}
+                                                                                     {:field-type :text
+                                                                                      :read-only  true
+                                                                                      :label      "Cost"
+                                                                                      :value      (:cost charm)}
+                                                                                     {:field-type :text
+                                                                                      :read-only  true
+                                                                                      :label      "Duration"
+                                                                                      :value      (:duration charm)}
+                                                                                     {:field-type :text
+                                                                                      :read-only  true
+                                                                                      :label      "Book"
+                                                                                      :value      (:view (daistate/fetch-view-for [:rulebooks book-id :name]))}
+                                                                                     {:field-type :text
+                                                                                      :read-only  true
+                                                                                      :label      "Page"
+                                                                                      :value     (:page charm)}
+                                                                                     {:field-type :text
+                                                                                      :read-only  true
+                                                                                      :label      "Description"
+                                                                                      :value      (str (->> charm
+                                                                                                            (:description)
+                                                                                                            (take 40)
+                                                                                                            (reduce str))
+                                                                                                       "...")}])))
 
 
-                                                                             (:charms view))})
+                                                                              (:charms view))})
 
                                 (fp/section-of "Health Track"
                                                "health-track-module"
