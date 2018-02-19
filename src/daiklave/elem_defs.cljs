@@ -815,8 +815,17 @@
                                 (fp/soft-table-for {:form-title  "Charms"
                                                     :form-name   "charminfo"
                                                     :path        (conj path :charms)
-                                                    :new-element "Ox Body"})
+                                                    :new-element "Ox Body"
+                                                    :mini-forms (map-indexed (fn [n a]
+                                                                               (fp/mini-form-of
+                                                                                 a
+                                                                                 [{:field-type :text
+                                                                                   :read-only true
+                                                                                   :value a
+                                                                                   :path (conj path :charms n)}]))
 
+
+                                                                             (:charms view))})
 
                                 (fp/section-of "Health Track"
                                                "health-track-module"
