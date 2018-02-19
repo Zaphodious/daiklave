@@ -695,6 +695,7 @@
                [:.health-track-module {:grid-area "heal"}
                 [:.button-bar {:display :inline-block}]]
                [:.intimacyinfo {:grid-area "inti"}]
+               [:.charminfo {:grid-area "char"}]
                [:.meritinfo {:grid-area "meri"}]
                [:.essence-module {:grid-area "essi"}
                 [:form {:column-count 1}]]
@@ -724,7 +725,8 @@
                                                                     "heal heal heal heal heal heal heal heal heal"
                                                                     ".... .... .... .... .... .... .... .... ...."
                                                                     "inti inti inti inti inti inti inti inti inti"
-                                                                    "inti inti inti inti inti inti inti inti inti")}
+                                                                    "inti inti inti inti inti inti inti inti inti"
+                                                                    "char char char char char char char char char")}
                              [:.attributeinfo
                               [:form {:column-count 2}]]
                              [:.rulebooks-used
@@ -785,7 +787,8 @@
                                                                       ".... .... .... .... .... .... .... .... ...."
                                                                       "inti inti inti inti inti inti inti inti inti"
                                                                       "inti inti inti inti inti inti inti inti inti"
-                                                                      "inti inti inti inti inti inti inti inti inti")}
+                                                                      "inti inti inti inti inti inti inti inti inti"
+                                                                      "char char char char char char char char char")}
                              [:.attributeinfo
                               [:form {:column-count 3}]]
                              [:.rulebooks-used

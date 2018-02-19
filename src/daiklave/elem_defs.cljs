@@ -594,228 +594,233 @@
 
 (defmethod fp/page-for-viewmap :character
   [{:keys [path view] :as viewmap}]
-  (fp/page-of {:title    (:name view)
-               :subtitle (:description view)
+  (fp/page-of {:title          (:name view)
+               :subtitle       (:description view)
                :header-content [:.info-header
                                 [:p (str (make-pretty (:type view)) " Exalted")]
                                 [:p (str (make-pretty (:supernal view)) " Supernal " (make-pretty (:subtype view)))]
                                 [:p (:long-description view)]]
-               :img      (:img view)
-               :class    "character-page"
-               :path     path
+               :img            (:img view)
+               :class          "character-page"
+               :path           path
                :sections
-                         [(fp/form-of
-                            "Information"
-                            "coreinfo"
-                            [{:field-type :text, :label "Name", :value (:name view), :path (conj path :name)}
-                             {:field-type :text, :label "Concept", :value (:description view), :path (conj path :description)}
-                             {:field-type :big-text, :label "Description", :value (:long-description view), :path (conj path :long-description)}
-                             {:field-type :text, :label "Player", :value (:player view), :path (conj path :player)}
-                             {:field-type :select-single, :label "Type", :value (:type view), :path (conj path :type), :options [:solar, :mortal], :read-only (not (= :mortal (:type view)))}
-                             {:field-type :text, :label "Image", :value (:img view), :path (conj path :img)}
-                             {:field-type :big-text, :label "Anima", :value (:anima view), :path (conj path :anima), :read-only (= :mortal (:type view))}
-                             {:field-type :select-single, :label "Caste", :value (:subtype view), :path (conj path :subtype), :options [:dawn, :eclipse, :night, :twilight, :zenith]}
-                             {:field-type :select-single :label "Supernal" :read-only (= :mortal (:type view)) :path (conj path :supernal), :value (:supernal view), :options (into [] (set/intersection (set (:favored-abilities view)) (get daihelp/caste-abilities (:subtype view))))}])
+                               [(fp/form-of
+                                  "Information"
+                                  "coreinfo"
+                                  [{:field-type :text, :label "Name", :value (:name view), :path (conj path :name)}
+                                   {:field-type :text, :label "Concept", :value (:description view), :path (conj path :description)}
+                                   {:field-type :big-text, :label "Description", :value (:long-description view), :path (conj path :long-description)}
+                                   {:field-type :text, :label "Player", :value (:player view), :path (conj path :player)}
+                                   {:field-type :select-single, :label "Type", :value (:type view), :path (conj path :type), :options [:solar, :mortal], :read-only (not (= :mortal (:type view)))}
+                                   {:field-type :text, :label "Image", :value (:img view), :path (conj path :img)}
+                                   {:field-type :big-text, :label "Anima", :value (:anima view), :path (conj path :anima), :read-only (= :mortal (:type view))}
+                                   {:field-type :select-single, :label "Caste", :value (:subtype view), :path (conj path :subtype), :options [:dawn, :eclipse, :night, :twilight, :zenith]}
+                                   {:field-type :select-single :label "Supernal" :read-only (= :mortal (:type view)) :path (conj path :supernal), :value (:supernal view), :options (into [] (set/intersection (set (:favored-abilities view)) (get daihelp/caste-abilities (:subtype view))))}])
 
 
-                          ;[form-title form-name path new-element sort-fn mini-forms]
-                          (fp/soft-table-for {:form-title  "Rulebooks Used"
-                                              :form-name   "rulebooks-used"
-                                              :path        (conj path :rulebooks)
-                                              :new-element "0"
-                                              :sort-fn     compare
-                                              :on-add-fn   #(daistate/show-modal :rulebook-change-sheet "Select a Rulebook" {:change-path (conj path :rulebooks)})
-                                              :mini-forms
-                                                           (map-indexed (fn [n a]
-                                                                          (fp/mini-form-of (-> (daistate/fetch-view-for [:rulebooks a]) :view :name)
-                                                                                           [{:field-type :text
-                                                                                             :read-only  true
-                                                                                             :label      "Rulebook Used"
-                                                                                             :value      (->> a (conj [:rulebooks]) daistate/fetch-view-for :view :name str)
-                                                                                             :path       (conj path :rulebooks n)
-                                                                                             :class      "single-selector"}]))
-                                                                        ;:display-fn (fn [a] (->> a (conj [:rulebooks]) daistate/fetch-view-for :view :name str))}]))
-                                                                        ;:options    (->> [:rulebooks] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
-                                                                        (:rulebooks view))})
-                          (fp/form-of "Attributes"
-                                      "attributeinfo"
-                                      (map (fn [[k v]]
-                                             {:field-type :dots,
-                                              :label      (make-pretty k)
-                                              :value      v, :path (into path [:attributes k])
-                                              :min        1 :max 5})
-                                           (daihelp/sort-attribute-map (:attributes view))))
-                          (fp/form-of "Abilities"
-                                      "abilityinfo"
-                                      (map (fn [k]
-                                             (let [-v (-> view :abilities k)
-                                                   v (if -v -v 0)]
-                                               (when (or (daistate/get-setting-for-key :show-unused)
-                                                         (not (= v 0)))
-                                                 {:field-type :dots,
-                                                  :label      (make-pretty k)
-                                                  :class      "ability"
-                                                  :value      v, :path (into path [:abilities k])
-                                                  :min        0 :max 5
-                                                  :aux-widget (if ((set (:favored-abilities view)) k)
-                                                                [:span.favored.selected
-                                                                 {:class (:subtype view)}]
-                                                                [:span.favored.not-selected])})))
+                                ;[form-title form-name path new-element sort-fn mini-forms]
+                                (fp/soft-table-for {:form-title  "Rulebooks Used"
+                                                    :form-name   "rulebooks-used"
+                                                    :path        (conj path :rulebooks)
+                                                    :new-element "0"
+                                                    :sort-fn     compare
+                                                    :on-add-fn   #(daistate/show-modal :rulebook-change-sheet "Select a Rulebook" {:change-path (conj path :rulebooks)})
+                                                    :mini-forms
+                                                                 (map-indexed (fn [n a]
+                                                                                (fp/mini-form-of (-> (daistate/fetch-view-for [:rulebooks a]) :view :name)
+                                                                                                 [{:field-type :text
+                                                                                                   :read-only  true
+                                                                                                   :label      "Rulebook Used"
+                                                                                                   :value      (->> a (conj [:rulebooks]) daistate/fetch-view-for :view :name str)
+                                                                                                   :path       (conj path :rulebooks n)
+                                                                                                   :class      "single-selector"}]))
+                                                                              ;:display-fn (fn [a] (->> a (conj [:rulebooks]) daistate/fetch-view-for :view :name str))}]))
+                                                                              ;:options    (->> [:rulebooks] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
+                                                                              (:rulebooks view))})
+                                (fp/form-of "Attributes"
+                                            "attributeinfo"
+                                            (map (fn [[k v]]
+                                                   {:field-type :dots,
+                                                    :label      (make-pretty k)
+                                                    :value      v, :path (into path [:attributes k])
+                                                    :min        1 :max 5})
+                                                 (daihelp/sort-attribute-map (:attributes view))))
+                                (fp/form-of "Abilities"
+                                            "abilityinfo"
+                                            (map (fn [k]
+                                                   (let [-v (-> view :abilities k)
+                                                         v (if -v -v 0)]
+                                                     (when (or (daistate/get-setting-for-key :show-unused)
+                                                               (not (= v 0)))
+                                                       {:field-type :dots,
+                                                        :label      (make-pretty k)
+                                                        :class      "ability"
+                                                        :value      v, :path (into path [:abilities k])
+                                                        :min        0 :max 5
+                                                        :aux-widget (if ((set (:favored-abilities view)) k)
+                                                                      [:span.favored.selected
+                                                                       {:class (:subtype view)}]
+                                                                      [:span.favored.not-selected])})))
 
-                                           (sort daihelp/ability-keys)))
-                          #_(fp/section-of "Favored Abilities"
-                                         "favoredabilities"
-                                         ;[set-path the-set element-count options beauty-fn]
-                                         (fixed-seq-selectors
-                                           (conj path :favored-abilities)
-                                           (:favored-abilities view)
-                                           daihelp/ability-all-keys))
-                          (fp/soft-table-for {:form-title  "Specialties"
-                                              :form-name   "specialtyinfo"
-                                              :path        (conj path :specialties)
-                                              :new-element [(:supernal view) "Doing Awesome Things"]
-                                              :sort-fn     compare
-                                              :mini-forms
-                                                           (map-indexed (fn [n a]
-                                                                          (fp/mini-form-of
-                                                                            (last a)
-                                                                            [{:field-type :select-single,
-                                                                              :label      "Ability"
-                                                                              :value      (first a)
-                                                                              :path       (into path [:specialties n 0])
-                                                                              :options    daihelp/ability-all-keys
-                                                                              :class      "first-of-three"}
-                                                                             {:field-type :text,
-                                                                              :value      (second a)
-                                                                              :label      "Description"
-                                                                              :path       (into path [:specialties n 1])
-                                                                              :class      "third-of-three"}]))
-                                                                        (:specialties view))})
-                          (fp/form-of "Limit"
-                                      "limit-info"
-                                      [{:field-type :text
-                                        :label      "Trigger"
-                                        :value      (-> view :limit :trigger)
-                                        :path       (conj path :limit :trigger)}
-                                       {:field-type :dots
-                                        :label      "Accrued"
-                                        :value      (-> view :limit :accrued)
-                                        :path       (conj path :limit :accrued)
-                                        :min        0 :max 10}])
-                          (fp/soft-table-for {:form-title  "Intimacies"
-                                              :form-name   "intimacyinfo"
-                                              :path        (conj path :intimacies)
-                                              :on-add-fn   #(daistate/show-modal :intimacy-add "Add an Intimacy" {:change-path (conj path :intimacies)})
-                                              :new-element {:type        :tie
-                                                            :severity    :major
-                                                            :feeling     "Disgust"
-                                                            :description "Fighting without honor"}
-                                              :sort-fn     (daiklave.data-help/map-compare-fn-for
-                                                             {:severity    100
-                                                              :description 10})
-                                              :mini-forms  (map-indexed (fn [n a]
-                                                                          (fp/mini-form-of (:description a)
-                                                                                           [{:field-type :select-single
-                                                                                             :value      (:severity a)
-                                                                                             :label      "Intensity"
-                                                                                             :read-only  true
-                                                                                             :options    daihelp/intimacy-intensities}
-                                                                                            (when (= :tie (:type a))
-                                                                                              {:field-type :text
-                                                                                               :read-only  true
-                                                                                               :value      (:feeling a)
-                                                                                               :label      "Feeling"})
-                                                                                            {:field-type :text
-                                                                                             :read-only  true
-                                                                                             :value      (:description a)
-                                                                                             :label      "Description"}]))
+                                                 (sort daihelp/ability-keys)))
+                                #_(fp/section-of "Favored Abilities"
+                                                 "favoredabilities"
+                                                 ;[set-path the-set element-count options beauty-fn]
+                                                 (fixed-seq-selectors
+                                                   (conj path :favored-abilities)
+                                                   (:favored-abilities view)
+                                                   daihelp/ability-all-keys))
+                                (fp/soft-table-for {:form-title  "Specialties"
+                                                    :form-name   "specialtyinfo"
+                                                    :path        (conj path :specialties)
+                                                    :new-element [(:supernal view) "Doing Awesome Things"]
+                                                    :sort-fn     compare
+                                                    :mini-forms
+                                                                 (map-indexed (fn [n a]
+                                                                                (fp/mini-form-of
+                                                                                  (last a)
+                                                                                  [{:field-type :select-single,
+                                                                                    :label      "Ability"
+                                                                                    :value      (first a)
+                                                                                    :path       (into path [:specialties n 0])
+                                                                                    :options    daihelp/ability-all-keys
+                                                                                    :class      "first-of-three"}
+                                                                                   {:field-type :text,
+                                                                                    :value      (second a)
+                                                                                    :label      "Description"
+                                                                                    :path       (into path [:specialties n 1])
+                                                                                    :class      "third-of-three"}]))
+                                                                              (:specialties view))})
+                                (fp/form-of "Limit"
+                                            "limit-info"
+                                            [{:field-type :text
+                                              :label      "Trigger"
+                                              :value      (-> view :limit :trigger)
+                                              :path       (conj path :limit :trigger)}
+                                             {:field-type :dots
+                                              :label      "Accrued"
+                                              :value      (-> view :limit :accrued)
+                                              :path       (conj path :limit :accrued)
+                                              :min        0 :max 10}])
+                                (fp/soft-table-for {:form-title  "Intimacies"
+                                                    :form-name   "intimacyinfo"
+                                                    :path        (conj path :intimacies)
+                                                    :on-add-fn   #(daistate/show-modal :intimacy-add "Add an Intimacy" {:change-path (conj path :intimacies)})
+                                                    :new-element {:type        :tie
+                                                                  :severity    :major
+                                                                  :feeling     "Disgust"
+                                                                  :description "Fighting without honor"}
+                                                    :sort-fn     (daiklave.data-help/map-compare-fn-for
+                                                                   {:severity    100
+                                                                    :description 10})
+                                                    :mini-forms  (map-indexed (fn [n a]
+                                                                                (fp/mini-form-of (:description a)
+                                                                                                 [{:field-type :select-single
+                                                                                                   :value      (:severity a)
+                                                                                                   :label      "Intensity"
+                                                                                                   :read-only  true
+                                                                                                   :options    daihelp/intimacy-intensities}
+                                                                                                  (when (= :tie (:type a))
+                                                                                                    {:field-type :text
+                                                                                                     :read-only  true
+                                                                                                     :value      (:feeling a)
+                                                                                                     :label      "Feeling"})
+                                                                                                  {:field-type :text
+                                                                                                   :read-only  true
+                                                                                                   :value      (:description a)
+                                                                                                   :label      "Description"}]))
 
-                                                                        (:intimacies view))})
-                          (fp/soft-table-for {:form-title  "Merits"
-                                              :form-name   "meritinfo"
-                                              :path        (conj path :merits)
-                                              :on-add-fn   #(daistate/show-modal
-                                                              :merit-add
-                                                              "Add a Merit"
-                                                              {:change-path (conj path :merits)
-                                                               :rulebook-ids (:rulebooks view)
-                                                               :query ""
-                                                               :dots 1
-                                                               :note ""})
-                                              :new-element {:name "Amputee"
-                                                            :rank 0
-                                                            :note "Head above the neck."}
-                                              :sort-fn     (daiklave.data-help/map-compare-fn-for
-                                                             {:name 100
-                                                              :rank 10
-                                                              :note 1})
-                                              :mini-forms  (map-indexed (fn [n a]
-                                                                          (fp/mini-form-of (:name a)
-                                                                                           [{:field-type :number
-                                                                                             :value (:rank a)
-                                                                                             :label "Rank"
-                                                                                             :class "rank"
-                                                                                             :min 0
-                                                                                             :max 5
-                                                                                             :read-only true
-                                                                                             :path (conj path :merits n :rank)}
-                                                                                            {:field-type :text
-                                                                                             :read-only  true
-                                                                                             :value      (:name a)
-                                                                                             :label      "Name"
-                                                                                             :class "name"
-                                                                                             :path (conj path :merits n :name)}
-                                                                                            {:field-type :text
-                                                                                             :value (:note a)
-                                                                                             :label "Note"
-                                                                                             :class "note"
-                                                                                             :path (conj path :merits n :note)
-                                                                                             :read-only true}]))
-                                                                        (:merits view))})
+                                                                              (:intimacies view))})
+                                (fp/soft-table-for {:form-title  "Merits"
+                                                    :form-name   "meritinfo"
+                                                    :path        (conj path :merits)
+                                                    :on-add-fn   #(daistate/show-modal
+                                                                    :merit-add
+                                                                    "Add a Merit"
+                                                                    {:change-path  (conj path :merits)
+                                                                     :rulebook-ids (:rulebooks view)
+                                                                     :query        ""
+                                                                     :dots         1
+                                                                     :note         ""})
+                                                    :new-element {:name "Amputee"
+                                                                  :rank 0
+                                                                  :note "Head above the neck."}
+                                                    :sort-fn     (daiklave.data-help/map-compare-fn-for
+                                                                   {:name 100
+                                                                    :rank 10
+                                                                    :note 1})
+                                                    :mini-forms  (map-indexed (fn [n a]
+                                                                                (fp/mini-form-of (:name a)
+                                                                                                 [{:field-type :number
+                                                                                                   :value      (:rank a)
+                                                                                                   :label      "Rank"
+                                                                                                   :class      "rank"
+                                                                                                   :min        0
+                                                                                                   :max        5
+                                                                                                   :read-only  true
+                                                                                                   :path       (conj path :merits n :rank)}
+                                                                                                  {:field-type :text
+                                                                                                   :read-only  true
+                                                                                                   :value      (:name a)
+                                                                                                   :label      "Name"
+                                                                                                   :class      "name"
+                                                                                                   :path       (conj path :merits n :name)}
+                                                                                                  {:field-type :text
+                                                                                                   :value      (:note a)
+                                                                                                   :label      "Note"
+                                                                                                   :class      "note"
+                                                                                                   :path       (conj path :merits n :note)
+                                                                                                   :read-only  true}]))
+                                                                              (:merits view))})
 
-                          (fp/form-of "Experience"
-                                      "experience-module"
-                                      [{:field-type :balanced-number, :label "Regular"
-                                        :value-a    (-> view :xp :spent), :path-a (conj path :xp :spent), :min-a 1, :max-a 1000000, :label-a "Spent"
-                                        :value-b    (-> view :xp :wallet), :path-b (conj path :xp :wallet), :min-b 0, :max-b 1000000, :label-b "Unspent"}
-                                       {:field-type :number, :label "Solar", :value (-> view :xp :solar), :min 0, :max 100000, :path (conj path :xp :solar)}
-                                       {:field-type :number, :label "Silver", :value (-> view :xp :silver), :min 0, :max 100000, :path (conj path :xp :silver)}
-                                       {:field-type :number, :label "Gold", :value (-> view :xp :gold), :min 0, :max 100000, :path (conj path :xp :gold)}
-                                       {:field-type :number, :label "White", :value (-> view :xp :white), :min 0, :max 100000, :path (conj path :xp :white)}])
-                          (let [{essence-view :view essence-path :path} (daistate/fetch-view-for (conj path :essence))
-                                essence-expanded (daihelp/inflate-essence-map essence-view)]
-                            (fp/form-of "Essence"
-                                        "essence-module"
-                                        [{:field-type :dots, :label "Rating", :min 1, :max 5, :value (:rating essence-expanded), :path (conj essence-path :rating)}
-                                         #_{:field-type :balanced-number, :label "XP",
-                                            :value-a    (:xp-spent essence-expanded), :path-a (conj essence-path :xp-spent), :min-a 1, :max-a 1000000, :label-a "Spent"
-                                            :value-b    (:xp-wallet essence-expanded), :path-b (conj essence-path :xp-wallet), :min-b 0, :max-b 1000000, :label-b "Unspent"}
+                                (fp/form-of "Experience"
+                                            "experience-module"
+                                            [{:field-type :balanced-number, :label "Regular"
+                                              :value-a    (-> view :xp :spent), :path-a (conj path :xp :spent), :min-a 1, :max-a 1000000, :label-a "Spent"
+                                              :value-b    (-> view :xp :wallet), :path-b (conj path :xp :wallet), :min-b 0, :max-b 1000000, :label-b "Unspent"}
+                                             {:field-type :number, :label "Solar", :value (-> view :xp :solar), :min 0, :max 100000, :path (conj path :xp :solar)}
+                                             {:field-type :number, :label "Silver", :value (-> view :xp :silver), :min 0, :max 100000, :path (conj path :xp :silver)}
+                                             {:field-type :number, :label "Gold", :value (-> view :xp :gold), :min 0, :max 100000, :path (conj path :xp :gold)}
+                                             {:field-type :number, :label "White", :value (-> view :xp :white), :min 0, :max 100000, :path (conj path :xp :white)}])
+                                (let [{essence-view :view essence-path :path} (daistate/fetch-view-for (conj path :essence))
+                                      essence-expanded (daihelp/inflate-essence-map essence-view)]
+                                  (fp/form-of "Essence"
+                                              "essence-module"
+                                              [{:field-type :dots, :label "Rating", :min 1, :max 5, :value (:rating essence-expanded), :path (conj essence-path :rating)}
+                                               #_{:field-type :balanced-number, :label "XP",
+                                                  :value-a    (:xp-spent essence-expanded), :path-a (conj essence-path :xp-spent), :min-a 1, :max-a 1000000, :label-a "Spent"
+                                                  :value-b    (:xp-wallet essence-expanded), :path-b (conj essence-path :xp-wallet), :min-b 0, :max-b 1000000, :label-b "Unspent"}
 
-                                         {:field-type :balanced-number, :label "Personal",
-                                          :value-a    (:essence-personal-remaining essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Remaining"
-                                          :value-b    (:motes-spent-personal essence-expanded), :path-b (conj essence-path :motes-spent-personal), :min-b 0, :max-b 1000000, :label-b "Spent"}
-                                         #_{:field-type :balanced-number, :label "Pool",
-                                            :value-a    (:essence-max-personal essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
-                                            :value-b    (:motes-committed-personal essence-expanded), :path-b (conj essence-path :motes-committed-personal), :min-b 0, :max-b 1000000, :label-b "Committed"}
+                                               {:field-type :balanced-number, :label "Personal",
+                                                :value-a    (:essence-personal-remaining essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Remaining"
+                                                :value-b    (:motes-spent-personal essence-expanded), :path-b (conj essence-path :motes-spent-personal), :min-b 0, :max-b 1000000, :label-b "Spent"}
+                                               #_{:field-type :balanced-number, :label "Pool",
+                                                  :value-a    (:essence-max-personal essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
+                                                  :value-b    (:motes-committed-personal essence-expanded), :path-b (conj essence-path :motes-committed-personal), :min-b 0, :max-b 1000000, :label-b "Committed"}
 
-                                         {:field-type :balanced-number, :label "Peripheral",
-                                          :value-a    (:essence-peripheral-remaining essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Remaining"
-                                          :value-b    (:motes-spent-peripheral essence-expanded), :path-b (conj essence-path :motes-spent-peripheral), :min-b 0, :max-b 1000000, :label-b "Spent"}
-                                         #_{:field-type :balanced-number, :label "Pool",
-                                            :value-a    (:essence-max-peripheral essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
-                                            :value-b    (:motes-committed-peripheral essence-expanded), :path-b (conj essence-path :motes-committed-peripheral), :min-b 0, :max-b 1000000, :label-b "Committed"}
-                                         {:field-type :number, :label "Committed", :min 0, :max (:essence-peripheral-remaining essence-expanded), :value (:motes-committed-peripheral essence-expanded), :path (conj essence-path :motes-committed-peripheral)}]))
+                                               {:field-type :balanced-number, :label "Peripheral",
+                                                :value-a    (:essence-peripheral-remaining essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Remaining"
+                                                :value-b    (:motes-spent-peripheral essence-expanded), :path-b (conj essence-path :motes-spent-peripheral), :min-b 0, :max-b 1000000, :label-b "Spent"}
+                                               #_{:field-type :balanced-number, :label "Pool",
+                                                  :value-a    (:essence-max-peripheral essence-expanded), :path-a nil, :min-a 1, :max-a 1000000, :label-a "Max"
+                                                  :value-b    (:motes-committed-peripheral essence-expanded), :path-b (conj essence-path :motes-committed-peripheral), :min-b 0, :max-b 1000000, :label-b "Committed"}
+                                               {:field-type :number, :label "Committed", :min 0, :max (:essence-peripheral-remaining essence-expanded), :value (:motes-committed-peripheral essence-expanded), :path (conj essence-path :motes-committed-peripheral)}]))
 
-                          (fp/form-of "Willpower"
-                                      "willpower-module"
-                                      [{:field-type :number, :label "Max", :value (-> view :willpower :max), :path (conj path :willpower :max)},
-                                       {:field-type :balanced-number, :label "Temporary",
-                                        :value-a    (- (-> view :willpower :max) (-> view :willpower :temporary)), :path-a nil, :min-a 1, :max-a 10, :label-a "Remaining"
-                                        :value-b    (-> view :willpower :temporary), :path-b (conj path :willpower :temporary), :min-b 0, :max-b 1000000, :label-b "Spent"}])
+                                (fp/form-of "Willpower"
+                                            "willpower-module"
+                                            [{:field-type :number, :label "Max", :value (-> view :willpower :max), :path (conj path :willpower :max)},
+                                             {:field-type :balanced-number, :label "Temporary",
+                                              :value-a    (- (-> view :willpower :max) (-> view :willpower :temporary)), :path-a nil, :min-a 1, :max-a 10, :label-a "Remaining"
+                                              :value-b    (-> view :willpower :temporary), :path-b (conj path :willpower :temporary), :min-b 0, :max-b 1000000, :label-b "Spent"}])
+                                (fp/soft-table-for {:form-title  "Charms"
+                                                    :form-name   "charminfo"
+                                                    :path        (conj path :charms)
+                                                    :new-element "Ox Body"})
 
-                          (fp/section-of "Health Track"
-                                         "health-track-module"
-                                         (health-track {:path (conj path :health-module) :view (:health-module view)}))]}))
+
+                                (fp/section-of "Health Track"
+                                               "health-track-module"
+                                               (health-track {:path (conj path :health-module) :view (:health-module view)}))]}))
 
 ;[path value options key name]
 
