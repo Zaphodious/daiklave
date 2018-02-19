@@ -154,7 +154,7 @@
 
 
 (rum/defc soft-table-for < rum/static
-  [{:keys [form-title form-name path new-element sort-fn mini-forms on-add-fn] :as table-map}]
+  [{:keys [form-title form-name path new-element sort-fn mini-forms table-row-data on-add-fn] :as table-map}]
   (let [neg-fn-make (fn [n] (fn [] (daistate/change-element! path #(daiseq/remove-nth % n))))
         add-fn (fn []
                  (let [elem (if on-add-fn (on-add-fn) new-element)]
@@ -164,14 +164,30 @@
     [:.page-section {:class form-name}
      [:h3 form-title]
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
-     [:span.row-container
-      (map-indexed (fn [n a]
-                     [:.soft-table-row
-                      [:button.subtract-button
-                       {:on-click (neg-fn-make n)}
-                       "-"]
-                      a])
-                   mini-forms)]
+     (when mini-forms
+       [:span.row-container
+        (map-indexed (fn [n a]
+                       [:.soft-table-row
+                        [:button.subtract-button
+                         {:on-click (neg-fn-make n)}
+                         "-"]
+                        a])
+                     mini-forms)])
+     (when table-row-data
+       [:table
+        [:tbody
+         [:tr [:th "Remove"]
+          (map (fn [a] [:th (:label a)]) (first table-row-data))]
+         (map-indexed (fn [n a]
+                        [:tr
+                         [:td [:button.subtract-button
+                                {:on-click (neg-fn-make n)}
+                                "-"]]
+                         (map (fn [b]
+                                [:td (form-field-for b)])
+                              a)])
+              table-row-data)]])
+
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]))
 ;[page-title page-subtitle page-img page-section-seq]
 
