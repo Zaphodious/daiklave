@@ -125,6 +125,7 @@
                                                    (on-change a)
                                                    (daistate/change-element! path a))}]
                    [:span.inactive-dot {:key      (str "dot-inactive " a)
+                                        :class (when (= a 0) "zero-dot")
                                         :on-click #(if on-change
                                                      (on-change a)
                                                      (daistate/change-element! path a))}]))

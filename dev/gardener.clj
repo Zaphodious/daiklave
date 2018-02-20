@@ -518,12 +518,21 @@
                ;:margin  (-px (/ 2 page-content-margin-scalar))
                :align   :center}
       [:.dot-entry {:width (-em 2.5)}]
-      [:.dot-bar {:display :inline-block}]
-      [:.inactive-dot :.active-dot {:margin 0, :padding (-px 0)}]
-      [:.inactive-dot
-       [:&:before {:content "\"⚪\""}]]
-      [:.active-dot
-       [:&:before {:content "\"⚫\""}]]
+      [:.dot-bar {:display :inline-block
+                  :height :20px
+                  :padding-top :5px}]
+      [:.inactive-dot :.active-dot {:margin 0,
+                                    :padding (-px 0)
+                                    :display :inline-block
+                                    :width :20px
+                                    :height :20px
+                                    :background-position :center
+                                    :background-size :cover}]
+      [:.inactive-dot {:background-image (url "../img/dot_empty.png")}]
+       ;[:&:before {:content "\"⚪\""}]]
+      [:.active-dot {:background-image (url "../img/dot_full.png")}]
+       ;[:&:before {:content "\"⚫\""}]]
+      [:.zero-dot {:background-image (url "../img/dot_bar.png")}]
       [:.favored {:display             :inline-block
                   :width               :20px
                   :height              :20px

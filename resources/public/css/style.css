@@ -528,19 +528,30 @@ form p .field .dot-entry {
 
 form p .field .dot-bar {
   display: inline-block;
+  height: 20px;
+  padding-top: 5px;
 }
 
 form p .field .inactive-dot, form p .field .active-dot {
   margin: 0;
   padding: 0.0px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-position: center;
+  background-size: cover;
 }
 
-form p .field .inactive-dot:before {
-  content: "⚪";
+form p .field .inactive-dot {
+  background-image: url(../img/dot_empty.png);
 }
 
-form p .field .active-dot:before {
-  content: "⚫";
+form p .field .active-dot {
+  background-image: url(../img/dot_full.png);
+}
+
+form p .field .zero-dot {
+  background-image: url(../img/dot_bar.png);
 }
 
 form p .field .favored {
