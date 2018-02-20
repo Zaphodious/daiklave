@@ -528,8 +528,18 @@ form p .field .dot-entry {
 
 form p .field .dot-bar {
   display: inline-block;
-  height: 20px;
+  height: 10px;
   padding-top: 5px;
+  position: relative;
+  top: 10px;
+}
+
+form p .field button {
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  border-radius: 10px;
+  margin-top: 0;
 }
 
 form p .field .inactive-dot, form p .field .active-dot {

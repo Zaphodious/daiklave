@@ -519,8 +519,15 @@
                :align   :center}
       [:.dot-entry {:width (-em 2.5)}]
       [:.dot-bar {:display :inline-block
-                  :height :20px
-                  :padding-top :5px}]
+                  :height :10px
+                  :padding-top :5px
+                  :position :relative
+                  :top :10px}]
+      [:button {:height :20px
+                :width :20px
+                :padding 0
+                :border-radius :10px
+                :margin-top 0}]
       [:.inactive-dot :.active-dot {:margin 0,
                                     :padding (-px 0)
                                     :display :inline-block
