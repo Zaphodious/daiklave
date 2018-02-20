@@ -415,8 +415,8 @@
          [:tbody]
 
          [:tr {:height :1em
-               :background-color (assoc (gc/lighten (gc/as-rgb moon-blue) 35)
-                                   :alpha 0.3)}
+               :background-color (assoc (gc/darken (gc/as-rgb moon-blue) 25)
+                                   :alpha 0.2)}
           [:td :th {:padding :5px}]
           [:th {:background-image title-background-image
                 :border-radius :0px
@@ -428,15 +428,15 @@
            [:&.description {:width :500px}]]
           [:td {:overflow         :hidden
                 :text-overflow    :ellipsis
-                :background-color (assoc (gc/lighten (gc/as-rgb moon-blue) 25)
+                :background-color (assoc (gc/lighten (gc/as-rgb moon-blue) 35)
                                     :alpha 0.4)}
                [:&.description {:height :1em}]
            [:input :select {:width :100%
                             :margin-left 0}]]
-          [(td (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb sun-gold) 25)
+          [(td (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb sun-gold) 35)
                                                       :alpha 0.4)}]]
-         [(tr (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb sun-gold) 35)
-                                                     :alpha 0.3)}]]]]
+         [(tr (gs/nth-child 2)) {:background-color (assoc (gc/darken (gc/as-rgb sun-gold) 25)
+                                                     :alpha 0.2)}]]]]
       [:&.rulebooks-used
        [:input {:width :100%}]]
       [:&.page-header {:background-position :top

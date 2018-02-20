@@ -352,7 +352,7 @@ body {
 
 .page .page-content .page-section.soft-table .table-container table tr {
   height: 1em;
-  background-color: hsla(224.5055, 89.21568%, 95%, 0.3);
+  background-color: hsla(224.5055, 89.21568%, 35%, 0.2);
 }
 
 .page .page-content .page-section.soft-table .table-container table tr td, .page .page-content .page-section.soft-table .table-container table tr th {
@@ -388,7 +388,7 @@ body {
 .page .page-content .page-section.soft-table .table-container table tr td {
   overflow: hidden;
   text-overflow: ellipsis;
-  background-color: hsla(224.5055, 89.21568%, 85%, 0.4);
+  background-color: hsla(224.5055, 89.21568%, 95%, 0.4);
 }
 
 .page .page-content .page-section.soft-table .table-container table tr td.description {
@@ -401,11 +401,11 @@ body {
 }
 
 .page .page-content .page-section.soft-table .table-container table tr td:nth-child(2n) {
-  background-color: hsla(44.505493, 89.21568%, 85%, 0.4);
+  background-color: hsla(44.505493, 89.21568%, 95%, 0.4);
 }
 
 .page .page-content .page-section.soft-table .table-container table tr:nth-child(2n) {
-  background-color: hsla(44.505493, 89.21568%, 95%, 0.3);
+  background-color: hsla(44.505493, 89.21568%, 35%, 0.2);
 }
 
 .page .page-content .page-section.rulebooks-used input {
