@@ -827,43 +827,51 @@
                                                                                               (daistate/get-named-elements)
                                                                                               first)]
                                                                                      (println "Charm is " charm)
-                                                                                     [{:field-type :text
-                                                                                       :read-only  true
-                                                                                       :label      "Ability"
-                                                                                       :value      (make-pretty (:ability charm))}
-                                                                                      {:field-type :text
-                                                                                       :read-only  true
-                                                                                       :value      a
-                                                                                       :label      "Charm Name"
-                                                                                       :path       (conj path :charms n)}
-                                                                                      {:field-type :text
-                                                                                       :read-only  true
-                                                                                       :label      "Type"
-                                                                                       :value      (make-pretty (:type charm))}
-                                                                                      {:field-type :text
-                                                                                       :read-only  true
-                                                                                       :label      "Cost"
-                                                                                       :value      (:cost charm)}
-                                                                                      {:field-type :text
-                                                                                       :read-only  true
-                                                                                       :label      "Duration"
-                                                                                       :value      (:duration charm)}
-                                                                                      {:field-type :text
-                                                                                       :read-only  true
-                                                                                       :label      "Book"
-                                                                                       :value      (:view (daistate/fetch-view-for [:rulebooks book-id :name]))}
-                                                                                      {:field-type :text
-                                                                                       :read-only  true
-                                                                                       :label      "Page"
-                                                                                       :value      (:page charm)}
-                                                                                      {:field-type :text
-                                                                                       :read-only  true
-                                                                                       :label      "Description"
-                                                                                       :value      (str (->> charm
-                                                                                                             (:description)
-                                                                                                             (take 40)
-                                                                                                             (reduce str))
-                                                                                                        "...")}]))
+                                                                                     [{:field-type   :text
+                                                                                       :read-only    true
+                                                                                       :value        a
+                                                                                       :label        "Charm Name"
+                                                                                       :path         (conj path :charms n)
+                                                                                       :header-class "name"}
+                                                                                      {:field-type   :text
+                                                                                       :read-only    true
+                                                                                       :label        "Cost"
+                                                                                       :value        (:cost charm)
+                                                                                       :header-class "word"}
+                                                                                      {:field-type   :text
+                                                                                       :read-only    true
+                                                                                       :label        "Type"
+                                                                                       :value        (make-pretty (:type charm))
+                                                                                       :header-class "word"}
+                                                                                      {:field-type   :text
+                                                                                       :read-only    true
+                                                                                       :label        "Duration"
+                                                                                       :value        (:duration charm)
+                                                                                       :header-class "word"}
+                                                                                      {:field-type   :text
+                                                                                       :read-only    true
+                                                                                       :label        "Ability"
+                                                                                       :value        (make-pretty (:ability charm))
+                                                                                       :header-class "word"}
+                                                                                      {:field-type   :text
+                                                                                       :read-only    true
+                                                                                       :label        "Book"
+                                                                                       :value        (:view (daistate/fetch-view-for [:rulebooks book-id :name]))
+                                                                                       :header-class "name"}
+                                                                                      {:field-type   :text
+                                                                                       :read-only    true
+                                                                                       :label        "Page"
+                                                                                       :value        (:page charm)
+                                                                                       :header-class "number"}
+                                                                                      {:field-type   :text
+                                                                                       :read-only    true
+                                                                                       :label        "Description"
+                                                                                       :header-class "description"
+                                                                                       :value        (->> charm
+                                                                                                          (:description)
+                                                                                                          (take 100)
+                                                                                                          (reduce str))}]))
+
 
 
                                                                                  (:charms view))})

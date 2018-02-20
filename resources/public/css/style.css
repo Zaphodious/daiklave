@@ -337,6 +337,72 @@ body {
   padding-bottom: 0;
 }
 
+.page .page-content .page-section.soft-table .table-container {
+  overflow-y: scroll;
+  border: solid;
+  border-width: 1px;
+  border-color: #082b91;
+}
+
+.page .page-content .page-section.soft-table .table-container table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr {
+  height: 1em;
+  background-color: hsla(224.5055, 89.21568%, 95%, 0.3);
+}
+
+.page .page-content .page-section.soft-table .table-container table tr td, .page .page-content .page-section.soft-table .table-container table tr th {
+  padding: 5px;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr th {
+  background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 25%, 0.7), hsla(44.505493, 89.21568%, 30%, 0.7), hsla(44.505493, 89.21568%, 35%, 0.7), hsla(44.505493, 89.21568%, 40%, 0.7), hsla(44.505493, 89.21568%, 45%, 0.7), hsla(44.505493, 89.21568%, 65%, 0.7), hsla(44.505493, 89.21568%, 90%, 0.7));
+  border-radius: 0px;
+  padding: 0px;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr th.button {
+  width: 30px;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr th.name {
+  width: 150px;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr th.word {
+  width: 90px;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr th.number {
+  width: 40px;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr th.description {
+  width: 500px;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: hsla(224.5055, 89.21568%, 85%, 0.4);
+}
+
+.page .page-content .page-section.soft-table .table-container table tr td.description {
+  height: 1em;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr td:nth-child(2n) {
+  background-color: hsla(44.505493, 89.21568%, 85%, 0.4);
+}
+
+.page .page-content .page-section.soft-table .table-container table tr:nth-child(2n) {
+  background-color: hsla(44.505493, 89.21568%, 95%, 0.3);
+}
+
 .page .page-content .page-section.rulebooks-used input {
   width: 100%;
 }

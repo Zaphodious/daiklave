@@ -161,7 +161,7 @@
                    (when elem
                      (daistate/change-element! path #(vec (conj % new-element))))))
         sort-button-fn (fn [] (daistate/change-element! path #(vec (sort sort-fn %))))]
-    [:.page-section {:class form-name}
+    [:.page-section {:class (str form-name " soft-table")}
      [:h3 form-title]
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]
      (when mini-forms
@@ -174,19 +174,23 @@
                         a])
                      mini-forms)])
      (when table-row-data
-       [:table
-        [:tbody
-         [:tr [:th "Remove"]
-          (map (fn [a] [:th (:label a)]) (first table-row-data))]
-         (map-indexed (fn [n a]
-                        [:tr
-                         [:td [:button.subtract-button
-                                {:on-click (neg-fn-make n)}
-                                "-"]]
-                         (map (fn [b]
-                                [:td (form-field-for b)])
-                              a)])
-              table-row-data)]])
+       [:.table-container
+        [:table
+         [:tbody
+          [:tr [:th {:class "button"} "Remove"]
+           (map (fn [a] [:th
+                         {:class (:header-class a)}
+                         (:label a)])
+                (first table-row-data))]
+          (map-indexed (fn [n a]
+                         [:tr
+                          [:td [:button.subtract-button
+                                 {:on-click (neg-fn-make n)}
+                                 "-"]]
+                          (map (fn [b]
+                                 [:td (form-field-for b)])
+                               a)])
+               table-row-data)]]])
 
      [:.button-bar [:button {:on-click add-fn} "+"] [:button {:on-click sort-button-fn} "sort"]]]))
 ;[page-title page-subtitle page-img page-section-seq]

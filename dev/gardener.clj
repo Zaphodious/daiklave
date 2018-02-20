@@ -141,6 +141,9 @@
 (def page-content-margin (keyword (str page-content-margin-scalar "px")))
 (def standard-field-width (calchelper :100% - :80px - :10px - :2em - page-content-margin - page-content-margin))
 
+(gs/defselector td "td")
+(gs/defselector tr "tr")
+
 (def mobilestyle
   [[:&:focus {:outline-style  :solid
               :outline-width  :1px
@@ -401,6 +404,37 @@
                       :box-shadow       elementshadow}
       [:&.button-bar {:padding :10px}]
       [:& {:padding-bottom 0}]
+      [:&.soft-table
+       [:.table-container {:overflow-y :scroll
+                           :border :solid
+                           :border-width :1px
+                           :border-color (gc/darken moon-blue 30)}
+        [:table {:table-layout :fixed
+                 :width :100%
+                 :border-collapse :collapse}
+         [:tbody]
+
+         [:tr {:height :1em
+               :background-color (assoc (gc/lighten (gc/as-rgb moon-blue) 35)
+                                   :alpha 0.3)}
+          [:td :th {:padding :5px}]
+          [:th {:background-image title-background-image
+                :border-radius :0px
+                :padding :0px}
+           [:&.button {:width :30px}]
+           [:&.name {:width :150px}]
+           [:&.word {:width :90px}]
+           [:&.number {:width :40px}]
+           [:&.description {:width :500px}]]
+          [:td {:overflow         :hidden
+                :text-overflow    :ellipsis
+                :background-color (assoc (gc/lighten (gc/as-rgb moon-blue) 25)
+                                    :alpha 0.4)}
+               [:&.description {:height :1em}]]
+          [(td (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb sun-gold) 25)
+                                                      :alpha 0.4)}]]
+         [(tr (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb sun-gold) 35)
+                                                     :alpha 0.3)}]]]]
       [:&.rulebooks-used
        [:input {:width :100%}]]
       [:&.page-header {:background-position :top
