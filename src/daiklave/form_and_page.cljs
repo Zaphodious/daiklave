@@ -179,7 +179,7 @@
          [:tbody
           [:tr [:th {:class "button"} "Remove"]
            (map (fn [a] [:th
-                         {:class (:header-class a)}
+                         {:class (:cell-type a)}
                          (:label a)])
                 (first table-row-data))]
           (map-indexed (fn [n a]

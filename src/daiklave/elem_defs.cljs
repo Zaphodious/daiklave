@@ -625,15 +625,14 @@
                                                     :new-element "0"
                                                     :sort-fn     compare
                                                     :on-add-fn   #(daistate/show-modal :rulebook-change-sheet "Select a Rulebook" {:change-path (conj path :rulebooks)})
-                                                    :mini-forms
+                                                    :table-row-data
                                                                  (map-indexed (fn [n a]
-                                                                                (fp/mini-form-of (-> (daistate/fetch-view-for [:rulebooks a]) :view :name)
-                                                                                                 [{:field-type :text
-                                                                                                   :read-only  true
-                                                                                                   :label      "Rulebook Used"
-                                                                                                   :value      (->> a (conj [:rulebooks]) daistate/fetch-view-for :view :name str)
-                                                                                                   :path       (conj path :rulebooks n)
-                                                                                                   :class      "single-selector"}]))
+                                                                                [{:field-type :text
+                                                                                  :read-only  true
+                                                                                  :label      "Rulebook Used"
+                                                                                  :value      (->> a (conj [:rulebooks]) daistate/fetch-view-for :view :name str)
+                                                                                  :path       (conj path :rulebooks n)}])
+
                                                                               ;:display-fn (fn [a] (->> a (conj [:rulebooks]) daistate/fetch-view-for :view :name str))}]))
                                                                               ;:options    (->> [:rulebooks] daistate/fetch-view-for :view (filter #(-> % second :name)) (map first))}]))
                                                                               (:rulebooks view))})
@@ -675,21 +674,20 @@
                                                     :path        (conj path :specialties)
                                                     :new-element [(:supernal view) "Doing Awesome Things"]
                                                     :sort-fn     compare
-                                                    :mini-forms
+                                                    :table-row-data
                                                                  (map-indexed (fn [n a]
-                                                                                (fp/mini-form-of
-                                                                                  (last a)
-                                                                                  [{:field-type :select-single,
-                                                                                    :label      "Ability"
-                                                                                    :value      (first a)
-                                                                                    :path       (into path [:specialties n 0])
-                                                                                    :options    daihelp/ability-all-keys
-                                                                                    :class      "first-of-three"}
-                                                                                   {:field-type :text,
-                                                                                    :value      (second a)
-                                                                                    :label      "Description"
-                                                                                    :path       (into path [:specialties n 1])
-                                                                                    :class      "third-of-three"}]))
+                                                                                [{:field-type :select-single,
+                                                                                  :label      "Ability"
+                                                                                  :value      (first a)
+                                                                                  :path       (into path [:specialties n 0])
+                                                                                  :options    daihelp/ability-all-keys
+                                                                                  :cell-type  "word"}
+
+                                                                                 {:field-type :text,
+                                                                                  :value      (second a)
+                                                                                  :label      "Description"
+                                                                                  :path       (into path [:specialties n 1])
+                                                                                  :cell-type  "name"}])
                                                                               (:specialties view))})
                                 (fp/form-of "Limit"
                                             "limit-info"
@@ -702,76 +700,80 @@
                                               :value      (-> view :limit :accrued)
                                               :path       (conj path :limit :accrued)
                                               :min        0 :max 10}])
-                                (fp/soft-table-for {:form-title  "Intimacies"
-                                                    :form-name   "intimacyinfo"
-                                                    :path        (conj path :intimacies)
-                                                    :on-add-fn   #(daistate/show-modal :intimacy-add "Add an Intimacy" {:change-path (conj path :intimacies)})
-                                                    :new-element {:type        :tie
-                                                                  :severity    :major
-                                                                  :feeling     "Disgust"
-                                                                  :description "Fighting without honor"}
-                                                    :sort-fn     (daiklave.data-help/map-compare-fn-for
-                                                                   {:severity    100
-                                                                    :description 10})
-                                                    :mini-forms  (map-indexed (fn [n a]
-                                                                                (fp/mini-form-of (:description a)
-                                                                                                 [{:field-type :select-single
-                                                                                                   :value      (:severity a)
-                                                                                                   :label      "Intensity"
-                                                                                                   :read-only  true
-                                                                                                   :options    daihelp/intimacy-intensities}
-                                                                                                  (when (= :tie (:type a))
-                                                                                                    {:field-type :text
-                                                                                                     :read-only  true
-                                                                                                     :value      (:feeling a)
-                                                                                                     :label      "Feeling"})
-                                                                                                  {:field-type :text
-                                                                                                   :read-only  true
-                                                                                                   :value      (:description a)
-                                                                                                   :label      "Description"}]))
-
-                                                                              (:intimacies view))})
-                                (fp/soft-table-for {:form-title  "Merits"
-                                                    :form-name   "meritinfo"
-                                                    :path        (conj path :merits)
-                                                    :on-add-fn   #(daistate/show-modal
-                                                                    :merit-add
-                                                                    "Add a Merit"
-                                                                    {:change-path  (conj path :merits)
-                                                                     :rulebook-ids (:rulebooks view)
-                                                                     :query        ""
-                                                                     :dots         1
-                                                                     :note         ""})
-                                                    :new-element {:name "Amputee"
-                                                                  :rank 0
-                                                                  :note "Head above the neck."}
-                                                    :sort-fn     (daiklave.data-help/map-compare-fn-for
-                                                                   {:name 100
-                                                                    :rank 10
-                                                                    :note 1})
-                                                    :mini-forms  (map-indexed (fn [n a]
-                                                                                (fp/mini-form-of (:name a)
-                                                                                                 [{:field-type :number
-                                                                                                   :value      (:rank a)
-                                                                                                   :label      "Rank"
-                                                                                                   :class      "rank"
-                                                                                                   :min        0
-                                                                                                   :max        5
-                                                                                                   :read-only  true
-                                                                                                   :path       (conj path :merits n :rank)}
-                                                                                                  {:field-type :text
-                                                                                                   :read-only  true
-                                                                                                   :value      (:name a)
-                                                                                                   :label      "Name"
-                                                                                                   :class      "name"
-                                                                                                   :path       (conj path :merits n :name)}
-                                                                                                  {:field-type :text
-                                                                                                   :value      (:note a)
-                                                                                                   :label      "Note"
-                                                                                                   :class      "note"
-                                                                                                   :path       (conj path :merits n :note)
-                                                                                                   :read-only  true}]))
-                                                                              (:merits view))})
+                                (fp/soft-table-for {:form-title     "Intimacies"
+                                                    :form-name      "intimacyinfo"
+                                                    :path           (conj path :intimacies)
+                                                    :on-add-fn      #(daistate/show-modal :intimacy-add "Add an Intimacy" {:change-path (conj path :intimacies)})
+                                                    :new-element    {:type        :tie
+                                                                     :severity    :major
+                                                                     :feeling     "Disgust"
+                                                                     :description "Fighting without honor"}
+                                                    :sort-fn        (daiklave.data-help/map-compare-fn-for
+                                                                      {:severity    100
+                                                                       :description 10})
+                                                    :table-row-data (map-indexed (fn [n a]
+                                                                                   [{:field-type :select-single
+                                                                                     :value      (:severity a)
+                                                                                     :label      "Intensity"
+                                                                                     :read-only  true
+                                                                                     :cell-type  "word"
+                                                                                     :options    daihelp/intimacy-intensities}
+                                                                                    {:field-type :text
+                                                                                     :read-only  true
+                                                                                     :value      (if (= :tie (:type a))
+                                                                                                   (:feeling a)
+                                                                                                   "Principle")
+                                                                                     :label      "Type"
+                                                                                     :cell-type  "word"}
+                                                                                    {:field-type :text
+                                                                                     :read-only  true
+                                                                                     :value      (:description a)
+                                                                                     :label      "Description"
+                                                                                     :cell-type  "description"}])
+                                                                                 (:intimacies view))})
+                                (fp/soft-table-for {:form-title     "Merits"
+                                                    :form-name      "meritinfo"
+                                                    :path           (conj path :merits)
+                                                    :on-add-fn      #(daistate/show-modal
+                                                                       :merit-add
+                                                                       "Add a Merit"
+                                                                       {:change-path  (conj path :merits)
+                                                                        :rulebook-ids (:rulebooks view)
+                                                                        :query        ""
+                                                                        :dots         1
+                                                                        :note         ""})
+                                                    :new-element    {:name "Amputee"
+                                                                     :rank 0
+                                                                     :note "Head above the neck."}
+                                                    :sort-fn        (daiklave.data-help/map-compare-fn-for
+                                                                      {:name 100
+                                                                       :rank 10
+                                                                       :note 1})
+                                                    :table-row-data (map-indexed (fn [n a]
+                                                                                   [{:field-type :text
+                                                                                     :read-only  true
+                                                                                     :value      (:name a)
+                                                                                     :label      "Name"
+                                                                                     :class      "name"
+                                                                                     :cell-type  "name"
+                                                                                     :path       (conj path :merits n :name)}
+                                                                                    {:field-type :number
+                                                                                     :value      (:rank a)
+                                                                                     :label      "Rank"
+                                                                                     :class      "rank"
+                                                                                     :min        0
+                                                                                     :max        5
+                                                                                     :read-only  true
+                                                                                     :cell-type  "number"
+                                                                                     :path       (conj path :merits n :rank)}
+                                                                                    {:field-type :text
+                                                                                     :value      (:note a)
+                                                                                     :label      "Note"
+                                                                                     :class      "note"
+                                                                                     :path       (conj path :merits n :note)
+                                                                                     :read-only  true
+                                                                                     :cell-type  "name"}])
+                                                                                 (:merits view))})
 
                                 (fp/form-of "Experience"
                                             "experience-module"
@@ -827,50 +829,50 @@
                                                                                               (daistate/get-named-elements)
                                                                                               first)]
                                                                                      (println "Charm is " charm)
-                                                                                     [{:field-type   :text
-                                                                                       :read-only    true
-                                                                                       :value        a
-                                                                                       :label        "Charm Name"
-                                                                                       :path         (conj path :charms n)
-                                                                                       :header-class "name"}
-                                                                                      {:field-type   :text
-                                                                                       :read-only    true
-                                                                                       :label        "Cost"
-                                                                                       :value        (:cost charm)
-                                                                                       :header-class "word"}
-                                                                                      {:field-type   :text
-                                                                                       :read-only    true
-                                                                                       :label        "Type"
-                                                                                       :value        (make-pretty (:type charm))
-                                                                                       :header-class "word"}
-                                                                                      {:field-type   :text
-                                                                                       :read-only    true
-                                                                                       :label        "Duration"
-                                                                                       :value        (:duration charm)
-                                                                                       :header-class "word"}
-                                                                                      {:field-type   :text
-                                                                                       :read-only    true
-                                                                                       :label        "Ability"
-                                                                                       :value        (make-pretty (:ability charm))
-                                                                                       :header-class "word"}
-                                                                                      {:field-type   :text
-                                                                                       :read-only    true
-                                                                                       :label        "Book"
-                                                                                       :value        (:view (daistate/fetch-view-for [:rulebooks book-id :name]))
-                                                                                       :header-class "name"}
-                                                                                      {:field-type   :text
-                                                                                       :read-only    true
-                                                                                       :label        "Page"
-                                                                                       :value        (:page charm)
-                                                                                       :header-class "number"}
-                                                                                      {:field-type   :text
-                                                                                       :read-only    true
-                                                                                       :label        "Description"
-                                                                                       :header-class "description"
-                                                                                       :value        (->> charm
-                                                                                                          (:description)
-                                                                                                          (take 100)
-                                                                                                          (reduce str))}]))
+                                                                                     [{:field-type :text
+                                                                                       :read-only  true
+                                                                                       :value      a
+                                                                                       :label      "Charm Name"
+                                                                                       :path       (conj path :charms n)
+                                                                                       :cell-type  "name"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Cost"
+                                                                                       :value      (:cost charm)
+                                                                                       :cell-type  "word"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Type"
+                                                                                       :value      (make-pretty (:type charm))
+                                                                                       :cell-type  "word"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Duration"
+                                                                                       :value      (:duration charm)
+                                                                                       :cell-type  "word"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Ability"
+                                                                                       :value      (make-pretty (:ability charm))
+                                                                                       :cell-type  "word"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Book"
+                                                                                       :value      (:view (daistate/fetch-view-for [:rulebooks book-id :name]))
+                                                                                       :cell-type  "name"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Page"
+                                                                                       :value      (:page charm)
+                                                                                       :cell-type  "number"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Description"
+                                                                                       :cell-type  "description"
+                                                                                       :value      (->> charm
+                                                                                                        (:description)
+                                                                                                        (take 100)
+                                                                                                        (reduce str))}]))
 
 
 

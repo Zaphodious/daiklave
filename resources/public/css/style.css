@@ -395,6 +395,11 @@ body {
   height: 1em;
 }
 
+.page .page-content .page-section.soft-table .table-container table tr td input, .page .page-content .page-section.soft-table .table-container table tr td select {
+  width: 100%;
+  margin-left: 0;
+}
+
 .page .page-content .page-section.soft-table .table-container table tr td:nth-child(2n) {
   background-color: hsla(44.505493, 89.21568%, 85%, 0.4);
 }
@@ -1017,19 +1022,17 @@ button.aggravated {
 "abil abil abil spec spec spec meri meri meri"
 "abil abil abil spec spec spec meri meri meri"
 "abil abil abil spec spec spec meri meri meri"
-"abil abil abil spec spec spec chrn chrn chrn"
-"abil abil abil spec spec spec chrn chrn chrn"
-"abil abil abil spec spec spec chrn chrn chrn"
-"abil abil abil .... .... .... chrn chrn chrn"
-"abil abil abil .... .... .... .... .... ...."
+"abil abil abil spec spec spec meri meri meri"
+"abil abil abil chrn chrn chrn meri meri meri"
+"abil abil abil chrn chrn chrn meri meri meri"
+"abil abil abil .... .... .... meri meri meri"
 "essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
 ".... .... .... .... xpxp xpxp xpxp xpxp xpxp"
-"will will will will limt limt limt limt limt"
 "heal heal heal heal heal heal heal heal heal"
 ".... .... .... .... .... .... .... .... ...."
-"inti inti inti inti inti inti inti inti inti"
-"inti inti inti inti inti inti inti inti inti"
-"inti inti inti inti inti inti inti inti inti"
+"inti inti inti inti inti limt limt limt limt"
+"inti inti inti inti inti will will will will"
+"inti inti inti inti inti .... .... .... ...."
 "char char char char char char char char char";
   }
   

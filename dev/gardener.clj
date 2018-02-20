@@ -430,7 +430,9 @@
                 :text-overflow    :ellipsis
                 :background-color (assoc (gc/lighten (gc/as-rgb moon-blue) 25)
                                     :alpha 0.4)}
-               [:&.description {:height :1em}]]
+               [:&.description {:height :1em}]
+           [:input :select {:width :100%
+                            :margin-left 0}]]
           [(td (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb sun-gold) 25)
                                                       :alpha 0.4)}]]
          [(tr (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb sun-gold) 35)
@@ -809,19 +811,17 @@
                                                                       "abil abil abil spec spec spec meri meri meri"
                                                                       "abil abil abil spec spec spec meri meri meri"
                                                                       "abil abil abil spec spec spec meri meri meri"
-                                                                      "abil abil abil spec spec spec chrn chrn chrn"
-                                                                      "abil abil abil spec spec spec chrn chrn chrn"
-                                                                      "abil abil abil spec spec spec chrn chrn chrn"
-                                                                      "abil abil abil .... .... .... chrn chrn chrn"
-                                                                      "abil abil abil .... .... .... .... .... ...."
+                                                                      "abil abil abil spec spec spec meri meri meri"
+                                                                      "abil abil abil chrn chrn chrn meri meri meri"
+                                                                      "abil abil abil chrn chrn chrn meri meri meri"
+                                                                      "abil abil abil .... .... .... meri meri meri"
                                                                       "essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
                                                                       ".... .... .... .... xpxp xpxp xpxp xpxp xpxp"
-                                                                      "will will will will limt limt limt limt limt"
                                                                       "heal heal heal heal heal heal heal heal heal"
                                                                       ".... .... .... .... .... .... .... .... ...."
-                                                                      "inti inti inti inti inti inti inti inti inti"
-                                                                      "inti inti inti inti inti inti inti inti inti"
-                                                                      "inti inti inti inti inti inti inti inti inti"
+                                                                      "inti inti inti inti inti limt limt limt limt"
+                                                                      "inti inti inti inti inti will will will will"
+                                                                      "inti inti inti inti inti .... .... .... ...."
                                                                       "char char char char char char char char char")}
                              [:.attributeinfo
                               [:form {:column-count 3}]]
