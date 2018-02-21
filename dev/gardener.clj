@@ -554,9 +554,6 @@
                                     :height :15px
                                     :background-position :center
                                     :background-size :cover}]
-      [:.inactive-dot {:background-image (url "../img/dot_empty.png")}]
-       ;[:&:before {:content "\"⚪\""}]]
-      [:.active-dot {:background-image (url "../img/dot_full.png")}]
        ;[:&:before {:content "\"⚫\""}]]
       [:.zero-dot {:background-image (url "../img/dot_bar.png")}]
       [:.favored {:display             :inline-block
@@ -572,7 +569,7 @@
       [:.selected.night {:background-image (url "../img/night.png")}]
       [:.selected.eclipse {:background-image (url "../img/eclipse.png")}]
       [:.selected.zenith {:background-image (url "../img/zenith.png")}]
-      [:.not-selected {:background-image (url "../img/caste_check.png")}]]
+      [:.not-selected {:background-image :none}]] ;(url "../img/caste_check.png")}]]
      [:.number-field
       [:input {:width (calchelper :100% - :80px)}]
       [:button {:width :20px}]]
@@ -587,6 +584,14 @@
     [:.third-of-three {:width (calchelper (-% 60) - :37px)}]]
    [:form.mini-form {:width   (calchelper (-% 100) - :25px)
                      :display :inline-block}]
+   [:.inactive-dot {:background-image (url "../img/dot_empty.png")}]
+   ;[:&:before {:content "\"⚪\""}]]
+   [:.active-dot {:background-image (url "../img/eclipse_dot.png")}]
+   [:.eclipse [:.active-dot {:background-image (url "../img/eclipse_dot.png")}]]
+   [:.twilight [:.active-dot {:background-image (url "../img/twilight_dot.png")}]]
+   [:.night [:.active-dot {:background-image (url "../img/night_dot.png")}]]
+   [:.dawn [:.active-dot {:background-image (url "../img/dawn_dot.png")}]]
+   [:.zenith [:.active-dot {:background-image (url "../img/zenith_dot.png")}]]
 
    [:.set-selectors
     [:.set-selector {:width (-% 100)}]]

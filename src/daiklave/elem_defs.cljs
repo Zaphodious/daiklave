@@ -604,7 +604,7 @@
                                 [:p (str (make-pretty (:supernal view)) " Supernal " (make-pretty (:subtype view)))]
                                 [:p (:long-description view)]]
                :img            (:img view)
-               :class          "character-page"
+               :class          (str "character-page " (name (:subtype view)))
                :path           path
                :sections
                                [(fp/form-of

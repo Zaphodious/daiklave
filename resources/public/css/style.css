@@ -566,14 +566,6 @@ form p .field .inactive-dot, form p .field .active-dot {
   display: inline-block;
 }
 
-form p .field .inactive-dot {
-  background-image: url(../img/dot_empty.png);
-}
-
-form p .field .active-dot {
-  background-image: url(../img/dot_full.png);
-}
-
 form p .field .zero-dot {
   background-image: url(../img/dot_bar.png);
 }
@@ -610,7 +602,7 @@ form p .field .selected.zenith {
 }
 
 form p .field .not-selected {
-  background-image: url(../img/caste_check.png);
+  background-image: none;
 }
 
 form p .number-field input {
@@ -652,6 +644,34 @@ form .third-of-three {
 form.mini-form {
   width: calc(100.0%  -  25px);
   display: inline-block;
+}
+
+.inactive-dot {
+  background-image: url(../img/dot_empty.png);
+}
+
+.active-dot {
+  background-image: url(../img/eclipse_dot.png);
+}
+
+.eclipse .active-dot {
+  background-image: url(../img/eclipse_dot.png);
+}
+
+.twilight .active-dot {
+  background-image: url(../img/twilight_dot.png);
+}
+
+.night .active-dot {
+  background-image: url(../img/night_dot.png);
+}
+
+.dawn .active-dot {
+  background-image: url(../img/dawn_dot.png);
+}
+
+.zenith .active-dot {
+  background-image: url(../img/zenith_dot.png);
 }
 
 .set-selectors .set-selector {
