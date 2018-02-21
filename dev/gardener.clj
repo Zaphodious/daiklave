@@ -134,7 +134,7 @@
 (def title-bar-height "3em")
 (def navshadow "0 0 15px black")
 (def elementshadow (str "0 -3px 10px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
-(def minor-button-shadow (str "0 0px 5px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
+(def minor-button-shadow (str "0 0 4px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
 (def inputshadow (str "inset " minor-button-shadow))
 (def buttonshadow (str "0 -2px 10px" (gc/as-hex color-p-dark)))
 (def focusshadow (str "0 -3px 5px" (gc/as-hex color-p-dark)))
@@ -538,15 +538,15 @@
                   :background-image button-bar-background
                   :box-shadow inputshadow
                   :border-radius :10px}
-       [:button {:height :15px
-                 :width :15px
+       [:button {:height :13px
+                 :width :13px
                  :padding 0
                  :border :none
                  :color :transparent
-                 :border-radius :0px
+                 :border-radius :20px
                  :position :relative
-                 :bottom :2px
-                 :box-shadow :none
+                 :bottom :1px
+                 :box-shadow minor-button-shadow
                  :background-color :transparent
                  :background-position :center
                  :background-size :cover}]
@@ -559,10 +559,12 @@
                                      :display :inline-block
                                      :width :15px
                                      :height :15px
+                                     :border-radius :20px
+                                     ;:box-shadow minor-button-shadow
                                      :background-position :center
                                      :background-size :cover
                                      :position :relative
-                                     :botom :1px}]]
+                                     :botom :3px}]]
        ;[:&:before {:content "\"⚫\""}]]
       [:.zero-dot {:background-image (url "../img/dot_bar.png")}]
       [:.favored {:display             :inline-block
