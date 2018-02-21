@@ -37,8 +37,8 @@ button {
   border-style: solid;
   box-shadow: 0 -2px 10px#4b2c20;
   margin-left: 2px;
-  background-color: #ffffff;
-  border-radius: 2.0px;
+  background-color: hsla(44.505493, 89.21568%, 100%, 0.4);
+  border-radius: 4.0px;
   text-shadow: 0 0 6px#a98274;
   color: #000000;
 }
@@ -54,7 +54,7 @@ input, select, textarea {
   border-right: none;
   border-top: none;
   margin-bottom: 3.0px;
-  box-shadow: inset 0 0px 3px #666666;
+  box-shadow: inset 0 0px 5px #666666;
   margin-left: 5.0px;
   background-color: transparent;
   padding-right: 0;
@@ -509,11 +509,16 @@ form.mini-form {
   display: block;
 }
 
+form p {
+  padding: 3px;
+}
+
 form p label {
   width: calc(20%  -  10px);
   height: 100.0%;
   display: inline-block;
   text-align: right;
+  padding-right: 10px;
 }
 
 form p .field {
@@ -527,29 +532,38 @@ form p .field .dot-entry {
 }
 
 form p .field .dot-bar {
-  display: inline-block;
-  height: 10px;
-  padding-top: 5px;
+  top: 5px;
+  height: 15px;
   position: relative;
-  top: 10px;
+  box-shadow: inset 0 0px 5px #666666;
+  padding-right: 0;
+  border-radius: 10px;
+  display: inline-block;
+  background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 50%, 0.3), hsla(44.505493, 89.21568%, 50%, 0.5), hsla(44.505493, 89.21568%, 55%, 0.7), hsla(44.505493, 89.21568%, 55%, 0.6), hsla(44.505493, 89.21568%, 50%, 0.5), hsla(44.505493, 89.21568%, 20%, 0.3));
+  padding-left: 0;
+  padding-top: 5px;
 }
 
 form p .field button {
   height: 20px;
   width: 20px;
   padding: 0;
-  border-radius: 10px;
-  margin-top: 0;
+  border-radius: 15px;
+  position: relative;
+  bottom: 3px;
+  box-shadow: 0 0px 5px #666666;
 }
 
 form p .field .inactive-dot, form p .field .active-dot {
-  margin: 0;
-  padding: 0.0px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 15px;
   background-position: center;
+  height: 15px;
+  margin: 0;
+  margin-right: 1px;
+  padding: 0.0px;
   background-size: cover;
+  margin-left: 1px;
+  display: inline-block;
 }
 
 form p .field .inactive-dot {
@@ -566,12 +580,13 @@ form p .field .zero-dot {
 
 form p .field .favored {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   background-position: center;
   background-size: cover;
   position: relative;
-  top: 15px;
+  top: 8px;
+  right: 5px;
 }
 
 form p .field .selected.dawn {
@@ -891,26 +906,28 @@ button.aggravated {
   column-count: 3;
 }
 
-.desktop .character-page .page-content .abilityinfo {
-  grid-area: abil;
+.desktop .character-page .page-content .attributeinfo form .field {
+  width: 50%;
 }
 
 .desktop .character-page .page-content .attributeinfo form p, .desktop .character-page .page-content .abilityinfo form p {
-  padding-left: 20px;
-  padding-right: 0;
+
 }
 
 .desktop .character-page .page-content .attributeinfo form p label, .desktop .character-page .page-content .abilityinfo form p label {
   width: 30%;
 }
 
-.desktop .character-page .page-content .attributeinfo form p .field, .desktop .character-page .page-content .abilityinfo form p .field {
-  width: 50%;
+.desktop .character-page .page-content .attributeinfo form p p, .desktop .character-page .page-content .abilityinfo form p p {
+
 }
 
-.desktop .character-page .page-content .attributeinfo form p p, .desktop .character-page .page-content .abilityinfo form p p {
-  margin-right: -30px;
-  padding: 7px;
+.desktop .character-page .page-content .abilityinfo {
+  grid-area: abil;
+}
+
+.desktop .character-page .page-content .abilityinfo .field {
+  width: calc(50%  +  22px);
 }
 
 .desktop .character-page .page-content .favoredabilities {
@@ -973,10 +990,10 @@ button.aggravated {
 "chrn chrn chrn chrn chrn chrn chrn chrn chrn"
 ".... .... .... .... .... .... .... .... ...."
 "attr attr attr attr attr attr attr attr attr"
-"abil abil abil abil spec spec spec spec spec"
-"abil abil abil abil spec spec spec spec spec"
-"abil abil abil abil .... .... .... .... ...."
-"abil abil abil abil .... .... .... .... ...."
+"abil abil abil abil abil spec spec spec spec"
+"abil abil abil abil abil spec spec spec spec"
+"abil abil abil abil abil .... .... .... ...."
+"abil abil abil abil abil .... .... .... ...."
 "meri meri meri meri meri meri meri meri meri"
 ".... .... .... .... .... .... .... .... ...."
 "essi essi essi essi essi essi essi essi essi"
@@ -1031,7 +1048,7 @@ button.aggravated {
 
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1200px) {
 
   .desktop .character-page .page-content {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;

@@ -111,7 +111,14 @@
                          (assoc (gc/lighten sun-gold 30) :alpha 0.5)
                          (assoc (gc/lighten sun-gold 40) :alpha 0.4))])
 
-
+(def button-bar-background [(url "../img/brushed_metal.png")
+                            (linear-gradient
+                              (assoc (gc/darken sun-gold 10) :alpha 0.3)
+                              (assoc (gc/darken sun-gold 10) :alpha 0.5)
+                              (assoc (gc/darken sun-gold 5) :alpha 0.7)
+                              (assoc (gc/darken sun-gold 5) :alpha 0.6)
+                              (assoc (gc/darken sun-gold 10) :alpha 0.5)
+                              (assoc (gc/darken sun-gold 40) :alpha 0.3))])
 
 
 
@@ -127,7 +134,8 @@
 (def title-bar-height "3em")
 (def navshadow "0 0 15px black")
 (def elementshadow (str "0 -3px 10px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
-(def inputshadow (str "inset 0 0px 3px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
+(def minor-button-shadow (str "0 0px 5px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
+(def inputshadow (str "inset " minor-button-shadow))
 (def buttonshadow (str "0 -2px 10px" (gc/as-hex color-p-dark)))
 (def focusshadow (str "0 -3px 5px" (gc/as-hex color-p-dark)))
 (def focusshadowtext (str "0 -5px 10px" (gc/as-hex color-p-dark)))
@@ -165,13 +173,14 @@
      :color       (gc/darken (gc/complement sun-gold) 50)}
     [:p {:font-weight :normal}]]
 
-   [:button {:background-color color-brightest
+   [:button {:background-color (assoc (gc/lighten sun-gold 40)
+                                 :alpha 0.4)
              :border-style     :solid
              :border-width     :1px
              :border-color     :none
              :box-shadow       buttonshadow
              :text-shadow      (str "0 0 6px" (gc/as-hex color-p-light))
-             :border-radius    (-px 2)
+             :border-radius    (-px 4)
              :color            color-darkest
              :margin-right     :2px
              :margin-left      :2px}]
@@ -508,31 +517,41 @@
     [:&.mini-form {:padding :0px
                    :margin  :5px
                    :display :block}]
-    [:p
+    [:p {:padding :3px}
      [:label {:width      (calchelper :20% - :10px)
               :height     (-% 100)
               :display    :inline-block
-              :text-align :right}]
+              :text-align :right
+              :padding-right :10px}]
      [:.field {:width   (calchelper :100% - :20% + :10px - :10px - :2em - page-content-margin - page-content-margin)
                :display :inline-block
                ;:margin  (-px (/ 2 page-content-margin-scalar))
                :align   :center}
       [:.dot-entry {:width (-em 2.5)}]
       [:.dot-bar {:display :inline-block
-                  :height :10px
+                  :height :15px
+                  :padding-left 0
+                  :padding-right 0
                   :padding-top :5px
                   :position :relative
-                  :top :10px}]
+                  :top :5px
+                  :background-image button-bar-background
+                  :box-shadow inputshadow
+                  :border-radius :10px}]
       [:button {:height :20px
                 :width :20px
                 :padding 0
-                :border-radius :10px
-                :margin-top 0}]
+                :border-radius :15px
+                :position :relative
+                :bottom :3px
+                :box-shadow minor-button-shadow}]
       [:.inactive-dot :.active-dot {:margin 0,
+                                    :margin-right :1px
+                                    :margin-left :1px
                                     :padding (-px 0)
                                     :display :inline-block
-                                    :width :20px
-                                    :height :20px
+                                    :width :15px
+                                    :height :15px
                                     :background-position :center
                                     :background-size :cover}]
       [:.inactive-dot {:background-image (url "../img/dot_empty.png")}]
@@ -541,12 +560,13 @@
        ;[:&:before {:content "\"⚫\""}]]
       [:.zero-dot {:background-image (url "../img/dot_bar.png")}]
       [:.favored {:display             :inline-block
-                  :width               :20px
-                  :height              :20px
+                  :width               :10px
+                  :height              :10px
                   :background-position :center
                   :background-size     :cover
                   :position            :relative
-                  :top                 :15px}]
+                  :top                 :8px
+                  :right :5px}]
       [:.selected.dawn {:background-image (url "../img/dawn.png")}]
       [:.selected.twilight {:background-image (url "../img/twilight.png")}]
       [:.selected.night {:background-image (url "../img/night.png")}]
@@ -730,18 +750,21 @@
                 [:form {:column-count 2}]]
                [:.rulebooks-used {:grid-area "chrn"}]
                [:.attributeinfo {:grid-area "attr"}
-                [:form {:column-count 3}]]
-               [:.abilityinfo {:grid-area "abil"}]
+                [:form {:column-count 3}
+                 [:.field {:width :50%}]]]
+
                [:.attributeinfo :.abilityinfo
                 [:form
-                 [:p {;:border :solid
-                      :padding-left  :20px
-                      :padding-right 0}
+                 [:p {};:border :solid
+                      ;:padding-left  :20px
+                      ;:padding-right 0}
                   [:label {:width :30%}]
-                  [:.field {:width :50%}]
-                  [:p {;:float :right
-                       :margin-right :-30px
-                       :padding      :7px}]]]]
+
+                  [:p {}]]]];:float :right
+                       ;:margin-right :-30px
+                       ;:padding      :7px}]]]]
+               [:.abilityinfo {:grid-area "abil"}
+                [:.field {:width (calchelper :50% + :22px)}]]
                [:.favoredabilities {:grid-area "favo"}]
                [:.specialtyinfo {:grid-area "spec"}]
                [:.health-track-module {:grid-area "heal"}
@@ -764,10 +787,10 @@
                                                                     "chrn chrn chrn chrn chrn chrn chrn chrn chrn"
                                                                     ".... .... .... .... .... .... .... .... ...."
                                                                     "attr attr attr attr attr attr attr attr attr"
-                                                                    "abil abil abil abil spec spec spec spec spec"
-                                                                    "abil abil abil abil spec spec spec spec spec"
-                                                                    "abil abil abil abil .... .... .... .... ...."
-                                                                    "abil abil abil abil .... .... .... .... ...."
+                                                                    "abil abil abil abil abil spec spec spec spec"
+                                                                    "abil abil abil abil abil spec spec spec spec"
+                                                                    "abil abil abil abil abil .... .... .... ...."
+                                                                    "abil abil abil abil abil .... .... .... ...."
                                                                     "meri meri meri meri meri meri meri meri meri"
                                                                     ".... .... .... .... .... .... .... .... ...."
                                                                     "essi essi essi essi essi essi essi essi essi"
@@ -817,7 +840,7 @@
                               [:form {:column-count 2}]]
                              [:.coreinfo {:grid-area "core"}
                               [:form {:column-count 1}]]])
-              (gss/at-media {:min-width :1100px}
+              (gss/at-media {:min-width :1200px}
                             [:.page-content {:grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
                                              :grid-template-areas   (grid-area-strings
                                                                       "head head head core core core core core core"
