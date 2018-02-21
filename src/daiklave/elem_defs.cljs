@@ -119,7 +119,9 @@
                     (standard-on-change-for path read-only))}])
    (when aux-widget aux-widget)
    [:p.dot-bar
-    [:button.minus "-"]
+    [:button.minus
+     {:on-click (fn [] (if (>= (dec value) min) (daistate/change-element! path (dec value))))}
+     "-"]
     (map (fn [a] (if (and (< (dec a) value) (not (= a 0)))
                    [:span.active-dot {:key      (str "dot-active " a)
                                       :on-click #(if on-change
@@ -133,7 +135,9 @@
          (range
            (if (> min 0) min 1)
            (inc max)))
-    [:button.plus "+"]]])
+    [:button.plus
+     {:on-click (fn [] (if (>= max (inc value)) (daistate/change-element! path (inc value))))}
+     "+"]]])
 
 (defn- make-merit-ranks-field-data
   [{:keys [path value readonly] :as fieldmap}]
