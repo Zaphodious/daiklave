@@ -119,7 +119,7 @@
                     (standard-on-change-for path read-only))}])
    (when aux-widget aux-widget)
    [:p.dot-bar
-    [:button "-"]
+    [:button.minus "-"]
     (map (fn [a] (if (and (< (dec a) value) (not (= a 0)))
                    [:span.active-dot {:key      (str "dot-active " a)
                                       :on-click #(if on-change
@@ -133,7 +133,7 @@
          (range
            (if (> min 0) min 1)
            (inc max)))
-    [:button "+"]]])
+    [:button.plus "+"]]])
 
 (defn- make-merit-ranks-field-data
   [{:keys [path value readonly] :as fieldmap}]

@@ -537,23 +537,32 @@
                   :top :5px
                   :background-image button-bar-background
                   :box-shadow inputshadow
-                  :border-radius :10px}]
-      [:button {:height :20px
-                :width :20px
-                :padding 0
-                :border-radius :15px
-                :position :relative
-                :bottom :3px
-                :box-shadow minor-button-shadow}]
-      [:.inactive-dot :.active-dot {:margin 0,
-                                    :margin-right :1px
-                                    :margin-left :1px
-                                    :padding (-px 0)
-                                    :display :inline-block
-                                    :width :15px
-                                    :height :15px
-                                    :background-position :center
-                                    :background-size :cover}]
+                  :border-radius :10px}
+       [:button {:height :15px
+                 :width :15px
+                 :padding 0
+                 :border :none
+                 :color :transparent
+                 :border-radius :0px
+                 :position :relative
+                 :bottom :2px
+                 :box-shadow :none
+                 :background-color :transparent
+                 :background-position :center
+                 :background-size :cover}]
+       [:.minus {:background-image (url "../img/screw_minus.png")}]
+       [:.plus {:background-image (url "../img/screw_plus.png")}]
+       [:.inactive-dot :.active-dot {:margin 0,
+                                     :margin-right :1px
+                                     :margin-left :1px
+                                     :padding (-px 0)
+                                     :display :inline-block
+                                     :width :15px
+                                     :height :15px
+                                     :background-position :center
+                                     :background-size :cover
+                                     :position :relative
+                                     :botom :1px}]]
        ;[:&:before {:content "\"⚫\""}]]
       [:.zero-dot {:background-image (url "../img/dot_bar.png")}]
       [:.favored {:display             :inline-block

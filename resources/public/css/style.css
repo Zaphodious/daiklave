@@ -544,23 +544,38 @@ form p .field .dot-bar {
   padding-top: 5px;
 }
 
-form p .field button {
-  height: 20px;
-  width: 20px;
+form p .field .dot-bar button {
+  width: 15px;
+  background-position: center;
+  height: 15px;
+  border: none;
   padding: 0;
-  border-radius: 15px;
   position: relative;
-  bottom: 3px;
-  box-shadow: 0 0px 5px #666666;
+  background-size: cover;
+  box-shadow: none;
+  background-color: transparent;
+  border-radius: 0px;
+  bottom: 2px;
+  color: transparent;
 }
 
-form p .field .inactive-dot, form p .field .active-dot {
+form p .field .dot-bar .minus {
+  background-image: url(../img/screw_minus.png);
+}
+
+form p .field .dot-bar .plus {
+  background-image: url(../img/screw_plus.png);
+}
+
+form p .field .dot-bar .inactive-dot, form p .field .dot-bar .active-dot {
   width: 15px;
+  botom: 1px;
   background-position: center;
   height: 15px;
   margin: 0;
   margin-right: 1px;
   padding: 0.0px;
+  position: relative;
   background-size: cover;
   margin-left: 1px;
   display: inline-block;
