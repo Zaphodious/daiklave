@@ -113,12 +113,12 @@
 
 (def button-bar-background [(url "../img/brushed_metal.png")
                             (linear-gradient
-                              (assoc (gc/darken sun-gold 10) :alpha 0.3)
-                              (assoc (gc/darken sun-gold 10) :alpha 0.5)
-                              (assoc (gc/darken sun-gold 5) :alpha 0.7)
-                              (assoc (gc/darken sun-gold 5) :alpha 0.6)
-                              (assoc (gc/darken sun-gold 10) :alpha 0.5)
-                              (assoc (gc/darken sun-gold 40) :alpha 0.3))])
+                              (assoc (gc/darken sun-gold 20) :alpha 0.3)
+                              (assoc (gc/darken sun-gold 20) :alpha 0.5)
+                              (assoc (gc/darken sun-gold 15) :alpha 0.7)
+                              (assoc (gc/darken sun-gold 15) :alpha 0.6)
+                              (assoc (gc/darken sun-gold 20) :alpha 0.5)
+                              (assoc (gc/darken sun-gold 50) :alpha 0.3))])
 
 
 
