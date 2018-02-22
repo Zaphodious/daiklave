@@ -300,7 +300,7 @@
            :top              :6px
            :color            (gc/lighten (gc/complement sun-gold) 35)
            :background-color (gc/darken (gc/complement sun-gold) 45)}]]
-
+        [:&.disallowed {:border-color :red}]
         [:.select-title :.select-byline :.select-contains
          {:background-color (gc/darken sun-gold 45)
           :color            (gc/lighten sun-gold 35)

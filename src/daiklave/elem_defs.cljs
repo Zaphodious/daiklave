@@ -826,6 +826,16 @@
                                                     :path           (conj path :charms)
                                                     :new-element    "Wise Arrow"
                                                     :sort-fn        compare
+                                                    :on-add-fn #(daistate/show-modal
+                                                                  :charm-add
+                                                                  "Add a Charm"
+                                                                  {:change-path  (conj path :charms)
+                                                                   :rulebook-ids (:rulebooks view)
+                                                                   :ability :archery
+                                                                   :query        ""
+                                                                   :character-essence (:rating (:essence view))
+                                                                   :character-abilities (:abilities view)
+                                                                   :character-supernal (:supernal view)})
                                                     :table-row-data (map-indexed (fn [n a]
                                                                                    (let [[book-id charm]
                                                                                          (->> {:thing-name     a
@@ -1013,6 +1023,40 @@
                                                                  :rank dots
                                                                  :note note}))))}
                   "Add This Merit"]]})))
+
+(defmethod fp/modal-for :charm-add
+  [{:keys [change-path query selected ability rulebook-ids character-essence character-abilities character-supernal] :as modal-map}]
+  (let [existant-rulebooks (daistate/fetch-view-for change-path)]
+    (fp/modal-interior-for
+      {:modal-component [(fp/form-field-for {:field-type :select-single, :value ability, :label "Ability", :path [:modal :ability], :options daihelp/ability-keys})
+                         (fp/modal-search-component
+                          (into modal-map
+                                {:on-query-change (standard-on-change-for [:modal :query] false)
+                                 :element-data
+                                                  (map (fn [{:keys [name min-essence min-ability ability parent-id prereq-charms] :as a}]
+                                                         {:title  (:name a)
+                                                          :img    (:view (daistate/fetch-view-for [:rulebooks (:parent-id a) :img]))
+                                                          :byline (str "Prerequisite Charms: " (:prereq-charms a))
+                                                          :detail (:description a)
+                                                          :disallowed (not (and (>= character-essence min-essence)
+                                                                                (>= (ability character-abilities)
+                                                                                    min-ability)))
+                                                          :key    (:name a)})
+                                                       (->> {:thing-name     (str/lower-case query)
+                                                             :path-before-id [:rulebooks]
+                                                             :path-after-id  [:charms ability :charms]
+                                                             :id-vec         rulebook-ids
+                                                             :exact-match?   false}
+                                                            (daistate/get-named-elements)
+                                                            (map daistate/put-id-into-named-elements)
+                                                            (reduce conj)))}))]
+
+
+       :buttons         [[:button
+                          {:on-click
+                           #(daistate/apply-modal-and-hide change-path
+                                                           (fn [a] (conj a (:view (daistate/fetch-view-for [:modal :selected])))))}
+                          "Add Selected Charm"]]})))
 
 [:description
  :confers-merits

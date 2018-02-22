@@ -269,9 +269,11 @@
             :on-change on-query-change}]
    [:ul
     (when (not (= "" query))
-      (map (fn [{:keys [title img byline detail key element-full]}]
+      (map (fn [{:keys [title img byline detail key element-full disallowed]}]
              [:li {:style    {:background-image (str "url(" (daihelp/thumbnail-for img) ")")}
-                   :class    (when (and selected key (= selected key)) "selected")
+                   :class    (str
+                               (when disallowed " disallowed ")
+                               (when (and selected key (= selected key)) " selected "))
                    :on-click (fn []
                                (daistate/change-element! [:modal :selected-full] element-full)
                                (daistate/change-element! [:modal :selected] key))}

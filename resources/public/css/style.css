@@ -195,6 +195,10 @@ body {
   background-color: #041648;
 }
 
+#app-frame .modal-window .element-search ul li.disallowed {
+  border-color: red;
+}
+
 #app-frame .modal-window .element-search ul li .select-title, #app-frame .modal-window .element-search ul li .select-byline, #app-frame .modal-window .element-search ul li .select-contains {
   width: max-content;
   top: 10px;
