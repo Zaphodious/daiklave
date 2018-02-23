@@ -336,12 +336,12 @@
      [:button.menu-toggle {:position :fixed
                            :right    :20px
                            :top      :3px
-                           :z-index  20}]
+                           :z-index  120}]
      [:.page-menu {:background-image menu-background-image
                    :position         :fixed
                    :box-shadow       "inset 0 0 5px grey"
 
-                   :z-index          9
+                   :z-index          109
                    ;:box-shadow elementshadow
                    :transition       "top .5s, opacity .5s"
                    :width            (calchelper :100% - :40px)
