@@ -49,7 +49,7 @@
                               :favored-abilities    [:awareness, :brawl, :bureaucracy, :dodge, :integrity, :linguistics, :lore, :occult, :socialize, :martial-arts]
                               :supernal             :lore
                               :xp                   {:spent  55
-                                                     :wallet 10
+                                                     :earned 60
                                                      :solar  0
                                                      :silver 3
                                                      :gold   2
@@ -106,7 +106,7 @@
                               :favored-abilities    [:archery, :athletics, :brawl, :craft, :integrity, :larceny, :melee, :resistance, :sail, :survival]
                               :supernal             :melee
                               :xp                   {:spent  55
-                                                     :wallet 10
+                                                     :earned 60
                                                      :solar  0
                                                      :silver 3
                                                      :gold   2
@@ -157,7 +157,7 @@
                               :favored-abilities [:athletics, :brawl, :integrity, :lore, :occult, :performance, :presence, :resistance, :thrown, :awareness]
                               :supernal          :athletics
                               :xp                {:spent  55
-                                                  :wallet 10
+                                                  :earned 60
                                                   :solar  0
                                                   :silver 3
                                                   :gold   2
@@ -177,15 +177,15 @@
                                                   {:type :principle, :severity :major, :feeling "", :description "I've Earned My Liberty"}
                                                   {:type :tie, :severity :minor, :feeling "Rush", :description "The wind as I run is the voice of my mother"}
                                                   {:type :tie, :severity :minor, :feeling "Distaste", :description "The cheater's victory of the bane of my father"}]
-                              :charms               ["Ferocious Jab"
-                                                     "Heaven Thunder Hammer"
-                                                     "Lightning Speed"
-                                                     "Racing Hare Method"
-                                                     "Winning Stride Discipline"
-                                                     "Arete-Driven Marathod Stride"
-                                                     "One Extra Step"
-                                                     "Whirlwind Approach"
-                                                     "Hurricane Spirit Speed"]}}
+                              :charms            ["Ferocious Jab"
+                                                  "Heaven Thunder Hammer"
+                                                  "Lightning Speed"
+                                                  "Racing Hare Method"
+                                                  "Winning Stride Discipline"
+                                                  "Arete-Driven Marathod Stride"
+                                                  "One Extra Step"
+                                                  "Whirlwind Approach"
+                                                  "Hurricane Spirit Speed"]}}
 
    :rulebooks  {:name        "Rulebooks"
                 :category    :rulebooks
