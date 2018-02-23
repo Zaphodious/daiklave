@@ -262,14 +262,15 @@
    section-comp])
 
 (rum/defc modal-search-component
-  [{:keys [change-path query on-query-change selected element-data] :as modal-map}]
+  [{:keys [change-path query on-query-change selected element-data sort-fn aux-component] :as modal-map}]
   [:.element-search
+   aux-component
    [:input {:type      :text
             :value     query
             :on-change on-query-change}]
    [:ul
     (when (not (= "" query))
-      (map (fn [{:keys [title img byline detail key element-full disallowed]}]
+      (map (fn [{:keys [title img key element-full disallowed lines]}]
              [:li {:style    {:background-image (str "url(" (daihelp/thumbnail-for img) ")")}
                    :class    (str
                                (when disallowed " disallowed ")
@@ -278,6 +279,7 @@
                                (daistate/change-element! [:modal :selected-full] element-full)
                                (daistate/change-element! [:modal :selected] key))}
               [:.select-title title]
-              [:.select-byline byline]
-              [:.select-contains detail]])
-           element-data))]])
+              (when lines (map (fn [a] [:.line a]) lines))])
+           (if sort-fn
+             (sort sort-fn element-data)
+             element-data)))]])

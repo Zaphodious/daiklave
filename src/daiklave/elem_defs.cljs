@@ -835,7 +835,8 @@
                                                                    :query        ""
                                                                    :character-essence (:rating (:essence view))
                                                                    :character-abilities (:abilities view)
-                                                                   :character-supernal (:supernal view)})
+                                                                   :character-supernal (:supernal view)
+                                                                   :character-charms (:charms view)})
                                                     :table-row-data (map-indexed (fn [n a]
                                                                                    (let [[book-id charm]
                                                                                          (->> {:thing-name     a
@@ -953,8 +954,8 @@
                                  (map (fn [a]
                                         {:title (:name a)
                                          :img (:img a)
-                                         :byline (str "By: " (:storyteller a))
-                                         :detail (str "Contains: "(get-rulebook-contains a))
+                                         :lines [(str "By: " (:storyteller a))
+                                                 (str "Contains: "(get-rulebook-contains a))]
                                          :key (:key a)})
                                    (:view (daistate/search-in [:rulebooks] query [:name :storyteller])))}))
        :buttons [[:button
@@ -986,8 +987,8 @@
                                                (:view (daistate/fetch-view-for [:rulebooks parent-id]))]
                                            {:title name
                                             :img img
-                                            :byline (str "Possible Ranks: " ranks)
-                                            :detail (str "Description: "(reduce #(str %1 " " %2) (take 9 (str/split description #" "))))
+                                            :lines [(str "Possible Ranks: " ranks)
+                                                    (str "Description: "(reduce #(str %1 " " %2) (take 9 (str/split description #" "))))]
                                             :key name
                                             :element-full a}))
                                        (->>  {:thing-name (str/lower-case query)
@@ -1025,20 +1026,26 @@
                   "Add This Merit"]]})))
 
 (defmethod fp/modal-for :charm-add
-  [{:keys [change-path query selected ability rulebook-ids character-essence character-abilities character-supernal] :as modal-map}]
+  [{:keys [change-path query selected ability rulebook-ids character-essence character-abilities character-supernal character-charms] :as modal-map}]
   (let [existant-rulebooks (daistate/fetch-view-for change-path)]
     (fp/modal-interior-for
-      {:modal-component [(fp/form-field-for {:field-type :select-single, :value ability, :label "Ability", :path [:modal :ability], :options daihelp/ability-keys})
+      {:modal-component [:.charm-modal-interior
                          (fp/modal-search-component
                           (into modal-map
                                 {:on-query-change (standard-on-change-for [:modal :query] false)
+                                 :sort-fn (daihelp/map-compare-fn-for {:essence 100 :ability 10 :title 1})
+                                 :aux-component (fp/form-field-for {:field-type :select-single, :value ability, :label "Ability", :path [:modal :ability], :options daihelp/ability-keys})
                                  :element-data
-                                                  (map (fn [{:keys [name min-essence min-ability ability parent-id prereq-charms] :as a}]
-                                                         {:title  (:name a)
+                                                  (map (fn [{:keys [name min-essence min-ability ability parent-id prereq-charms description] :as a}]
+                                                         {:title  name
+                                                          :essence min-essence
+                                                          :ability min-ability
                                                           :img    (:view (daistate/fetch-view-for [:rulebooks (:parent-id a) :img]))
-                                                          :byline (str "Prerequisite Charms: " (:prereq-charms a))
-                                                          :detail (:description a)
-                                                          :disallowed (not (and (>= character-essence min-essence)
+                                                          :lines [(str "Mins: Essence " min-essence ", " (make-pretty ability) " " min-ability)
+                                                                  (str "Prerequisite Charms: " prereq-charms)
+                                                                  (str "Description: " description)]
+                                                          :disallowed (not (and (or (>= character-essence min-essence)
+                                                                                    (= character-supernal ability))
                                                                                 (>= (ability character-abilities)
                                                                                     min-ability)))
                                                           :key    (:name a)})
@@ -1049,7 +1056,8 @@
                                                              :exact-match?   false}
                                                             (daistate/get-named-elements)
                                                             (map daistate/put-id-into-named-elements)
-                                                            (reduce conj)))}))]
+                                                            (reduce conj)
+                                                            (filter (fn [a] (not ((set character-charms) (:name a)))))))}))]
 
 
        :buttons         [[:button

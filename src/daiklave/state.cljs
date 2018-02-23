@@ -129,7 +129,7 @@
 
 (defn change-element!
   [element-path change-val]
-  (println "you gotsa " element-path ", and you gotsa " change-val)
+  ;(println "you gotsa " element-path ", and you gotsa " change-val)
   (if (and element-path change-val
            (not (= change-val (:view (fetch-view-for element-path)))))
     (let [change-fn (if (fn? change-val)

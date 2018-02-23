@@ -265,13 +265,14 @@
                     :right    0
                     :padding  :15px}]
      [:.element-search
-      [:input {:width         (calchelper :100% - :50px)
-               :margin-left   :15px
-               :margin-top    :3px
-               :height        :50px
-               :font-size     :20px
-               :padding-left  :10px
-               :padding-right :10px}]
+      [:input :select
+       {:width         (calchelper :100% - :50px)
+        :margin-left   :15px
+        :margin-top    :3px
+        :height        :50px
+        :font-size     :20px
+        :padding-left  :10px
+        :padding-right :10px}]
       [:ul {:overflow   :scroll
             ;:border :solid
             :display    :block
@@ -285,33 +286,39 @@
        [:li {;:font-size :1.5em
              :position            :relative
              :list-style          :none
-             :height              :120px
+             :height              (calchelper :auto + :20px)
              :margin              :10px
              :background-size     :cover
-             :background-position :right
+             :background-position :top-right
+             :background-color :blue
              :box-shadow          elementshadow}
         [:&.selected {:border        :solid
                       :border-color  :white
                       :border-width  :4px
-                      :border-radius :20px
-                      :height        :112px}
-         [:.select-title :.select-byline :.select-contains
-          {:left             :6px
-           :top              :6px
-           :color            (gc/lighten (gc/complement sun-gold) 35)
-           :background-color (gc/darken (gc/complement sun-gold) 45)}]]
+                      ;:border-radius :20px
+                      :height        :auto}
+         [:.select-title :.line
+          {:left             :0px
+           :top              :0px
+           :color            (gc/lighten moon-blue 35)
+           :background-color (assoc (gc/darken moon-blue 45) :alpha 0.7)}]]
         [:&.disallowed {:border-color :red}]
-        [:.select-title :.select-byline :.select-contains
-         {:background-color (gc/darken sun-gold 45)
+        [:.select-title :.line
+         {:background-color (assoc (gc/darken sun-gold 45) :alpha 0.7)
           :color            (gc/lighten sun-gold 35)
+          :text-shadow "0px 0px 7px black"
           :display          :block
           :position         :relative
-          :top              :10px
-          :left             :10px
-          :width            :max-content
+          :top              :0px
+          :left             :0px
+          :width            (calchelper :100% - :3px - :18px)
           :padding          :3px
+          :padding-left :18px
           :overflow         :wrap}
          [:&:after {:display :block}]]
+        [:&.disallowed [:.select-title :.line {:color (gc/lighten moon-blue 30)
+                                               :background-color (assoc (gc/darken sun-gold 60) :alpha 0.8)}]]
+                                               ;:text-shadow "0px 0px 2px white"}]]
         ;[:.select-byline [:&:before {:content "\"By: \""}]]
         [:.select-contains
          {:max-width (calchelper :100% - :25px)}]]]]
@@ -320,7 +327,9 @@
       [:ul {:bottom :170px}]
       [:form {:position :absolute
               :bottom :45px
-              :width :100%}]]]
+              :width :100%}]]
+     [:.charm-modal-interior
+      [:ul {:top :180px}]]]
 
     [:.menu-assembly {:position :absolute
                       :width    :100%}
