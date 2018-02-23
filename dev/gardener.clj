@@ -224,13 +224,13 @@
            :background-repeat     :no-repeat
            :background-attachment :fixed
            :background-position   [:right :center]
-           :background-size       :cover
-           :height                :100%
-           :overflow              :hide}]
-   [:#app {:width :100% :height :100% :overflow :hide}]
-   [:#app-frame {:position   :fixed
-                 :overflow-y :hidden
-                 :overflow-x :auto
+           :background-size       :cover}]
+           ;:height                :100%}]
+           ;:overflow              :hide}]
+   [:#app {:width :100% :height :100%}] ;:overflow :hide}]
+   [:#app-frame {;:position   :fixed
+                 ;:overflow-y :hidden
+                 ;:overflow-x :auto
                  :top        0
                  :left       0
                  :width      :100%
@@ -333,12 +333,12 @@
 
     [:.menu-assembly {:position :absolute
                       :width    :100%}
-     [:button.menu-toggle {:position :absolute
+     [:button.menu-toggle {:position :fixed
                            :right    :20px
                            :top      :3px
                            :z-index  20}]
      [:.page-menu {:background-image menu-background-image
-                   :position         :absolute
+                   :position         :fixed
                    :box-shadow       "inset 0 0 5px grey"
 
                    :z-index          9
@@ -365,9 +365,12 @@
 
 
    [:.page {:width    :100%
-            :height   :100%
+            :height   (calchelper :100% + :30px)
             :position :relative}
+            ;:top :30px}
     [:h1.page-title {:width            :100%
+                     :position :fixed
+                     :top 0
                      ;:background-color (:element-darker brown)
 
                      ;:color            color-text-bright
@@ -381,14 +384,13 @@
                      :font-weight      :bolder
                      :box-shadow       elementshadow
                      :text-shadow      title-text-shadow
-                     :position         :relative
                      :z-index          10}]
 
 
     ;:right :0px}]]
-    [:.page-content {:height     (calchelper :100vh - title-bar-height - :10px)
-                     :overflow-y :auto
-                     :overflow-x :hidden}
+    [:.page-content {};:height     (calchelper :100vh - title-bar-height - :10px)
+                     ;:overflow-y :auto
+                     ;:overflow-x :hidden}
 
      [:.element-button-bar {:background-color :transparent
                             :margin           (-px (* page-content-margin-scalar 2))
@@ -419,6 +421,7 @@
                       ;:border-bottom-left-radius :30px
                       ;:border-top-right-radius :30px
                       :position         :relative
+                      :top :30px
                       :box-shadow       elementshadow}
       [:&.button-bar {:padding :10px}]
       [:& {:padding-bottom 0}]
@@ -749,7 +752,7 @@
 
 
      [:.page-content {;:display    :grid
-                      :overflow-y :scroll
+                      ;:overflow-y :scroll
                       :width      :100%}]]]])
 
 
@@ -767,6 +770,7 @@
             [:.desktop
              [:span.row-container {:display :inline-block
                                    :width :100%}]
+             [:.page  [:h1.page-title {:position :absolute}]]
              [:.character-page
               [:.page-content {:display               :grid
                                :grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}
@@ -803,7 +807,9 @@
                [:.experience-module {:grid-area "xpxp"}]
                [:.limit-info {:grid-area "limt"}]]
               (gss/at-media {:min-width :700px}
-                            [:.page-content {:grid-template-areas (grid-area-strings
+                            [:.page-content {:overflow :scroll
+                                             :height (calchelper :100% - :30px)
+                                             :grid-template-areas (grid-area-strings
                                                                     "head head head head head head head head head"
                                                                     ".... .... .... .... .... .... .... .... ...."
                                                                     "core core core core core core core core core"
@@ -827,6 +833,7 @@
                                                                     "inti inti inti inti inti inti inti inti inti"
                                                                     "inti inti inti inti inti inti inti inti inti"
                                                                     "char char char char char char char char char")}
+
                              [:.attributeinfo
                               [:form {:column-count 2}]]
                              [:.rulebooks-used
