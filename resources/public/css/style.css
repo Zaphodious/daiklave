@@ -298,7 +298,7 @@ body {
   top: 0;
   text-align: center;
   position: fixed;
-  z-index: 10;
+  z-index: 110;
   font-weight: bolder;
   box-shadow: 0 -3px 10px #666666;
   background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 25%, 0.7), hsla(44.505493, 89.21568%, 30%, 0.7), hsla(44.505493, 89.21568%, 35%, 0.7), hsla(44.505493, 89.21568%, 40%, 0.7), hsla(44.505493, 89.21568%, 45%, 0.7), hsla(44.505493, 89.21568%, 65%, 0.7), hsla(44.505493, 89.21568%, 90%, 0.7));
@@ -311,7 +311,7 @@ body {
 
 .page .page-content .element-button-bar {
   right: 5px;
-  top: 5px;
+  top: 30px;
   margin: 14.0px;
   padding: 7.0px;
   text-align: right;
@@ -476,11 +476,14 @@ body {
 .page .page-content .page-section h3, .page .page-content .page-section h4, .page .page-content .page-section h5, .page .page-content .page-section h6 {
   border-bottom: solid;
   border-width: 1px;
+  top: 30px;
   border-color: #6f98a9;
   margin-right: -5px;
   padding: 4px;
   text-align: justify;
+  position: sticky;
   margin-top: 0px;
+  z-index: 100;
   margin-left: -5px;
   background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 25%, 0.7), hsla(44.505493, 89.21568%, 30%, 0.7), hsla(44.505493, 89.21568%, 35%, 0.7), hsla(44.505493, 89.21568%, 40%, 0.7), hsla(44.505493, 89.21568%, 45%, 0.7), hsla(44.505493, 89.21568%, 65%, 0.7), hsla(44.505493, 89.21568%, 90%, 0.7));
   text-shadow: 0 0 10px #f1b70e;
@@ -925,6 +928,11 @@ button.aggravated {
   position: absolute;
 }
 
+.desktop .page .page-content {
+  overflow: scroll;
+  height: calc(100%  -  30px);
+}
+
 .desktop .character-page .page-content {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -1029,8 +1037,6 @@ button.aggravated {
 @media (min-width: 700px) {
 
   .desktop .character-page .page-content {
-    overflow: scroll;
-    height: calc(100%  -  30px);
     grid-template-areas: 
 "head head head head head head head head head"
 ".... .... .... .... .... .... .... .... ...."

@@ -384,7 +384,7 @@
                      :font-weight      :bolder
                      :box-shadow       elementshadow
                      :text-shadow      title-text-shadow
-                     :z-index          10}]
+                     :z-index          110}]
 
 
     ;:right :0px}]]
@@ -399,7 +399,7 @@
                             :text-align       :right
                             :z-index          150
                             :position         :relative
-                            :top              :5px
+                            :top              :30px
                             :right            :5px
                             :padding          (-px 7)}]
      [:a {:height :auto}]
@@ -497,7 +497,9 @@
       [:h3 :h4 :h5 :h6 {:text-align       :justify
                         :border-bottom    :solid
                         :border-color     "#6f98a9"
-
+                        :position :sticky
+                        :top :30px
+                        :z-index 100
 
                         :background-image title-background-image
                         ;(assoc (gc/as-rgb (gc/from-name "white")) :alpha 0.7))]
@@ -770,7 +772,9 @@
             [:.desktop
              [:span.row-container {:display :inline-block
                                    :width :100%}]
-             [:.page  [:h1.page-title {:position :absolute}]]
+             [:.page  [:h1.page-title {:position :absolute}]
+              [:.page-content {:overflow :scroll
+                               :height (calchelper :100% - :30px)}]]
              [:.character-page
               [:.page-content {:display               :grid
                                :grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}
@@ -807,9 +811,7 @@
                [:.experience-module {:grid-area "xpxp"}]
                [:.limit-info {:grid-area "limt"}]]
               (gss/at-media {:min-width :700px}
-                            [:.page-content {:overflow :scroll
-                                             :height (calchelper :100% - :30px)
-                                             :grid-template-areas (grid-area-strings
+                            [:.page-content {:grid-template-areas (grid-area-strings
                                                                     "head head head head head head head head head"
                                                                     ".... .... .... .... .... .... .... .... ...."
                                                                     "core core core core core core core core core"
