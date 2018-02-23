@@ -74,21 +74,23 @@
                   options)]))
 
 (rum/defc number-field < rum/static
-  [{:keys [path value options read-only min max class] :as fieldmap}]
+  [{:keys [path value options read-only min max fraction? class] :as fieldmap}]
   (if read-only
     [:span.input-readonly
      {:class class}
      (str value)]
     (let [button-fn (partial daistate/change-element! path)]
       [:.field.number-field
-       [:button {:type :button, :on-click #(button-fn inc)} "+"]
        [:button {:type :button, :on-click #(button-fn dec)} "-"]
        [:input
         {:type      :number
+         :class (when fraction? "fraction-top")
          :value     value :id (pr-str path) :key (pr-str path)
          :min       min :max max
          :readOnly  read-only
-         :on-change (standard-on-change-for path read-only)}]])))
+         :on-change (standard-on-change-for path read-only)}]
+       (when fraction? [:span.fraction-bottom max])
+       [:button {:type :button, :on-click #(button-fn inc)} "+"]])))
 
 (rum/defc balanced-number-field < rum/static
   [{:keys [path-a path-b value-a value-b read-only min-a min-b max-a max-b label-a label-b] :as fieldmap}]
