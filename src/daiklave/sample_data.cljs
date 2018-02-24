@@ -169,7 +169,7 @@
                                                       [:thrown "Slinging breakables"]
                                                       [:lore "History of Artifice"]
                                                       [:occult "Workings of Artifice"]]
-                               :merits               [{:name "Artifact" :rank 4 :note "The Fang of Creation"}
+                               :merits               [{:name "Artifact" :rank 4 :note "The Fang"}
                                                       {:name "Retainers" :rank 4 :note "Genius 'Esmesi'"}
                                                       {:name "Wings" :rank 5 :note "Angle Wings granted by former master"}
                                                       {:name "Subtlety" :rank 2 :note "Wings merge with skin"}]
