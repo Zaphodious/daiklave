@@ -637,6 +637,19 @@ form p .number-field input {
   width: calc(100%  -  80px);
 }
 
+form p .number-field input.fraction-top {
+  width: calc(50%  -  13px);
+}
+
+form p .number-field span.fraction-bottom {
+  display: inline-block;
+  width: calc(50%  -  80px);
+}
+
+form p .number-field span.fraction-bottom:before {
+  content: " Out of ";
+}
+
 form p .number-field button {
   width: 20px;
 }

@@ -596,7 +596,11 @@
       [:.selected.zenith {:background-image (url "../img/zenith.png")}]
       [:.not-selected {:background-image :none}]] ;(url "../img/caste_check.png")}]]
      [:.number-field
-      [:input {:width (calchelper :100% - :80px)}]
+      [:input {:width (calchelper :100% - :80px)}
+       [:&.fraction-top {:width (calchelper :50% - :13px)}]]
+      [:span.fraction-bottom {:display :inline-block
+                              :width (calchelper :50% - :80px)}
+       [:&:before {:content "\" Out of \""}]]
       [:button {:width :20px}]]
      [:.read-only {:border 0,}]
      ;:background-color color-brightest}]

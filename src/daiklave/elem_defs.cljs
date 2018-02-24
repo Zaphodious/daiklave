@@ -789,9 +789,6 @@
                                             [
                                              {:field-type :number, :label "Earned", :value (-> view :xp :earned), :path (conj path :xp :earned)}
                                              {:field-type :number, :label "Spent", :value (-> view :xp :spent), :path (conj path :xp :spent), :min 0, :max (-> view :xp :earned), :fraction? true}
-                                             {:field-type :balanced-number, :label "Regular"
-                                              :value-a    (-> view :xp :spent), :path-a (conj path :xp :spent), :min-a 1, :max-a 1000000, :label-a "Spent"
-                                              :value-b    (-> view :xp :earned), :path-b (conj path :xp :earned), :min-b 0, :max-b 1000000, :label-b "Unspent"}
                                              {:field-type :number, :label "Solar", :value (-> view :xp :solar), :min 0, :max 100000, :path (conj path :xp :solar)}
                                              {:field-type :number, :label "Silver", :value (-> view :xp :silver), :min 0, :max 100000, :path (conj path :xp :silver)}
                                              {:field-type :number, :label "Gold", :value (-> view :xp :gold), :min 0, :max 100000, :path (conj path :xp :gold)}
