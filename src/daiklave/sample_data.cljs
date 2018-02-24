@@ -130,6 +130,55 @@
                                                      "Fists of Iron Technique"
                                                      "Ferocious Jab"
                                                      "Heaven Thunder Hammer"]}
+                "7777777777"  {:name                 "Lin Fang",
+                               :long-description     "The savior of his people."
+                               :description          "Slave Artificer"
+                               :anima                "The Thousand Toils of the Djala"
+                               :player               "Kenai",
+                               :key                  "7777777777",
+                               :img                  "https://orig00.deviantart.net/6aee/f/2010/339/b/e/nolani__zenith_solar_by_mousewrites-d34b9sb.jpg"
+                               :category             :character,
+                               :type                 :solar,
+                               :rulebooks            ["0", "1"],
+                               :limit                {:trigger "To be addressed like a slave"
+                                                      :accrued 0}
+                               :health-module        {:levels     [3 1 4 5]
+                                                      :bashing    2
+                                                      :lethal     1
+                                                      :aggravated 3}
+                               :willpower            {:temporary 2 :max 4}
+                               :subtype              :twilight,
+                               :last-accessed        0
+                               :attributes           {:strength 2, :dexterity 4, :stamina 2, :charisma 2, :manipulation 3, :appearance 2, :perception 2, :intelligence 5, :wits 3}
+                               :abilities            {:lore 5, :occult 5, :medicine 1, :integrity 2, :bureaucracy 1, :larceny 1, :thrown 3, :survival 1, :brawl 1, :stealth 2}
+                               :abilities-additional [[:craft, 5, "Machinery"] [:craft, 3, "Carpentry"] [:craft, 3, "First Age Artifice"]]
+                               :favored-abilities    [:craft, :lore, :medicine, :integrity, :bureaucracy, :larceny, :thrown, :survival, :brawl, :occult]
+                               :supernal             :craft
+                               :xp                   {:spent  0
+                                                      :earned 25
+                                                      :solar  0
+                                                      :silver 3
+                                                      :gold   2
+                                                      :white  1}
+                               :essence              {:rating                     1
+                                                      :motes-spent-personal       0
+                                                      :motes-spent-peripheral     0
+                                                      :motes-committed-peripheral 0
+                                                      :motes-committed-personal   0}
+                               :specialties          [[:crafting "Under Pressure"]
+                                                      [:thrown "Slinging breakables"]
+                                                      [:lore "History of Artifice"]
+                                                      [:occult "Workings of Artifice"]]
+                               :merits               [{:name "Artifact" :rank 4 :note "The Fang"}
+                                                      {:name "Retainers" :rank 4 :note "Genius 'Esmesi'"}
+                                                      {:name "Wings" :rank 5 :note "Angle Wings granted by former master"}
+                                                      {:name "Subtlety" :rank 2 :note "Wings merge with skin"}]
+                               :intimacies           [{:type :principle, :severity :defining, :feeling "", :description "I must save my people"}
+                                                      {:type :principle, :severity :major, :feeling "Thrill", :description "I will recreate the First Age"}
+                                                      {:type :tie, :severity :major, :feeling "Deep Love", :description "Genius 'Esmesi'"}
+                                                      {:type :tie, :severity :minor, :feeling "Distrust", :description "Other races"}
+                                                      {:type :tie, :severity :minor, :feeling "Impressed", :description "Kaji"}]
+                               :charms               []}
 
                 "789789789"  {:name              "Daesh",
                               :description       "The Greastest Olympian"
