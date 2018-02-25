@@ -671,33 +671,33 @@
                                                                       [:span.favored.not-selected])})))
 
                                                  (sort daihelp/ability-keys)))
-                                (fp/soft-table-for {:form-title "Additional abilities"
-                                                    :form-name "additional-ability-info"
-                                                    :path (conj path :abilities-additional)
+                                (fp/soft-table-for {:form-title  "Additional abilities"
+                                                    :form-name   "additional-ability-info"
+                                                    :path        (conj path :abilities-additional)
                                                     :new-element {:ability :craft, :rank 3, :description "Glass Blowing"}
-                                                    :sort-fn (daihelp/map-compare-fn-for {:ability 100 :rank 10 :description 1})
+                                                    :sort-fn     (daihelp/map-compare-fn-for {:ability 100 :rank 10 :description 1})
                                                     :table-row-data
-                                                    (map-indexed (fn [n a]
-                                                                   [
-                                                                    {:field-type :select-single
-                                                                     :label "Ability"
-                                                                     :value (:ability a)
-                                                                     :path (conj path :abilities-additional n :ability)
-                                                                     :options daihelp/ability-all-keys
-                                                                     :cell-type "word"}
-                                                                    {:field-type :dots
-                                                                     :label "Rank"
-                                                                     :value (:rank a)
-                                                                     :path (conj path :abilities-additional n :rank)
-                                                                     :min 0
-                                                                     :max 5
-                                                                     :cell-type "dots"}
-                                                                    {:field-type :text
-                                                                     :label "Description"
-                                                                     :value (:description a)
-                                                                     :path (conj path :abilities-additional n :description)
-                                                                     :cell-type "name"}])
-                                                                 (:abilities-additional view))})
+                                                                 (map-indexed (fn [n a]
+                                                                                [
+                                                                                 {:field-type :select-single
+                                                                                  :label      "Ability"
+                                                                                  :value      (:ability a)
+                                                                                  :path       (conj path :abilities-additional n :ability)
+                                                                                  :options    daihelp/ability-all-keys
+                                                                                  :cell-type  "word"}
+                                                                                 {:field-type :dots
+                                                                                  :label      "Rank"
+                                                                                  :value      (:rank a)
+                                                                                  :path       (conj path :abilities-additional n :rank)
+                                                                                  :min        0
+                                                                                  :max        5
+                                                                                  :cell-type  "dots"}
+                                                                                 {:field-type :text
+                                                                                  :label      "Description"
+                                                                                  :value      (:description a)
+                                                                                  :path       (conj path :abilities-additional n :description)
+                                                                                  :cell-type  "name"}])
+                                                                              (:abilities-additional view))})
                                 #_(fp/section-of "Favored Abilities"
                                                  "favoredabilities"
                                                  ;[set-path the-set element-count options beauty-fn]
@@ -725,6 +725,42 @@
                                                                                   :path       (into path [:specialties n 1])
                                                                                   :cell-type  "name"}])
                                                                               (:specialties view))})
+                                (let [has-crafting? (->> view (:abilities-additional) (map :ability) (filter #(= % :craft)) (take 1) (empty?) (not))]
+                                  (when has-crafting?
+                                    (fp/soft-table-for {:form-title     "Crafting Slots"
+                                                        :form-name      "crafting-slot-info"
+                                                        :path           (conj path :crafting-slots)
+                                                        :new-element    {:type :major, :contains "Spider Bomb", :time-type :days, :time-required 10, :time-passed 3}
+                                                        :sort-fn        (daihelp/map-compare-fn-for {:type 1000 :time-type 100 :time-required 10 :time-passed 1})
+                                                        :table-row-data (map-indexed (fn [n {:keys [type contains time-type time-required time-passed] :as a}]
+                                                                                       [{:field-type :select-single
+                                                                                         :label      "Type"
+                                                                                         :value      type
+                                                                                         :path       (conj path :crafting-slots n :type)
+                                                                                         :options [:major :superior :legendary]
+                                                                                         :cell-type "word"}
+                                                                                        {:field-type :text
+                                                                                         :label      "Contains"
+                                                                                         :value      contains
+                                                                                         :path       (conj path :crafting-slots n :contains)
+                                                                                         :cell-type "name"}
+                                                                                        {:field-type :select-single
+                                                                                         :label      "Time"
+                                                                                         :value      time-type
+                                                                                         :path       (conj path :crafting-slots n :time-type)
+                                                                                         :options [:days :weeks :months :years]
+                                                                                         :cell-type "word"}
+                                                                                        {:field-type :number
+                                                                                         :label      "Required"
+                                                                                         :value      time-required
+                                                                                         :path       (conj path :crafting-slots n :time-required)
+                                                                                         :cell-type "word"}
+                                                                                        {:field-type :number
+                                                                                         :label      "Passed"
+                                                                                         :value      time-passed
+                                                                                         :path       (conj path :crafting-slots n :time-passed)
+                                                                                         :cell-type "word"}])
+                                                                                     (:crafting-slots view))})))
                                 (fp/form-of "Limit"
                                             "limit-info"
                                             [{:field-type :text

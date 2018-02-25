@@ -383,7 +383,7 @@ body {
 }
 
 .page .page-content .page-section.soft-table .table-container table tr th.dots {
-  width: 100px;
+  min-width: 200px;
 }
 
 .page .page-content .page-section.soft-table .table-container table tr th.word {
@@ -411,6 +411,10 @@ body {
 .page .page-content .page-section.soft-table .table-container table tr td input, .page .page-content .page-section.soft-table .table-container table tr td select {
   width: 100%;
   margin-left: 0;
+}
+
+.page .page-content .page-section.soft-table .table-container table tr td .field.number-field input {
+  width: 2em;
 }
 
 .page .page-content .page-section.soft-table .table-container table tr td:nth-child(2n) {
@@ -1008,6 +1012,10 @@ button.aggravated {
   grid-area: abad;
 }
 
+.desktop .character-page .page-content .crafting-slot-info {
+  grid-area: slot;
+}
+
 .desktop .character-page .page-content .favoredabilities {
   grid-area: favo;
 }
@@ -1070,8 +1078,9 @@ button.aggravated {
 "attr attr attr attr attr attr attr attr attr"
 "abil abil abil abil abil spec spec spec spec"
 "abil abil abil abil abil spec spec spec spec"
+"abil abil abil abil abil abad abad abad abad"
 "abil abil abil abil abil .... .... .... ...."
-"abad abad abad abad abad abad abad abad abad"
+"slot slot slot slot slot slot slot slot slot"
 "meri meri meri meri meri meri meri meri meri"
 ".... .... .... .... .... .... .... .... ...."
 "essi essi essi essi essi essi essi essi essi"
@@ -1141,7 +1150,10 @@ button.aggravated {
 "abil abil abil spec spec spec meri meri meri"
 "abil abil abil chrn chrn chrn meri meri meri"
 "abil abil abil chrn chrn chrn meri meri meri"
-"abil abil abil abad abad abad meri meri meri"
+"abil abil abil abad abad abad abad abad abad"
+"abil abil abil slot slot slot slot slot slot"
+"abil abil abil .... .... .... .... .... ...."
+".... .... .... .... .... .... .... .... ...."
 "essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
 ".... .... .... .... xpxp xpxp xpxp xpxp xpxp"
 "heal heal heal heal heal heal heal heal heal"

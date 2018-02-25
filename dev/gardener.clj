@@ -454,7 +454,9 @@
                                     :alpha 0.4)}
                [:&.description {:height :1em}]
            [:input :select {:width :100%
-                            :margin-left 0}]]
+                            :margin-left 0}]
+           [:.field.number-field
+            [:input {:width :2em}]]]
           [(td (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb sun-gold) 35)
                                                       :alpha 0.4)}]]
          [(tr (gs/nth-child 2)) {:background-color (assoc (gc/darken (gc/as-rgb sun-gold) 25)
@@ -805,6 +807,7 @@
                [:.abilityinfo {:grid-area "abil"}
                 [:.field {:width (calchelper :50% + :22px)}]]
                [:.additional-ability-info {:grid-area "abad"}]
+               [:.crafting-slot-info {:grid-area "slot"}]
                [:.favoredabilities {:grid-area "favo"}]
                [:.specialtyinfo {:grid-area "spec"}]
                [:.health-track-module {:grid-area "heal"}
@@ -829,8 +832,10 @@
                                                                     "attr attr attr attr attr attr attr attr attr"
                                                                     "abil abil abil abil abil spec spec spec spec"
                                                                     "abil abil abil abil abil spec spec spec spec"
+                                                                    "abil abil abil abil abil abad abad abad abad"
                                                                     "abil abil abil abil abil .... .... .... ...."
                                                                     "abad abad abad abad abad abad abad abad abad"
+                                                                    "slot slot slot slot slot slot slot slot slot"
                                                                     "meri meri meri meri meri meri meri meri meri"
                                                                     ".... .... .... .... .... .... .... .... ...."
                                                                     "essi essi essi essi essi essi essi essi essi"
@@ -894,7 +899,10 @@
                                                                       "abil abil abil spec spec spec meri meri meri"
                                                                       "abil abil abil chrn chrn chrn meri meri meri"
                                                                       "abil abil abil chrn chrn chrn meri meri meri"
-                                                                      "abil abil abil abad abad abad meri meri meri"
+                                                                      "abil abil abil abad abad abad abad abad abad"
+                                                                      "abil abil abil slot slot slot slot slot slot"
+                                                                      "abil abil abil .... .... .... .... .... ...."
+                                                                      ".... .... .... .... .... .... .... .... ...."
                                                                       "essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
                                                                       ".... .... .... .... xpxp xpxp xpxp xpxp xpxp"
                                                                       "heal heal heal heal heal heal heal heal heal"
