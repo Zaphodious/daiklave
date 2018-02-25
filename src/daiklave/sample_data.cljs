@@ -45,7 +45,7 @@
                               :last-accessed        4535361
                               :attributes           {:strength 2, :dexterity 4, :stamina 2, :charisma 3, :manipulation 3, :appearance 3, :perception 2, :intelligence 5, :wits 4}
                               :abilities            {:athletics 2, :awareness 3, :brawl 1, :bureaucracy 2, :dodge 2, :integrity 3, :linguistics 3, :lore 5, :medicine 3, :socialize 3}
-                              :abilities-additional [[:martial-arts, 3, "Single Point Shining Into The Void"]]
+                              :abilities-additional [{:ability :martial-arts, :rank 3, :description "Single Point Shining Into The Void"}]
                               :favored-abilities    [:awareness, :brawl, :bureaucracy, :dodge, :integrity, :linguistics, :lore, :occult, :socialize, :martial-arts]
                               :supernal             :lore
                               :xp                   {:spent  55
@@ -102,7 +102,7 @@
                               :last-accessed        0
                               :attributes           {:strength 4, :dexterity 4, :stamina 3, :charisma 3, :manipulation 3, :appearance 3, :perception 3, :intelligence 3, :wits 3}
                               :abilities            {:archery 3, :athletics 4, :brawl 3, :integrity 3, :larceny 3, :melee 5, :resistance 3, :ride 1, :sail 4, :survival 3}
-                              :abilities-additional [[:craft, 2, "Bladewright"]]
+                              :abilities-additional [{:ability :craft, :rank 2, :description "Bladewright"}]
                               :favored-abilities    [:archery, :athletics, :brawl, :craft, :integrity, :larceny, :melee, :resistance, :sail, :survival]
                               :supernal             :melee
                               :xp                   {:spent  55
@@ -151,7 +151,7 @@
                                :last-accessed        0
                                :attributes           {:strength 2, :dexterity 4, :stamina 2, :charisma 2, :manipulation 3, :appearance 2, :perception 2, :intelligence 5, :wits 3}
                                :abilities            {:lore 5, :occult 5, :medicine 1, :integrity 2, :bureaucracy 1, :larceny 1, :thrown 3, :survival 1, :brawl 1, :stealth 2}
-                               :abilities-additional [[:craft, 5, "Machinery"] [:craft, 3, "Carpentry"] [:craft, 3, "First Age Artifice"]]
+                               :abilities-additional [{:ability :craft, :rank 5, :description "Machinery"} {:ability :craft, :rank 3, :description "Carpentry"} {:ability :craft, :rank 3, :description "First Age Artifice"}]
                                :favored-abilities    [:craft, :lore, :medicine, :integrity, :bureaucracy, :larceny, :thrown, :survival, :brawl, :occult]
                                :supernal             :craft
                                :xp                   {:spent  0
@@ -204,6 +204,7 @@
                                                   :perception 3, :intelligence 3, :wits 3}
                               :abilities         {:athletics 5, :awareness 3, :brawl 3, :integrity 2, :linguistics 1, :lore 2, :occult 2, :performance 3, :presence 3, :resistance 3, :thrown 2}
                               :favored-abilities [:athletics, :brawl, :integrity, :lore, :occult, :performance, :presence, :resistance, :thrown, :awareness]
+                              :abilities-additional []
                               :supernal          :athletics
                               :xp                {:spent  55
                                                   :earned 60

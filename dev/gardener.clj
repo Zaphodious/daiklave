@@ -444,6 +444,7 @@
                 :padding :0px}
            [:&.button {:width :30px}]
            [:&.name {:width :150px}]
+           [:&.dots {:width :100px}]
            [:&.word {:width :90px}]
            [:&.number {:width :40px}]
            [:&.description {:width :500px}]]
@@ -525,7 +526,45 @@
 
 
    ;:height (calchelper :100% - :40px)}
-
+   [:.dot-bar {:display :inline-block
+               :height :15px
+               :padding :.3em
+               :padding-left 0
+               :padding-right 0
+               :padding-top :5px
+               :position :relative
+               :top :5px
+               :background-image button-bar-background
+               :box-shadow inputshadow
+               :border-radius :10px}
+    [:.dot-entry {:width (-em 2.5)}]
+    [:button {:height :13px
+              :width :13px
+              :padding 0
+              :border :none
+              :color :transparent
+              :border-radius :20px
+              :position :relative
+              :bottom :1px
+              :box-shadow minor-button-shadow
+              :background-color :transparent
+              :background-position :center
+              :background-size :cover}]
+    [:.minus {:background-image (url "../img/screw_minus.png")}]
+    [:.plus {:background-image (url "../img/screw_plus.png")}]
+    [:.inactive-dot :.active-dot {:margin 0,
+                                  :margin-right :1px
+                                  :margin-left :1px
+                                  :padding (-px 0)
+                                  :display :inline-block
+                                  :width :15px
+                                  :height :15px
+                                  :border-radius :20px
+                                  ;:box-shadow minor-button-shadow
+                                  :background-position :center
+                                  :background-size :cover
+                                  :position :relative
+                                  :botom :3px}]]
    [:form
     [:* {:padding :.5em}]
     [:&.mini-form {:padding :0px
@@ -541,44 +580,7 @@
                :display :inline-block
                ;:margin  (-px (/ 2 page-content-margin-scalar))
                :align   :center}
-      [:.dot-entry {:width (-em 2.5)}]
-      [:.dot-bar {:display :inline-block
-                  :height :15px
-                  :padding-left 0
-                  :padding-right 0
-                  :padding-top :5px
-                  :position :relative
-                  :top :5px
-                  :background-image button-bar-background
-                  :box-shadow inputshadow
-                  :border-radius :10px}
-       [:button {:height :13px
-                 :width :13px
-                 :padding 0
-                 :border :none
-                 :color :transparent
-                 :border-radius :20px
-                 :position :relative
-                 :bottom :1px
-                 :box-shadow minor-button-shadow
-                 :background-color :transparent
-                 :background-position :center
-                 :background-size :cover}]
-       [:.minus {:background-image (url "../img/screw_minus.png")}]
-       [:.plus {:background-image (url "../img/screw_plus.png")}]
-       [:.inactive-dot :.active-dot {:margin 0,
-                                     :margin-right :1px
-                                     :margin-left :1px
-                                     :padding (-px 0)
-                                     :display :inline-block
-                                     :width :15px
-                                     :height :15px
-                                     :border-radius :20px
-                                     ;:box-shadow minor-button-shadow
-                                     :background-position :center
-                                     :background-size :cover
-                                     :position :relative
-                                     :botom :3px}]]
+
        ;[:&:before {:content "\"⚫\""}]]
       [:.zero-dot {:background-image (url "../img/dot_bar.png")}]
       [:.favored {:display             :inline-block
@@ -802,6 +804,7 @@
                        ;:padding      :7px}]]]]
                [:.abilityinfo {:grid-area "abil"}
                 [:.field {:width (calchelper :50% + :22px)}]]
+               [:.additional-ability-info {:grid-area "abad"}]
                [:.favoredabilities {:grid-area "favo"}]
                [:.specialtyinfo {:grid-area "spec"}]
                [:.health-track-module {:grid-area "heal"}
@@ -827,7 +830,7 @@
                                                                     "abil abil abil abil abil spec spec spec spec"
                                                                     "abil abil abil abil abil spec spec spec spec"
                                                                     "abil abil abil abil abil .... .... .... ...."
-                                                                    "abil abil abil abil abil .... .... .... ...."
+                                                                    "abad abad abad abad abad abad abad abad abad"
                                                                     "meri meri meri meri meri meri meri meri meri"
                                                                     ".... .... .... .... .... .... .... .... ...."
                                                                     "essi essi essi essi essi essi essi essi essi"
@@ -891,7 +894,7 @@
                                                                       "abil abil abil spec spec spec meri meri meri"
                                                                       "abil abil abil chrn chrn chrn meri meri meri"
                                                                       "abil abil abil chrn chrn chrn meri meri meri"
-                                                                      "abil abil abil .... .... .... meri meri meri"
+                                                                      "abil abil abil abad abad abad meri meri meri"
                                                                       "essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
                                                                       ".... .... .... .... xpxp xpxp xpxp xpxp xpxp"
                                                                       "heal heal heal heal heal heal heal heal heal"

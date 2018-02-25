@@ -671,6 +671,33 @@
                                                                       [:span.favored.not-selected])})))
 
                                                  (sort daihelp/ability-keys)))
+                                (fp/soft-table-for {:form-title "Additional abilities"
+                                                    :form-name "additional-ability-info"
+                                                    :path (conj path :abilities-additional)
+                                                    :new-element {:ability :craft, :rank 3, :description "Glass Blowing"}
+                                                    :sort-fn (daihelp/map-compare-fn-for {:ability 100 :rank 10 :description 1})
+                                                    :table-row-data
+                                                    (map-indexed (fn [n a]
+                                                                   [
+                                                                    {:field-type :select-single
+                                                                     :label "Ability"
+                                                                     :value (:ability a)
+                                                                     :path (conj path :abilities-additional n :ability)
+                                                                     :options daihelp/ability-all-keys
+                                                                     :cell-type "word"}
+                                                                    {:field-type :dots
+                                                                     :label "Rank"
+                                                                     :value (:rank a)
+                                                                     :path (conj path :abilities-additional n :rank)
+                                                                     :min 0
+                                                                     :max 5
+                                                                     :cell-type "dots"}
+                                                                    {:field-type :text
+                                                                     :label "Description"
+                                                                     :value (:description a)
+                                                                     :path (conj path :abilities-additional n :description)
+                                                                     :cell-type "name"}])
+                                                                 (:abilities-additional view))})
                                 #_(fp/section-of "Favored Abilities"
                                                  "favoredabilities"
                                                  ;[set-path the-set element-count options beauty-fn]
