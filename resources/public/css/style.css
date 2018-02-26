@@ -383,7 +383,8 @@ body {
 }
 
 .page .page-content .page-section.soft-table .table-container table tr th.dots {
-  min-width: 200px;
+  width: 130px;
+  max-width: 130px;
 }
 
 .page .page-content .page-section.soft-table .table-container table tr th.word {
@@ -722,6 +723,26 @@ form.mini-form {
 
 .zenith .active-dot {
   background-image: url(../img/zenith_dot.png);
+}
+
+.eclipse * .max-willpower .active-dot {
+  background-image: url(../img/square_gem_eclipse.png);
+}
+
+.twilight * .max-willpower .active-dot {
+  background-image: url(../img/square_gem_twilight.png);
+}
+
+.dawn * .max-willpower .active-dot {
+  background-image: url(../img/square_gem_dawn.png);
+}
+
+.night * .max-willpower .active-dot {
+  background-image: url(../img/square_gem_night.png);
+}
+
+.zenith * .max-willpower .active-dot {
+  background-image: url(../img/square_gem_zenith.png);
 }
 
 .set-selectors .set-selector {
@@ -1079,6 +1100,8 @@ button.aggravated {
 "abil abil abil abil abil spec spec spec spec"
 "abil abil abil abil abil spec spec spec spec"
 "abil abil abil abil abil abad abad abad abad"
+"abil abil abil abil abil .... .... .... ...."
+"abil abil abil abil abil .... .... .... ...."
 "abil abil abil abil abil .... .... .... ...."
 "slot slot slot slot slot slot slot slot slot"
 "meri meri meri meri meri meri meri meri meri"

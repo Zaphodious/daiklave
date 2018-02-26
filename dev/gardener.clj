@@ -444,7 +444,8 @@
                 :padding :0px}
            [:&.button {:width :30px}]
            [:&.name {:width :150px}]
-           [:&.dots {:width :100px}]
+           [:&.dots {:width :130px
+                     :max-width :130px}]
            [:&.word {:width :90px}]
            [:&.number {:width :40px}]
            [:&.description {:width :500px}]]
@@ -582,7 +583,6 @@
                :display :inline-block
                ;:margin  (-px (/ 2 page-content-margin-scalar))
                :align   :center}
-
        ;[:&:before {:content "\"⚫\""}]]
       [:.zero-dot {:background-image (url "../img/dot_bar.png")}]
       [:.favored {:display             :inline-block
@@ -598,7 +598,8 @@
       [:.selected.night {:background-image (url "../img/night.png")}]
       [:.selected.eclipse {:background-image (url "../img/eclipse.png")}]
       [:.selected.zenith {:background-image (url "../img/zenith.png")}]
-      [:.not-selected {:background-image :none}]] ;(url "../img/caste_check.png")}]]
+      [:.not-selected {:background-image :none}]]
+      ;(url "../img/caste_check.png")}]]
      [:.number-field
       [:input {:width (calchelper :100% - :80px)}
        [:&.fraction-top {:width (calchelper :50% - :13px)}]]
@@ -625,7 +626,14 @@
    [:.night [:.active-dot {:background-image (url "../img/night_dot.png")}]]
    [:.dawn [:.active-dot {:background-image (url "../img/dawn_dot.png")}]]
    [:.zenith [:.active-dot {:background-image (url "../img/zenith_dot.png")}]]
-
+   #_[:.max-willpower [:.active-dot {:background-image (url "../img/square_gem_eclipse.png")
+                                     :border-radius :0px
+                                     :background-repeat :no-repeat}]]
+    [:.eclipse [:* [:.max-willpower [:.active-dot {:background-image (url "../img/square_gem_eclipse.png")}]]]]
+    [:.twilight [:* [:.max-willpower [:.active-dot {:background-image (url "../img/square_gem_twilight.png")}]]]]
+    [:.dawn [:* [:.max-willpower [:.active-dot {:background-image (url "../img/square_gem_dawn.png")}]]]]
+    [:.night [:* [:.max-willpower [:.active-dot {:background-image (url "../img/square_gem_night.png")}]]]]
+    [:.zenith [:* [:.max-willpower [:.active-dot {:background-image (url "../img/square_gem_zenith.png")}]]]]
    [:.set-selectors
     [:.set-selector {:width (-% 100)}]]
    [:span.rank-selection {:width   :1.5em
@@ -834,7 +842,8 @@
                                                                     "abil abil abil abil abil spec spec spec spec"
                                                                     "abil abil abil abil abil abad abad abad abad"
                                                                     "abil abil abil abil abil .... .... .... ...."
-                                                                    "abad abad abad abad abad abad abad abad abad"
+                                                                    "abil abil abil abil abil .... .... .... ...."
+                                                                    "abil abil abil abil abil .... .... .... ...."
                                                                     "slot slot slot slot slot slot slot slot slot"
                                                                     "meri meri meri meri meri meri meri meri meri"
                                                                     ".... .... .... .... .... .... .... .... ...."

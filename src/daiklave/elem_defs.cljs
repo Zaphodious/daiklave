@@ -110,7 +110,7 @@
 
 
 (rum/defc dot-field < rum/static
-  [{:keys [path value options read-only min max aux-widget on-change] :as fieldmap}]
+  [{:keys [path value options read-only min max aux-widget on-change class] :as fieldmap}]
   [:.field
    (when (daistate/get-setting-for-key :show-accessibility)
      [:input.dot-entry
@@ -121,6 +121,7 @@
                     (standard-on-change-for path read-only))}])
    (when aux-widget aux-widget)
    [:p.dot-bar
+    {:class class}
     [:button.minus
      {:on-click (fn [] (if (>= (dec value) min) (daistate/change-element! path (dec value))))}
      "-"]
@@ -882,10 +883,8 @@
 
                                 (fp/form-of "Willpower"
                                             "willpower-module"
-                                            [{:field-type :number, :label "Max", :value (-> view :willpower :max), :path (conj path :willpower :max)},
-                                             {:field-type :balanced-number, :label "Temporary",
-                                              :value-a    (- (-> view :willpower :max) (-> view :willpower :temporary)), :path-a nil, :min-a 1, :max-a 10, :label-a "Remaining"
-                                              :value-b    (-> view :willpower :temporary), :path-b (conj path :willpower :temporary), :min-b 0, :max-b 1000000, :label-b "Spent"}])
+                                            [{:field-type :dots, :label "Max", :class "max-willpower" :value (-> view :willpower :max), :path (conj path :willpower :max) :min 1, :max 10},
+                                             {:field-type :dots, :label "Temporary", :value (-> view :willpower :temporary), :path (conj path :willpower :temporary), :min 0, :max (-> view :willpower :max)}])
                                 (fp/soft-table-for {:form-title     "Charms"
                                                     :form-name      "charminfo"
                                                     :path           (conj path :charms)
