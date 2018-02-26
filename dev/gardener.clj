@@ -827,6 +827,7 @@
                 [:form {:column-count 1}]]
                [:.willpower-module {:grid-area "will"}]
                [:.experience-module {:grid-area "xpxp"}]
+               [:.crafting-experience-module {:grid-area "crxp"}]
                [:.limit-info {:grid-area "limt"}]]
               (gss/at-media {:min-width :700px}
                             [:.page-content {:grid-template-areas (grid-area-strings
@@ -844,7 +845,8 @@
                                                                     "abil abil abil abil abil .... .... .... ...."
                                                                     "abil abil abil abil abil .... .... .... ...."
                                                                     "abil abil abil abil abil .... .... .... ...."
-                                                                    "slot slot slot slot slot slot slot slot slot"
+                                                                    "slot slot slot slot slot crxp crxp crxp crxp"
+                                                                    "slot slot slot slot slot .... .... .... ...."
                                                                     "meri meri meri meri meri meri meri meri meri"
                                                                     ".... .... .... .... .... .... .... .... ...."
                                                                     "essi essi essi essi essi essi essi essi essi"
@@ -909,8 +911,9 @@
                                                                       "abil abil abil chrn chrn chrn meri meri meri"
                                                                       "abil abil abil chrn chrn chrn meri meri meri"
                                                                       "abil abil abil abad abad abad abad abad abad"
-                                                                      "abil abil abil slot slot slot slot slot slot"
                                                                       "abil abil abil .... .... .... .... .... ...."
+                                                                      "slot slot slot slot slot crxp crxp crxp crxp"
+                                                                      "slot slot slot slot slot .... .... .... ...."
                                                                       ".... .... .... .... .... .... .... .... ...."
                                                                       "essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
                                                                       ".... .... .... .... xpxp xpxp xpxp xpxp xpxp"

@@ -728,40 +728,46 @@
                                                                               (:specialties view))})
                                 (let [has-crafting? (->> view (:abilities-additional) (map :ability) (filter #(= % :craft)) (take 1) (empty?) (not))]
                                   (when has-crafting?
-                                    (fp/soft-table-for {:form-title     "Crafting Slots"
-                                                        :form-name      "crafting-slot-info"
-                                                        :path           (conj path :crafting-slots)
-                                                        :new-element    {:type :major, :contains "Spider Bomb", :time-type :days, :time-required 10, :time-passed 3}
-                                                        :sort-fn        (daihelp/map-compare-fn-for {:type 1000 :time-type 100 :time-required 10 :time-passed 1})
-                                                        :table-row-data (map-indexed (fn [n {:keys [type contains time-type time-required time-passed] :as a}]
-                                                                                       [{:field-type :select-single
-                                                                                         :label      "Type"
-                                                                                         :value      type
-                                                                                         :path       (conj path :crafting-slots n :type)
-                                                                                         :options [:major :superior :legendary]
-                                                                                         :cell-type "word"}
-                                                                                        {:field-type :text
-                                                                                         :label      "Contains"
-                                                                                         :value      contains
-                                                                                         :path       (conj path :crafting-slots n :contains)
-                                                                                         :cell-type "name"}
-                                                                                        {:field-type :select-single
-                                                                                         :label      "Time"
-                                                                                         :value      time-type
-                                                                                         :path       (conj path :crafting-slots n :time-type)
-                                                                                         :options [:days :weeks :months :years]
-                                                                                         :cell-type "word"}
-                                                                                        {:field-type :number
-                                                                                         :label      "Required"
-                                                                                         :value      time-required
-                                                                                         :path       (conj path :crafting-slots n :time-required)
-                                                                                         :cell-type "word"}
-                                                                                        {:field-type :number
-                                                                                         :label      "Passed"
-                                                                                         :value      time-passed
-                                                                                         :path       (conj path :crafting-slots n :time-passed)
-                                                                                         :cell-type "word"}])
-                                                                                     (:crafting-slots view))})))
+                                    [(fp/soft-table-for {:form-title     "Crafting Slots"
+                                                         :form-name      "crafting-slot-info"
+                                                         :path           (conj path :crafting-slots)
+                                                         :new-element    {:type :major, :contains "Spider Bomb", :time-type :days, :time-required 10, :time-passed 3}
+                                                         :sort-fn        (daihelp/map-compare-fn-for {:type 1000 :time-type 100 :time-required 10 :time-passed 1})
+                                                         :table-row-data (map-indexed (fn [n {:keys [type contains time-type time-required time-passed] :as a}]
+                                                                                        [{:field-type :select-single
+                                                                                          :label      "Type"
+                                                                                          :value      type
+                                                                                          :path       (conj path :crafting-slots n :type)
+                                                                                          :options [:major :superior :legendary]
+                                                                                          :cell-type "word"}
+                                                                                         {:field-type :text
+                                                                                          :label      "Contains"
+                                                                                          :value      contains
+                                                                                          :path       (conj path :crafting-slots n :contains)
+                                                                                          :cell-type "name"}
+                                                                                         {:field-type :select-single
+                                                                                          :label      "Time"
+                                                                                          :value      time-type
+                                                                                          :path       (conj path :crafting-slots n :time-type)
+                                                                                          :options [:days :weeks :months :years]
+                                                                                          :cell-type "word"}
+                                                                                         {:field-type :number
+                                                                                          :label      "Required"
+                                                                                          :value      time-required
+                                                                                          :path       (conj path :crafting-slots n :time-required)
+                                                                                          :cell-type "word"}
+                                                                                         {:field-type :number
+                                                                                          :label      "Passed"
+                                                                                          :value      time-passed
+                                                                                          :path       (conj path :crafting-slots n :time-passed)
+                                                                                          :cell-type "word"}])
+                                                                                      (:crafting-slots view))})
+                                     (fp/form-of "Crafting Experience"
+                                                 "crafting-experience-module"
+                                                 [{:field-type :number, :label "Silver", :value (-> view :xp :silver), :min 0, :max 100000, :path (conj path :xp :silver)}
+                                                  {:field-type :number, :label "Gold", :value (-> view :xp :gold), :min 0, :max 100000, :path (conj path :xp :gold)}
+                                                  {:field-type :number, :label "White", :value (-> view :xp :white), :min 0, :max 100000, :path (conj path :xp :white)}])]))
+
                                 (fp/form-of "Limit"
                                             "limit-info"
                                             [{:field-type :text
@@ -850,13 +856,9 @@
 
                                 (fp/form-of "Experience"
                                             "experience-module"
-                                            [
-                                             {:field-type :number, :label "Earned", :value (-> view :xp :earned), :path (conj path :xp :earned)}
+                                            [{:field-type :number, :label "Earned", :value (-> view :xp :earned), :path (conj path :xp :earned)}
                                              {:field-type :number, :label "Spent", :value (-> view :xp :spent), :path (conj path :xp :spent), :min 0, :max (-> view :xp :earned), :fraction? true}
-                                             {:field-type :number, :label "Solar", :value (-> view :xp :solar), :min 0, :max 100000, :path (conj path :xp :solar)}
-                                             {:field-type :number, :label "Silver", :value (-> view :xp :silver), :min 0, :max 100000, :path (conj path :xp :silver)}
-                                             {:field-type :number, :label "Gold", :value (-> view :xp :gold), :min 0, :max 100000, :path (conj path :xp :gold)}
-                                             {:field-type :number, :label "White", :value (-> view :xp :white), :min 0, :max 100000, :path (conj path :xp :white)}])
+                                             {:field-type :number, :label "Solar", :value (-> view :xp :solar), :min 0, :max 100000, :path (conj path :xp :solar)}])
                                 (let [{essence-view :view essence-path :path} (daistate/fetch-view-for (conj path :essence))
                                       essence-expanded (daihelp/inflate-essence-map essence-view)]
                                   (fp/form-of "Essence"
