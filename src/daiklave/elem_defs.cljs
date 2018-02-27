@@ -739,36 +739,95 @@
                                                                                           :label      "Type"
                                                                                           :value      type
                                                                                           :path       (conj path :crafting-slots n :type)
-                                                                                          :options [:major :superior :legendary]
-                                                                                          :cell-type "word"}
+                                                                                          :options    [:major :superior :legendary]
+                                                                                          :cell-type  "word"}
                                                                                          {:field-type :text
                                                                                           :label      "Contains"
                                                                                           :value      contains
                                                                                           :path       (conj path :crafting-slots n :contains)
-                                                                                          :cell-type "name"}
+                                                                                          :cell-type  "name"}
                                                                                          {:field-type :select-single
                                                                                           :label      "Time"
                                                                                           :value      time-type
                                                                                           :path       (conj path :crafting-slots n :time-type)
-                                                                                          :options [:days :weeks :months :years]
-                                                                                          :cell-type "word"}
+                                                                                          :options    [:days :weeks :months :years]
+                                                                                          :cell-type  "word"}
                                                                                          {:field-type :number
                                                                                           :label      "Required"
                                                                                           :value      time-required
                                                                                           :path       (conj path :crafting-slots n :time-required)
-                                                                                          :cell-type "word"}
+                                                                                          :cell-type  "word"}
                                                                                          {:field-type :number
                                                                                           :label      "Passed"
                                                                                           :value      time-passed
                                                                                           :path       (conj path :crafting-slots n :time-passed)
-                                                                                          :cell-type "word"}])
+                                                                                          :cell-type  "word"}])
                                                                                       (:crafting-slots view))})
                                      (fp/form-of "Crafting Experience"
                                                  "crafting-experience-module"
                                                  [{:field-type :number, :label "Silver", :value (-> view :xp :silver), :min 0, :max 100000, :path (conj path :xp :silver)}
                                                   {:field-type :number, :label "Gold", :value (-> view :xp :gold), :min 0, :max 100000, :path (conj path :xp :gold)}
                                                   {:field-type :number, :label "White", :value (-> view :xp :white), :min 0, :max 100000, :path (conj path :xp :white)}])]))
-
+                                (fp/soft-table-for {:form-title     "Mundane Weapons"
+                                                    :form-name      "mundane-weapon-info"
+                                                    :path           (conj path :mundane-weapon-inventory)
+                                                    :new-element    {:name "Wind and Fire Wheel"}
+                                                    :table-row-data (map-indexed (fn [n {:keys [name as]}]
+                                                                                   (let [[book-id {:keys [cost type tags description] :as weapon}]
+                                                                                         (->> {:thing-name     name
+                                                                                               :path-before-id [:rulebooks]
+                                                                                               :id-vec         (:rulebooks view)
+                                                                                               :path-after-id  [:mundane-weapons :weapons-vec]
+                                                                                               :exact-match?   true}
+                                                                                              (daistate/get-named-elements)
+                                                                                              first)
+                                                                                         {:keys [accuracy damage defense overwhelming]} (type daihelp/weapon-values)]
+                                                                                     (println "Weapon is " weapon "\n\n\n")
+                                                                                     [{:field-type :text
+                                                                                       :read-only  true
+                                                                                       :value      (if as as name)
+                                                                                       :label      "Name"
+                                                                                       :cell-type  "name"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Cost"
+                                                                                       :value      cost
+                                                                                       :cell-type  "number"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Type"
+                                                                                       :value      (make-pretty type)
+                                                                                       :cell-type  "word"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Tags"
+                                                                                       :value      tags
+                                                                                       :cell-type  "name"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Acc"
+                                                                                       :value      (daihelp/plus-or-minus accuracy)
+                                                                                       :cell-type  "number"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Dmg"
+                                                                                       :value      (daihelp/plus-or-minus damage)
+                                                                                       :cell-type  "number"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Def"
+                                                                                       :value      (daihelp/plus-or-minus defense)
+                                                                                       :cell-type  "number"}
+                                                                                      {:field-type :text
+                                                                                       :read-only  true
+                                                                                       :label      "Description"
+                                                                                       :cell-type  "description"
+                                                                                       :value      (str
+                                                                                                     (->> description
+                                                                                                          (take 80)
+                                                                                                          (reduce str))
+                                                                                                     "...")}]))
+                                                                                 (:mundane-weapon-inventory view))})
                                 (fp/form-of "Limit"
                                             "limit-info"
                                             [{:field-type :text
