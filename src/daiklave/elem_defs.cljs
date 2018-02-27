@@ -769,7 +769,7 @@
                                                   {:field-type :number, :label "Gold", :value (-> view :xp :gold), :min 0, :max 100000, :path (conj path :xp :gold)}
                                                   {:field-type :number, :label "White", :value (-> view :xp :white), :min 0, :max 100000, :path (conj path :xp :white)}])]))
                                 (fp/soft-table-for {:form-title     "Weapons"
-                                                    :form-name      "mundane-weapon-info"
+                                                    :form-name      "weapon-info"
                                                     :path           (conj path :weapon-inventory)
                                                     :new-element    {:name "Wind and Fire Wheel", :category :mundane-weapons}
                                                     :table-row-data (map-indexed (fn [n {:keys [name as category]}]

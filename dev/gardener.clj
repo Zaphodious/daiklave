@@ -823,6 +823,7 @@
                [:.intimacyinfo {:grid-area "inti"}]
                [:.charminfo {:grid-area "char"}]
                [:.meritinfo {:grid-area "meri"}]
+               [:.weapon-info {:grid-area "weap"}]
                [:.essence-module {:grid-area "essi"}
                 [:form {:column-count 1}]]
                [:.willpower-module {:grid-area "will"}]
@@ -848,7 +849,7 @@
                                                                     "slot slot slot slot slot crxp crxp crxp crxp"
                                                                     "slot slot slot slot slot .... .... .... ...."
                                                                     "meri meri meri meri meri meri meri meri meri"
-                                                                    ".... .... .... .... .... .... .... .... ...."
+                                                                    "weap weap weap weap weap weap weap weap weap"
                                                                     "essi essi essi essi essi essi essi essi essi"
                                                                     "xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp"
                                                                     "will will will will will will will will will"
@@ -917,8 +918,8 @@
                                                                       ".... .... .... .... .... .... .... .... ...."
                                                                       "essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
                                                                       ".... .... .... .... xpxp xpxp xpxp xpxp xpxp"
+                                                                      "weap weap weap weap weap weap weap weap weap"
                                                                       "heal heal heal heal heal heal heal heal heal"
-                                                                      ".... .... .... .... .... .... .... .... ...."
                                                                       "inti inti inti inti inti limt limt limt limt"
                                                                       "inti inti inti inti inti will will will will"
                                                                       "inti inti inti inti inti .... .... .... ...."

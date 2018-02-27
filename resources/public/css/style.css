@@ -1065,6 +1065,10 @@ button.aggravated {
   grid-area: meri;
 }
 
+.desktop .character-page .page-content .weapon-info {
+  grid-area: weap;
+}
+
 .desktop .character-page .page-content .essence-module {
   grid-area: essi;
 }
@@ -1110,7 +1114,7 @@ button.aggravated {
 "slot slot slot slot slot crxp crxp crxp crxp"
 "slot slot slot slot slot .... .... .... ...."
 "meri meri meri meri meri meri meri meri meri"
-".... .... .... .... .... .... .... .... ...."
+"weap weap weap weap weap weap weap weap weap"
 "essi essi essi essi essi essi essi essi essi"
 "xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp xpxp"
 "will will will will will will will will will"
@@ -1185,8 +1189,8 @@ button.aggravated {
 ".... .... .... .... .... .... .... .... ...."
 "essi essi essi essi xpxp xpxp xpxp xpxp xpxp"
 ".... .... .... .... xpxp xpxp xpxp xpxp xpxp"
+"weap weap weap weap weap weap weap weap weap"
 "heal heal heal heal heal heal heal heal heal"
-".... .... .... .... .... .... .... .... ...."
 "inti inti inti inti inti limt limt limt limt"
 "inti inti inti inti inti will will will will"
 "inti inti inti inti inti .... .... .... ...."
