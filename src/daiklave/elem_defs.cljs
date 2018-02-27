@@ -475,7 +475,7 @@
      :new-element   {:name        "Wind and Fire Wheel"
                      :description "An elegant weapon, from a more... civilized age."
                      :tags        "Lethal, Martial Arts, Disarming"
-                     :category    :light
+                     :type    :light
                      :cost        2}
      :sort-fn       (daihelp/map-compare-fn-for {:category 5 :name 2})
      :form-fn       (fn [a p]
@@ -483,8 +483,9 @@
                         (:name a)
                         (str (:name a) "-form")
                         [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
-                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :name)}
+                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)}
                          {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:light :medium :heavy]}
+                         {:field-type :text, :label "Tags", :value (:tags a), :path (conj p :tags)},
                          {:field-type :dots, :label "Cost", :value (:cost a), :path (conj p :cost), :min 0, :max 5,}]))}))
 
 (rum/defc charms-for-ability-page < rum/static

@@ -1,6 +1,7 @@
 (ns daiklave.default-data
   (:require [daiklave.corebooks.charms :as charms]
             [daiklave.corebooks.merits :refer [merit-vec]]
+            [daiklave.corebooks.weapons :refer [weapons]]
             [clojure.string :as str]
             [daiklave.data-help :as daihelp]))
 
@@ -61,26 +62,7 @@
                          :category    :mundane-weapons
                          :type        :mortal
                          :subtype     :weapon-list
-                         :weapons-vec [{:name        "Cestus"
-                                        :description "Bronze age brass knucks"
-                                        :tags        "Bashing, Brawl, Smashing, Worn"
-                                        :category    :light
-                                        :cost        1}
-                                       {:name        "Baton"
-                                        :description "Bit of a club, eh?"
-                                        :tags        "Bashing, Melee, Smashing; sometimes Thrown (Short), Improvised"
-                                        :category    :light
-                                        :cost        0}
-                                       {:name        "Hook Sword"
-                                        :description "Fishing swords yall"
-                                        :tags        "Lethal, Martial Arts, Disarming"
-                                        :category    :medium
-                                        :cost        3}
-                                       {:name        "Lance"
-                                        :description "Stiiiiiiiiiiick with a pointy end"
-                                        :tags        "Lethal, Melee, Piercing, Reaching; Two-Handed when on foot"
-                                        :category    :heavy
-                                        :cost        1}]}
+                         :weapons-vec weapons}
    :martial-arts-styles {:name             "Martial Arts"
                          :category         :martial-arts-styles
                          :description      "Powerful displays of perfect combat"
