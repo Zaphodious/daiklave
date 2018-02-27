@@ -771,7 +771,7 @@
                                 (fp/soft-table-for {:form-title     "Weapons"
                                                     :form-name      "mundane-weapon-info"
                                                     :path           (conj path :weapon-inventory)
-                                                    :new-element    {:name "Wind and Fire Wheel"}
+                                                    :new-element    {:name "Wind and Fire Wheel", :category :mundane-weapons}
                                                     :table-row-data (map-indexed (fn [n {:keys [name as category]}]
                                                                                    (println "Weapon Category is " category)
                                                                                    (let [[book-id {:keys [cost type tags description] :as weapon}]
@@ -782,6 +782,9 @@
                                                                                                :exact-match?   true}
                                                                                               (daistate/get-named-elements)
                                                                                               first)
+                                                                                         tags-have (fn [substr] (-> tags str/lower-case (str/includes? substr)))
+                                                                                         thrown? (tags-have "thrown")
+                                                                                         archery? (tags-have "archery")
                                                                                          {:keys [accuracy damage defense overwhelming]} (-> daihelp/weapon-values category type)]
                                                                                      [{:field-type :text
                                                                                        :read-only  true
