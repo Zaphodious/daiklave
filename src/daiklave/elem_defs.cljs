@@ -768,21 +768,21 @@
                                                  [{:field-type :number, :label "Silver", :value (-> view :xp :silver), :min 0, :max 100000, :path (conj path :xp :silver)}
                                                   {:field-type :number, :label "Gold", :value (-> view :xp :gold), :min 0, :max 100000, :path (conj path :xp :gold)}
                                                   {:field-type :number, :label "White", :value (-> view :xp :white), :min 0, :max 100000, :path (conj path :xp :white)}])]))
-                                (fp/soft-table-for {:form-title     "Mundane Weapons"
+                                (fp/soft-table-for {:form-title     "Weapons"
                                                     :form-name      "mundane-weapon-info"
-                                                    :path           (conj path :mundane-weapon-inventory)
+                                                    :path           (conj path :weapon-inventory)
                                                     :new-element    {:name "Wind and Fire Wheel"}
-                                                    :table-row-data (map-indexed (fn [n {:keys [name as]}]
+                                                    :table-row-data (map-indexed (fn [n {:keys [name as category]}]
+                                                                                   (println "Weapon Category is " category)
                                                                                    (let [[book-id {:keys [cost type tags description] :as weapon}]
                                                                                          (->> {:thing-name     name
                                                                                                :path-before-id [:rulebooks]
                                                                                                :id-vec         (:rulebooks view)
-                                                                                               :path-after-id  [:mundane-weapons :weapons-vec]
+                                                                                               :path-after-id  [category :weapons-vec]
                                                                                                :exact-match?   true}
                                                                                               (daistate/get-named-elements)
                                                                                               first)
-                                                                                         {:keys [accuracy damage defense overwhelming]} (type daihelp/weapon-values)]
-                                                                                     (println "Weapon is " weapon "\n\n\n")
+                                                                                         {:keys [accuracy damage defense overwhelming]} (-> daihelp/weapon-values category type)]
                                                                                      [{:field-type :text
                                                                                        :read-only  true
                                                                                        :value      (if as as name)
@@ -827,7 +827,7 @@
                                                                                                           (take 80)
                                                                                                           (reduce str))
                                                                                                      "...")}]))
-                                                                                 (:mundane-weapon-inventory view))})
+                                                                                 (:weapon-inventory view))})
                                 (fp/form-of "Limit"
                                             "limit-info"
                                             [{:field-type :text

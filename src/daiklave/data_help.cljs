@@ -119,9 +119,10 @@
       img-src)))
 
 (def weapon-values
-  {:light {:accuracy 4, :damage 7, :defense 0, :overwhelming 1}
-   :medium {:accuracy 2, :damage 9, :defense 1, :overwhelming 1}
-   :heavy {:accuracy 0, :damage 11, :defense -1, :overwhelming 1}})
+  {:mundane-weapons
+   {:light {:accuracy 4, :damage 7, :defense 0, :overwhelming 1}
+    :medium {:accuracy 2, :damage 9, :defense 1, :overwhelming 1}
+    :heavy {:accuracy 0, :damage 11, :defense -1, :overwhelming 1}}})
 (defn plus-or-minus [n]
   (str (if (<= 0 n) "+" "-") n))
 
