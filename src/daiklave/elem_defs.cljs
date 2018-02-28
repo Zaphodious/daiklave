@@ -412,6 +412,11 @@
                               (conj path :mundane-weapons)
                               [:p "Weapons what normies use"])
                             (section-link-of
+                              "Mundane Armor"
+                              "mundane-armor-section-link"
+                              (conj path :mundane-armor)
+                              [:p "Shirts what stop da k-nif-ies."])
+                            (section-link-of
                               "Martial Arts"
                               "martial-arts-section-link"
                               (conj path :martial-arts-styles)
@@ -478,6 +483,31 @@
                      :type    :light
                      :cost        2}
      :sort-fn       (daihelp/map-compare-fn-for {:category 5 :name 2})
+     :form-fn       (fn [a p]
+                      (fp/form-of
+                        (:name a)
+                        (str (:name a) "-form")
+                        [{:field-type :text, :label "Name", :value (:name a), :path (conj p :name)},
+                         {:field-type :big-text, :label "Description", :value (:description a), :path (conj p :description)}
+                         {:field-type :select-single, :label "Type", :value (:type a), :path (conj p :type), :options [:light :medium :heavy]}
+                         {:field-type :text, :label "Tags", :value (:tags a), :path (conj p :tags)},
+                         {:field-type :dots, :label "Cost", :value (:cost a), :path (conj p :cost), :min 0, :max 5,}]))}))
+
+(defmethod fp/page-for-viewmap :mundane-armor
+  [{:keys [path view] :as viewmap}]
+  (fp/page-table-for
+    {:page-title    (:name view)
+     :page-subtitle (:description view)
+     :page-img      (:img view)
+     :path          (conj path :armor-vec)
+     :class         "mundane-weapons-page"
+     :elements      (:armor-vec view)
+     :new-element   {:name        "Lamellar"
+                     :description "Lamellar armor is a breastplate composed of a series of interlocking horizontal bands."
+                     :tags        "None"
+                     :type    :medium
+                     :cost        3}
+     :sort-fn       (daihelp/map-compare-fn-for {:category 10 :name 1})
      :form-fn       (fn [a p]
                       (fp/form-of
                         (:name a)

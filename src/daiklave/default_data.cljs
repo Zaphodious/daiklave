@@ -63,6 +63,12 @@
                          :type        :mortal
                          :subtype     :weapon-list
                          :weapons-vec weapons}
+   :mundane-armor       {:name        "Mundane Armor"
+                         :description "Armor of the little folk"
+                         :category    :mundane-armor
+                         :type        :mortal
+                         :subtype     :armor-list
+                         :weapons-vec []}
    :martial-arts-styles {:name             "Martial Arts"
                          :category         :martial-arts-styles
                          :description      "Powerful displays of perfect combat"
