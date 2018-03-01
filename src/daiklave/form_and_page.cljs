@@ -44,20 +44,44 @@
           [[]]
           path))
 
-(defn download-data-at [path]
-  (let [pathos (vec-of-paths-for path)
-        fetches (map daistate/fetch-view-for pathos)
+(defn download-data-at [patho statemap]
+  (let [pathos (vec-of-paths-for patho)
+        fetches (map #(daistate/fetch-view-for % statemap) pathos)
         names (map
                 (fn [{:keys [view path]}]
                   (if (:name view) (:name view) (make-pretty (last path))))
                 fetches)
         elem-name (reduce #(str %1 "-" %2) names)
-        fetch-elem (daistate/fetch-view-for path)]
+        fetch-elem (daistate/fetch-view-for patho)]
     {:href     (str "data:text/plain;charset=utf-8,"
                     (url/url-encode (prn-str fetch-elem)))
      :download (str elem-name ".edn")}))
 
-(declare page-menu-assembly)
+(defn build-breadcrumb [page-path]
+  (when page-path
+    [:ul
+     (map
+       (fn [a]
+         (let [view-name (:name (:view (daistate/fetch-view-for a)))
+               display-name (if view-name view-name (make-pretty (last a)))]
+           [:li [:a {:href (daifrag/link-fragment-for a)} display-name]]))
+       (vec-of-paths-for page-path))]))
+
+(rum/defcs page-menu-assembly < rum/static (rum/local false :menu-showing) rum/reactive
+  [local-state page-path minimized-atom]
+  (let [show-menu-atom (:menu-showing local-state)]
+    [:.menu-assembly
+     [:button.menu-toggle
+      {:on-click #(swap! show-menu-atom not)}
+      (if @show-menu-atom "Hide Menu" "Show Menu")]
+     [:.page-menu {:class (if @show-menu-atom "menu-showing" "menu-hidden")}
+      (build-breadcrumb page-path)
+      [:ul
+       ;[:li [:a {:on-click #(swap! minimized-atom not)} (if (rum/react minimized-atom) "Show Irrelevant Fields" "Hide Irrelevant Fields")]]
+       [:li [:a {:href (daifrag/link-fragment-for [:settings])} "Settings"]]
+       [:li [:a "Print"]]
+       [:li [:a (download-data-at page-path (rum/react daistate/app-state))
+             "Download"]]]]]))
 
 (rum/defcs app-frame < rum/reactive (scroll-app-frame-right-mixin) (rum/local true :minimized)
   [{:keys [minimized]}]
@@ -98,30 +122,7 @@
                           "Cancel"]]])
 
 
-(defn build-breadcrumb [page-path]
-  (when page-path
-    [:ul
-     (map
-       (fn [a]
-         (let [view-name (:name (:view (daistate/fetch-view-for a)))
-               display-name (if view-name view-name (make-pretty (last a)))]
-           [:li [:a {:href (daifrag/link-fragment-for a)} display-name]]))
-       (vec-of-paths-for page-path))]))
 
-(rum/defcs page-menu-assembly < rum/static (rum/local false :menu-showing) rum/reactive
-  [local-state page-path minimized-atom]
-  (let [show-menu-atom (:menu-showing local-state)]
-    [:.menu-assembly
-     [:button.menu-toggle
-      {:on-click #(swap! show-menu-atom not)}
-      (if @show-menu-atom "Hide Menu" "Show Menu")]
-     [:.page-menu {:class (if @show-menu-atom "menu-showing" "menu-hidden")}
-      (build-breadcrumb page-path)
-      [:ul
-       ;[:li [:a {:on-click #(swap! minimized-atom not)} (if (rum/react minimized-atom) "Show Irrelevant Fields" "Hide Irrelevant Fields")]]
-       [:li [:a {:href (daifrag/link-fragment-for [:settings])} "Settings"]]
-       [:li [:a "Print"]]
-       [:li [:a (download-data-at page-path) "Download"]]]]]))
 
 
 (rum/defc page-of < rum/static
